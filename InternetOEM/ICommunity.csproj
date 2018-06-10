@@ -130,8 +130,10 @@
     <Content Include="Antalis\asignacion_centrodistribucion.aspx" />
     <Content Include="Antalis\asignacion_roles.aspx" />
     <Content Include="Antalis\default.aspx" />
+    <Content Include="Antalis\ingreso_pagos.aspx" />
     <Content Include="Antalis\usuarios_centrosdistribucion.aspx" />
     <Content Include="Antalis\usuario_rol_antalis.aspx" />
+    <Content Include="Antalis\validacion_pagos.aspx" />
     <Content Include="AppRuta\applistactividad.aspx" />
     <Content Include="AppRuta\appshowmap.aspx" />
     <Content Include="AppRuta\ShowMap.html" />
@@ -173,6 +175,13 @@
     <Compile Include="Antalis\default.aspx.designer.cs">
       <DependentUpon>default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Antalis\ingreso_pagos.aspx.cs">
+      <DependentUpon>ingreso_pagos.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Antalis\ingreso_pagos.aspx.designer.cs">
+      <DependentUpon>ingreso_pagos.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Antalis\usuarios_centrosdistribucion.aspx.cs">
       <DependentUpon>usuarios_centrosdistribucion.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -186,6 +195,13 @@
     </Compile>
     <Compile Include="Antalis\usuario_rol_antalis.aspx.designer.cs">
       <DependentUpon>usuario_rol_antalis.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Antalis\validacion_pagos.aspx.cs">
+      <DependentUpon>validacion_pagos.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Antalis\validacion_pagos.aspx.designer.cs">
+      <DependentUpon>validacion_pagos.aspx</DependentUpon>
     </Compile>
     <Compile Include="AppRuta\applistactividad.aspx.cs">
       <DependentUpon>applistactividad.aspx</DependentUpon>

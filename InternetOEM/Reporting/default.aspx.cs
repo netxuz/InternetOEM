@@ -10,7 +10,9 @@ using OnlineServices.Conn;
 using OnlineServices.Method;
 using OnlineServices.Reporting;
 using dcControlPanel.Base;
-using dcControlPanel.Conn;
+
+using OnlineServices.Antalis;
+using OnlineServices.SystemData;
 
 namespace ICommunity.Reporting
 {
@@ -29,12 +31,45 @@ namespace ICommunity.Reporting
       getMenu(idIndicadoresClaves, oIsUsuario.CodUsuario, "5");
       getMenu(IndClasificacionRiesgo, oIsUsuario.CodUsuario, "6");
 
+      getMenuAntalis(indAntalis, oIsUsuario.CodUsuario);
+
       getMonitores();
+    }
+
+    protected void getMenuAntalis(System.Web.UI.HtmlControls.HtmlGenericControl oHtmControl, string pCoduser) {
+
+      DBConn oConn = new DBConn();
+      if (oConn.Open()) {
+
+        SyrPerfilesUsuarios oSysPerfilesUsuarios = new SyrPerfilesUsuarios(ref oConn);
+        oSysPerfilesUsuarios.CodUsuario = pCoduser;
+        oSysPerfilesUsuarios.CodPerfil = "7";
+        DataTable dtPerfil = oSysPerfilesUsuarios.Get();
+        if (dtPerfil != null) {
+          if (dtPerfil.Rows.Count > 0) {
+            cAntsUsuarios oAntsUsuarios = new cAntsUsuarios(ref oConn);
+            oAntsUsuarios.CodUsuario = pCoduser;
+            DataTable dtAntRoles = oAntsUsuarios.GetRoles();
+            if (dtAntRoles != null) {
+              foreach (DataRow oRow in dtAntRoles.Rows) {
+
+                if (oRow["cod_rol"].ToString() == "1")
+                  oHtmControl.Controls.Add(new LiteralControl("<li><a href='../antalis/ingreso_pagos.aspx'>Ingreso de Pago</a></li>"));
+                if (oRow["cod_rol"].ToString() == "2")
+                  oHtmControl.Controls.Add(new LiteralControl("<li><a href='../antalis/validacion_pagos.aspx'>Validación de Pago</a></li>"));
+              }
+            }
+            dtAntRoles = null;
+          }
+        }
+        dtPerfil = null;
+      }
+      oConn.Close();
     }
 
     protected void getMenu(System.Web.UI.HtmlControls.HtmlGenericControl oHtmControl, string pCodUser, string oOrdConsulta)
     {
-      OnlineServices.Conn.DBConn oConn = new OnlineServices.Conn.DBConn();
+      DBConn oConn = new DBConn();
       if (oConn.Open())
       {
         cReportes oReportes = new cReportes(ref oConn);

@@ -1,0 +1,10 @@
+D:\CESCOBAR\WebSite\InternetOEM\XtremMethod\obj\Debug\ResolveAssemblyReference.cache
+D:\CESCOBAR\WebSite\InternetOEM\XtremMethod\bin\Debug\XtremMethod.dll
+D:\CESCOBAR\WebSite\InternetOEM\XtremMethod\bin\Debug\XtremMethod.pdb
+D:\CESCOBAR\WebSite\InternetOEM\XtremMethod\obj\Debug\XtremMethod.dll
+D:\CESCOBAR\WebSite\InternetOEM\XtremMethod\obj\Debug\XtremMethod.pdb
+D:\Trabajo\WebSites\InternetOEM\XtremMethod\bin\Debug\XtremMethod.dll
+D:\Trabajo\WebSites\InternetOEM\XtremMethod\bin\Debug\XtremMethod.pdb
+D:\Trabajo\WebSites\InternetOEM\XtremMethod\obj\Debug\ResolveAssemblyReference.cache
+D:\Trabajo\WebSites\InternetOEM\XtremMethod\obj\Debug\XtremMethod.dll
+D:\Trabajo\WebSites\InternetOEM\XtremMethod\obj\Debug\XtremMethod.pdb

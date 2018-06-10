@@ -1,0 +1,5 @@
+D:\Trabajo\WebSites\InternetOEM\XtremMethod\obj\Debug\ResolveAssemblyReference.cache
+D:\Trabajo\WebSites\InternetOEM\XtremMethod\bin\Debug\xMethod.dll
+D:\Trabajo\WebSites\InternetOEM\XtremMethod\bin\Debug\xMethod.pdb
+D:\Trabajo\WebSites\InternetOEM\XtremMethod\obj\Debug\xMethod.dll
+D:\Trabajo\WebSites\InternetOEM\XtremMethod\obj\Debug\xMethod.pdb

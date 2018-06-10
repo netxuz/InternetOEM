@@ -1,0 +1,14 @@
+C:\Personal\Website\InternetOEM\XtremSystemData\bin\Release\OnlineServices.SystemData.dll
+C:\Personal\Website\InternetOEM\XtremSystemData\bin\Release\OnlineServices.SystemData.pdb
+C:\Personal\Website\InternetOEM\XtremSystemData\bin\Release\OnlineServices.Conn.dll
+C:\Personal\Website\InternetOEM\XtremSystemData\bin\Release\OnlineServices.Conn.pdb
+C:\Personal\Website\InternetOEM\XtremSystemData\obj\Release\ResolveAssemblyReference.cache
+C:\Personal\Website\InternetOEM\XtremSystemData\obj\Release\OnlineServices.SystemData.dll
+C:\Personal\Website\InternetOEM\XtremSystemData\obj\Release\OnlineServices.SystemData.pdb
+C:\Proyectos\DebtControl\InternetOEM\XtremSystemData\bin\Release\OnlineServices.SystemData.dll
+C:\Proyectos\DebtControl\InternetOEM\XtremSystemData\bin\Release\OnlineServices.SystemData.pdb
+C:\Proyectos\DebtControl\InternetOEM\XtremSystemData\bin\Release\OnlineServices.Conn.dll
+C:\Proyectos\DebtControl\InternetOEM\XtremSystemData\bin\Release\OnlineServices.Conn.pdb
+C:\Proyectos\DebtControl\InternetOEM\XtremSystemData\obj\Release\OnlineServices.SystemData.dll
+C:\Proyectos\DebtControl\InternetOEM\XtremSystemData\obj\Release\OnlineServices.SystemData.pdb
+C:\Proyectos\DebtControl\InternetOEM\XtremSystemData\obj\Release\OnlineServices.SystemData.csprojResolveAssemblyReference.cache

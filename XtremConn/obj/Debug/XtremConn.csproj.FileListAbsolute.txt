@@ -1,0 +1,10 @@
+D:\CESCOBAR\WebSite\InternetOEM\XtremConn\obj\Debug\ResolveAssemblyReference.cache
+D:\CESCOBAR\WebSite\InternetOEM\XtremConn\bin\Debug\XtremConn.dll
+D:\CESCOBAR\WebSite\InternetOEM\XtremConn\bin\Debug\XtremConn.pdb
+D:\CESCOBAR\WebSite\InternetOEM\XtremConn\obj\Debug\XtremConn.dll
+D:\CESCOBAR\WebSite\InternetOEM\XtremConn\obj\Debug\XtremConn.pdb
+D:\Trabajo\WebSites\InternetOEM\XtremConn\bin\Debug\XtremConn.dll
+D:\Trabajo\WebSites\InternetOEM\XtremConn\bin\Debug\XtremConn.pdb
+D:\Trabajo\WebSites\InternetOEM\XtremConn\obj\Debug\ResolveAssemblyReference.cache
+D:\Trabajo\WebSites\InternetOEM\XtremConn\obj\Debug\XtremConn.dll
+D:\Trabajo\WebSites\InternetOEM\XtremConn\obj\Debug\XtremConn.pdb

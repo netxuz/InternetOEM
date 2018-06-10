@@ -1,0 +1,14 @@
+C:\Personal\Website\InternetOEM\XtremCmsData\bin\Release\OnlineServices.CmsData.dll
+C:\Personal\Website\InternetOEM\XtremCmsData\bin\Release\OnlineServices.CmsData.pdb
+C:\Personal\Website\InternetOEM\XtremCmsData\bin\Release\OnlineServices.Conn.dll
+C:\Personal\Website\InternetOEM\XtremCmsData\bin\Release\OnlineServices.Conn.pdb
+C:\Personal\Website\InternetOEM\XtremCmsData\obj\Release\ResolveAssemblyReference.cache
+C:\Personal\Website\InternetOEM\XtremCmsData\obj\Release\OnlineServices.CmsData.dll
+C:\Personal\Website\InternetOEM\XtremCmsData\obj\Release\OnlineServices.CmsData.pdb
+C:\Proyectos\DebtControl\InternetOEM\XtremCmsData\bin\Release\OnlineServices.CmsData.dll
+C:\Proyectos\DebtControl\InternetOEM\XtremCmsData\bin\Release\OnlineServices.CmsData.pdb
+C:\Proyectos\DebtControl\InternetOEM\XtremCmsData\bin\Release\OnlineServices.Conn.dll
+C:\Proyectos\DebtControl\InternetOEM\XtremCmsData\bin\Release\OnlineServices.Conn.pdb
+C:\Proyectos\DebtControl\InternetOEM\XtremCmsData\obj\Release\OnlineServices.CmsData.dll
+C:\Proyectos\DebtControl\InternetOEM\XtremCmsData\obj\Release\OnlineServices.CmsData.pdb
+C:\Proyectos\DebtControl\InternetOEM\XtremCmsData\obj\Release\OnlineServices.CmsData.csprojResolveAssemblyReference.cache

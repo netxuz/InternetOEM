@@ -1,0 +1,975 @@
+﻿<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{81121F11-EEC1-4A1C-9D22-E112F286C685}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ICommunity</RootNamespace>
+    <AssemblyName>ICommunity</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>onlineservice.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Ionic.Zip, Version=1.9.1.5, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\IntranetInBox\IntranetInBox\bin\Ionic.Zip.dll</HintPath>
+    </Reference>
+    <Reference Include="OnlineServices.AppData, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\OnlineServices.AppData\bin\Debug\OnlineServices.AppData.dll</HintPath>
+    </Reference>
+    <Reference Include="OnlineServices.CmsData, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XtremCmsData\bin\Debug\OnlineServices.CmsData.dll</HintPath>
+    </Reference>
+    <Reference Include="OnlineServices.Conn, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XtremConn\bin\Debug\OnlineServices.Conn.dll</HintPath>
+    </Reference>
+    <Reference Include="OnlineServices.Method, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XtremMethod\bin\Debug\OnlineServices.Method.dll</HintPath>
+    </Reference>
+    <Reference Include="OnlineServices.SystemData, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XtremSystemData\bin\Debug\OnlineServices.SystemData.dll</HintPath>
+    </Reference>
+    <Reference Include="OnlineServices.Web.UI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\OnlineServices.Web.UI\bin\Debug\OnlineServices.Web.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web.Extensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Web.Mobile" />
+    <Reference Include="Telerik.Web.UI, Version=2010.2.720.35, Culture=neutral, PublicKeyToken=121fae78165ba3d4, processorArchitecture=MSIL" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Default.aspx" />
+    <Content Include="framework.aspx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_GlobalResources\Banner.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Banner.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\CampoUsuarios.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CampoUsuarios.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\Comentarios.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Comentarios.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\Contactenos.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Contactenos.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\Contenido.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Contenido.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\Error.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Error.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\Global.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Global.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\HojasEstilos.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HojasEstilos.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\LoginUsers.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LoginUsers.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\Mensajes.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Mensajes.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\MisFotos.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MisFotos.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\Ranking.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Ranking.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\Template.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Template.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\Usuario.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Usuario.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\Zona.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Zona.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Banner.aspx.cs">
+      <DependentUpon>Banner.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Banner.aspx.designer.cs">
+      <DependentUpon>Banner.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Banners.aspx.cs">
+      <DependentUpon>Banners.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Banners.aspx.designer.cs">
+      <DependentUpon>Banners.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CampoUsuarios.aspx.cs">
+      <DependentUpon>CampoUsuarios.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CampoUsuarios.aspx.designer.cs">
+      <DependentUpon>CampoUsuarios.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="changefolder.aspx.cs">
+      <DependentUpon>changefolder.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="changefolder.aspx.designer.cs">
+      <DependentUpon>changefolder.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Contenido.aspx.cs">
+      <DependentUpon>Contenido.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Contenido.aspx.designer.cs">
+      <DependentUpon>Contenido.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Contenidos.aspx.cs">
+      <DependentUpon>Contenidos.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Contenidos.aspx.designer.cs">
+      <DependentUpon>Contenidos.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\BannerRotator.ascx.cs">
+      <DependentUpon>BannerRotator.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controls\BannerRotator.ascx.designer.cs">
+      <DependentUpon>BannerRotator.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\BannerSlider.ascx.cs">
+      <DependentUpon>BannerSlider.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controls\BannerSlider.ascx.designer.cs">
+      <DependentUpon>BannerSlider.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CampoUsuario.ascx.cs">
+      <DependentUpon>CampoUsuario.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controls\CampoUsuario.ascx.designer.cs">
+      <DependentUpon>CampoUsuario.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Carrusel.ascx.cs">
+      <DependentUpon>Carrusel.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controls\Carrusel.ascx.designer.cs">
+      <DependentUpon>Carrusel.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Contactenos.ascx.cs">
+      <DependentUpon>Contactenos.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controls\Contactenos.ascx.designer.cs">
+      <DependentUpon>Contactenos.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ContenidoDestacado.ascx.cs">
+      <DependentUpon>ContenidoDestacado.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controls\ContenidoDestacado.ascx.designer.cs">
+      <DependentUpon>ContenidoDestacado.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\AdmVentaArriendo.ascx.cs">
+      <DependentUpon>AdmVentaArriendo.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controls\AdmVentaArriendo.ascx.designer.cs">
+      <DependentUpon>AdmVentaArriendo.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CreateUsers.ascx.cs">
+      <DependentUpon>CreateUsers.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controls\CreateUsers.ascx.designer.cs">
+      <DependentUpon>CreateUsers.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\EmailToUser.ascx.cs">
+      <DependentUpon>EmailToUser.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controls\EmailToUser.ascx.designer.cs">
+      <DependentUpon>EmailToUser.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\FichaUsuario.ascx.cs">
+      <DependentUpon>FichaUsuario.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controls\FichaUsuario.ascx.designer.cs">
+      <DependentUpon>FichaUsuario.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\FileUpload.ascx.cs">
+      <DependentUpon>FileUpload.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controls\FileUpload.ascx.designer.cs">
+      <DependentUpon>FileUpload.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\GaleryControl.ascx.cs">
+      <DependentUpon>GaleryControl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controls\GaleryControl.ascx.designer.cs">
+      <DependentUpon>GaleryControl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\GaleryControlPhone.ascx.cs">
+      <DependentUpon>GaleryControlPhone.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controls\GaleryControlPhone.ascx.designer.cs">
+      <DependentUpon>GaleryControlPhone.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\GalleryImgContent.ascx.cs">
+      <DependentUpon>GalleryImgContent.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controls\GalleryImgContent.ascx.designer.cs">
+      <DependentUpon>GalleryImgContent.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ImagenPerfil.ascx.cs">
+      <DependentUpon>ImagenPerfil.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controls\ImagenPerfil.ascx.designer.cs">
+      <DependentUpon>ImagenPerfil.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ImgCertificado.ascx.cs">
+      <DependentUpon>ImgCertificado.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controls\ImgCertificado.ascx.designer.cs">
+      <DependentUpon>ImgCertificado.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\LoadImgBanner.ascx.cs">
+      <DependentUpon>LoadImgBanner.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controls\LoadImgBanner.ascx.designer.cs">
+      <DependentUpon>LoadImgBanner.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\LoginUsers.ascx.cs">
+      <DependentUpon>LoginUsers.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controls\LoginUsers.ascx.designer.cs">
+      <DependentUpon>LoginUsers.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\MensajesUsuarios.ascx.cs">
+      <DependentUpon>MensajesUsuarios.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controls\MensajesUsuarios.ascx.designer.cs">
+      <DependentUpon>MensajesUsuarios.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\MsnUsersControl.ascx.cs">
+      <DependentUpon>MsnUsersControl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controls\MsnUsersControl.ascx.designer.cs">
+      <DependentUpon>MsnUsersControl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\NavegacionPrincipal.ascx.cs">
+      <DependentUpon>NavegacionPrincipal.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controls\NavegacionPrincipal.ascx.designer.cs">
+      <DependentUpon>NavegacionPrincipal.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\NombreUsuario.ascx.cs">
+      <DependentUpon>NombreUsuario.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controls\NombreUsuario.ascx.designer.cs">
+      <DependentUpon>NombreUsuario.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\OlvidoPassword.ascx.cs">
+      <DependentUpon>OlvidoPassword.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controls\OlvidoPassword.ascx.designer.cs">
+      <DependentUpon>OlvidoPassword.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\PageObject.ascx.cs">
+      <DependentUpon>PageObject.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controls\PageObject.ascx.designer.cs">
+      <DependentUpon>PageObject.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Ranking.ascx.cs">
+      <DependentUpon>Ranking.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controls\Ranking.ascx.designer.cs">
+      <DependentUpon>Ranking.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Rating.ascx.cs">
+      <DependentUpon>Rating.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controls\Rating.ascx.designer.cs">
+      <DependentUpon>Rating.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\RelUsuarioControl.ascx.cs">
+      <DependentUpon>RelUsuarioControl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controls\RelUsuarioControl.ascx.designer.cs">
+      <DependentUpon>RelUsuarioControl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\RestarPassword.ascx.cs">
+      <DependentUpon>RestarPassword.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controls\RestarPassword.ascx.designer.cs">
+      <DependentUpon>RestarPassword.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TwittControl.ascx.cs">
+      <DependentUpon>TwittControl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controls\TwittControl.ascx.designer.cs">
+      <DependentUpon>TwittControl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\viewFriendUser.ascx.cs">
+      <DependentUpon>viewFriendUser.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controls\viewFriendUser.ascx.designer.cs">
+      <DependentUpon>viewFriendUser.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\viewImagesUsers.ascx.cs">
+      <DependentUpon>viewImagesUsers.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controls\viewImagesUsers.ascx.designer.cs">
+      <DependentUpon>viewImagesUsers.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\viewImageUsrPhone.ascx.cs">
+      <DependentUpon>viewImageUsrPhone.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controls\viewImageUsrPhone.ascx.designer.cs">
+      <DependentUpon>viewImageUsrPhone.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ZoneRankingProfile.ascx.cs">
+      <DependentUpon>ZoneRankingProfile.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controls\ZoneRankingProfile.ascx.designer.cs">
+      <DependentUpon>ZoneRankingProfile.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="ErrorPage.aspx.cs">
+      <DependentUpon>ErrorPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ErrorPage.aspx.designer.cs">
+      <DependentUpon>ErrorPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Escorts\Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Escorts\Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ETarget.aspx.cs">
+      <DependentUpon>ETarget.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ETarget.aspx.designer.cs">
+      <DependentUpon>ETarget.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FileContent.ashx.cs">
+      <DependentUpon>FileContent.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="frame.aspx.cs">
+      <DependentUpon>frame.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frame.aspx.designer.cs">
+      <DependentUpon>frame.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="framework.aspx.cs">
+      <DependentUpon>framework.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="framework.aspx.designer.cs">
+      <DependentUpon>framework.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Handler.ashx.cs">
+      <DependentUpon>Handler.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="HojasEstilos.aspx.cs">
+      <DependentUpon>HojasEstilos.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="HojasEstilos.aspx.designer.cs">
+      <DependentUpon>HojasEstilos.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="LoadImages.aspx.cs">
+      <DependentUpon>LoadImages.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="LoadImages.aspx.designer.cs">
+      <DependentUpon>LoadImages.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\LoadImgUser.ascx.cs">
+      <DependentUpon>LoadImgUser.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controls\LoadImgUser.ascx.designer.cs">
+      <DependentUpon>LoadImgUser.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Nodo.aspx.cs">
+      <DependentUpon>Nodo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Nodo.aspx.designer.cs">
+      <DependentUpon>Nodo.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="NodoOrden.aspx.cs">
+      <DependentUpon>NodoOrden.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="NodoOrden.aspx.designer.cs">
+      <DependentUpon>NodoOrden.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="nsmsg.aspx.cs">
+      <DependentUpon>nsmsg.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="nsmsg.aspx.designer.cs">
+      <DependentUpon>nsmsg.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ParamEmail.aspx.cs">
+      <DependentUpon>ParamEmail.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ParamEmail.aspx.designer.cs">
+      <DependentUpon>ParamEmail.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Parametros.aspx.cs">
+      <DependentUpon>Parametros.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Parametros.aspx.designer.cs">
+      <DependentUpon>Parametros.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PreguntaRanking.aspx.cs">
+      <DependentUpon>PreguntaRanking.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PreguntaRanking.aspx.designer.cs">
+      <DependentUpon>PreguntaRanking.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Ranking.aspx.cs">
+      <DependentUpon>Ranking.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Ranking.aspx.designer.cs">
+      <DependentUpon>Ranking.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Recomiendame.aspx.cs">
+      <DependentUpon>Recomiendame.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Recomiendame.aspx.designer.cs">
+      <DependentUpon>Recomiendame.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="serializa.aspx.cs">
+      <DependentUpon>serializa.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="serializa.aspx.designer.cs">
+      <DependentUpon>serializa.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="serializaimages.aspx.cs">
+      <DependentUpon>serializaimages.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="serializaimages.aspx.designer.cs">
+      <DependentUpon>serializaimages.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Template.aspx.cs">
+      <DependentUpon>Template.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Template.aspx.designer.cs">
+      <DependentUpon>Template.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Templates.aspx.cs">
+      <DependentUpon>Templates.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Templates.aspx.designer.cs">
+      <DependentUpon>Templates.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TestSlider.aspx.cs">
+      <DependentUpon>TestSlider.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TestSlider.aspx.designer.cs">
+      <DependentUpon>TestSlider.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Upload.aspx.cs">
+      <DependentUpon>Upload.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Upload.aspx.designer.cs">
+      <DependentUpon>Upload.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Usuario.aspx.cs">
+      <DependentUpon>Usuario.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Usuario.aspx.designer.cs">
+      <DependentUpon>Usuario.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Usuarios.aspx.cs">
+      <DependentUpon>Usuarios.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Usuarios.aspx.designer.cs">
+      <DependentUpon>Usuarios.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Escort.aspx.cs">
+      <DependentUpon>Escort.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Escort.aspx.designer.cs">
+      <DependentUpon>Escort.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ViewTest.aspx.cs">
+      <DependentUpon>ViewTest.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ViewTest.aspx.designer.cs">
+      <DependentUpon>ViewTest.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Zona.aspx.cs">
+      <DependentUpon>Zona.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Zona.aspx.designer.cs">
+      <DependentUpon>Zona.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Zonas.aspx.cs">
+      <DependentUpon>Zonas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Zonas.aspx.designer.cs">
+      <DependentUpon>Zonas.aspx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Nodo.aspx" />
+    <Content Include="Templates.aspx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\Global.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Global.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Contenido.aspx" />
+    <Content Include="Contenidos.aspx" />
+    <Content Include="Controls\PageObject.ascx" />
+    <Content Include="frame.aspx" />
+    <Content Include="HojasEstilos.aspx" />
+    <Content Include="NodoPreview.aspx" />
+    <Content Include="style\masterstyle.css" />
+    <Content Include="App_GlobalResources\HojasEstilos.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>HojasEstilos.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_GlobalResources\Contenido.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Contenido.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_GlobalResources\CampoUsuarios.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>CampoUsuarios.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_GlobalResources\LoginUsers.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>LoginUsers.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_GlobalResources\Contactenos.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Contactenos.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_GlobalResources\Error.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Error.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_GlobalResources\Mensajes.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Mensajes.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_GlobalResources\Comentarios.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Comentarios.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_GlobalResources\MisFotos.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>MisFotos.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_GlobalResources\Ranking.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Ranking.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_GlobalResources\Usuario.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Usuario.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_GlobalResources\Zona.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Zona.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CampoUsuarios.aspx" />
+    <Content Include="Controls\CampoUsuario.ascx" />
+    <Content Include="Controls\CreateUsers.ascx" />
+    <Content Include="Controls\FileUpload.ascx" />
+    <Content Include="Controls\GaleryControl.ascx" />
+    <Content Include="Controls\LoginUsers.ascx" />
+    <Content Include="Controls\MsnUsersControl.ascx" />
+    <Content Include="Controls\NavegacionPrincipal.ascx" />
+    <Content Include="Controls\RelUsuarioControl.ascx" />
+    <Content Include="modelo\carga\script.txt" />
+    <Content Include="modelo\Modelo_InternetOEM.PDB" />
+    <Content Include="Resources\PageObject.xml" />
+    <Content Include="Resources\uploader.swf" />
+    <Content Include="style\uploadify.css" />
+    <Content Include="Template.aspx" />
+    <Content Include="Usuario.aspx" />
+    <Content Include="Usuarios.aspx" />
+    <Content Include="Escort.aspx" />
+    <Content Include="Web.config" />
+    <Content Include="Zona.aspx" />
+    <Content Include="Zonas.aspx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Controls\Contactenos.ascx" />
+    <Content Include="Controls\ContenidoDestacado.ascx" />
+    <Content Include="Controls\AdmVentaArriendo.ascx" />
+    <Content Include="Controls\EmailToUser.ascx" />
+    <Content Include="Controls\FichaUsuario.ascx" />
+    <Content Include="Controls\GaleryControlPhone.ascx" />
+    <Content Include="Controls\GalleryImgContent.ascx" />
+    <Content Include="Controls\ImagenPerfil.ascx" />
+    <Content Include="Controls\ImgCertificado.ascx" />
+    <Content Include="Controls\NombreUsuario.ascx" />
+    <Content Include="Controls\OlvidoPassword.ascx" />
+    <Content Include="Controls\Ranking.ascx" />
+    <Content Include="Controls\Rating.ascx" />
+    <Content Include="Controls\RestarPassword.ascx" />
+    <Content Include="Controls\TwittControl.ascx" />
+    <Content Include="Controls\viewFriendUser.ascx" />
+    <Content Include="Controls\viewImageUsrPhone.ascx" />
+    <Content Include="Controls\ZoneRankingProfile.ascx" />
+    <Content Include="Global.asax" />
+    <Content Include="Handler.ashx" />
+    <Content Include="FileContent.ashx" />
+    <None Include="modelo\crebas.sql" />
+    <None Include="modelo\Modelo_InternetOEM.PDM" />
+    <None Include="modelo\Modelo_InternetOEM.zip" />
+    <None Include="modelo\script\crebas.sql" />
+    <None Include="onlineservice.pfx" />
+    <None Include="Resources\images\LICENSE" />
+    <None Include="Resources\images\README" />
+    <None Include="Resources\slider\orbit\Thumbs.db" />
+    <Content Include="Controls\LoadImgUser.ascx" />
+    <Content Include="Login.aspx" />
+    <Content Include="NodoOrden.aspx" />
+    <Content Include="ParamEmail.aspx" />
+    <Content Include="Parametros.aspx" />
+    <Content Include="PreguntaRanking.aspx" />
+    <Content Include="Ranking.aspx" />
+    <Content Include="Recomiendame.aspx" />
+    <Content Include="redirection.htm" />
+    <Content Include="Resources\ad_next.png" />
+    <Content Include="Resources\ad_prev.png" />
+    <Content Include="Resources\ad_scroll_back.png" />
+    <Content Include="Resources\ad_scroll_forward.png" />
+    <Content Include="Resources\fancybox\jquery-1.4.3.min.js" />
+    <Content Include="Resources\fancybox\style.css" />
+    <Content Include="Resources\fgoogle.js" />
+    <Content Include="Resources\fancybox\blank.gif" />
+    <Content Include="Resources\fancybox\fancybox-x.png" />
+    <Content Include="Resources\fancybox\fancybox-y.png" />
+    <Content Include="Resources\fancybox\fancybox.png" />
+    <Content Include="Resources\fancybox\fancy_close.png" />
+    <Content Include="Resources\fancybox\fancy_loading.png" />
+    <Content Include="Resources\fancybox\fancy_nav_left.png" />
+    <Content Include="Resources\fancybox\fancy_nav_right.png" />
+    <Content Include="Resources\fancybox\fancy_shadow_e.png" />
+    <Content Include="Resources\fancybox\fancy_shadow_n.png" />
+    <Content Include="Resources\fancybox\fancy_shadow_ne.png" />
+    <Content Include="Resources\fancybox\fancy_shadow_nw.png" />
+    <Content Include="Resources\fancybox\fancy_shadow_s.png" />
+    <Content Include="Resources\fancybox\fancy_shadow_se.png" />
+    <Content Include="Resources\fancybox\fancy_shadow_sw.png" />
+    <Content Include="Resources\fancybox\fancy_shadow_w.png" />
+    <Content Include="Resources\fancybox\fancy_title_left.png" />
+    <Content Include="Resources\fancybox\fancy_title_main.png" />
+    <Content Include="Resources\fancybox\fancy_title_over.png" />
+    <Content Include="Resources\fancybox\fancy_title_right.png" />
+    <Content Include="Resources\fancybox\jquery.easing-1.3.pack.js" />
+    <Content Include="Resources\fancybox\jquery.fancybox-1.3.4.css" />
+    <Content Include="Resources\fancybox\jquery.fancybox-1.3.4.js" />
+    <Content Include="Resources\fancybox\jquery.fancybox-1.3.4.pack.js" />
+    <Content Include="Resources\fancybox\jquery.min.js" />
+    <Content Include="Resources\fancybox\jquery.mousewheel-3.0.4.pack.js" />
+    <Content Include="Resources\fphonegoogle.js" />
+    <Content Include="Resources\GlobalFunction.js" />
+    <Content Include="Resources\images\01.jpg" />
+    <Content Include="Resources\images\02.jpg" />
+    <Content Include="Resources\images\03.jpg" />
+    <Content Include="Resources\images\04.jpg" />
+    <Content Include="Resources\images\05.jpg" />
+    <Content Include="Resources\images\bg_body.gif" />
+    <Content Include="Resources\images\bg_header.gif" />
+    <Content Include="Resources\images\btn_next.gif" />
+    <Content Include="Resources\images\btn_prev.gif" />
+    <Content Include="Resources\images\error.gif" />
+    <Content Include="Resources\images\icons%402x.png" />
+    <Content Include="Resources\images\icons.png" />
+    <Content Include="Resources\images\loader.gif" />
+    <Content Include="Resources\jquery.ad-gallery.css" />
+    <Content Include="Resources\jquery.ad-gallery.js" />
+    <Content Include="Resources\jquery.ad-gallery.pack.js" />
+    <Content Include="Resources\jquery.autosize.js" />
+    <Content Include="Resources\jquery.js" />
+    <Content Include="Resources\jquery.min.js" />
+    <Content Include="Resources\loader.gif" />
+    <Content Include="Resources\opa75.png" />
+    <Content Include="Resources\Phone\img\error.gif" />
+    <Content Include="Resources\Phone\img\icons%402x.png" />
+    <Content Include="Resources\Phone\img\icons.png" />
+    <Content Include="Resources\Phone\img\loader.gif" />
+    <Content Include="Resources\Phone\js\code.photoswipe-3.0.5.js" />
+    <Content Include="Resources\Phone\js\code.photoswipe-3.0.5.min.js" />
+    <Content Include="Resources\Phone\js\code.photoswipe.jquery-3.0.5.js" />
+    <Content Include="Resources\Phone\js\code.photoswipe.jquery-3.0.5.min.js" />
+    <Content Include="Resources\Phone\js\lib\klass.min.js" />
+    <Content Include="Resources\Phone\photoswipe.css" />
+    <Content Include="Resources\Phone\styles.css" />
+    <Content Include="Resources\screen.css" />
+    <Content Include="robots.txt" />
+    <Content Include="sitemap.xml" />
+    <Content Include="StreamImage.ashx" />
+    <Content Include="Controls\viewImagesUsers.ascx" />
+    <Content Include="LoadImages.aspx" />
+    <Content Include="Resources\easySlider1.7.js" />
+    <Content Include="Resources\images\close.png" />
+    <Content Include="Resources\images\expressInstall.swf" />
+    <Content Include="Resources\images\loading.gif" />
+    <Content Include="Resources\images\next.png" />
+    <Content Include="Resources\images\pause.png" />
+    <Content Include="Resources\images\play.png" />
+    <Content Include="Resources\images\player.swf" />
+    <Content Include="Resources\images\previous.png" />
+    <Content Include="Resources\jquery-1.3.2.min.js" />
+    <Content Include="Resources\jquery.uploadify.js" />
+    <Content Include="Resources\shadowbox.css" />
+    <Content Include="Resources\shadowbox.js" />
+    <Content Include="Upload.aspx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\Template.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Template.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Banner.aspx" />
+    <Content Include="Banners.aspx" />
+    <Content Include="ErrorPage.aspx" />
+    <Content Include="Resources\Galleriffic\css\basic.css" />
+    <Content Include="Resources\Galleriffic\css\galleriffic-1.css" />
+    <Content Include="Resources\Galleriffic\js\jquery-1.3.2.js" />
+    <Content Include="Resources\Galleriffic\js\jquery.galleriffic.js" />
+    <Content Include="ViewTest.aspx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\Banner.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Banner.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="changefolder.aspx" />
+    <Content Include="Controls\BannerRotator.ascx" />
+    <Content Include="Controls\BannerSlider.ascx" />
+    <Content Include="Controls\Carrusel.ascx" />
+    <Content Include="Controls\LoadImgBanner.ascx" />
+    <Content Include="Controls\MensajesUsuarios.ascx" />
+    <Content Include="email.html" />
+    <Content Include="Escorts\Default.aspx" />
+    <Content Include="ETarget.aspx" />
+    <Content Include="index.htm" />
+    <Content Include="nsmsg.aspx" />
+    <Content Include="Resources\Carrusel\helper-plugins\jquery.ba-throttle-debounce.min.js" />
+    <Content Include="Resources\Carrusel\helper-plugins\jquery.mousewheel.min.js" />
+    <Content Include="Resources\Carrusel\helper-plugins\jquery.touchSwipe.min.js" />
+    <Content Include="Resources\Carrusel\helper-plugins\jquery.transit.min.js" />
+    <Content Include="Resources\Carrusel\jquery-1.8.2.min.js" />
+    <Content Include="Resources\Carrusel\jquery.carouFredSel-6.2.1-packed.js" />
+    <Content Include="Resources\Carrusel\jquery.carouFredSel-6.2.1.js" />
+    <Content Include="Resources\jQueryGallery\ad_next.png" />
+    <Content Include="Resources\jQueryGallery\ad_prev.png" />
+    <Content Include="Resources\jQueryGallery\jQueryGallery.js" />
+    <Content Include="Resources\s3slider\s3Slider.js" />
+    <Content Include="Resources\s3slider\styleslider.css" />
+    <Content Include="Resources\slider\demo-style.css" />
+    <Content Include="Resources\jquery-1.5.1.min.js" />
+    <Content Include="Resources\slider\jquery.orbit-1.2.3.js" />
+    <Content Include="Resources\slider\jquery.orbit-1.2.3.min.js" />
+    <Content Include="Resources\slider\orbit-1.2.3.css" />
+    <Content Include="Resources\slider\orbit\bullets.jpg" />
+    <Content Include="Resources\slider\orbit\left-arrow.png" />
+    <Content Include="Resources\slider\orbit\loading.gif" />
+    <Content Include="Resources\slider\orbit\mask-black.png" />
+    <Content Include="Resources\slider\orbit\pause-black.png" />
+    <Content Include="Resources\slider\orbit\right-arrow.png" />
+    <Content Include="Resources\slider\orbit\rotator-black.png" />
+    <Content Include="Resources\slider\orbit\timer-black.png" />
+    <Content Include="Resources\template.txt" />
+    <Content Include="serializa.aspx" />
+    <Content Include="serializaimages.aspx" />
+    <Content Include="sitemap.html" />
+    <Content Include="TestSlider.aspx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="ContentFlash\" />
+    <Folder Include="ContentImages\" />
+    <Folder Include="ContentMedia\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v9.0\WebApplications\Microsoft.WebApplication.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>52126</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>
+          </IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

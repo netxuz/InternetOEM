@@ -1,0 +1,9 @@
+C:\Personal\Website\InternetOEM\XtremConn\bin\Release\OnlineServices.Conn.dll
+C:\Personal\Website\InternetOEM\XtremConn\bin\Release\OnlineServices.Conn.pdb
+C:\Personal\Website\InternetOEM\XtremConn\obj\Release\ResolveAssemblyReference.cache
+C:\Personal\Website\InternetOEM\XtremConn\obj\Release\OnlineServices.Conn.dll
+C:\Personal\Website\InternetOEM\XtremConn\obj\Release\OnlineServices.Conn.pdb
+C:\Proyectos\DebtControl\InternetOEM\XtremConn\bin\Release\OnlineServices.Conn.dll
+C:\Proyectos\DebtControl\InternetOEM\XtremConn\bin\Release\OnlineServices.Conn.pdb
+C:\Proyectos\DebtControl\InternetOEM\XtremConn\obj\Release\OnlineServices.Conn.dll
+C:\Proyectos\DebtControl\InternetOEM\XtremConn\obj\Release\OnlineServices.Conn.pdb

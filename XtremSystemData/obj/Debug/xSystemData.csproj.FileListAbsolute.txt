@@ -1,0 +1,7 @@
+D:\Trabajo\WebSites\InternetOEM\XtremSystemData\obj\Debug\ResolveAssemblyReference.cache
+D:\Trabajo\WebSites\InternetOEM\XtremSystemData\bin\Debug\xSystemData.dll
+D:\Trabajo\WebSites\InternetOEM\XtremSystemData\bin\Debug\xSystemData.pdb
+D:\Trabajo\WebSites\InternetOEM\XtremSystemData\bin\Debug\xConn.pdb
+D:\Trabajo\WebSites\InternetOEM\XtremSystemData\obj\Debug\xSystemData.dll
+D:\Trabajo\WebSites\InternetOEM\XtremSystemData\obj\Debug\xSystemData.pdb
+D:\Trabajo\WebSites\InternetOEM\XtremSystemData\bin\Debug\xConn.dll

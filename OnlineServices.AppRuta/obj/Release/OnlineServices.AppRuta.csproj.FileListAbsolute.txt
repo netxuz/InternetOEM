@@ -1,0 +1,7 @@
+C:\Proyectos\DebtControl\InternetOEM\OnlineServices.AppRuta\bin\Release\OnlineServices.AppRuta.dll
+C:\Proyectos\DebtControl\InternetOEM\OnlineServices.AppRuta\bin\Release\OnlineServices.AppRuta.pdb
+C:\Proyectos\DebtControl\InternetOEM\OnlineServices.AppRuta\bin\Release\OnlineServices.Conn.dll
+C:\Proyectos\DebtControl\InternetOEM\OnlineServices.AppRuta\bin\Release\OnlineServices.Conn.pdb
+C:\Proyectos\DebtControl\InternetOEM\OnlineServices.AppRuta\obj\Release\OnlineServices.AppRuta.dll
+C:\Proyectos\DebtControl\InternetOEM\OnlineServices.AppRuta\obj\Release\OnlineServices.AppRuta.pdb
+C:\Proyectos\DebtControl\InternetOEM\OnlineServices.AppRuta\obj\Release\OnlineServices.AppRuta.csprojResolveAssemblyReference.cache

@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<OnLine>
+  <objeto name="Usuario" parent="">
+    <etiqueta>Controles de Usuario</etiqueta>
+  </objeto>
+  <objeto name="oImagenPerfil" parent="Usuario">
+    <etiqueta>Imagen de Perfil</etiqueta>
+  </objeto>
+  <objeto name="oFichaUsuario" parent="Usuario">
+    <etiqueta>Ficha del Usuario</etiqueta>
+  </objeto>
+  <objeto name="oNombreUsuario" parent="Usuario">
+    <etiqueta>Nombre del Usuario</etiqueta>
+  </objeto>
+  <objeto name="oNombreUsuarioNoButton" parent="Usuario">
+    <etiqueta>Nombre del Usuario (Label)</etiqueta>
+  </objeto>
+  <objeto name="oNombreUsuarioVistaPhone" parent="Usuario">
+    <etiqueta>Nombre del Usuario Vista Phone</etiqueta>
+  </objeto>
+  <objeto name="oLoadUsrImgProfile" parent="Usuario">
+    <etiqueta>Cargar imagen de perfil</etiqueta>
+  </objeto>
+  <objeto name="CtrViewImagesUsrPhone" parent="Usuario">
+    <etiqueta>Galeria de Imagenes de Usuario para Phone</etiqueta>
+  </objeto>
+  <!--<objeto name="oRegUsrSystem" parent="Usuario">
+    <etiqueta>Registro de Usuario Sistema</etiqueta>
+  </objeto>
+  <objeto name="oRegUsrNormal" parent="Usuario">
+    <etiqueta>Registro de Usuario Normal</etiqueta>
+  </objeto>
+  <objeto name="oRegUsrLevel" parent="Usuario">
+    <etiqueta>Registro de Usuario Clasificado</etiqueta>
+  </objeto>-->
+  <objeto name="oRegistro" parent="Usuario">
+    <etiqueta>Registro</etiqueta>
+  </objeto>
+  <objeto name="oRegistroUsrNormal" parent="Usuario">
+    <etiqueta>Registro de Cliente</etiqueta>
+  </objeto>
+  <objeto name="oRegistroUsrCliente" parent="Usuario">
+    <etiqueta>Registro de Usuarios</etiqueta>
+  </objeto>
+  <objeto name="CntrGaleryPortal" parent="Usuario">
+    <etiqueta>Galería Portal</etiqueta>
+  </objeto>
+  <objeto name="CntrGaleryTipo1" parent="Usuario">
+    <etiqueta>Galería Principal</etiqueta>
+  </objeto>
+  <objeto name="CntrGaleryTipo2" parent="Usuario">
+    <etiqueta>Galería Destacada</etiqueta>
+  </objeto>
+  <objeto name="CntrGaleryTipo3" parent="Usuario">
+    <etiqueta>Galería Simple</etiqueta>
+  </objeto>
+  <objeto name="CntrGaleryPortalPhone" parent="Usuario">
+    <etiqueta>Galería Portal Phone</etiqueta>
+  </objeto>
+  <objeto name="CntrGaleryPhoneTipo1" parent="Usuario">
+    <etiqueta>Galería Phone Principal</etiqueta>
+  </objeto>
+  <objeto name="CntrGaleryPhoneTipo2" parent="Usuario">
+    <etiqueta>Galería Phone Destacada</etiqueta>
+  </objeto>
+  <objeto name="CntrGaleryPhoneTipo3" parent="Usuario">
+    <etiqueta>Galería Phone Simple</etiqueta>
+  </objeto>
+  <objeto name="CtrViewImages" parent="Usuario">
+    <etiqueta>Mis Fotos</etiqueta>
+  </objeto>
+  <objeto name="CtrRanking" parent="Usuario">
+    <etiqueta>Zona Ranking Perfil</etiqueta>
+  </objeto>
+  <objeto name="CtrRequestFriend" parent="Usuario">
+    <etiqueta>Solicitud de Amistad</etiqueta>
+  </objeto>
+  <objeto name="CtrConfirmRequestFriend" parent="Usuario">
+    <etiqueta>Confirmación Solicitud de Amistad</etiqueta>
+  </objeto>
+  <objeto name="CtrFriend" parent="Usuario">
+    <etiqueta>Amigos</etiqueta>
+  </objeto>
+  <objeto name="CtrComment" parent="Usuario">
+    <etiqueta>Comente en el Muro</etiqueta>
+  </objeto>
+  <objeto name="CtrUserComment" parent="Usuario">
+    <etiqueta>Comentarios En el Muro</etiqueta>
+  </objeto>
+  <objeto name="CommentToUser" parent="Usuario">
+    <etiqueta>Comentarios al Usuario</etiqueta>
+  </objeto>
+  <objeto name="EmailToUser" parent="Usuario">
+    <etiqueta>Mensajes al Usuario</etiqueta>
+  </objeto>
+  <objeto name="CtrlImgCertificado" parent="Usuario">
+    <etiqueta>Imagen de Certificación de Usuario</etiqueta>
+  </objeto>
+  <objeto name="Contenido" parent="">
+    <etiqueta>Datos del Contenido</etiqueta>
+  </objeto>
+  <objeto name="oContTitulo" parent="Contenido">
+    <etiqueta>Título</etiqueta>
+  </objeto>
+  <objeto name="oContDescripcion" parent="Contenido">
+    <etiqueta>Descripción</etiqueta>
+  </objeto>
+  <objeto name="oContResumen" parent="Contenido">
+    <etiqueta>Resúmen</etiqueta>
+  </objeto>
+  <objeto name="oContFchPub" parent="Contenido">
+    <etiqueta>Fecha Publicación</etiqueta>
+  </objeto>
+  <objeto name="oContFile" parent="Contenido">
+    <etiqueta>Archivo Principal</etiqueta>
+  </objeto>
+  <objeto name="oContDestacado" parent="Contenido">
+    <etiqueta>Contenidos Destacados</etiqueta>
+  </objeto>
+  <objeto name="oContImg" parent="Contenido">
+    <etiqueta>Imagen Principal</etiqueta>
+  </objeto>
+  <objeto name="CntrGaleryImgContenido" parent="Contenido">
+    <etiqueta>Galería de Imagenes de Contenido</etiqueta>
+  </objeto>
+  <objeto name="Controles" parent="">
+    <etiqueta>Controles</etiqueta>
+  </objeto>
+  <objeto name="oNavMenuPrincipal" parent="Controles">
+    <etiqueta>Menu Principal</etiqueta>
+  </objeto>
+  <objeto name="oNavMenuSegundario" parent="Controles">
+    <etiqueta>Menu Segundario</etiqueta>
+  </objeto>
+  <objeto name="CtrContactenos" parent="Controles">
+    <etiqueta>Contáctenos</etiqueta>
+  </objeto>
+  <objeto name="CtrAdmVentaArriendo" parent="Controles">
+    <etiqueta>Contactenos de Adm. de Propiedades</etiqueta>
+  </objeto>
+  <objeto name="CtrLogin" parent="Controles">
+    <etiqueta>Login</etiqueta>
+  </objeto>
+  <objeto name="CtrBusqueda" parent="Controles">
+    <etiqueta>Búsqueda</etiqueta>
+  </objeto>
+  <objeto name="CtrGoogle" parent="Controles">
+    <etiqueta>Google Map</etiqueta>
+  </objeto>
+  <objeto name="CtrGoogleSearch" parent="Controles">
+    <etiqueta>Google Search</etiqueta>
+  </objeto>
+  <objeto name="CtrRss" parent="Controles">
+    <etiqueta>RSS</etiqueta>
+  </objeto>
+  <objeto name="CtrFbck" parent="Controles">
+    <etiqueta>Facebook</etiqueta>
+  </objeto>
+  <objeto name="CtrTwitter" parent="Controles">
+    <etiqueta>Twitter</etiqueta>
+  </objeto>
+  <objeto name="CtrFollow" parent="Controles">
+    <etiqueta>Suscripción de Usuarios</etiqueta>
+  </objeto>
+  <objeto name="CrtCloseSession" parent="Controles">
+    <etiqueta>Cerrar Session</etiqueta>
+  </objeto>
+  <objeto name="CrtStartSession" parent="Controles">
+    <etiqueta>Iniciar Session</etiqueta>
+  </objeto>
+  <objeto name="CrtOlvidoPassword" parent="Controles">
+    <etiqueta>Olvido Password</etiqueta>
+  </objeto>
+  <objeto name="CrtRestaurarPassword" parent="Controles">
+    <etiqueta>Resetear Password</etiqueta>
+  </objeto>
+  <objeto name="CrtPolSecure" parent="Controles">
+    <etiqueta>Politicas de Seguridad</etiqueta>
+  </objeto>
+  <objeto name="CrtTermUse" parent="Controles">
+    <etiqueta>Terminos de Uso</etiqueta>
+  </objeto>
+  <objeto name="CrtRegistrate" parent="Controles">
+    <etiqueta>Registrate</etiqueta>
+  </objeto>
+  <objeto name="CrtIniPhone" parent="Controles">
+    <etiqueta>Botón Pagina Inicio Móvil</etiqueta>
+  </objeto>
+  <objeto name="CrtContPhone" parent="Controles">
+    <etiqueta>Botón Pagina Contáctenos Móvil</etiqueta>
+  </objeto>
+  <objeto name="Apps" parent="">
+    <etiqueta>Aplicaciones</etiqueta>
+  </objeto>
+  <objeto name="AppGetUserRanking" parent="Apps">
+    <etiqueta>Ranking del Usuario</etiqueta>
+  </objeto>
+  <objeto name="AppPutUserRanking" parent="Apps">
+    <etiqueta>Agregar Nuevo Ranking del Usuario por Cliente</etiqueta>
+  </objeto>
+  <objeto name="AppHistUserRanking" parent="Apps">
+    <etiqueta>Historial de Ranking del Usuario por Cliente</etiqueta>
+  </objeto>
+  <objeto name="AppRecomiendaUsuario" parent="Apps">
+    <etiqueta>Recomiendame</etiqueta>
+  </objeto>
+  <objeto name="oBannerSlider" parent="Apps">
+    <etiqueta>Banner Slider</etiqueta>
+  </objeto>
+</OnLine>

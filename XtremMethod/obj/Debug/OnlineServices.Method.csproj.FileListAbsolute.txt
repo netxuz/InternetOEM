@@ -1,0 +1,52 @@
+C:\Personal\Website\InternetOEM\XtremMethod\bin\Debug\OnlineServices.Method.dll
+C:\Personal\Website\InternetOEM\XtremMethod\bin\Debug\OnlineServices.Method.pdb
+C:\Personal\Website\InternetOEM\XtremMethod\obj\Debug\ResolveAssemblyReference.cache
+C:\Personal\Website\InternetOEM\XtremMethod\obj\Debug\OnlineServices.Method.dll
+C:\Personal\Website\InternetOEM\XtremMethod\obj\Debug\OnlineServices.Method.pdb
+C:\Personal\Website\InternetOEM\XtremMethod\bin\Debug\Telerik.Web.UI.dll
+C:\Personal\Website\InternetOEM\XtremMethod\bin\Debug\Telerik.Web.UI.xml
+C:\Personal\Website\InternetOEM\XtremMethod\bin\Debug\Persits.Email.dll
+c:\mis documentos\Dropbox\InternetOEM\XtremMethod\bin\Debug\OnlineServices.Method.dll
+c:\mis documentos\Dropbox\InternetOEM\XtremMethod\bin\Debug\OnlineServices.Method.pdb
+c:\mis documentos\Dropbox\InternetOEM\XtremMethod\bin\Debug\Persits.Email.dll
+c:\mis documentos\Dropbox\InternetOEM\XtremMethod\bin\Debug\Telerik.Web.UI.dll
+c:\mis documentos\Dropbox\InternetOEM\XtremMethod\bin\Debug\Telerik.Web.UI.xml
+c:\mis documentos\Dropbox\InternetOEM\XtremMethod\obj\Debug\ResolveAssemblyReference.cache
+c:\mis documentos\Dropbox\InternetOEM\XtremMethod\obj\Debug\OnlineServices.Method.dll
+c:\mis documentos\Dropbox\InternetOEM\XtremMethod\obj\Debug\OnlineServices.Method.pdb
+c:\Mis Documentos\Dropbox\InternetOEM\XtremMethod\bin\Debug\OnlineServices.SystemData.dll
+c:\Mis Documentos\Dropbox\InternetOEM\XtremMethod\bin\Debug\OnlineServices.Conn.dll
+c:\Mis Documentos\Dropbox\InternetOEM\XtremMethod\bin\Debug\OnlineServices.Conn.pdb
+c:\Mis Documentos\Dropbox\InternetOEM\XtremMethod\bin\Debug\OnlineServices.SystemData.pdb
+C:\Proyectos\Icommunity\Sitio\InternetOEM\XtremMethod\bin\Debug\OnlineServices.Method.dll
+C:\Proyectos\Icommunity\Sitio\InternetOEM\XtremMethod\bin\Debug\OnlineServices.Method.pdb
+C:\Proyectos\Icommunity\Sitio\InternetOEM\XtremMethod\bin\Debug\OnlineServices.Conn.dll
+C:\Proyectos\Icommunity\Sitio\InternetOEM\XtremMethod\bin\Debug\OnlineServices.SystemData.dll
+C:\Proyectos\Icommunity\Sitio\InternetOEM\XtremMethod\bin\Debug\Telerik.Web.UI.dll
+C:\Proyectos\Icommunity\Sitio\InternetOEM\XtremMethod\bin\Debug\OnlineServices.Conn.pdb
+C:\Proyectos\Icommunity\Sitio\InternetOEM\XtremMethod\bin\Debug\OnlineServices.SystemData.pdb
+C:\Proyectos\Icommunity\Sitio\InternetOEM\XtremMethod\bin\Debug\Telerik.Web.UI.xml
+C:\Proyectos\Icommunity\Sitio\InternetOEM\XtremMethod\obj\Debug\ResolveAssemblyReference.cache
+C:\Proyectos\Icommunity\Sitio\InternetOEM\XtremMethod\obj\Debug\OnlineServices.Method.dll
+C:\Proyectos\Icommunity\Sitio\InternetOEM\XtremMethod\obj\Debug\OnlineServices.Method.pdb
+C:\Proyectos\Icommunity\InternetOEM\XtremMethod\bin\Debug\OnlineServices.Method.dll
+C:\Proyectos\Icommunity\InternetOEM\XtremMethod\bin\Debug\OnlineServices.Method.pdb
+C:\Proyectos\Icommunity\InternetOEM\XtremMethod\bin\Debug\OnlineServices.Conn.dll
+C:\Proyectos\Icommunity\InternetOEM\XtremMethod\bin\Debug\OnlineServices.SystemData.dll
+C:\Proyectos\Icommunity\InternetOEM\XtremMethod\bin\Debug\OnlineServices.Conn.pdb
+C:\Proyectos\Icommunity\InternetOEM\XtremMethod\bin\Debug\OnlineServices.SystemData.pdb
+C:\Proyectos\Icommunity\InternetOEM\XtremMethod\bin\Debug\Telerik.Web.UI.xml
+C:\Proyectos\Icommunity\InternetOEM\XtremMethod\obj\Debug\ResolveAssemblyReference.cache
+C:\Proyectos\Icommunity\InternetOEM\XtremMethod\obj\Debug\OnlineServices.Method.dll
+C:\Proyectos\Icommunity\InternetOEM\XtremMethod\obj\Debug\OnlineServices.Method.pdb
+C:\Proyectos\DebtControl\InternetOEM\XtremMethod\bin\Debug\OnlineServices.Method.dll
+C:\Proyectos\DebtControl\InternetOEM\XtremMethod\bin\Debug\OnlineServices.Method.pdb
+C:\Proyectos\DebtControl\InternetOEM\XtremMethod\bin\Debug\OnlineServices.Conn.dll
+C:\Proyectos\DebtControl\InternetOEM\XtremMethod\bin\Debug\OnlineServices.SystemData.dll
+C:\Proyectos\DebtControl\InternetOEM\XtremMethod\bin\Debug\Telerik.Web.UI.dll
+C:\Proyectos\DebtControl\InternetOEM\XtremMethod\bin\Debug\OnlineServices.Conn.pdb
+C:\Proyectos\DebtControl\InternetOEM\XtremMethod\bin\Debug\OnlineServices.SystemData.pdb
+C:\Proyectos\DebtControl\InternetOEM\XtremMethod\bin\Debug\Telerik.Web.UI.xml
+C:\Proyectos\DebtControl\InternetOEM\XtremMethod\obj\Debug\OnlineServices.Method.csprojResolveAssemblyReference.cache
+C:\Proyectos\DebtControl\InternetOEM\XtremMethod\obj\Debug\OnlineServices.Method.dll
+C:\Proyectos\DebtControl\InternetOEM\XtremMethod\obj\Debug\OnlineServices.Method.pdb

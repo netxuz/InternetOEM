@@ -1,0 +1,113 @@
+C:\Personal\Website\InternetOEM\InternetOEM\obj\Debug\ResolveAssemblyReference.cache
+C:\Personal\Website\InternetOEM\InternetOEM\obj\Debug\ICommunity.App_GlobalResources.Template.resources
+C:\Personal\Website\InternetOEM\InternetOEM\obj\Debug\ICommunity.csproj.GenerateResource.Cache
+C:\Personal\Website\InternetOEM\InternetOEM\bin\ICommunity.dll
+C:\Personal\Website\InternetOEM\InternetOEM\bin\ICommunity.pdb
+C:\Personal\Website\InternetOEM\InternetOEM\bin\OnlineServices.CmsData.dll
+C:\Personal\Website\InternetOEM\InternetOEM\bin\OnlineServices.Conn.dll
+C:\Personal\Website\InternetOEM\InternetOEM\bin\OnlineServices.Method.dll
+C:\Personal\Website\InternetOEM\InternetOEM\bin\OnlineServices.SystemData.dll
+C:\Personal\Website\InternetOEM\InternetOEM\bin\OnlineServices.Web.UI.dll
+C:\Personal\Website\InternetOEM\InternetOEM\bin\Telerik.Web.UI.dll
+C:\Personal\Website\InternetOEM\InternetOEM\bin\OnlineServices.Method.pdb
+C:\Personal\Website\InternetOEM\InternetOEM\bin\OnlineServices.CmsData.pdb
+C:\Personal\Website\InternetOEM\InternetOEM\bin\OnlineServices.Conn.pdb
+C:\Personal\Website\InternetOEM\InternetOEM\bin\OnlineServices.SystemData.pdb
+C:\Personal\Website\InternetOEM\InternetOEM\bin\OnlineServices.Web.UI.pdb
+C:\Personal\Website\InternetOEM\InternetOEM\bin\Telerik.Web.UI.xml
+C:\Personal\Website\InternetOEM\InternetOEM\obj\Debug\ICommunity.dll
+C:\Personal\Website\InternetOEM\InternetOEM\obj\Debug\ICommunity.pdb
+C:\Personal\Website\InternetOEM\InternetOEM\bin\Persits.Email.dll
+c:\mis documentos\Dropbox\InternetOEM\InternetOEM\bin\Telerik.Web.UI.dll
+c:\Mis Documentos\Dropbox\InternetOEM\InternetOEM\bin\ICommunity.dll
+c:\Mis Documentos\Dropbox\InternetOEM\InternetOEM\bin\ICommunity.pdb
+c:\Mis Documentos\Dropbox\InternetOEM\InternetOEM\bin\OnlineServices.AppData.dll
+c:\Mis Documentos\Dropbox\InternetOEM\InternetOEM\bin\OnlineServices.CmsData.dll
+c:\Mis Documentos\Dropbox\InternetOEM\InternetOEM\bin\OnlineServices.Conn.dll
+c:\Mis Documentos\Dropbox\InternetOEM\InternetOEM\bin\OnlineServices.Method.dll
+c:\Mis Documentos\Dropbox\InternetOEM\InternetOEM\bin\OnlineServices.SystemData.dll
+c:\Mis Documentos\Dropbox\InternetOEM\InternetOEM\bin\OnlineServices.Web.UI.dll
+c:\Mis Documentos\Dropbox\InternetOEM\InternetOEM\bin\Persits.Email.dll
+c:\Mis Documentos\Dropbox\InternetOEM\InternetOEM\bin\OnlineServices.AppData.pdb
+c:\Mis Documentos\Dropbox\InternetOEM\InternetOEM\bin\OnlineServices.Method.pdb
+c:\Mis Documentos\Dropbox\InternetOEM\InternetOEM\bin\OnlineServices.CmsData.pdb
+c:\Mis Documentos\Dropbox\InternetOEM\InternetOEM\bin\OnlineServices.Conn.pdb
+c:\Mis Documentos\Dropbox\InternetOEM\InternetOEM\bin\OnlineServices.SystemData.pdb
+c:\Mis Documentos\Dropbox\InternetOEM\InternetOEM\bin\OnlineServices.Web.UI.pdb
+c:\Mis Documentos\Dropbox\InternetOEM\InternetOEM\bin\Telerik.Web.UI.xml
+c:\Mis Documentos\Dropbox\InternetOEM\InternetOEM\obj\Debug\ResolveAssemblyReference.cache
+c:\Mis Documentos\Dropbox\InternetOEM\InternetOEM\obj\Debug\ICommunity.dll
+c:\Mis Documentos\Dropbox\InternetOEM\InternetOEM\obj\Debug\ICommunity.pdb
+C:\Proyectos\Icommunity\Sitio\InternetOEM\InternetOEM\bin\ICommunity.dll
+C:\Proyectos\Icommunity\Sitio\InternetOEM\InternetOEM\bin\ICommunity.pdb
+C:\Proyectos\Icommunity\Sitio\InternetOEM\InternetOEM\bin\OnlineServices.AppData.dll
+C:\Proyectos\Icommunity\Sitio\InternetOEM\InternetOEM\bin\OnlineServices.CmsData.dll
+C:\Proyectos\Icommunity\Sitio\InternetOEM\InternetOEM\bin\OnlineServices.Conn.dll
+C:\Proyectos\Icommunity\Sitio\InternetOEM\InternetOEM\bin\OnlineServices.Method.dll
+C:\Proyectos\Icommunity\Sitio\InternetOEM\InternetOEM\bin\OnlineServices.SystemData.dll
+C:\Proyectos\Icommunity\Sitio\InternetOEM\InternetOEM\bin\OnlineServices.Web.UI.dll
+C:\Proyectos\Icommunity\Sitio\InternetOEM\InternetOEM\bin\Telerik.Web.UI.dll
+C:\Proyectos\Icommunity\Sitio\InternetOEM\InternetOEM\bin\Persits.Email.dll
+C:\Proyectos\Icommunity\Sitio\InternetOEM\InternetOEM\bin\OnlineServices.AppData.pdb
+C:\Proyectos\Icommunity\Sitio\InternetOEM\InternetOEM\bin\OnlineServices.Method.pdb
+C:\Proyectos\Icommunity\Sitio\InternetOEM\InternetOEM\bin\OnlineServices.CmsData.pdb
+C:\Proyectos\Icommunity\Sitio\InternetOEM\InternetOEM\bin\OnlineServices.Conn.pdb
+C:\Proyectos\Icommunity\Sitio\InternetOEM\InternetOEM\bin\OnlineServices.SystemData.pdb
+C:\Proyectos\Icommunity\Sitio\InternetOEM\InternetOEM\bin\OnlineServices.Web.UI.pdb
+C:\Proyectos\Icommunity\Sitio\InternetOEM\InternetOEM\bin\Telerik.Web.UI.xml
+C:\Proyectos\Icommunity\Sitio\InternetOEM\InternetOEM\obj\Debug\ResolveAssemblyReference.cache
+C:\Proyectos\Icommunity\Sitio\InternetOEM\InternetOEM\obj\Debug\ICommunity.dll
+C:\Proyectos\Icommunity\Sitio\InternetOEM\InternetOEM\obj\Debug\ICommunity.pdb
+C:\Proyectos\Icommunity\InternetOEM\InternetOEM\bin\ICommunity.dll
+C:\Proyectos\Icommunity\InternetOEM\InternetOEM\bin\ICommunity.pdb
+C:\Proyectos\Icommunity\InternetOEM\InternetOEM\bin\OnlineServices.AppData.dll
+C:\Proyectos\Icommunity\InternetOEM\InternetOEM\bin\OnlineServices.CmsData.dll
+C:\Proyectos\Icommunity\InternetOEM\InternetOEM\bin\OnlineServices.Conn.dll
+C:\Proyectos\Icommunity\InternetOEM\InternetOEM\bin\OnlineServices.Method.dll
+C:\Proyectos\Icommunity\InternetOEM\InternetOEM\bin\OnlineServices.SystemData.dll
+C:\Proyectos\Icommunity\InternetOEM\InternetOEM\bin\OnlineServices.Web.UI.dll
+C:\Proyectos\Icommunity\InternetOEM\InternetOEM\bin\OnlineServices.AppData.pdb
+C:\Proyectos\Icommunity\InternetOEM\InternetOEM\bin\OnlineServices.Method.pdb
+C:\Proyectos\Icommunity\InternetOEM\InternetOEM\bin\OnlineServices.CmsData.pdb
+C:\Proyectos\Icommunity\InternetOEM\InternetOEM\bin\OnlineServices.Conn.pdb
+C:\Proyectos\Icommunity\InternetOEM\InternetOEM\bin\OnlineServices.SystemData.pdb
+C:\Proyectos\Icommunity\InternetOEM\InternetOEM\bin\OnlineServices.Web.UI.pdb
+C:\Proyectos\Icommunity\InternetOEM\InternetOEM\bin\Telerik.Web.UI.xml
+C:\Proyectos\Icommunity\InternetOEM\InternetOEM\obj\Debug\ResolveAssemblyReference.cache
+C:\Proyectos\Icommunity\InternetOEM\InternetOEM\obj\Debug\ICommunity.dll
+C:\Proyectos\Icommunity\InternetOEM\InternetOEM\obj\Debug\ICommunity.pdb
+C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\ICommunity.dll.config
+C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\ICommunity.dll
+C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\ICommunity.pdb
+C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\ClosedXML.dll
+C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\DocumentFormat.OpenXml.dll
+C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\OnlineServices.AppData.dll
+C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\OnlineServices.CmsData.dll
+C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\OnlineServices.Conn.dll
+C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\OnlineServices.Method.dll
+C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\OnlineServices.Reporting.dll
+C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\OnlineServices.SystemData.dll
+C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\OnlineServices.Web.UI.dll
+C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\Telerik.Web.UI.dll
+C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\OnlineServices.AppData.pdb
+C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\OnlineServices.Reporting.pdb
+C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\OnlineServices.Web.UI.pdb
+C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\OnlineServices.CmsData.pdb
+C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\OnlineServices.Conn.pdb
+C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\OnlineServices.Method.pdb
+C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\OnlineServices.SystemData.pdb
+C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\ClosedXML.xml
+C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\Telerik.Web.UI.xml
+C:\Proyectos\DebtControl\InternetOEM\InternetOEM\obj\Debug\ICommunity.dll
+C:\Proyectos\DebtControl\InternetOEM\InternetOEM\obj\Debug\ICommunity.pdb
+C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\dcControlPanel.Base.dll
+C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\dcControlPanel.Conn.dll
+C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\dcControlPanel.dll
+C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\dcControlPanel.Method.dll
+C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\dcControlPanel.Base.pdb
+C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\dcControlPanel.Conn.pdb
+C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\dcControlPanel.Method.pdb
+C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\dcControlPanel.pdb
+C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\OnlineServices.AppRuta.dll
+C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\OnlineServices.AppRuta.pdb
+C:\Proyectos\DebtControl\InternetOEM\InternetOEM\obj\Debug\ICommunity.csprojResolveAssemblyReference.cache

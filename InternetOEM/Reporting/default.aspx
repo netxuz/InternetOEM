@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="../css/bootstrap.min.css" />
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="../css/stylesdebtcontrol.css" />
-  <link rel="stylesheet" href="../css/mdb.min.css">
+  <link rel="stylesheet" href="../css/mdb.min.css" />
 </head>
 <body class="bodydesktop">
   <form id="form1" runat="server">

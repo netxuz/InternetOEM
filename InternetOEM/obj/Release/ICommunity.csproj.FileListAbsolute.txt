@@ -54,3 +54,4 @@ C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\OnlineServices.AppRuta.dll
 C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\OnlineServices.AppRuta.pdb
 C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\OnlineServices.Antalis.dll
 C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\OnlineServices.Antalis.pdb
+C:\Proyectos\DebtControl\InternetOEM\InternetOEM\obj\Release\ICommunity.csprojResolveAssemblyReference.cache

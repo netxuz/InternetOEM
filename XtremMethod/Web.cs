@@ -141,8 +141,8 @@ namespace OnlineServices.Method
     public void GetIndicadoresEconomicos()
     {
       DateTime dValue = new DateTime();
-      string sUriDolar = string.Empty;
-      string sUriEuro = string.Empty;
+      Uri sUriDolar; ;
+      Uri sUriEuro;
       if ((HttpContext.Current.Session["INDICADORESESCONOCMICOS"] == null) || (string.IsNullOrEmpty(HttpContext.Current.Session["INDICADORESESCONOCMICOS"].ToString())))
       {
         DateTime dateValue = DateTime.Now;
@@ -156,56 +156,87 @@ namespace OnlineServices.Method
           {
             dValue = dateValue.AddDays(-2);
           }
-          sUriDolar = "http://api.sbif.cl/api-sbifv3/recursos_api/dolar/" + dValue.Year.ToString() + "/" + dValue.Month.ToString() + "/dias/" + dValue.Day.ToString() + "?apikey=acae9592b396a99dba337f5c9a93c85afb4a4455&formato=xml";
-          sUriEuro = "http://api.sbif.cl/api-sbifv3/recursos_api/euro/" + dValue.Year.ToString() + "/" + dValue.Month.ToString() + "/dias/" + dValue.Day.ToString() + "?apikey=acae9592b396a99dba337f5c9a93c85afb4a4455&formato=xml";
+          sUriDolar = new Uri("http://api.sbif.cl/api-sbifv3/recursos_api/dolar/" + dValue.Year.ToString() + "/" + dValue.Month.ToString() + "/dias/" + dValue.Day.ToString() + "?apikey=acae9592b396a99dba337f5c9a93c85afb4a4455&formato=xml");
+          sUriEuro = new Uri("http://api.sbif.cl/api-sbifv3/recursos_api/euro/" + dValue.Year.ToString() + "/" + dValue.Month.ToString() + "/dias/" + dValue.Day.ToString() + "?apikey=acae9592b396a99dba337f5c9a93c85afb4a4455&formato=xml");
         }
         else {
-          sUriDolar = "http://api.sbif.cl/api-sbifv3/recursos_api/dolar?apikey=acae9592b396a99dba337f5c9a93c85afb4a4455&formato=xml";
-          sUriEuro = "http://api.sbif.cl/api-sbifv3/recursos_api/euro?apikey=acae9592b396a99dba337f5c9a93c85afb4a4455&formato=xml";
+          sUriDolar = new Uri("http://api.sbif.cl/api-sbifv3/recursos_api/dolar?apikey=acae9592b396a99dba337f5c9a93c85afb4a4455&formato=xml");
+          sUriEuro = new Uri("http://api.sbif.cl/api-sbifv3/recursos_api/euro?apikey=acae9592b396a99dba337f5c9a93c85afb4a4455&formato=xml");
         }
 
         IndicadorEconomico oIndEco = new IndicadorEconomico();
         XmlTextReader oReader;
+        XmlDocument oXmlDoc;
+        XmlNodeList oIndicadores;
 
-        //DOLAR
-        oReader = new XmlTextReader(sUriDolar);
-        XmlDocument oXmlDoc = new XmlDocument();
-        oXmlDoc.Load(oReader);
-        XmlNodeList oIndicadores = oXmlDoc.GetElementsByTagName("IndicadoresFinancieros");
-        XmlNodeList Dolares = ((XmlElement)oIndicadores[0]).GetElementsByTagName("Dolares");
-        XmlNodeList Dolar = ((XmlElement)Dolares[0]).GetElementsByTagName("Dolar");
-        XmlNodeList DolarObs = ((XmlElement)Dolar[0]).GetElementsByTagName("Valor");
-        oIndEco.DolarObs = DolarObs[0].InnerText;
+        
+        try
+        {
+          //DOLAR
+          WebRequest wrq = WebRequest.Create(sUriDolar);
+          oReader = new XmlTextReader(wrq.GetResponse().GetResponseStream());
+          oXmlDoc = new XmlDocument();
+          oXmlDoc.Load(oReader);
+          oIndicadores = oXmlDoc.GetElementsByTagName("IndicadoresFinancieros");
+          XmlNodeList Dolares = ((XmlElement)oIndicadores[0]).GetElementsByTagName("Dolares");
+          XmlNodeList Dolar = ((XmlElement)Dolares[0]).GetElementsByTagName("Dolar");
+          XmlNodeList DolarObs = ((XmlElement)Dolar[0]).GetElementsByTagName("Valor");
+          oIndEco.DolarObs = DolarObs[0].InnerText;
+        }
+        catch (Exception e) {
+          oIndEco.DolarObs = string.Empty;
+        }
 
-        //EURO
-        oReader = new XmlTextReader(sUriEuro);
-        oXmlDoc = new XmlDocument();
-        oXmlDoc.Load(oReader);
-        oIndicadores = oXmlDoc.GetElementsByTagName("IndicadoresFinancieros");
-        XmlNodeList Euros = ((XmlElement)oIndicadores[0]).GetElementsByTagName("Euros");
-        XmlNodeList Euro = ((XmlElement)Euros[0]).GetElementsByTagName("Euro");
-        XmlNodeList EuroObs = ((XmlElement)Euro[0]).GetElementsByTagName("Valor");
-        oIndEco.Euro = EuroObs[0].InnerText;
+        try
+        {
+          //EURO
+          WebRequest wrq = WebRequest.Create(sUriEuro);
+          oReader = new XmlTextReader(wrq.GetResponse().GetResponseStream());
+          oXmlDoc = new XmlDocument();
+          oXmlDoc.Load(oReader);
+          oIndicadores = oXmlDoc.GetElementsByTagName("IndicadoresFinancieros");
+          XmlNodeList Euros = ((XmlElement)oIndicadores[0]).GetElementsByTagName("Euros");
+          XmlNodeList Euro = ((XmlElement)Euros[0]).GetElementsByTagName("Euro");
+          XmlNodeList EuroObs = ((XmlElement)Euro[0]).GetElementsByTagName("Valor");
+          oIndEco.Euro = EuroObs[0].InnerText;
+        }
+        catch (Exception e) {
+          oIndEco.Euro = string.Empty;
+        }
 
-        //UF
-        oReader = new XmlTextReader("http://api.sbif.cl/api-sbifv3/recursos_api/uf?apikey=acae9592b396a99dba337f5c9a93c85afb4a4455&formato=xml");
-        oXmlDoc = new XmlDocument();
-        oXmlDoc.Load(oReader);
-        oIndicadores = oXmlDoc.GetElementsByTagName("IndicadoresFinancieros");
-        XmlNodeList UFs = ((XmlElement)oIndicadores[0]).GetElementsByTagName("UFs");
-        XmlNodeList UF = ((XmlElement)UFs[0]).GetElementsByTagName("UF");
-        XmlNodeList UFdia = ((XmlElement)UF[0]).GetElementsByTagName("Valor");
-        oIndEco.UF = UFdia[0].InnerText;
+        try
+        {
+          //UF
+          WebRequest wrq = WebRequest.Create(new Uri("http://api.sbif.cl/api-sbifv3/recursos_api/uf?apikey=acae9592b396a99dba337f5c9a93c85afb4a4455&formato=xml"));
+          oReader = new XmlTextReader(wrq.GetResponse().GetResponseStream());
+          oXmlDoc = new XmlDocument();
+          oXmlDoc.Load(oReader);
+          oIndicadores = oXmlDoc.GetElementsByTagName("IndicadoresFinancieros");
+          XmlNodeList UFs = ((XmlElement)oIndicadores[0]).GetElementsByTagName("UFs");
+          XmlNodeList UF = ((XmlElement)UFs[0]).GetElementsByTagName("UF");
+          XmlNodeList UFdia = ((XmlElement)UF[0]).GetElementsByTagName("Valor");
+          oIndEco.UF = UFdia[0].InnerText;
+        }
+        catch (Exception e) {
+          oIndEco.UF = string.Empty;
+        }
 
-        //UTM
-        oReader = new XmlTextReader("http://api.sbif.cl/api-sbifv3/recursos_api/utm?apikey=acae9592b396a99dba337f5c9a93c85afb4a4455&formato=xml");
-        oXmlDoc = new XmlDocument();
-        oXmlDoc.Load(oReader);
-        oIndicadores = oXmlDoc.GetElementsByTagName("IndicadoresFinancieros");
-        XmlNodeList UTMs = ((XmlElement)oIndicadores[0]).GetElementsByTagName("UTMs");
-        XmlNodeList UTM = ((XmlElement)UTMs[0]).GetElementsByTagName("UTM");
-        XmlNodeList UTMdia = ((XmlElement)UTM[0]).GetElementsByTagName("Valor");
-        oIndEco.UTM = UTMdia[0].InnerText;
+        try
+        {
+          //UTM
+          WebRequest wrq = WebRequest.Create(new Uri("http://api.sbif.cl/api-sbifv3/recursos_api/utm?apikey=acae9592b396a99dba337f5c9a93c85afb4a4455&formato=xml"));
+          oReader = new XmlTextReader(wrq.GetResponse().GetResponseStream());
+          oXmlDoc = new XmlDocument();
+          oXmlDoc.Load(oReader);
+          oIndicadores = oXmlDoc.GetElementsByTagName("IndicadoresFinancieros");
+          XmlNodeList UTMs = ((XmlElement)oIndicadores[0]).GetElementsByTagName("UTMs");
+          XmlNodeList UTM = ((XmlElement)UTMs[0]).GetElementsByTagName("UTM");
+          XmlNodeList UTMdia = ((XmlElement)UTM[0]).GetElementsByTagName("Valor");
+          oIndEco.UTM = UTMdia[0].InnerText;
+        }
+        catch (Exception e) {
+          oIndEco.UTM = string.Empty;
+        }
 
         HttpContext.Current.Session["INDICADORESESCONOCMICOS"] = oIndEco;
       }

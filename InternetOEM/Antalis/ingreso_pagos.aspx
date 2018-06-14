@@ -8,12 +8,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Home</title>
-  <link rel="stylesheet" href="../css/bootstrap.min.css" />
-  <link rel="stylesheet" href="../css/style.css" />
-  <link rel="stylesheet" href="../css/stylesdebtcontrol.css" />
-  <link rel="stylesheet" href="../css/mdb.min.css" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="../css/antalis.css" />
+  <link rel="stylesheet" href="../css/datepicker.css" />
 </head>
-<body class="bodydesktop">
+<body>
   <form id="form1" runat="server">
     <asp:ScriptManager ID="ScriptManager" runat="server"></asp:ScriptManager>
     <nav class="navbar-inverse">
@@ -60,28 +59,50 @@
         </div>
       </div>
     </nav>
-    <div>
-      validacion_pagos.aspx
+    <div class="container">
+      <div class="row">&nbsp;</div>
+      <div class="row">
+        <div class="col-md-6">
+          <asp:Label ID="lblTitle" runat="server" CssClass="lblTitle" Text="INGRESAR PAGOS"></asp:Label>
+        </div>
+        <div class="col-md-12">
+          <hr style="#b8b8b8" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <span>CLIENTE: CRISTIAN ESCOBAR</span>
+        </div>
+        <div class="col-md-3">
+          <span>CENTRO DE DISTRIBUCION: SANTA FILOMENA</span>
+        </div>
+        <div class="col-md-3">
+          <span>TIPO DE PAGO: </span>
+          <select class="form-control">
+            <option value="" disabled selected>Seleccione una opción</option>
+            <option value="1">Cheque al día</option>
+            <option value="2">Efectiivo</option>
+            <option value="3">Letra</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <span>FECHA RECEPCION</span>
+          <div class="input-append date" id="dp3" data-date="12-02-2012" data-date-format="dd-mm-yyyy">
+            <input class="form-control" size="16" type="text" value="12-02-2012" readonly>
+            <span class="add-on"><i class="icon-th"></i></span>
+          </div>
+        </div>
+      </div>
     </div>
   </form>
-  <!-- SCRIPTS -->
-  <!-- JQuery -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-  <!-- googleapis -->
-  <script type="text/javascript" src="../js/jquery-3.1.1.min.js"></script>
-  <!-- Bootstrap core JavaScript -->
-  <script type="text/javascript" src="../js/bootstrap.min.js"></script>
-  <!-- MDB core JavaScript -->
-  <script type="text/javascript" src="../js/mdb.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <!-- datepicker core JavaScript -->
+  <script type="text/javascript" src="../js/bootstrap-datepicker.js" charset="UTF-8"></script>
   <script>
-    wow = new WOW({
-      boxClass: 'wow', // default
-      animateClass: 'animated', // default
-      offset: 0, // default
-      mobile: true, // default
-      live: true // default
-    })
-    wow.init();
+    $(function () {
+      $('#dp3').datepicker();
+    });
   </script>
 </body>
 </html>

@@ -95,5 +95,10 @@ namespace ICommunity.Antalis
       }
       oConn.Close();
     }
+
+    protected void btnIngresarPago_Click(object sender, EventArgs e)
+    {
+      Response.Redirect("ingreso_pagos.aspx");
+    }
   }
 }

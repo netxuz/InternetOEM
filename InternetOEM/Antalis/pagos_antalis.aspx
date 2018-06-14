@@ -8,16 +8,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Home</title>
-
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="../css/antalis.css" />
   <link rel="stylesheet" href="../css/datepicker.css" />
-  <%--<link rel="stylesheet" href="../css/bootstrap.min.css" />--%>
-  <%--<link rel="stylesheet" href="../css/style.css" />
-  <link rel="stylesheet" href="../css/stylesdebtcontrol.css" />--%>
-  <%--<link rel="stylesheet" href="../css/mdb.min.css" />--%>
-
-  
-  
 </head>
 <body>
   <form id="form1" runat="server">
@@ -67,31 +60,36 @@
       </div>
     </nav>
     <div class="container">
+      <div class="row">&nbsp;</div>
       <div class="row">
-        <asp:Label ID="lblTitle" runat="server" CssClass="lblTitle" Text="PAGOS ANTALIS"></asp:Label>
+        <div class="col-md-6">
+          <asp:Label ID="lblTitle" runat="server" CssClass="lblTitle" Text="PAGOS ANTALIS"></asp:Label>
+        </div>
+        <div class="col-md-6">
+          <asp:Button ID="btnIngresarPago" runat="server" class="btn btn-primary" Text="Ingresar Pago" OnClick="btnIngresarPago_Click"  />
+        </div>
+        <div class="col-md-12">
+          <hr style="#b8b8b8" />
+        </div>
       </div>
-      <div class="row">
-        <asp:Button ID="btnIngresarPago" runat="server" class="btn btn-default" Text="Ingresar Pago" />
-      </div>
-
       <div class="row">
         <div class="col-md-2">
           <span>Fecha Inicio</span>
           <div class="input-append date" id="dp3" data-date="12-02-2012" data-date-format="dd-mm-yyyy">
-            <input class="span2" size="16" type="text" value="12-02-2012" readonly>
+            <input class="form-control" size="16" type="text" value="12-02-2012" readonly>
             <span class="add-on"><i class="icon-th"></i></span>
           </div>
         </div>
         <div class="col-md-2">
-          <div><span>Fecha Hasta</span></div>
+          <span>Fecha Hasta</span>
           <div class="input-append date" id="dp4" data-date="12-02-2012" data-date-format="dd-mm-yyyy">
-            <input class="span2" size="16" type="text" value="12-02-2012">
+            <input class="form-control" size="16" type="text" value="12-02-2012" readonly>
             <span class="add-on"><i class="icon-th"></i></span>
           </div>
         </div>
-      </div>
-      <div class="row">
-        <asp:Button ID="idBuscar" runat="server" Text="Buscar" CssClass="btn btn-lg btn-primary btn-block" Width="100px" />
+        <div class="col-md-2">
+          <asp:Button ID="idBuscar" runat="server" Text="Buscar" CssClass="btn btn-primary" Width="100px" />
+        </div>
       </div>
       <div id="idGrilla" runat="server" visible="false">
       </div>
@@ -104,8 +102,6 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-  
   <!-- datepicker core JavaScript -->
   <script type="text/javascript" src="../js/bootstrap-datepicker.js" charset="UTF-8"></script>
   <script>

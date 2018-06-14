@@ -141,6 +141,7 @@
     <Content Include="Controls\IndicadoresEconomicos.ascx" />
     <Content Include="Controls\MenuRecursivo.ascx" />
     <Content Include="Controls\MenuRecursivoDeck.ascx" />
+    <Content Include="css\antalis.css" />
     <Content Include="css\bootstrap.min.css" />
     <Content Include="css\component.css" />
     <Content Include="css\datepicker.css" />

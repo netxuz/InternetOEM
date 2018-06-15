@@ -132,6 +132,7 @@
     <Content Include="Antalis\default.aspx" />
     <Content Include="Antalis\ingreso_pagos.aspx" />
     <Content Include="Antalis\pagos_antalis.aspx" />
+    <Content Include="Antalis\redirection.htm" />
     <Content Include="Antalis\usuarios_centrosdistribucion.aspx" />
     <Content Include="Antalis\usuario_rol_antalis.aspx" />
     <Content Include="Antalis\validacion_pagos.aspx" />

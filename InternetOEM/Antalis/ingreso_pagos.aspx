@@ -8,7 +8,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Home</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">
+  <!-- Bootstrap core CSS -->
+  <link href="../css/bootstrap.min.css" rel="stylesheet">
+  <!-- Material Design Bootstrap -->
+  <link href="../css/mdb.min.css" rel="stylesheet">
+  <!-- Antalis -->
   <link rel="stylesheet" href="../css/antalis.css" />
   <link rel="stylesheet" href="../css/datepicker.css" />
 </head>
@@ -88,20 +93,74 @@
         <div class="col-md-3">
           <span>FECHA RECEPCION</span>
           <div class="input-append date" id="dp3" data-date="12-02-2012" data-date-format="dd-mm-yyyy">
-            <input class="form-control" size="16" type="text" value="12-02-2012" readonly>
+            <input class="form-control" size="16" type="text" value="12-02-2012" readonly />
             <span class="add-on"><i class="icon-th"></i></span>
           </div>
         </div>
       </div>
+      <div class="row">
+        <!-- Material input -->
+        <div class="col-md-2">
+          <div class="md-form" style="width: 20rem;">
+            <input type="text" id="form1" class="form-control">
+            <label for="form1">CODIGO SAP</label>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="md-form" style="width: 20rem;">
+            <input type="text" id="form2" class="form-control">
+            <label for="form2">RAZON SOCIAL</label>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="md-form" style="width: 20rem;">
+            <input type="text" id="form3" class="form-control">
+            <label for="form3">NUMERO CHEQUE / OPERACION</label>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <span for="sel1">BANCO:</span>
+          <select class="form-control" id="sel1">
+            <option>SANTANDER</option>
+            <option>BANCO CHILE</option>
+            <option>BCI</option>
+            <option>BANCO ESTADO</option>
+          </select>
+        </div>
+        <div class="col-md-2">
+          <span>FECHA DOCUMENTO</span>
+          <div class="input-append date" id="dp4" data-date="12-02-2012" data-date-format="dd-mm-yyyy">
+            <input class="form-control" size="16" type="text" value="12-02-2012" readonly />
+            <span class="add-on"><i class="icon-th"></i></span>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <span for="sel1">GUIA DESPACHO:</span>
+          <select class="form-control" id="sel1">
+            <option>GD1-0103</option>
+            <option>GD1-0104</option>
+            <option>GD1-0105</option>
+            <option>GD1-0106</option>
+          </select>
+        </div>
+        <div class="col-md-2">
+          <asp:Button ID="btnIngresarImportes" runat="server" class="btn btn-primary" Text="INGRESAR IMPORTES"  />
+        </div>
+      </div>
     </div>
   </form>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <!-- Bootstrap tooltips -->
+  <script type="text/javascript" src="../js/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.6.0/js/bootstrap.min.js"></script>
   <!-- datepicker core JavaScript -->
   <script type="text/javascript" src="../js/bootstrap-datepicker.js" charset="UTF-8"></script>
+  <!-- MDB core JavaScript -->
+  <script type="text/javascript" src="../js/mdb.min.js"></script>
   <script>
     $(function () {
       $('#dp3').datepicker();
+      $('#dp4').datepicker();
     });
   </script>
 </body>

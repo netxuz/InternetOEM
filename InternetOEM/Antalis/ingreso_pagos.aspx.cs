@@ -13,6 +13,7 @@ using OnlineServices.Reporting;
 
 using OnlineServices.Antalis;
 using OnlineServices.SystemData;
+using System.Web.Services;
 
 namespace ICommunity.Antalis
 {
@@ -24,6 +25,7 @@ namespace ICommunity.Antalis
     {
       oIsUsuario = oWeb.ValidaUserAppReport();
 
+
       getMenu(idReportePago, oIsUsuario.CodUsuario, "1");
       getMenu(idProcesoSeguimiento, oIsUsuario.CodUsuario, "2");
       getMenu(idCartolas, oIsUsuario.CodUsuario, "3");
@@ -32,6 +34,28 @@ namespace ICommunity.Antalis
       getMenu(IndClasificacionRiesgo, oIsUsuario.CodUsuario, "6");
 
       getMenuAntalis(indAntalis, oIsUsuario.CodUsuario);
+
+      cmb_bancos.Items.Add(new ListItem("<< Seleccione Banco >>", string.Empty));
+      DBConn oConn = new DBConn();
+      if (oConn.Open())
+      {
+        cAntBancos oBancos = new cAntBancos(ref oConn);
+        DataTable dtBancos = oBancos.Get();
+        if (dtBancos != null)
+        {
+          foreach (DataRow oRow in dtBancos.Rows)
+          {
+            cmb_bancos.Items.Add(new ListItem(oRow["snombre"].ToString(), oRow["nkey_banco"].ToString()));
+          }
+        }
+        dtBancos = null;
+      }
+      oConn.Close();
+
+      if (!IsPostBack)
+      {
+        hddnkey_cliente.Value = oIsUsuario.CodNkey;
+      }
     }
 
     protected void getMenuAntalis(System.Web.UI.HtmlControls.HtmlGenericControl oHtmControl, string pCoduser)
@@ -94,5 +118,73 @@ namespace ICommunity.Antalis
       }
       oConn.Close();
     }
+
+    [WebMethod()]
+    public static cGuiasDespacho[] getGuiasDespacho(string nkeycliente, string ncodigodeudor)
+    {
+      List<cGuiasDespacho> details = new List<cGuiasDespacho>();
+
+      DBConn oConn = new DBConn();
+      if (oConn.Open())
+      {
+        cGuiasFacturas oGuiasFacturas = new cGuiasFacturas(ref oConn);
+        oGuiasFacturas.NKeyCliente = nkeycliente;
+        oGuiasFacturas.NCodigoDeudor = ncodigodeudor;
+        DataTable dtGuias = oGuiasFacturas.GetGuiaDespacho();
+        if (dtGuias != null)
+        {
+          foreach (DataRow oRow in dtGuias.Rows)
+          {
+            cGuiasDespacho oGuiasDespacho = new cGuiasDespacho();
+            oGuiasDespacho.guiasdespacho = oRow["guidespacho"].ToString();
+            details.Add(oGuiasDespacho);
+          }
+        }
+        dtGuias = null;
+        oConn.Close();
+      }
+      return details.ToArray();
+
+    }
+
+    [WebMethod()]
+    public static cFacturas[] getFacturas(string sGuiaDespacho)
+    {
+      List<cFacturas> details = new List<cFacturas>();
+
+      DBConn oConn = new DBConn();
+      if (oConn.Open())
+      {
+        cGuiasFacturas oGuiasFacturas = new cGuiasFacturas(ref oConn);
+        oGuiasFacturas.GuiaDespacho = sGuiaDespacho;
+        DataTable dtFacturas = oGuiasFacturas.GetFacturas();
+        if (dtFacturas != null)
+        {
+          foreach (DataRow oRow in dtFacturas.Rows)
+          {
+            cFacturas oFacturas = new cFacturas();
+            oFacturas.nKeyFactura = oRow["nkey_factura"].ToString();
+            oFacturas.nNumeroFactura = oRow["nnumerofactura"].ToString();
+            oFacturas.nMontoFactura = oRow["nmontofactura"].ToString();
+            details.Add(oFacturas);
+          }
+        }
+        dtFacturas = null;
+        oConn.Close();
+      }
+      return details.ToArray();
+
+    }
+  }
+  
+  public class cGuiasDespacho
+  {
+    public string guiasdespacho { get; set; }
+  }
+
+  public class cFacturas {
+    public string nKeyFactura { get; set; }
+    public string nNumeroFactura { get; set; }
+    public string nMontoFactura { get; set; }
   }
 }

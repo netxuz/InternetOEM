@@ -20,6 +20,7 @@
 <body>
   <form id="form1" runat="server">
     <asp:ScriptManager ID="ScriptManager" runat="server"></asp:ScriptManager>
+    <asp:HiddenField ID="hddnkey_cliente" runat="server" />
     <nav class="navbar-inverse">
       <div class="container-fluid">
         <div class="navbar-header">
@@ -102,8 +103,8 @@
         <!-- Material input -->
         <div class="col-md-2">
           <div class="md-form" style="width: 20rem;">
-            <input type="text" id="form1" class="form-control">
-            <label for="form1">CODIGO SAP</label>
+            <input type="text" id="txt_codigosap" class="form-control">
+            <label for="txt_codigosap">CODIGO SAP</label>
           </div>
         </div>
         <div class="col-md-2">
@@ -119,13 +120,8 @@
           </div>
         </div>
         <div class="col-md-2">
-          <span for="sel1">BANCO:</span>
-          <select class="form-control" id="sel1">
-            <option>SANTANDER</option>
-            <option>BANCO CHILE</option>
-            <option>BCI</option>
-            <option>BANCO ESTADO</option>
-          </select>
+          <span for="cmb_bancos">BANCO:</span>
+          <asp:DropDownList ID="cmb_bancos" CssClass="form-control" runat="server"></asp:DropDownList>
         </div>
         <div class="col-md-2">
           <span>FECHA DOCUMENTO</span>
@@ -134,17 +130,28 @@
             <span class="add-on"><i class="icon-th"></i></span>
           </div>
         </div>
+      </div>
+      <div class="row">
         <div class="col-md-2">
-          <span for="sel1">GUIA DESPACHO:</span>
-          <select class="form-control" id="sel1">
-            <option>GD1-0103</option>
-            <option>GD1-0104</option>
-            <option>GD1-0105</option>
-            <option>GD1-0106</option>
-          </select>
+          <span for="cmb_guiadespacho">GUIA DESPACHO:</span>
+          <asp:DropDownList ID="cmb_guiadespacho" CssClass="form-control" runat="server">
+          </asp:DropDownList>
         </div>
         <div class="col-md-2">
-          <asp:Button ID="btnIngresarImportes" runat="server" class="btn btn-primary" Text="INGRESAR IMPORTES"  />
+          <span for="cmb_facturas">FACTURAS:</span>
+          <asp:DropDownList ID="cmb_facturas" CssClass="form-control" runat="server">
+          </asp:DropDownList>
+        </div>
+        <div class="col-md-2">
+          <div class="md-form" style="width: 20rem;">
+            <input type="text" id="form3" class="form-control">
+            <label for="form3">IMPORTE</label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <asp:Button ID="btnIngresarImportes" runat="server" class="btn btn-primary" Text="INGRESAR IMPORTES" />
         </div>
       </div>
     </div>
@@ -159,9 +166,71 @@
   <script type="text/javascript" src="../js/mdb.min.js"></script>
   <script>
     $(function () {
-      $('#dp3').datepicker();
-      $('#dp4').datepicker();
+      $("#dp3").datepicker();
+      $("#dp4").datepicker();
     });
+
+    $("#txt_codigosap").focusout(function () {
+      //96829710
+      var target = $("#cmb_guiadespacho");
+      var cUrl = "ingreso_pagos.aspx/getGuiasDespacho";
+      var datos = "{nkeycliente:" + $("#hddnkey_cliente").val() + ",ncodigodeudor:" + $("#txt_codigosap").val() + "}";
+      $.ajax({
+        type: "POST",
+        url: cUrl,
+        data: datos,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+
+        success: function (data) {
+
+          $("#cmb_guiadespacho").empty().append($("<option></option>").val("0").html("<< Seleccione Guia Despacho >>"));
+          $.each(data.d, function (key, value) {
+            var option = $(document.createElement("option"));
+            option.html(value.guiasdespacho);
+            option.val(value.guiasdespacho);
+            $("#cmb_guiadespacho").append(option);
+          });
+        },
+
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+          alert(textStatus + ": " + XMLHttpRequest.responseText);
+        }
+      });
+    });
+
+    //----------------------------------------------------------------------------------------------------------------------
+
+
+    $("#cmb_guiadespacho").focusout(function () {
+      //96829710
+      var target = $("#cmb_facturas");
+      var cUrl = "ingreso_pagos.aspx/getFacturas";
+      var datos = "{sGuiaDespacho:" + $("#cmb_guiadespacho").val() + "}";
+      $.ajax({
+        type: "POST",
+        url: cUrl,
+        data: datos,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+
+        success: function (data) {
+
+          $("#cmb_facturas").empty().append($("<option></option>").val("0").html("<< Seleccione Guia Despacho >>"));
+          $.each(data.d, function (key, value) {
+            var option = $(document.createElement("option"));
+            option.html(value.nNumeroFactura);
+            option.val(value.nNumeroFactura);
+            $("#cmb_facturas").append(option);
+          });
+        },
+
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+          alert(textStatus + ": " + XMLHttpRequest.responseText);
+        }
+      });
+    });
+
   </script>
 </body>
 </html>

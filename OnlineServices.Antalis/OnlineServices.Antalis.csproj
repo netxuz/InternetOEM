@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="cAntBancos.cs" />
+    <Compile Include="cAntCentrosDistribucion.cs" />
     <Compile Include="cAntsUsuarios.cs" />
     <Compile Include="cGuiasFacturas.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

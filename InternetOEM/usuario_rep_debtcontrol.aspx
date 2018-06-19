@@ -80,7 +80,7 @@
               <div class="modal-header">
                 <%--<button type="button" class="close" data-dismiss="modal">&times;</button>--%>
                 <asp:Button ID="btnClose2" Text="&times;" runat="server" CssClass="close" OnClick="btnClose2_Click" />
-                <h4 class="modal-title">Selecciona Conultas</h4>
+                <h4 class="modal-title">Selecciona Consultas</h4>
               </div>
               <div class="modal-body">
                 <asp:UpdatePanel ID="UpdatePanel2" runat="server" UpdateMode="Conditional">

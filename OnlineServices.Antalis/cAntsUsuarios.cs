@@ -149,55 +149,18 @@ namespace OnlineServices.Antalis
       }
     }
 
-    public DataTable GetCentrosDistribución()
+    public void Put()
     {
-      oParam = new DBConn.SQLParameters(20);
-      DataTable dtData;
-      StringBuilder cSQL;
-      string Condicion = " where ";
-
-      if (oConn.bIsOpen)
-      {
-        cSQL = new StringBuilder();
-        cSQL.Append("select cod_user, cod_centrodist ");
-        cSQL.Append("from ant_user_cd  ");
-
-        if (!string.IsNullOrEmpty(pCodUsuario))
-        {
-          cSQL.Append(Condicion);
-          Condicion = " and ";
-          cSQL.Append(" cod_user = @cod_user ");
-          oParam.AddParameters("@cod_user", pCodUsuario, TypeSQL.Numeric);
-        }
-
-        if (!string.IsNullOrEmpty(pCodCentroDist))
-        {
-          cSQL.Append(Condicion);
-          Condicion = " and ";
-          cSQL.Append(" cod_centrodist = @cod_centrodist ");
-          oParam.AddParameters("@cod_centrodist", pCodCentroDist, TypeSQL.Numeric);
-        }
-
-        dtData = oConn.Select(cSQL.ToString(), oParam);
-        pError = oConn.Error;
-        return dtData;
-      }
-      else
-      {
-        pError = "Conexion Cerrada";
-        return null;
-      }
-    }
-
-    public void Put() {
       oParam = new DBConn.SQLParameters(20);
       StringBuilder cSQL;
       string sComa = string.Empty;
 
-      if (oConn.bIsOpen) {
+      if (oConn.bIsOpen)
+      {
         try
         {
-          switch (pAccion) {
+          switch (pAccion)
+          {
             case "CREAR":
               cSQL = new StringBuilder();
               cSQL.Append("insert into ant_user_roles(cod_user, cod_rol) values(@cod_usuario, @cod_rol)");
@@ -214,49 +177,11 @@ namespace OnlineServices.Antalis
               break;
           }
         }
-        catch (Exception ex) {
-          pError = ex.Message;
-        }
-      }
-
-    }
-
-    public void PutCentroDist()
-    {
-      oParam = new DBConn.SQLParameters(20);
-      StringBuilder cSQL;
-      string sComa = string.Empty;
-
-      if (oConn.bIsOpen)
-      {
-        try
-        {
-          switch (pAccion)
-          {
-            case "CREAR":
-              cSQL = new StringBuilder();
-              cSQL.Append("insert into ant_user_cd(cod_user, cod_centrodist) values(@cod_usuario, @cod_centrodist)");
-              oParam.AddParameters("@cod_usuario", pCodUsuario, TypeSQL.Numeric);
-              oParam.AddParameters("@cod_centrodist", pCodRol, TypeSQL.Numeric);
-              oConn.Insert(cSQL.ToString(), oParam);
-
-              break;
-            case "ELIMINAR":
-              cSQL = new StringBuilder();
-              cSQL.Append("delete from ant_user_cd where cod_user = @cod_usuario and cod_centrodist = @cod_centrodist ");
-              oParam.AddParameters("@cod_usuario", pCodUsuario, TypeSQL.Numeric);
-              oParam.AddParameters("@cod_centrodist", pCodRol, TypeSQL.Numeric);
-              oConn.Delete(cSQL.ToString(), oParam);
-              break;
-          }
-        }
         catch (Exception ex)
         {
           pError = ex.Message;
         }
       }
-
     }
-
   }
 }

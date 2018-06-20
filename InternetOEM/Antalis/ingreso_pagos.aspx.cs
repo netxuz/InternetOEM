@@ -24,8 +24,6 @@ namespace ICommunity.Antalis
     protected void Page_Load(object sender, EventArgs e)
     {
       oIsUsuario = oWeb.ValidaUserAppReport();
-
-
       getMenu(idReportePago, oIsUsuario.CodUsuario, "1");
       getMenu(idProcesoSeguimiento, oIsUsuario.CodUsuario, "2");
       getMenu(idCartolas, oIsUsuario.CodUsuario, "3");
@@ -35,25 +33,48 @@ namespace ICommunity.Antalis
 
       getMenuAntalis(indAntalis, oIsUsuario.CodUsuario);
 
-      cmb_bancos.Items.Add(new ListItem("<< Seleccione Banco >>", string.Empty));
-      DBConn oConn = new DBConn();
-      if (oConn.Open())
-      {
-        cAntBancos oBancos = new cAntBancos(ref oConn);
-        DataTable dtBancos = oBancos.Get();
-        if (dtBancos != null)
-        {
-          foreach (DataRow oRow in dtBancos.Rows)
-          {
-            cmb_bancos.Items.Add(new ListItem(oRow["snombre"].ToString(), oRow["nkey_banco"].ToString()));
-          }
-        }
-        dtBancos = null;
-      }
-      oConn.Close();
-
       if (!IsPostBack)
       {
+        cmb_bancos.Items.Add(new ListItem("<< Seleccione Banco >>", string.Empty));
+        DBConn oConn = new DBConn();
+        if (oConn.Open())
+        {
+          cAntCentrosDistribucion oCentrosDistribucion = new cAntCentrosDistribucion(ref oConn);
+          oCentrosDistribucion.CodUsuario = oIsUsuario.CodUsuario;
+          DataTable dtCntDst = oCentrosDistribucion.GetCentrosDistByUsuario();
+          if (dtCntDst != null)
+          {
+            if (dtCntDst.Rows.Count > 0)
+            {
+              if (dtCntDst.Rows.Count > 1)
+                cmb_centrodistribucion.Items.Add(new ListItem("<< Seleccione una opcion >>", ""));
+
+              foreach (DataRow oRow in dtCntDst.Rows)
+              {
+                cmb_centrodistribucion.Items.Add(new ListItem(oRow["descripcion"].ToString(), oRow["cod_centrodist"].ToString()));
+              }
+            }
+            else
+            {
+              cmb_centrodistribucion.Items.Add(new ListItem("No existen centros de distribución asociados", ""));
+              cmb_centrodistribucion.Enabled = false;
+            }
+          }
+          dtCntDst = null;
+
+          cAntBancos oBancos = new cAntBancos(ref oConn);
+          DataTable dtBancos = oBancos.Get();
+          if (dtBancos != null)
+          {
+            foreach (DataRow oRow in dtBancos.Rows)
+            {
+              cmb_bancos.Items.Add(new ListItem(oRow["snombre"].ToString(), oRow["nkey_banco"].ToString()));
+            }
+          }
+          dtBancos = null;
+          oConn.Close();
+        }
+        txt_fecha_recepcion.Text = DateTime.Now.Day.ToString() + "/" + DateTime.Now.Month.ToString() + "/" + DateTime.Now.Year.ToString();
         hddnkey_cliente.Value = oIsUsuario.CodNkey;
       }
     }
@@ -176,13 +197,14 @@ namespace ICommunity.Antalis
 
     }
   }
-  
+
   public class cGuiasDespacho
   {
     public string guiasdespacho { get; set; }
   }
 
-  public class cFacturas {
+  public class cFacturas
+  {
     public string nKeyFactura { get; set; }
     public string nNumeroFactura { get; set; }
     public string nMontoFactura { get; set; }

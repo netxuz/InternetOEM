@@ -112,6 +112,60 @@ namespace ICommunity.Antalis {
         protected global::System.Web.UI.WebControls.Label lblTitle;
         
         /// <summary>
+        /// cmb_centrodistribucion control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList cmb_centrodistribucion;
+        
+        /// <summary>
+        /// cmb_documento control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList cmb_documento;
+        
+        /// <summary>
+        /// txt_fecha_recepcion control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txt_fecha_recepcion;
+        
+        /// <summary>
+        /// txt_codigosap control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txt_codigosap;
+        
+        /// <summary>
+        /// txt_razon_social control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txt_razon_social;
+        
+        /// <summary>
+        /// txt_num_documento control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txt_num_documento;
+        
+        /// <summary>
         /// cmb_bancos control.
         /// </summary>
         /// <remarks>
@@ -137,6 +191,15 @@ namespace ICommunity.Antalis {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList cmb_facturas;
+        
+        /// <summary>
+        /// txt_importe control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txt_importe;
         
         /// <summary>
         /// btnIngresarImportes control.

@@ -9,6 +9,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Home</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+  <!-- Bootstrap core CSS -->
+  <link href="../css/bootstrap.min.css" rel="stylesheet">
+  <!-- Material Design Bootstrap -->
+  <link href="../css/mdb.min.css" rel="stylesheet">
+  <!-- Antalis -->
   <link rel="stylesheet" href="../css/antalis.css" />
   <link rel="stylesheet" href="../css/datepicker.css" />
 </head>
@@ -101,9 +106,13 @@
   </form>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <!-- Bootstrap tooltips -->
+  <script type="text/javascript" src="../js/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <!-- datepicker core JavaScript -->
   <script type="text/javascript" src="../js/bootstrap-datepicker.js" charset="UTF-8"></script>
+  <!-- MDB core JavaScript -->
+  <script type="text/javascript" src="../js/mdb.min.js"></script>
   <script>
     $(function () {
       $('#dp3').datepicker();

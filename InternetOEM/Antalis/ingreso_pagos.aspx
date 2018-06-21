@@ -126,8 +126,8 @@
         </div>
         <div class="col-md-2">
           <span>FECHA DOCUMENTO</span>
-          <div class="input-append date" id="dp4" data-date="12-02-2012" data-date-format="dd-mm-yyyy">
-            <input class="form-control" size="16" type="text" value="12-02-2012" readonly />
+          <div class="input-append date" id="dp4" data-date-format="dd-mm-yyyy">
+            <asp:TextBox ID="fch_documento" runat="server" CssClass="form-control" ReadOnly></asp:TextBox>
             <span class="add-on"><i class="icon-th"></i></span>
           </div>
         </div>
@@ -152,7 +152,7 @@
       </div>
       <div class="row">
         <div class="col-md-12">
-          <asp:Button ID="btnIngresarImportes" runat="server" class="btn btn-primary" Text="INGRESAR IMPORTES" />
+          <asp:Button ID="btnIngresarImportes" runat="server" class="btn btn-primary" Text="INGRESAR IMPORTES" OnClick="btnIngresarImportes_Click" />
         </div>
       </div>
     </div>

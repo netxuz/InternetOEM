@@ -85,7 +85,7 @@
           </asp:DropDownList>
         </div>
         <div class="col-md-3">
-          <span for="cmb_documento">TIPO DE PAGO: </span>
+          <span for="cmb_documento">TIPO DE DOCUMENTO: </span>
           <asp:DropDownList ID="cmb_documento" CssClass="form-control" runat="server">
             <asp:ListItem Text="<< Seleccione tipo de documento >>" Value=""></asp:ListItem>
             <asp:ListItem Text="Cheque al día" Value="1"></asp:ListItem>
@@ -169,6 +169,60 @@
     $(function () {
       $("#dp4").datepicker();
     });
+
+    //$("#btnIngresarImportes").click(function () {
+    //  if ($("#cmb_centrodistribucion").val() == "") {
+    //    alert('Debe seleccionar centro de distribución');
+    //    return false;
+    //  }
+
+    //  if ($("#cmb_documento").val() == "") {
+    //    alert('Debe seleccionar tipo de documento');
+    //    return false;
+    //  }
+
+    //  if ($("#txt_codigosap").val() == "") {
+    //    alert('Debe ingresar código SAP del cliente');
+    //    return false;
+    //  }
+
+    //  if ($("#txt_razon_social").val() == "") {
+    //    alert('Debe ingresar razón social del cliente');
+    //    return false;
+    //  }
+
+    //  if ($("#txt_num_documento").val() == "") {
+    //    alert('Debe ingresar código / número del documento');
+    //    return false;
+    //  }
+
+    //  if ($("#cmb_bancos").val() == "") {
+    //    alert('Debe ingresar el Banco del documento');
+    //    return false;
+    //  }
+
+    //  if ($("#fch_documento").val() == "") {
+    //    alert('Debe ingresar la fecha del documento');
+    //    return false;
+    //  }
+
+    //  if (($("#cmb_guiadespacho").val() == null) || ($("#cmb_guiadespacho").val() == 0)) {
+    //    alert('Debe seleccionar guia de despacho');
+    //    return false;
+    //  }
+
+    //  if (($("#cmb_facturas").val() == null) || ($("#cmb_facturas").val() == 0)) {
+    //    alert('Debe seleccionar numero de factura');
+    //    return false;
+    //  }
+
+    //  if (($("#txt_importe").val() == "")) {
+    //    alert('Debe ingresar el importe a pagar');
+    //    return false;
+    //  }
+
+    //});
+    
 
     $("#txt_codigosap").focusout(function () {
       //96829710

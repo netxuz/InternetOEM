@@ -1,0 +1,6 @@
+C:\Proyectos\DebtControl\InternetOEM\OnlineServices.Antalis\bin\Debug\OnlineServices.Antalis.dll
+C:\Proyectos\DebtControl\InternetOEM\OnlineServices.Antalis\bin\Debug\OnlineServices.Antalis.pdb
+C:\Proyectos\DebtControl\InternetOEM\OnlineServices.Antalis\bin\Debug\OnlineServices.Conn.dll
+C:\Proyectos\DebtControl\InternetOEM\OnlineServices.Antalis\bin\Debug\OnlineServices.Conn.pdb
+C:\Proyectos\DebtControl\InternetOEM\OnlineServices.Antalis\obj\Debug\OnlineServices.Antalis.dll
+C:\Proyectos\DebtControl\InternetOEM\OnlineServices.Antalis\obj\Debug\OnlineServices.Antalis.pdb

@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ingreso_pagos.aspx.cs" Inherits="ICommunity.Antalis.ingreso_pagos" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ingreso_pagos.aspx.cs" Inherits="ICommunity.Antalis.ingreso_pagos" EnableEventValidation="false" %>
 
 <!DOCTYPE html>
 
@@ -21,6 +21,7 @@
   <form id="form1" runat="server">
     <asp:ScriptManager ID="ScriptManager" runat="server"></asp:ScriptManager>
     <asp:HiddenField ID="hddnkey_cliente" runat="server" />
+    <asp:HiddenField ID="hdd_cod_pago" runat="server" />
     <nav class="navbar-inverse">
       <div class="container-fluid">
         <div class="navbar-header">
@@ -129,6 +130,7 @@
           <div class="input-append date" id="dp4" data-date-format="dd-mm-yyyy">
             <asp:TextBox ID="fch_documento" runat="server" CssClass="form-control" ReadOnly></asp:TextBox>
             <span class="add-on"><i class="icon-th"></i></span>
+            <asp:HiddenField ID="hdd_fchdocument" runat="server" />
           </div>
         </div>
       </div>
@@ -137,11 +139,13 @@
           <span for="cmb_guiadespacho">GUIA DESPACHO:</span>
           <asp:DropDownList ID="cmb_guiadespacho" CssClass="form-control" runat="server">
           </asp:DropDownList>
+          <asp:HiddenField ID="hddGuiasDespacho" runat="server" />
         </div>
         <div class="col-md-2">
           <span for="cmb_facturas">FACTURAS:</span>
           <asp:DropDownList ID="cmb_facturas" CssClass="form-control" runat="server">
           </asp:DropDownList>
+          <asp:HiddenField ID="hdd_facturas" runat="server" />
         </div>
         <div class="col-md-2">
           <div class="md-form" style="width: 20rem;">
@@ -170,58 +174,64 @@
       $("#dp4").datepicker();
     });
 
-    //$("#btnIngresarImportes").click(function () {
-    //  if ($("#cmb_centrodistribucion").val() == "") {
-    //    alert('Debe seleccionar centro de distribución');
-    //    return false;
-    //  }
+    $("#btnIngresarImportes").click(function () {
+      if ($("#cmb_centrodistribucion").val() == "") {
+        alert('Debe seleccionar centro de distribución');
+        return false;
+      }
 
-    //  if ($("#cmb_documento").val() == "") {
-    //    alert('Debe seleccionar tipo de documento');
-    //    return false;
-    //  }
+      if ($("#cmb_documento").val() == "") {
+        alert('Debe seleccionar tipo de documento');
+        return false;
+      }
 
-    //  if ($("#txt_codigosap").val() == "") {
-    //    alert('Debe ingresar código SAP del cliente');
-    //    return false;
-    //  }
+      if ($("#txt_codigosap").val() == "") {
+        alert('Debe ingresar código SAP del cliente');
+        return false;
+      }
 
-    //  if ($("#txt_razon_social").val() == "") {
-    //    alert('Debe ingresar razón social del cliente');
-    //    return false;
-    //  }
+      if ($("#txt_razon_social").val() == "") {
+        alert('Debe ingresar razón social del cliente');
+        return false;
+      }
 
-    //  if ($("#txt_num_documento").val() == "") {
-    //    alert('Debe ingresar código / número del documento');
-    //    return false;
-    //  }
+      if ($("#txt_num_documento").val() == "") {
+        alert('Debe ingresar código / número del documento');
+        return false;
+      }
 
-    //  if ($("#cmb_bancos").val() == "") {
-    //    alert('Debe ingresar el Banco del documento');
-    //    return false;
-    //  }
+      if ($("#cmb_bancos").val() == "") {
+        alert('Debe ingresar el Banco del documento');
+        return false;
+      }
 
-    //  if ($("#fch_documento").val() == "") {
-    //    alert('Debe ingresar la fecha del documento');
-    //    return false;
-    //  }
+      if ($("#fch_documento").val() == "") {
+        alert('Debe ingresar la fecha del documento');
+        return false;
+      } else {
+        document.getElementById("<%=hdd_fchdocument.ClientID%>").value = $("#fch_documento").val();
+      }
 
-    //  if (($("#cmb_guiadespacho").val() == null) || ($("#cmb_guiadespacho").val() == 0)) {
-    //    alert('Debe seleccionar guia de despacho');
-    //    return false;
-    //  }
+      if (($("#cmb_guiadespacho").val() == null) || ($("#cmb_guiadespacho").val() == 0)) {
+        alert('Debe seleccionar guia de despacho');
+        return false;
+      } else {
+        document.getElementById("<%=hddGuiasDespacho.ClientID%>").value = $("#cmb_guiadespacho").val();
+      }
 
-    //  if (($("#cmb_facturas").val() == null) || ($("#cmb_facturas").val() == 0)) {
-    //    alert('Debe seleccionar numero de factura');
-    //    return false;
-    //  }
+      if (($("#cmb_facturas").val() == null) || ($("#cmb_facturas").val() == 0)) {
+        alert('Debe seleccionar numero de factura');
+        return false;
+      } else {
+        document.getElementById("<%=hdd_facturas.ClientID%>").value = $("#cmb_facturas").val();
+      }
 
-    //  if (($("#txt_importe").val() == "")) {
-    //    alert('Debe ingresar el importe a pagar');
-    //    return false;
-    //  }
+      if (($("#txt_importe").val() == "")) {
+        alert('Debe ingresar el importe a pagar');
+        return false;
+      }
 
-    //});
+    });
     
 
     $("#txt_codigosap").focusout(function () {
@@ -278,7 +288,7 @@
             $.each(data.d, function (key, value) {
               var option = $(document.createElement("option"));
               option.html(value.nNumeroFactura);
-              option.val(value.nNumeroFactura);
+              option.val(value.nNumeroFactura + '|' + value.nMontoFactura);
               $("#cmb_facturas").append(option);
             });
           },

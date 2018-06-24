@@ -46,6 +46,9 @@ namespace OnlineServices.Antalis
     private string pImporteTotal;
     public string ImporteTotal { get { return pImporteTotal; } set { pImporteTotal = value; } }
 
+    private string pEstado;
+    public string Estado { get { return pEstado; } set { pEstado = value; } }
+
     private string pAccion;
     public string Accion { get { return pAccion; } set { pAccion = value; } }
 
@@ -72,7 +75,7 @@ namespace OnlineServices.Antalis
       if (oConn.bIsOpen)
       {
         cSQL = new StringBuilder();
-        cSQL.Append("select cod_pago,cod_user,nkey_cliente,cod_centrodist,cod_tipo_pago,fech_recepcion,horario,cod_sap,nom_deudor,cant_documentos,importe_total ");
+        cSQL.Append("select cod_pago,cod_user,nkey_cliente,cod_centrodist,cod_tipo_pago,fech_recepcion,horario,cod_sap,nom_deudor,cant_documentos,importe_total,estado ");
         cSQL.Append(" from ant_pagos");
 
         if (!string.IsNullOrEmpty(pCodPagos))
@@ -110,8 +113,8 @@ namespace OnlineServices.Antalis
               cSQL = new StringBuilder();
 
               pCodPagos = oConn.getTableCod("ant_pagos", "cod_pago", oConn);
-              cSQL.Append("insert into ant_pagos(cod_pago,cod_user,nkey_cliente,cod_centrodist,cod_tipo_pago,fech_recepcion,horario,cod_sap,nom_deudor) values( ");
-              cSQL.Append("@cod_pago,@cod_user,@nkey_cliente,@cod_centrodist,@cod_tipo_pago,@fech_recepcion,@horario,@cod_sap,@nom_deudor) ");
+              cSQL.Append("insert into ant_pagos(cod_pago,cod_user,nkey_cliente,cod_centrodist,cod_tipo_pago,fech_recepcion,horario,cod_sap,nom_deudor,estado) values( ");
+              cSQL.Append("@cod_pago,@cod_user,@nkey_cliente,@cod_centrodist,@cod_tipo_pago,@fech_recepcion,@horario,@cod_sap,@nom_deudor,@estado) ");
               oParam.AddParameters("@cod_pago", pCodPagos, TypeSQL.Numeric);
               oParam.AddParameters("@cod_user", pCodUsuario, TypeSQL.Numeric);
               oParam.AddParameters("@nkey_cliente", pNKeyCliente, TypeSQL.Numeric);
@@ -121,7 +124,12 @@ namespace OnlineServices.Antalis
               oParam.AddParameters("@horario", pHorario, TypeSQL.Char);
               oParam.AddParameters("@cod_sap", pCodSAP, TypeSQL.Varchar);
               oParam.AddParameters("@nom_deudor", pNombreDeudor, TypeSQL.Varchar);
+              oParam.AddParameters("@estado", pEstado, TypeSQL.Char);
               oConn.Insert(cSQL.ToString(), oParam);
+
+              if (!string.IsNullOrEmpty(oConn.Error)) {
+                pError = oConn.Error;
+              }
 
               break;
             case "EDITAR":

@@ -71,7 +71,7 @@
           <asp:Label ID="lblTitle" runat="server" CssClass="lblTitle" Text="PAGOS ANTALIS"></asp:Label>
         </div>
         <div class="col-md-6">
-          <asp:Button ID="btnIngresarPago" runat="server" class="btn btn-primary" Text="Ingresar Pago" OnClick="btnIngresarPago_Click"  />
+          <asp:Button ID="btnIngresarPago" runat="server" class="btn btn-primary" Text="Ingresar Pago" OnClick="btnIngresarPago_Click" />
         </div>
         <div class="col-md-12">
           <hr style="#b8b8b8" />
@@ -96,7 +96,19 @@
           <asp:Button ID="idBuscar" runat="server" Text="Buscar" CssClass="btn btn-primary" Width="100px" />
         </div>
       </div>
-      <div id="idGrilla" runat="server" visible="false">
+      <div class="row">
+        <div class="container">
+          <asp:GridView ID="gdPagos" runat="server" CssClass="table table-hover" DataKeyNames="cod_pago" BorderStyle="Solid" 
+            BorderWidth="0" GridLines="Horizontal" AutoGenerateColumns="false" AutoGenerateSelectButton="true" OnSelectedIndexChanged="gdPagos_SelectedIndexChanged">
+            <Columns>
+              <asp:BoundField DataField="cod_sap" />
+              <asp:BoundField DataField="nom_deudor" />
+              <asp:BoundField DataField="cod_centrodist" />
+              <asp:BoundField DataField="cod_tipo_pago" />
+              <asp:BoundField DataField="fech_recepcion" />
+            </Columns>
+          </asp:GridView>
+        </div>
       </div>
       <div style="height: 30px;">
         <br />

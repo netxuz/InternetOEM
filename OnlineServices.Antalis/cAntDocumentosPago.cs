@@ -126,9 +126,13 @@ namespace OnlineServices.Antalis
               oParam.AddParameters("@cod_banco", pCodBanco, TypeSQL.Numeric);
               oParam.AddParameters("@nom_banco", pNomBanco, TypeSQL.Varchar);
               oParam.AddParameters("@fch_documento", pFchDocumento, TypeSQL.DateTime);
-              oParam.AddParameters("@num_guia_despacho", pNumGuiaDespacho, TypeSQL.Int);
+              oParam.AddParameters("@num_guia_despacho", pNumGuiaDespacho, TypeSQL.Numeric);
               oParam.AddParameters("@importe", pImporte, TypeSQL.Numeric);
               oConn.Insert(cSQL.ToString(), oParam);
+
+              if (!string.IsNullOrEmpty(oConn.Error)) {
+                pError = oConn.Error;
+              }
 
               break;
             case "EDITAR":

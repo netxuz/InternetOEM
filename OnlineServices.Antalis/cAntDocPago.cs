@@ -73,11 +73,15 @@ namespace OnlineServices.Antalis
           {
             case "CREAR":
               cSQL = new StringBuilder();
-              cSQL.Append("insert into ant_doc_pago(@cod_documento, @cod_factura) values( ");
+              cSQL.Append("insert into ant_doc_pago(cod_documento, cod_factura) values( ");
               cSQL.Append("@cod_documento, @cod_factura) ");
               oParam.AddParameters("@cod_documento", pCodDocumento, TypeSQL.Numeric);
               oParam.AddParameters("@cod_factura", pCodFactura, TypeSQL.Numeric);
               oConn.Insert(cSQL.ToString(), oParam);
+
+              if (!string.IsNullOrEmpty(oConn.Error)) {
+                pError = oConn.Error;
+              }
 
               break;
             case "EDITAR":

@@ -33,6 +33,10 @@ namespace ICommunity.Antalis
       getMenu(IndClasificacionRiesgo, oIsUsuario.CodUsuario, "6");
 
       getMenuAntalis(indAntalis, oIsUsuario.CodUsuario);
+
+      if (!IsPostBack) {
+        onLoadGrid();
+      }
     }
 
     protected void getMenuAntalis(System.Web.UI.HtmlControls.HtmlGenericControl oHtmControl, string pCoduser)
@@ -99,6 +103,23 @@ namespace ICommunity.Antalis
     protected void btnIngresarPago_Click(object sender, EventArgs e)
     {
       Response.Redirect("ingreso_pagos.aspx");
+    }
+
+    protected void onLoadGrid() {
+      DBConn oConn = new DBConn();
+      if (oConn.Open()) {
+        cAntPagos oPagos = new cAntPagos(ref oConn);
+        gdPagos.DataSource = oPagos.Get();
+        gdPagos.DataBind();
+        oConn.Close();
+      }
+
+    }
+
+    protected void gdPagos_SelectedIndexChanged(object sender, EventArgs e)
+    {
+      string pCodPago = gdPagos.SelectedDataKey.Value.ToString();
+      Response.Redirect(String.Format("ingreso_pagos.aspx?CodPago={0}", pCodPago));
     }
   }
 }

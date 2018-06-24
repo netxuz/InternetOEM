@@ -40,6 +40,15 @@ namespace ICommunity.Antalis {
         protected global::System.Web.UI.WebControls.HiddenField hddnkey_cliente;
         
         /// <summary>
+        /// hdd_cod_pago control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdd_cod_pago;
+        
+        /// <summary>
         /// idReportePago control.
         /// </summary>
         /// <remarks>
@@ -184,6 +193,15 @@ namespace ICommunity.Antalis {
         protected global::System.Web.UI.WebControls.TextBox fch_documento;
         
         /// <summary>
+        /// hdd_fchdocument control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdd_fchdocument;
+        
+        /// <summary>
         /// cmb_guiadespacho control.
         /// </summary>
         /// <remarks>
@@ -193,6 +211,15 @@ namespace ICommunity.Antalis {
         protected global::System.Web.UI.WebControls.DropDownList cmb_guiadespacho;
         
         /// <summary>
+        /// hddGuiasDespacho control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hddGuiasDespacho;
+        
+        /// <summary>
         /// cmb_facturas control.
         /// </summary>
         /// <remarks>
@@ -200,6 +227,15 @@ namespace ICommunity.Antalis {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList cmb_facturas;
+        
+        /// <summary>
+        /// hdd_facturas control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdd_facturas;
         
         /// <summary>
         /// txt_importe control.

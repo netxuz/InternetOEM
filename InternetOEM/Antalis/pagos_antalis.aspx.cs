@@ -121,5 +121,43 @@ namespace ICommunity.Antalis
       string pCodPago = gdPagos.SelectedDataKey.Value.ToString();
       Response.Redirect(String.Format("ingreso_pagos.aspx?CodPago={0}", pCodPago));
     }
+
+    protected void gdPagos_RowDeleting(object sender, GridViewDeleteEventArgs e)
+    {
+      string pCodPago = gdPagos.DataKeys[e.RowIndex].Value.ToString();
+
+      DBConn oConn = new DBConn();
+      if (oConn.Open()) {
+        cAntDocumentosPago oDocumentosPago = new cAntDocumentosPago(ref oConn);
+        oDocumentosPago.CodPagos = pCodPago;
+        DataTable dtDocPago = oDocumentosPago.Get();
+        if (dtDocPago != null) {
+          foreach (DataRow oRow in dtDocPago.Rows) {
+            cAntFactura oFactura = new cAntFactura(ref oConn);
+            oFactura.CodDocumento = oRow["cod_documento"].ToString();
+            oFactura.Accion = "ELIMINAR";
+            oFactura.Put();
+          }
+        }
+        dtDocPago = null;
+        oDocumentosPago.Accion = "ELIMINAR";
+        oDocumentosPago.Put();
+
+        cAntPagos oPagos = new cAntPagos(ref oConn);
+        oPagos.CodPagos = pCodPago;
+        oPagos.Accion = "ELIMINAR";
+        oPagos.Put();
+
+      }
+      oConn.Close();
+
+      onLoadGrid();
+    }
+
+    protected void gdPagos_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+      gdPagos.PageIndex = e.NewPageIndex;
+      onLoadGrid();
+    }
   }
 }

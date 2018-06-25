@@ -19,6 +19,12 @@ namespace OnlineServices.Antalis
     private string pCodPagos;
     public string CodPagos { get { return pCodPagos; } set { pCodPagos = value; } }
 
+    private string pCodSAP;
+    public string CodSAP { get { return pCodSAP; } set { pCodSAP = value; } }
+
+    private string pNombreDeudor;
+    public string NombreDeudor { get { return pNombreDeudor; } set { pNombreDeudor = value; } }
+
     private string pNumDocumento;
     public string NumDocumento { get { return pNumDocumento; } set { pNumDocumento = value; } }
 
@@ -64,7 +70,7 @@ namespace OnlineServices.Antalis
       if (oConn.bIsOpen)
       {
         cSQL = new StringBuilder();
-        cSQL.Append("select cod_documento, cod_pago, num_documento, cod_banco, nom_banco, fch_documento, num_guia_despacho, importe  ");
+        cSQL.Append("select cod_documento, cod_pago, cod_sap, nom_deudor, num_documento, cod_banco, nom_banco, fch_documento, num_guia_despacho, importe  ");
         cSQL.Append(" from ant_documentos_pago ");
 
         if (!string.IsNullOrEmpty(pCodDocumento))
@@ -102,6 +108,46 @@ namespace OnlineServices.Antalis
       }
     }
 
+    public DataTable GetDocFacturas()
+    {
+      oParam = new DBConn.SQLParameters(3);
+      DataTable dtData;
+      StringBuilder cSQL;
+      string Condicion = " and ";
+
+      if (oConn.bIsOpen)
+      {
+        cSQL = new StringBuilder();
+        cSQL.Append("select a.cod_documento, a.cod_pago, a.cod_sap, a.nom_deudor, a.num_documento, a.cod_banco, a.nom_banco, a.fch_documento, a.num_guia_despacho, a.importe, b.cod_factura, b.num_factura, b.valor_factura, b.saldo_factura ");
+        cSQL.Append(" from ant_documentos_pago a, ant_factura b where a.cod_documento = b.cod_documento ");
+
+        if (!string.IsNullOrEmpty(pCodDocumento))
+        {
+          cSQL.Append(Condicion);
+          Condicion = " and ";
+          cSQL.Append(" a.cod_documento = @cod_documento  ");
+          oParam.AddParameters("@cod_documento", pCodDocumento, TypeSQL.Numeric);
+        }
+
+        if (!string.IsNullOrEmpty(pCodPagos))
+        {
+          cSQL.Append(Condicion);
+          Condicion = " and ";
+          cSQL.Append(" a.cod_pago = @cod_pago  ");
+          oParam.AddParameters("@cod_pago", pCodPagos, TypeSQL.Numeric);
+        }
+
+        dtData = oConn.Select(cSQL.ToString(), oParam);
+        pError = oConn.Error;
+        return dtData;
+      }
+      else
+      {
+        pError = "Conexion Cerrada";
+        return null;
+      }
+    }
+
     public void Put()
     {
       oParam = new DBConn.SQLParameters(10);
@@ -118,10 +164,12 @@ namespace OnlineServices.Antalis
               cSQL = new StringBuilder();
 
               pCodDocumento = oConn.getTableCod("ant_documentos_pago", "cod_documento", oConn);
-              cSQL.Append("insert into ant_documentos_pago(cod_documento, cod_pago, num_documento, cod_banco, nom_banco, fch_documento, num_guia_despacho, importe) values( ");
-              cSQL.Append("@cod_documento, @cod_pago, @num_documento, @cod_banco, @nom_banco, @fch_documento, @num_guia_despacho, @importe) ");
+              cSQL.Append("insert into ant_documentos_pago(cod_documento, cod_pago, cod_sap, nom_deudor, num_documento, cod_banco, nom_banco, fch_documento, num_guia_despacho, importe) values( ");
+              cSQL.Append("@cod_documento, @cod_pago, @cod_sap, @nom_deudor, @num_documento, @cod_banco, @nom_banco, @fch_documento, @num_guia_despacho, @importe) ");
               oParam.AddParameters("@cod_documento", pCodDocumento, TypeSQL.Numeric);
               oParam.AddParameters("@cod_pago", pCodPagos, TypeSQL.Numeric);
+              oParam.AddParameters("@cod_sap", pCodSAP, TypeSQL.Numeric);
+              oParam.AddParameters("@nom_deudor", pNombreDeudor, TypeSQL.Varchar);
               oParam.AddParameters("@num_documento", pNumDocumento, TypeSQL.Varchar);
               oParam.AddParameters("@cod_banco", pCodBanco, TypeSQL.Numeric);
               oParam.AddParameters("@nom_banco", pNomBanco, TypeSQL.Varchar);
@@ -140,13 +188,12 @@ namespace OnlineServices.Antalis
 
               break;
             case "ELIMINAR":
-              string Condicion = " where ";
+              string Condicion = " and ";
 
               cSQL = new StringBuilder();
               cSQL.Append("delete from ant_documentos_pago where cod_documento = @cod_documento ");
               oParam.AddParameters("@cod_documento", pCodDocumento, TypeSQL.Numeric);
-              oConn.Delete(cSQL.ToString(), oParam);
-
+              
               if (!string.IsNullOrEmpty(pCodPagos))
               {
                 cSQL.Append(Condicion);
@@ -154,6 +201,8 @@ namespace OnlineServices.Antalis
                 cSQL.Append(" cod_pago = @cod_pago  ");
                 oParam.AddParameters("@cod_pago", pCodPagos, TypeSQL.Numeric);
               }
+
+              oConn.Delete(cSQL.ToString(), oParam);
 
               break;
           }

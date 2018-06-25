@@ -37,7 +37,8 @@ namespace ICommunity.Antalis
       {
         hdd_cod_pago.Value = oWeb.GetData("CodPago");
 
-        if (!string.IsNullOrEmpty(hdd_cod_pago.Value)) {
+        if (string.IsNullOrEmpty(hdd_cod_pago.Value))
+        {
           txt_fecha_recepcion.Text = DateTime.Now.Day.ToString() + "/" + DateTime.Now.Month.ToString() + "/" + DateTime.Now.Year.ToString();
         }
 
@@ -67,6 +68,7 @@ namespace ICommunity.Antalis
           }
           dtCntDst = null;
 
+          cmb_bancos.Items.Add(new ListItem("<< Seleccione Banco >>", string.Empty));
           cAntBancos oBancos = new cAntBancos(ref oConn);
           DataTable dtBancos = oBancos.Get();
           if (dtBancos != null)
@@ -78,42 +80,45 @@ namespace ICommunity.Antalis
           }
           dtBancos = null;
 
-
-          cmb_bancos.Items.Add(new ListItem("<< Seleccione Banco >>", string.Empty));
-
-          cAntPagos oPagos = new cAntPagos(ref oConn);
-          oPagos.CodPagos = hdd_cod_pago.Value;
-          DataTable dtPagos = oPagos.Get();
-          if (dtPagos != null)
+          if (!string.IsNullOrEmpty(hdd_cod_pago.Value))
           {
-            if (dtPagos.Rows.Count > 0)
+            cAntPagos oPagos = new cAntPagos(ref oConn);
+            oPagos.CodPagos = hdd_cod_pago.Value;
+            DataTable dtPagos = oPagos.Get();
+            if (dtPagos != null)
             {
-              cmb_centrodistribucion.Items.FindByValue(dtPagos.Rows[0]["cod_centrodist"].ToString()).Selected = true; ;
-              cmb_centrodistribucion.Enabled = false;
-              cmb_documento.Items.FindByValue(dtPagos.Rows[0]["cod_tipo_pago"].ToString()).Selected = true;
-              cmb_documento.Enabled = false;
-              txt_fecha_recepcion.Text = dtPagos.Rows[0]["fech_recepcion"].ToString();
-              txt_codigosap.Text = dtPagos.Rows[0]["cod_sap"].ToString();
-              txt_codigosap.Enabled = false;
-              txt_razon_social.Text = dtPagos.Rows[0]["nom_deudor"].ToString();
-              txt_razon_social.Enabled = false;
-              cmb_guiadespacho.Items.Add(new ListItem("<< Seleccione Guia Despacho >>", string.Empty));
+              if (dtPagos.Rows.Count > 0)
+              {
+                cmb_centrodistribucion.Items.FindByValue(dtPagos.Rows[0]["cod_centrodist"].ToString()).Selected = true; ;
+                cmb_centrodistribucion.Enabled = false;
+                cmb_documento.Items.FindByValue(dtPagos.Rows[0]["cod_tipo_pago"].ToString()).Selected = true;
+                cmb_documento.Enabled = false;
+                txt_fecha_recepcion.Text = dtPagos.Rows[0]["fech_recepcion"].ToString();
+                //txt_codigosap.Text = dtPagos.Rows[0]["cod_sap"].ToString();
+                //txt_codigosap.Enabled = false;
+                //txt_razon_social.Text = dtPagos.Rows[0]["nom_deudor"].ToString();
+                //txt_razon_social.Enabled = false;
+                //cmb_guiadespacho.Items.Add(new ListItem("<< Seleccione Guia Despacho >>", string.Empty));
 
-              cGuiasFacturas oGuiasFacturas = new cGuiasFacturas(ref oConn);
-              oGuiasFacturas.NKeyCliente = oIsUsuario.CodNkey;
-              oGuiasFacturas.NCodigoDeudor = txt_codigosap.Text;
-              DataTable dtGuias = oGuiasFacturas.GetGuiaDespacho();
-              if (dtGuias != null) {
+                //cGuiasFacturas oGuiasFacturas = new cGuiasFacturas(ref oConn);
+                //oGuiasFacturas.NKeyCliente = oIsUsuario.CodNkey;
+                //oGuiasFacturas.NCodigoDeudor = txt_codigosap.Text;
+                //DataTable dtGuias = oGuiasFacturas.GetGuiaDespacho();
+                //if (dtGuias != null)
+                //{
 
-                foreach (DataRow oRow in dtGuias.Rows) {
-                  cmb_guiadespacho.Items.Add(new ListItem(oRow["guidespacho"].ToString(), oRow["guidespacho"].ToString()));
-                }
+                //  foreach (DataRow oRow in dtGuias.Rows)
+                //  {
+                //    cmb_guiadespacho.Items.Add(new ListItem(oRow["guidespacho"].ToString(), oRow["guidespacho"].ToString()));
+                //  }
+                //}
+
               }
-
             }
-          }
-          dtPagos = null;
+            dtPagos = null;
 
+            onLoadGrid();
+          }
 
           oConn.Close();
         }
@@ -265,16 +270,17 @@ namespace ICommunity.Antalis
         oPagos.CodCentroDist = pCodCentroDist;
         oPagos.CodTipoPago = pCodTipoPago;
         oPagos.FechRecepcion = pFchRecepcion;
-        oPagos.CodSAP = pCodSAP;
-        oPagos.NombreDeudor = sRazonSocial;
         oPagos.Estado = "A";
         oPagos.Accion = "CREAR";
         oPagos.Put();
 
         string pCodPago = oPagos.CodPagos;
+        hdd_cod_pago.Value = pCodPago;
 
         cAntDocumentosPago oAntDocumentosPago = new cAntDocumentosPago(ref oConn);
         oAntDocumentosPago.CodPagos = pCodPago;
+        oAntDocumentosPago.CodSAP = pCodSAP;
+        oAntDocumentosPago.NombreDeudor = sRazonSocial;
         oAntDocumentosPago.NumDocumento = pNumOperacion;
         oAntDocumentosPago.CodBanco = pCodBanco;
         oAntDocumentosPago.FchDocumento = pFchDocumento;
@@ -287,6 +293,7 @@ namespace ICommunity.Antalis
 
         cAntFactura oFactura = new cAntFactura(ref oConn);
         oFactura.NumFactura = pNumFactura;
+        oFactura.CodDocumento = pCodDocumento;
         oFactura.ValorFactura = pValor;
         oFactura.SaldoFactura = (int.Parse(pValor) - int.Parse(pImporte)).ToString();
         oFactura.Accion = "CREAR";
@@ -294,14 +301,129 @@ namespace ICommunity.Antalis
 
         string pCodFactura = oFactura.CodFactura;
 
-        cAntDocPago oDocPago = new cAntDocPago(ref oConn);
-        oDocPago.CodFactura = pCodFactura;
-        oDocPago.CodDocumento = pCodDocumento;
-        oDocPago.Accion = "CREAR";
-        oDocPago.Put();
+        onLoadGrid();
+
+        oConn.Close();
+
+        cmb_centrodistribucion.Items.FindByValue(string.Empty).Selected = true;
+        cmb_documento.Items.FindByValue(string.Empty).Selected = true;
+        txt_codigosap.Text = string.Empty;
+        txt_razon_social.Text = string.Empty;
+        txt_num_documento.Text = string.Empty;
+        //cmb_bancos.Items.FindByValue(string.Empty).Selected = true;
+        hdd_fchdocument.Value = string.Empty;
+        hddGuiasDespacho.Value = string.Empty;
+        hdd_facturas.Value = string.Empty;
+        txt_importe.Text = string.Empty;
+
+      }
+    }
+
+    protected void onLoadGrid()
+    {
+      DBConn oConn = new DBConn();
+      if (oConn.Open())
+      {
+        cAntDocumentosPago oDocumentosPago = new cAntDocumentosPago(ref oConn);
+        oDocumentosPago.CodPagos = hdd_cod_pago.Value;
+        gdPagos.DataSource = oDocumentosPago.GetDocFacturas();
+        gdPagos.DataBind();
 
         oConn.Close();
       }
+    }
+
+    protected void gdPagos_SelectedIndexChanged(object sender, EventArgs e)
+    {
+      string pCodDocumento = gdPagos.SelectedDataKey.Value.ToString();
+      DBConn oConn = new DBConn();
+      if (oConn.Open()) {
+        cAntDocumentosPago oAntDocumentosPago = new cAntDocumentosPago(ref oConn);
+        oAntDocumentosPago.CodDocumento = pCodDocumento;
+        DataTable dtDocPago = oAntDocumentosPago.GetDocFacturas();
+
+        if (dtDocPago != null) {
+          if (dtDocPago.Rows.Count > 0) {
+            hdd_cod_documento.Value = dtDocPago.Rows[0]["cod_documento"].ToString();
+            txt_codigosap.Text = dtDocPago.Rows[0]["cod_sap"].ToString();
+            txt_codigosap.Enabled = false;
+            txt_razon_social.Text = dtDocPago.Rows[0]["nom_deudor"].ToString();
+            txt_num_documento.Text = dtDocPago.Rows[0]["num_documento"].ToString();
+            cmb_bancos.SelectedValue = dtDocPago.Rows[0]["cod_banco"].ToString();
+
+            cmb_guiadespacho.Items.Clear();
+            cGuiasFacturas oGuiasFacturas = new cGuiasFacturas(ref oConn);
+            oGuiasFacturas.NKeyCliente = oIsUsuario.CodNkey;
+            oGuiasFacturas.NCodigoDeudor = dtDocPago.Rows[0]["cod_sap"].ToString();
+            DataTable dtGuias = oGuiasFacturas.GetGuiaDespacho();
+            if (dtGuias != null)
+            {
+              cmb_guiadespacho.Items.Add(new ListItem("<< Seleccione Guia Despacho >>", string.Empty));
+              foreach (DataRow oRow in dtGuias.Rows)
+              {
+                cmb_guiadespacho.Items.Add(new ListItem(oRow["guidespacho"].ToString(), oRow["guidespacho"].ToString()));
+              }
+            }
+            dtGuias = null;
+            cmb_guiadespacho.Items.FindByValue(dtDocPago.Rows[0]["num_guia_despacho"].ToString()).Selected = true;
+            cmb_guiadespacho.Enabled = false;
+
+            cmb_facturas.Items.Clear();
+            cGuiasFacturas Facturas = new cGuiasFacturas(ref oConn);
+            Facturas.GuiaDespacho = dtDocPago.Rows[0]["num_guia_despacho"].ToString();
+            DataTable dtFacturas = Facturas.GetFacturas();
+            if (dtFacturas != null)
+            {
+              cmb_facturas.Items.Add(new ListItem("<< Seleccione Factura >>", string.Empty));
+              foreach (DataRow oRow in dtFacturas.Rows)
+              {
+                cmb_facturas.Items.Add(new ListItem(oRow["nnumerofactura"].ToString(), oRow["nnumerofactura"].ToString() + "|" + oRow["nmontofactura"].ToString()));
+              }
+            }
+            dtFacturas = null;
+            cmb_facturas.Items.FindByValue(dtDocPago.Rows[0]["num_factura"].ToString() + "|" + dtDocPago.Rows[0]["valor_factura"].ToString()).Selected = true;
+            cmb_facturas.Enabled = false;
+
+            fch_documento.Text = dtDocPago.Rows[0]["fch_documento"].ToString();
+            txt_importe.Text = dtDocPago.Rows[0]["importe"].ToString();
+
+          }
+        }
+        dtDocPago = null;
+
+
+        oConn.Close();
+      }
+
+    }
+
+    protected void gdPagos_RowDeleting(object sender, GridViewDeleteEventArgs e)
+    {
+      string pCodDocumento = gdPagos.DataKeys[e.RowIndex].Value.ToString();
+
+      DBConn oConn = new DBConn();
+      if (oConn.Open()) {
+        cAntFactura oFactura = new cAntFactura(ref oConn);
+        oFactura.CodDocumento = pCodDocumento;
+        oFactura.Accion = "ELIMINAR";
+        oFactura.Put();
+
+        cAntDocumentosPago oDocumentosPago = new cAntDocumentosPago(ref oConn);
+        oDocumentosPago.CodDocumento = pCodDocumento;
+        oDocumentosPago.Accion = "ELIMINAR";
+        oDocumentosPago.Put();
+        
+        oConn.Close();
+      }
+
+      onLoadGrid();
+
+    }
+
+    protected void gdPagos_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+      gdPagos.PageIndex = e.NewPageIndex;
+      onLoadGrid();
     }
   }
 

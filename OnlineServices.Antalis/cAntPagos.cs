@@ -34,12 +34,6 @@ namespace OnlineServices.Antalis
     private string pHorario;
     public string Horario { get { return pHorario; } set { pHorario = value; } }
 
-    private string pCodSAP;
-    public string CodSAP { get { return pCodSAP; } set { pCodSAP = value; } }
-
-    private string pNombreDeudor;
-    public string NombreDeudor { get { return pNombreDeudor; } set { pNombreDeudor = value; } }
-
     private string pCantDocumentos;
     public string CantDocumentos { get { return pCantDocumentos; } set { pCantDocumentos = value; } }
 
@@ -75,7 +69,7 @@ namespace OnlineServices.Antalis
       if (oConn.bIsOpen)
       {
         cSQL = new StringBuilder();
-        cSQL.Append("select cod_pago,cod_user,nkey_cliente,cod_centrodist,cod_tipo_pago,fech_recepcion,horario,cod_sap,nom_deudor,cant_documentos,importe_total,estado ");
+        cSQL.Append("select cod_pago,cod_user,nkey_cliente,cod_centrodist,cod_tipo_pago,fech_recepcion,horario,cant_documentos,importe_total,estado ");
         cSQL.Append(" from ant_pagos");
 
         if (!string.IsNullOrEmpty(pCodPagos))
@@ -113,8 +107,8 @@ namespace OnlineServices.Antalis
               cSQL = new StringBuilder();
 
               pCodPagos = oConn.getTableCod("ant_pagos", "cod_pago", oConn);
-              cSQL.Append("insert into ant_pagos(cod_pago,cod_user,nkey_cliente,cod_centrodist,cod_tipo_pago,fech_recepcion,horario,cod_sap,nom_deudor,estado) values( ");
-              cSQL.Append("@cod_pago,@cod_user,@nkey_cliente,@cod_centrodist,@cod_tipo_pago,@fech_recepcion,@horario,@cod_sap,@nom_deudor,@estado) ");
+              cSQL.Append("insert into ant_pagos(cod_pago,cod_user,nkey_cliente,cod_centrodist,cod_tipo_pago,fech_recepcion,horario,estado) values( ");
+              cSQL.Append("@cod_pago,@cod_user,@nkey_cliente,@cod_centrodist,@cod_tipo_pago,@fech_recepcion,@horario,@estado) ");
               oParam.AddParameters("@cod_pago", pCodPagos, TypeSQL.Numeric);
               oParam.AddParameters("@cod_user", pCodUsuario, TypeSQL.Numeric);
               oParam.AddParameters("@nkey_cliente", pNKeyCliente, TypeSQL.Numeric);
@@ -122,8 +116,6 @@ namespace OnlineServices.Antalis
               oParam.AddParameters("@cod_tipo_pago", pCodTipoPago, TypeSQL.Numeric);
               oParam.AddParameters("@fech_recepcion", pFechRecepcion, TypeSQL.DateTime);
               oParam.AddParameters("@horario", pHorario, TypeSQL.Char);
-              oParam.AddParameters("@cod_sap", pCodSAP, TypeSQL.Varchar);
-              oParam.AddParameters("@nom_deudor", pNombreDeudor, TypeSQL.Varchar);
               oParam.AddParameters("@estado", pEstado, TypeSQL.Char);
               oConn.Insert(cSQL.ToString(), oParam);
 
@@ -139,7 +131,7 @@ namespace OnlineServices.Antalis
             case "ELIMINAR":
               cSQL = new StringBuilder();
               cSQL.Append("delete from ant_pagos where cod_pago = @cod_pago");
-              oParam.AddParameters("@cod_codigo", pCodPagos, TypeSQL.Numeric);
+              oParam.AddParameters("@cod_pago", pCodPagos, TypeSQL.Numeric);
               oConn.Delete(cSQL.ToString(), oParam);
 
               break;

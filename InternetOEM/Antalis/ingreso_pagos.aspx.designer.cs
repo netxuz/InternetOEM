@@ -49,6 +49,24 @@ namespace ICommunity.Antalis {
         protected global::System.Web.UI.WebControls.HiddenField hdd_cod_pago;
         
         /// <summary>
+        /// hdd_cod_documento control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdd_cod_documento;
+        
+        /// <summary>
+        /// hdd_cod_factura control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdd_cod_factura;
+        
+        /// <summary>
         /// idReportePago control.
         /// </summary>
         /// <remarks>
@@ -254,5 +272,14 @@ namespace ICommunity.Antalis {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnIngresarImportes;
+        
+        /// <summary>
+        /// gdPagos control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gdPagos;
     }
 }

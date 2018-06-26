@@ -16,9 +16,6 @@ namespace OnlineServices.Antalis
     private string pCodFactura;
     public string CodFactura { get { return pCodFactura; } set { pCodFactura = value; } }
 
-    private string pCodDocumento;
-    public string CodDocumento { get { return pCodDocumento; } set { pCodDocumento = value; } }
-
     private string pNumFactura;
     public string NumFactura { get { return pNumFactura; } set { pNumFactura = value; } }
 
@@ -99,10 +96,9 @@ namespace OnlineServices.Antalis
               cSQL = new StringBuilder();
 
               pCodFactura = oConn.getTableCod("ant_factura", "cod_factura", oConn);
-              cSQL.Append("insert into ant_factura(cod_factura, cod_documento, num_factura, valor_factura, saldo_factura) values( ");
-              cSQL.Append("@cod_factura, @cod_documento, @num_factura, @valor_factura, @saldo_factura) ");
+              cSQL.Append("insert into ant_factura(cod_factura, num_factura, valor_factura, saldo_factura) values( ");
+              cSQL.Append("@cod_factura, @num_factura, @valor_factura, @saldo_factura) ");
               oParam.AddParameters("@cod_factura", pCodFactura, TypeSQL.Numeric);
-              oParam.AddParameters("@cod_documento", pCodDocumento, TypeSQL.Numeric);
               oParam.AddParameters("@num_factura", pNumFactura, TypeSQL.Numeric);
               oParam.AddParameters("@valor_factura", pValorFactura, TypeSQL.Numeric);
               oParam.AddParameters("@saldo_factura", pSaldoFactura, TypeSQL.Numeric);
@@ -110,7 +106,17 @@ namespace OnlineServices.Antalis
 
               break;
             case "EDITAR":
-
+              cSQL = new StringBuilder();
+              cSQL.Append("update ant_factura set ");
+              if (!string.IsNullOrEmpty(pSaldoFactura))
+              {
+                cSQL.Append(" saldo_factura = @saldo_factura");
+                oParam.AddParameters("@saldo_factura", pSaldoFactura, TypeSQL.Numeric);
+                sComa = ", ";
+              }
+              cSQL.Append(" where cod_factura = @cod_factura ");
+              oParam.AddParameters("@cod_factura", pCodFactura, TypeSQL.Numeric);
+              oConn.Update(cSQL.ToString(), oParam);
 
               break;
             case "ELIMINAR":
@@ -125,14 +131,6 @@ namespace OnlineServices.Antalis
                 Condicion = " and ";
                 cSQL.Append(" cod_factura = @cod_factura  ");
                 oParam.AddParameters("@cod_factura", pCodFactura, TypeSQL.Numeric);
-              }
-              
-              if (!string.IsNullOrEmpty(pCodDocumento))
-              {
-                cSQL.Append(Condicion);
-                Condicion = " and ";
-                cSQL.Append(" cod_documento = @cod_documento  ");
-                oParam.AddParameters("@cod_documento", pCodDocumento, TypeSQL.Numeric);
               }
 
               if (!string.IsNullOrEmpty(pNumFactura))

@@ -263,22 +263,55 @@ namespace ICommunity.Antalis
       DBConn oConn = new DBConn();
       if (oConn.Open())
       {
+        if (string.IsNullOrEmpty(hdd_cod_pago.Value))
+        {
+          cAntPagos oPagos = new cAntPagos(ref oConn);
+          oPagos.CodUsuario = oIsUsuario.CodUsuario;
+          oPagos.NKeyCliente = oIsUsuario.CodNkey;
+          oPagos.CodCentroDist = pCodCentroDist;
+          oPagos.CodTipoPago = pCodTipoPago;
+          oPagos.FechRecepcion = pFchRecepcion;
+          oPagos.Estado = "A";
+          oPagos.Accion = "CREAR";
+          oPagos.Put();
 
-        cAntPagos oPagos = new cAntPagos(ref oConn);
-        oPagos.CodUsuario = oIsUsuario.CodUsuario;
-        oPagos.NKeyCliente = oIsUsuario.CodNkey;
-        oPagos.CodCentroDist = pCodCentroDist;
-        oPagos.CodTipoPago = pCodTipoPago;
-        oPagos.FechRecepcion = pFchRecepcion;
-        oPagos.Estado = "A";
-        oPagos.Accion = "CREAR";
-        oPagos.Put();
+          string pCodPago = oPagos.CodPagos;
+          hdd_cod_pago.Value = pCodPago;
+        }
 
-        string pCodPago = oPagos.CodPagos;
-        hdd_cod_pago.Value = pCodPago;
+        string pCodFactura = string.Empty;
+
+        cAntFactura oFactura = new cAntFactura(ref oConn);
+        oFactura.NumFactura = pNumFactura;
+        DataTable dtFactura = oFactura.Get();
+        if (dtFactura != null) {
+          if (dtFactura.Rows.Count > 0)
+          {
+            pCodFactura = dtFactura.Rows[0]["cod_factura"].ToString();
+            pValor = dtFactura.Rows[0]["saldo_factura"].ToString();
+
+            if (int.Parse(pValor) > int.Parse(pImporte))
+              oFactura.SaldoFactura = (int.Parse(pValor) - int.Parse(pImporte)).ToString();
+            else 
+              oFactura.SaldoFactura = "0";
+            oFactura.CodFactura = pCodFactura;
+            oFactura.Accion = "EDITAR";
+            oFactura.Put();
+          }
+          else {
+            oFactura.ValorFactura = pValor;
+            oFactura.SaldoFactura = (int.Parse(pValor) - int.Parse(pImporte)).ToString();
+            oFactura.Accion = "CREAR";
+            oFactura.Put();
+
+            pCodFactura = oFactura.CodFactura;
+          }
+        }
+        dtFactura = null;
 
         cAntDocumentosPago oAntDocumentosPago = new cAntDocumentosPago(ref oConn);
-        oAntDocumentosPago.CodPagos = pCodPago;
+        oAntDocumentosPago.CodPagos = hdd_cod_pago.Value;
+        oAntDocumentosPago.CodFactura = pCodFactura;
         oAntDocumentosPago.CodSAP = pCodSAP;
         oAntDocumentosPago.NombreDeudor = sRazonSocial;
         oAntDocumentosPago.NumDocumento = pNumOperacion;
@@ -291,26 +324,19 @@ namespace ICommunity.Antalis
 
         string pCodDocumento = oAntDocumentosPago.CodDocumento;
 
-        cAntFactura oFactura = new cAntFactura(ref oConn);
-        oFactura.NumFactura = pNumFactura;
-        oFactura.CodDocumento = pCodDocumento;
-        oFactura.ValorFactura = pValor;
-        oFactura.SaldoFactura = (int.Parse(pValor) - int.Parse(pImporte)).ToString();
-        oFactura.Accion = "CREAR";
-        oFactura.Put();
-
-        string pCodFactura = oFactura.CodFactura;
-
         onLoadGrid();
 
         oConn.Close();
 
-        cmb_centrodistribucion.Items.FindByValue(string.Empty).Selected = true;
-        cmb_documento.Items.FindByValue(string.Empty).Selected = true;
+        //cmb_centrodistribucion.SelectedValue = string.Empty;
+        cmb_centrodistribucion.Enabled = false;
+        //cmb_documento.SelectedValue = string.Empty;
+        cmb_centrodistribucion.Enabled = false;
+
         txt_codigosap.Text = string.Empty;
         txt_razon_social.Text = string.Empty;
         txt_num_documento.Text = string.Empty;
-        //cmb_bancos.Items.FindByValue(string.Empty).Selected = true;
+        cmb_bancos.SelectedValue = string.Empty;
         hdd_fchdocument.Value = string.Empty;
         hddGuiasDespacho.Value = string.Empty;
         hdd_facturas.Value = string.Empty;
@@ -337,13 +363,16 @@ namespace ICommunity.Antalis
     {
       string pCodDocumento = gdPagos.SelectedDataKey.Value.ToString();
       DBConn oConn = new DBConn();
-      if (oConn.Open()) {
+      if (oConn.Open())
+      {
         cAntDocumentosPago oAntDocumentosPago = new cAntDocumentosPago(ref oConn);
         oAntDocumentosPago.CodDocumento = pCodDocumento;
         DataTable dtDocPago = oAntDocumentosPago.GetDocFacturas();
 
-        if (dtDocPago != null) {
-          if (dtDocPago.Rows.Count > 0) {
+        if (dtDocPago != null)
+        {
+          if (dtDocPago.Rows.Count > 0)
+          {
             hdd_cod_documento.Value = dtDocPago.Rows[0]["cod_documento"].ToString();
             txt_codigosap.Text = dtDocPago.Rows[0]["cod_sap"].ToString();
             txt_codigosap.Enabled = false;
@@ -402,17 +431,39 @@ namespace ICommunity.Antalis
       string pCodDocumento = gdPagos.DataKeys[e.RowIndex].Value.ToString();
 
       DBConn oConn = new DBConn();
-      if (oConn.Open()) {
-        cAntFactura oFactura = new cAntFactura(ref oConn);
-        oFactura.CodDocumento = pCodDocumento;
-        oFactura.Accion = "ELIMINAR";
-        oFactura.Put();
-
+      if (oConn.Open())
+      {
+        string nCodFactura = string.Empty;
+        string nImporte = string.Empty;
         cAntDocumentosPago oDocumentosPago = new cAntDocumentosPago(ref oConn);
         oDocumentosPago.CodDocumento = pCodDocumento;
+        DataTable dt = oDocumentosPago.Get();
+        if (dt != null) {
+          if (dt.Rows.Count > 0) {
+            nCodFactura = dt.Rows[0]["cod_factura"].ToString();
+            nImporte = dt.Rows[0]["importe"].ToString();
+          }
+        }
+        dt = null;
+
+        string nSaldo = string.Empty;
+        cAntFactura oFactura = new cAntFactura(ref oConn);
+        oFactura.CodFactura = nCodFactura;
+        dt = oFactura.Get();
+        if (dt != null) {
+          if (dt.Rows.Count > 0) {
+            nSaldo = dt.Rows[0]["saldo_factura"].ToString();
+          }
+        }
+        dt = null;
+
+        oFactura.SaldoFactura = (int.Parse(nImporte) + int.Parse(nSaldo)).ToString();
+        oFactura.Accion = "EDITAR";
+        oFactura.Put();
+
         oDocumentosPago.Accion = "ELIMINAR";
         oDocumentosPago.Put();
-        
+
         oConn.Close();
       }
 

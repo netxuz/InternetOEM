@@ -133,9 +133,25 @@ namespace ICommunity.Antalis
         DataTable dtDocPago = oDocumentosPago.Get();
         if (dtDocPago != null) {
           foreach (DataRow oRow in dtDocPago.Rows) {
+
+
+            string nCodFactura = oRow["cod_factura"].ToString();
+            string nImporte = oRow["importe"].ToString();
+            string nSaldo = string.Empty;
             cAntFactura oFactura = new cAntFactura(ref oConn);
-            oFactura.CodDocumento = oRow["cod_documento"].ToString();
-            oFactura.Accion = "ELIMINAR";
+            oFactura.CodFactura = nCodFactura;
+            DataTable dt = oFactura.Get();
+            if (dt != null)
+            {
+              if (dt.Rows.Count > 0)
+              {
+                nSaldo = dt.Rows[0]["saldo_factura"].ToString();
+              }
+            }
+            dt = null;
+
+            oFactura.SaldoFactura = (int.Parse(nImporte) + int.Parse(nSaldo)).ToString();
+            oFactura.Accion = "EDITAR";
             oFactura.Put();
           }
         }

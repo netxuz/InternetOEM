@@ -177,7 +177,7 @@
               <asp:BoundField DataField="fch_documento" />
               <asp:BoundField DataField="num_guia_despacho" />
               <asp:BoundField DataField="num_factura" />
-              <asp:BoundField DataField="valor_factura" />
+              <asp:BoundField DataField="importe" />
             </Columns>
           </asp:GridView>
       </div>

@@ -125,7 +125,17 @@ namespace OnlineServices.Antalis
 
               break;
             case "EDITAR":
-              
+              cSQL = new StringBuilder();
+              cSQL.Append("update ant_pagos set ");
+              if (!string.IsNullOrEmpty(pEstado))
+              {
+                cSQL.Append(" estado = @estado");
+                oParam.AddParameters("@estado", pEstado, TypeSQL.Char);
+                sComa = ", ";
+              }
+              cSQL.Append(" where cod_pago = @cod_pago ");
+              oParam.AddParameters("@cod_pago", pCodPagos, TypeSQL.Numeric);
+              oConn.Update(cSQL.ToString(), oParam);
 
               break;
             case "ELIMINAR":

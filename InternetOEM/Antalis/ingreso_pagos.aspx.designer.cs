@@ -139,6 +139,15 @@ namespace ICommunity.Antalis {
         protected global::System.Web.UI.WebControls.Label lblTitle;
         
         /// <summary>
+        /// lblValija control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblValija;
+        
+        /// <summary>
         /// cmb_centrodistribucion control.
         /// </summary>
         /// <remarks>
@@ -265,6 +274,15 @@ namespace ICommunity.Antalis {
         protected global::System.Web.UI.WebControls.TextBox txt_importe;
         
         /// <summary>
+        /// btnCancelarUpdate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnCancelarUpdate;
+        
+        /// <summary>
         /// btnIngresarImportes control.
         /// </summary>
         /// <remarks>
@@ -281,5 +299,14 @@ namespace ICommunity.Antalis {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView gdPagos;
+        
+        /// <summary>
+        /// btnCerrarValija control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnCerrarValija;
     }
 }

@@ -129,7 +129,7 @@ namespace OnlineServices.Antalis
       if (oConn.bIsOpen)
       {
         cSQL = new StringBuilder();
-        cSQL.Append("select a.cod_documento, a.cod_pago, a.cod_factura,(select num_factura from ant_factura where cod_factura = a.cod_factura) num_factura, a.cod_sap, a.nom_deudor, a.num_documento, a.cod_banco, a.nom_banco, a.fch_documento, a.num_guia_despacho, a.importe ");
+        cSQL.Append("select a.cod_documento, a.cod_pago, a.cod_factura,(select num_factura from ant_factura where cod_factura = a.cod_factura) num_factura, a.cod_sap, a.nom_deudor, a.num_documento, a.cod_banco, a.nom_banco, a.fch_documento, a.num_guia_despacho, a.importe, (select valor_factura from ant_factura where cod_factura = a.cod_factura) valor_factura ");
         cSQL.Append(" from ant_documentos_pago a ");
 
         if (!string.IsNullOrEmpty(pCodDocumento))
@@ -196,7 +196,52 @@ namespace OnlineServices.Antalis
 
               break;
             case "EDITAR":
-
+              cSQL = new StringBuilder();
+              cSQL.Append("update ant_documentos_pago set ");
+              if (!string.IsNullOrEmpty(pCodFactura))
+              {
+                cSQL.Append(" cod_factura = @cod_factura");
+                oParam.AddParameters("@cod_factura", pCodFactura, TypeSQL.Numeric);
+                sComa = ", ";
+              }
+              if (!string.IsNullOrEmpty(pNombreDeudor))
+              {
+                cSQL.Append(sComa);
+                cSQL.Append(" nom_deudor = @nom_deudor");
+                oParam.AddParameters("@nom_deudor", pNombreDeudor, TypeSQL.Varchar);
+                sComa = ", ";
+              }
+              if (!string.IsNullOrEmpty(pNumDocumento))
+              {
+                cSQL.Append(sComa);
+                cSQL.Append(" num_documento = @num_documento");
+                oParam.AddParameters("@num_documento", pNumDocumento, TypeSQL.Varchar);
+                sComa = ", ";
+              }
+              if (!string.IsNullOrEmpty(pCodBanco))
+              {
+                cSQL.Append(sComa);
+                cSQL.Append(" cod_banco = @cod_banco");
+                oParam.AddParameters("@cod_banco", pCodBanco, TypeSQL.Numeric);
+                sComa = ", ";
+              }
+              if (!string.IsNullOrEmpty(pFchDocumento))
+              {
+                cSQL.Append(sComa);
+                cSQL.Append(" fch_documento = @fch_documento");
+                oParam.AddParameters("@fch_documento", pFchDocumento, TypeSQL.DateTime);
+                sComa = ", ";
+              }
+              if (!string.IsNullOrEmpty(pImporte))
+              {
+                cSQL.Append(sComa);
+                cSQL.Append(" importe = @importe");
+                oParam.AddParameters("@importe", pImporte, TypeSQL.Numeric);
+                sComa = ", ";
+              }
+              cSQL.Append(" where cod_documento = @cod_documento ");
+              oParam.AddParameters("@cod_documento", pCodDocumento, TypeSQL.Numeric);
+              oConn.Update(cSQL.ToString(), oParam);
 
               break;
             case "ELIMINAR":

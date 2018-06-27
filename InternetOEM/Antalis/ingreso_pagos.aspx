@@ -74,6 +74,9 @@
         <div class="col-md-6">
           <asp:Label ID="lblTitle" runat="server" CssClass="lblTitle" Text="INGRESAR PAGOS"></asp:Label>
         </div>
+        <div class="col-md-6">
+          <asp:Label ID="lblValija" runat="server" CssClass="lblTitle"></asp:Label>
+        </div>
         <div class="col-md-12">
           <hr style="#b8b8b8" />
         </div>
@@ -158,6 +161,7 @@
       </div>
       <div class="row">
         <div class="col-md-12">
+          <asp:Button ID="btnCancelarUpdate" runat="server" class="btn btn-default" Text="Cancelar" OnClick="btnCancelarUpdate_Click" Visible="false" />
           <asp:Button ID="btnIngresarImportes" runat="server" class="btn btn-primary" Text="INGRESAR IMPORTES" OnClick="btnIngresarImportes_Click" />
         </div>
       </div>
@@ -180,6 +184,11 @@
               <asp:BoundField DataField="importe" />
             </Columns>
           </asp:GridView>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <asp:Button ID="btnCerrarValija" runat="server" Text="Cerrar Valija" class="btn btn-primary" OnClick="btnCerrarValija_Click" Visible="false" />
+        </div>
       </div>
     </div>
   </form>

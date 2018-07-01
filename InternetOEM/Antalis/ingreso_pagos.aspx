@@ -74,16 +74,14 @@
         <div class="col-md-6">
           <asp:Label ID="lblTitle" runat="server" CssClass="lblTitle" Text="INGRESAR PAGOS"></asp:Label>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6 text-right">
           <asp:Label ID="lblValija" runat="server" CssClass="lblTitle"></asp:Label>
         </div>
-        <div class="col-md-12">
-          <hr style="#b8b8b8" />
-        </div>
       </div>
-      <div class="row">
+      <div class="row vAlign">
         <div class="col-md-3">
-          <span>CLIENTE: CRISTIAN ESCOBAR</span>
+          <span>RAZÓN SOCIAL:
+            <asp:Label ID="lblRazonSocial" runat="server"></asp:Label></span>
         </div>
         <div class="col-md-3">
           <span for="cmb_centrodistribucion">CENTRO DE DISTRIBUCION:</span>
@@ -95,43 +93,44 @@
           <asp:DropDownList ID="cmb_documento" CssClass="form-control" runat="server">
             <asp:ListItem Text="<< Seleccione tipo de documento >>" Value=""></asp:ListItem>
             <asp:ListItem Text="Cheque al día" Value="1"></asp:ListItem>
-            <asp:ListItem Text="Efectivo" Value="2"></asp:ListItem>
-            <asp:ListItem Text="Letra" Value="3"></asp:ListItem>
+            <asp:ListItem Text="Cheque a fecha" Value="2"></asp:ListItem>
+            <asp:ListItem Text="Efectivo" Value="3"></asp:ListItem>
+            <asp:ListItem Text="Letra" Value="4"></asp:ListItem>
+            <asp:ListItem Text="Tarjeta" Value="5"></asp:ListItem>
           </asp:DropDownList>
         </div>
         <div class="col-md-3">
-          <div class="md-form" style="width: 20rem;">
-            <asp:TextBox ID="txt_fecha_recepcion" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
-            <label for="txt_fecha_recepcion">FECHA RECEPCION</label>
-          </div>
+          <span>FECHA RECEPCION:
+            <asp:Label ID="lbl_fecha_recepcion" runat="server"></asp:Label></span>
+          <asp:HiddenField ID="txt_fecha_recepcion" runat="server"></asp:HiddenField>
         </div>
       </div>
-      <div class="row">
+      <div id="idRow1" runat="server" class="row vAlign">
         <!-- Material input -->
-        <div class="col-md-2">
-          <div class="md-form" style="width: 20rem;">
+        <div class="col-md-3">
+          <div class="md-form">
             <asp:TextBox ID="txt_codigosap" runat="server" CssClass="form-control"></asp:TextBox>
             <label for="txt_codigosap">CODIGO SAP</label>
           </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-3">
           <div class="md-form" style="width: 20rem;">
             <asp:TextBox ID="txt_razon_social" runat="server" CssClass="form-control"></asp:TextBox>
             <label for="txt_razon_social">RAZON SOCIAL</label>
           </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-3">
           <div class="md-form" style="width: 20rem;">
             <asp:TextBox ID="txt_num_documento" runat="server" CssClass="form-control"></asp:TextBox>
             <label for="txt_num_documento">NUMERO CHEQUE / OPERACION</label>
           </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-3">
           <span for="cmb_bancos">BANCO:</span>
           <asp:DropDownList ID="cmb_bancos" CssClass="form-control" runat="server"></asp:DropDownList>
         </div>
-        <div class="col-md-2">
-          <span>FECHA DOCUMENTO</span>
+        <div class="col-md-3">
+          <span for="fch_documento">FECHA DOCUMENTO</span>
           <div class="input-append date" id="dp4" data-date-format="dd-mm-yyyy">
             <asp:TextBox ID="fch_documento" runat="server" CssClass="form-control" ReadOnly></asp:TextBox>
             <span class="add-on"><i class="icon-th"></i></span>
@@ -139,7 +138,7 @@
           </div>
         </div>
       </div>
-      <div class="row">
+      <div id="idRow2" runat="server" class="row vAlign">
         <div class="col-md-2">
           <span for="cmb_guiadespacho">GUIA DESPACHO:</span>
           <asp:DropDownList ID="cmb_guiadespacho" CssClass="form-control" runat="server">
@@ -159,31 +158,45 @@
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-md-12">
+      <div id="idRow3" runat="server" class="row vAlign">
+        <div class="col-md-12 text-center">
           <asp:Button ID="btnCancelarUpdate" runat="server" class="btn btn-default" Text="Cancelar" OnClick="btnCancelarUpdate_Click" Visible="false" />
           <asp:Button ID="btnIngresarImportes" runat="server" class="btn btn-primary" Text="INGRESAR IMPORTES" OnClick="btnIngresarImportes_Click" />
         </div>
       </div>
       <div class="row">
-        <asp:GridView ID="gdPagos" runat="server" CssClass="table table-hover" 
-          DataKeyNames="cod_documento" BorderStyle="Solid" 
-          BorderWidth="0" GridLines="Horizontal" 
-          AutoGenerateColumns="false" 
-          AutoGenerateSelectButton="true" 
-          AutoGenerateDeleteButton="true" 
-          OnRowDeleting="gdPagos_RowDeleting" 
-          OnSelectedIndexChanged="gdPagos_SelectedIndexChanged" 
-          OnPageIndexChanging="gdPagos_PageIndexChanging" >
-            <Columns>
-              <asp:BoundField DataField="num_documento" />
-              <asp:BoundField DataField="cod_banco" />
-              <asp:BoundField DataField="fch_documento" />
-              <asp:BoundField DataField="num_guia_despacho" />
-              <asp:BoundField DataField="num_factura" />
-              <asp:BoundField DataField="importe" />
-            </Columns>
-          </asp:GridView>
+        <br />
+      </div>
+      <div class="row">
+        <asp:GridView ID="gdPagos" runat="server" CssClass="table table-hover"
+          DataKeyNames="cod_documento" BorderStyle="Solid"
+          BorderWidth="0" GridLines="Horizontal"
+          AutoGenerateColumns="false"
+          OnRowDeleting="gdPagos_RowDeleting"
+          OnSelectedIndexChanged="gdPagos_SelectedIndexChanged"
+          OnPageIndexChanging="gdPagos_PageIndexChanging" OnRowDataBound="gdPagos_RowDataBound">
+          <Columns>
+            <asp:CommandField ButtonType="Link" ShowDeleteButton="true" DeleteText="Dele" ItemStyle-CssClass="BtnColEliminar" ItemStyle-Width="1px" />
+            <asp:CommandField ButtonType="Link" ShowSelectButton="true" SelectText="Sele" ItemStyle-CssClass="BtnColEditar" ItemStyle-Width="1px" />
+            <asp:BoundField HeaderText="# DOCUMENTO" DataField="num_documento" />
+            <asp:BoundField HeaderText="CODIGO BANCO" DataField="cod_banco" />
+            <asp:BoundField HeaderText="FECHA DOCUMENTO" DataField="fch_documento" />
+            <asp:BoundField HeaderText="# GUIA DESPACHO" DataField="num_guia_despacho" />
+            <asp:BoundField HeaderText="# FACTURA" DataField="num_factura" />
+            <asp:BoundField HeaderText="IMPORTE" DataField="importe" />
+          </Columns>
+        </asp:GridView>
+      </div>
+      <div class="col-md-6"></div>
+      <div class="col-md-6 text-right">
+        <div class="row">
+          <span>Total de Documentos :
+            <asp:Label ID="lblCantidad" runat="server"></asp:Label></span>
+        </div>
+        <div class="row">
+          <span>Monto Total :
+            <asp:Label ID="lblMonto" runat="server"></asp:Label></span>
+        </div>
       </div>
       <div class="row">
         <div class="col-md-12">
@@ -263,7 +276,7 @@
       }
 
     });
-    
+
 
     $("#txt_codigosap").focusout(function () {
       //96829710
@@ -302,7 +315,7 @@
 
     $("#cmb_guiadespacho").focusout(function () {
       //96829710
-      if (($("#cmb_guiadespacho").val() != null)&&($("#cmb_guiadespacho").val() != 0)) {
+      if (($("#cmb_guiadespacho").val() != null) && ($("#cmb_guiadespacho").val() != 0)) {
         var target = $("#cmb_facturas");
         var cUrl = "ingreso_pagos.aspx/getFacturas";
         var datos = "{sGuiaDespacho:" + $("#cmb_guiadespacho").val() + "}";

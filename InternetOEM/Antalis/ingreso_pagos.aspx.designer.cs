@@ -148,6 +148,15 @@ namespace ICommunity.Antalis {
         protected global::System.Web.UI.WebControls.Label lblValija;
         
         /// <summary>
+        /// lblRazonSocial control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblRazonSocial;
+        
+        /// <summary>
         /// cmb_centrodistribucion control.
         /// </summary>
         /// <remarks>
@@ -166,13 +175,31 @@ namespace ICommunity.Antalis {
         protected global::System.Web.UI.WebControls.DropDownList cmb_documento;
         
         /// <summary>
+        /// lbl_fecha_recepcion control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbl_fecha_recepcion;
+        
+        /// <summary>
         /// txt_fecha_recepcion control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txt_fecha_recepcion;
+        protected global::System.Web.UI.WebControls.HiddenField txt_fecha_recepcion;
+        
+        /// <summary>
+        /// idRow1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl idRow1;
         
         /// <summary>
         /// txt_codigosap control.
@@ -229,6 +256,15 @@ namespace ICommunity.Antalis {
         protected global::System.Web.UI.WebControls.HiddenField hdd_fchdocument;
         
         /// <summary>
+        /// idRow2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl idRow2;
+        
+        /// <summary>
         /// cmb_guiadespacho control.
         /// </summary>
         /// <remarks>
@@ -274,6 +310,15 @@ namespace ICommunity.Antalis {
         protected global::System.Web.UI.WebControls.TextBox txt_importe;
         
         /// <summary>
+        /// idRow3 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl idRow3;
+        
+        /// <summary>
         /// btnCancelarUpdate control.
         /// </summary>
         /// <remarks>
@@ -299,6 +344,24 @@ namespace ICommunity.Antalis {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView gdPagos;
+        
+        /// <summary>
+        /// lblCantidad control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblCantidad;
+        
+        /// <summary>
+        /// lblMonto control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblMonto;
         
         /// <summary>
         /// btnCerrarValija control.

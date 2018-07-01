@@ -21,6 +21,7 @@ namespace ICommunity.Antalis
   {
     private OnlineServices.Method.Web oWeb = new OnlineServices.Method.Web();
     private OnlineServices.Method.Usuario oIsUsuario;
+    bool bEstadoValija = false;
     protected void Page_Load(object sender, EventArgs e)
     {
       oIsUsuario = oWeb.ValidaUserAppReport();
@@ -39,7 +40,9 @@ namespace ICommunity.Antalis
 
         if (string.IsNullOrEmpty(hdd_cod_pago.Value))
         {
-          txt_fecha_recepcion.Text = DateTime.Now.Day.ToString() + "/" + DateTime.Now.Month.ToString() + "/" + DateTime.Now.Year.ToString();
+          txt_fecha_recepcion.Value = DateTime.Now.Day.ToString() + "/" + DateTime.Now.Month.ToString() + "/" + DateTime.Now.Year.ToString();
+          lbl_fecha_recepcion.Text = DateTime.Now.Day.ToString() + "/" + DateTime.Now.Month.ToString() + "/" + DateTime.Now.Year.ToString();
+
         }
 
         DBConn oConn = new DBConn();
@@ -82,7 +85,7 @@ namespace ICommunity.Antalis
 
           if (!string.IsNullOrEmpty(hdd_cod_pago.Value))
           {
-            lblValija.Text = "Valija # " + hdd_cod_pago.Value;
+            lblValija.Text = "# Valija " + hdd_cod_pago.Value;
             cAntPagos oPagos = new cAntPagos(ref oConn);
             oPagos.CodPagos = hdd_cod_pago.Value;
             DataTable dtPagos = oPagos.Get();
@@ -94,25 +97,15 @@ namespace ICommunity.Antalis
                 cmb_centrodistribucion.Enabled = false;
                 cmb_documento.Items.FindByValue(dtPagos.Rows[0]["cod_tipo_pago"].ToString()).Selected = true;
                 cmb_documento.Enabled = false;
-                txt_fecha_recepcion.Text = dtPagos.Rows[0]["fech_recepcion"].ToString();
-                //txt_codigosap.Text = dtPagos.Rows[0]["cod_sap"].ToString();
-                //txt_codigosap.Enabled = false;
-                //txt_razon_social.Text = dtPagos.Rows[0]["nom_deudor"].ToString();
-                //txt_razon_social.Enabled = false;
-                //cmb_guiadespacho.Items.Add(new ListItem("<< Seleccione Guia Despacho >>", string.Empty));
+                txt_fecha_recepcion.Value = dtPagos.Rows[0]["fech_recepcion"].ToString();
+                lbl_fecha_recepcion.Text = dtPagos.Rows[0]["fech_recepcion"].ToString();
+                bEstadoValija = ((dtPagos.Rows[0]["estado"].ToString() != "C") ? true : false);
 
-                //cGuiasFacturas oGuiasFacturas = new cGuiasFacturas(ref oConn);
-                //oGuiasFacturas.NKeyCliente = oIsUsuario.CodNkey;
-                //oGuiasFacturas.NCodigoDeudor = txt_codigosap.Text;
-                //DataTable dtGuias = oGuiasFacturas.GetGuiaDespacho();
-                //if (dtGuias != null)
-                //{
-
-                //  foreach (DataRow oRow in dtGuias.Rows)
-                //  {
-                //    cmb_guiadespacho.Items.Add(new ListItem(oRow["guidespacho"].ToString(), oRow["guidespacho"].ToString()));
-                //  }
-                //}
+                if (!bEstadoValija) {
+                  idRow1.Visible = false;
+                  idRow2.Visible = false;
+                  idRow3.Visible = false;
+                }
 
               }
             }
@@ -120,6 +113,16 @@ namespace ICommunity.Antalis
 
             onLoadGrid();
           }
+
+          cCliente oCliente = new cCliente(ref oConn);
+          oCliente.CodNkey = oIsUsuario.CodNkey;
+          DataTable dt = oCliente.GeCliente();
+          if (dt != null) {
+            if (dt.Rows.Count > 0) {
+              lblRazonSocial.Text = dt.Rows[0]["cliente"].ToString();
+            }
+          }
+          dt = null;
 
           oConn.Close();
         }
@@ -249,7 +252,7 @@ namespace ICommunity.Antalis
     {
       string pCodCentroDist = cmb_centrodistribucion.SelectedValue;
       string pCodTipoPago = cmb_documento.SelectedValue;
-      string pFchRecepcion = txt_fecha_recepcion.Text;
+      string pFchRecepcion = txt_fecha_recepcion.Value;
       string pCodSAP = txt_codigosap.Text;
       string sRazonSocial = txt_razon_social.Text;
       string pNumOperacion = txt_num_documento.Text;
@@ -278,7 +281,7 @@ namespace ICommunity.Antalis
 
           string pCodPago = oPagos.CodPagos;
           hdd_cod_pago.Value = pCodPago;
-          lblValija.Text = "Valija # " + hdd_cod_pago.Value;
+          lblValija.Text = "# Valija " + hdd_cod_pago.Value;
         }
 
         DataTable dtFactura;
@@ -403,9 +406,16 @@ namespace ICommunity.Antalis
         gdPagos.DataSource = dt;
         gdPagos.DataBind();
 
-        if (dt != null) {
-          if (dt.Rows.Count > 0) {
-            btnCerrarValija.Visible = true;
+        if (dt != null)
+        {
+          if (dt.Rows.Count > 0)
+          {
+            if (bEstadoValija)
+              btnCerrarValija.Visible = true;
+
+            lblCantidad.Text = dt.Rows.Count.ToString();
+            lblMonto.Text = dt.Compute("SUM(importe)", string.Empty).ToString();
+
           }
         }
         dt = null;
@@ -572,7 +582,8 @@ namespace ICommunity.Antalis
     protected void btnCerrarValija_Click(object sender, EventArgs e)
     {
       DBConn oConn = new DBConn();
-      if (oConn.Open()) {
+      if (oConn.Open())
+      {
         cAntPagos oPagos = new cAntPagos(ref oConn);
         oPagos.CodPagos = hdd_cod_pago.Value;
         oPagos.Estado = "C";
@@ -582,6 +593,35 @@ namespace ICommunity.Antalis
       oConn.Close();
 
       Response.Redirect("pagos_antalis.aspx");
+    }
+
+    protected void gdPagos_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+      if (e.Row.RowType == DataControlRowType.DataRow)
+      {
+        if (!bEstadoValija) {
+          gdPagos.HeaderRow.Cells[0].Visible = false;
+          e.Row.Cells[0].Visible = false;
+          gdPagos.HeaderRow.Cells[1].Visible = false;
+          e.Row.Cells[1].Visible = false;
+        }
+
+        DBConn oConn = new DBConn();
+        if (oConn.Open()) {
+          cAntBancos oBancos = new cAntBancos(ref oConn);
+          oBancos.NKeyBanco = e.Row.Cells[3].Text.ToString();
+          DataTable dt = oBancos.Get();
+          if (dt != null) {
+            if (dt.Rows.Count > 0) {
+              e.Row.Cells[3].Text = dt.Rows[0]["snombre"].ToString();
+            }
+          }
+          dt = null;
+
+        }
+        oConn.Close();
+
+      }
     }
   }
 

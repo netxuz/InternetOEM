@@ -69,7 +69,7 @@ namespace OnlineServices.Antalis
       if (oConn.bIsOpen)
       {
         cSQL = new StringBuilder();
-        cSQL.Append("select cod_pago,cod_user,nkey_cliente,cod_centrodist,cod_tipo_pago,fech_recepcion,horario,cant_documentos,importe_total,estado ");
+        cSQL.Append("select cod_pago,cod_user,nkey_cliente,cod_centrodist,cod_tipo_pago,convert(varchar, fech_recepcion, 103) fech_recepcion,horario,cant_documentos,importe_total,estado ");
         cSQL.Append(" from ant_pagos");
 
         if (!string.IsNullOrEmpty(pCodPagos))

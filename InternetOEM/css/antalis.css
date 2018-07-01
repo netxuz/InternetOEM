@@ -75,9 +75,51 @@
 }
 
 .btn {
-  font-size:12px!important;
+  font-size: 12px !important;
 }
+
 span {
-  font-size:12px!important;
-  color:#3D5374!important;
+  font-size: 12px !important;
+  color: #3D5374 !important;
+}
+
+.container {
+  margin-right: 30px !important;
+}
+
+.vAlign {
+  display: flex;
+  align-items: center;
+  padding-top: 5px;
+  margin-top: 10px;
+  border-top: 1px dotted #BDBDBD;
+}
+
+#cmb_centrodistribucion, #cmb_documento, #cmb_bancos, #cmb_guiadespacho, #cmb_facturas {
+  width: 200px !important;
+}
+
+.md-form label {
+  color: #3D5374 !important;
+}
+
+.BtnColEditar a {
+  color: transparent !important;
+  background: url(../images/icons/glyphicons-31-pencil.png) center center no-repeat !important;
+  background-size: 60% 100% !important;
+  border: 0px;
+}
+
+.BtnColEliminar a {
+  color: transparent !important;
+  background: url(../images/icons/glyphicons-17-bin.png) left no-repeat !important;
+  background-size: 60% 100% !important;
+  border: 0px;
+}
+
+.BtnColAgregar a {
+  color: transparent !important;
+  background: url(../images/icons/glyphicons-191-plus-sign.png) left no-repeat !important;
+  background-size: 60% 100% !important;
+  border: 0px;
 }

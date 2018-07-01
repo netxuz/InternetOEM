@@ -73,7 +73,7 @@ namespace OnlineServices.Antalis
       if (oConn.bIsOpen)
       {
         cSQL = new StringBuilder();
-        cSQL.Append("select cod_documento, cod_pago, cod_factura, cod_sap, nom_deudor, num_documento, cod_banco, nom_banco, fch_documento, num_guia_despacho, importe  ");
+        cSQL.Append("select cod_documento, cod_pago, cod_factura, cod_sap, nom_deudor, num_documento, cod_banco, nom_banco, convert(varchar, fch_documento, 103) fch_documento, num_guia_despacho, importe  ");
         cSQL.Append(" from ant_documentos_pago ");
 
         if (!string.IsNullOrEmpty(pCodDocumento))
@@ -129,7 +129,7 @@ namespace OnlineServices.Antalis
       if (oConn.bIsOpen)
       {
         cSQL = new StringBuilder();
-        cSQL.Append("select a.cod_documento, a.cod_pago, a.cod_factura,(select num_factura from ant_factura where cod_factura = a.cod_factura) num_factura, a.cod_sap, a.nom_deudor, a.num_documento, a.cod_banco, a.nom_banco, a.fch_documento, a.num_guia_despacho, a.importe, (select valor_factura from ant_factura where cod_factura = a.cod_factura) valor_factura ");
+        cSQL.Append("select a.cod_documento, a.cod_pago, a.cod_factura,(select num_factura from ant_factura where cod_factura = a.cod_factura) num_factura, a.cod_sap, a.nom_deudor, a.num_documento, a.cod_banco, a.nom_banco, convert(varchar, a.fch_documento, 103) fch_documento, a.num_guia_despacho, a.importe, (select valor_factura from ant_factura where cod_factura = a.cod_factura) valor_factura ");
         cSQL.Append(" from ant_documentos_pago a ");
 
         if (!string.IsNullOrEmpty(pCodDocumento))

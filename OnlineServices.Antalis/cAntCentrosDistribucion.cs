@@ -75,6 +75,28 @@ namespace OnlineServices.Antalis
       }
     }
 
+    public DataTable GetByCod() {
+      oParam = new DBConn.SQLParameters(20);
+      DataTable dtData;
+      StringBuilder cSQL;
+
+      if (oConn.bIsOpen) {
+        cSQL = new StringBuilder();
+        cSQL.Append(" select descripcion from Tabla_datos where codigo = 'CENDIS' and valor = @cod_centrodist  ");
+        oParam.AddParameters("@cod_centrodist", pCodCentroDist, TypeSQL.Numeric);
+        dtData = oConn.Select(cSQL.ToString(), oParam);
+        pError = oConn.Error;
+        return dtData;
+      }
+      else
+      {
+        pError = "Conexion Cerrada";
+        return null;
+      }
+
+    }
+        
+
     public DataTable GetCentrosDistByUsuario()
     {
       oParam = new DBConn.SQLParameters(20);

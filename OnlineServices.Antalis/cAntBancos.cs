@@ -35,7 +35,7 @@ namespace OnlineServices.Antalis
       oParam = new DBConn.SQLParameters(20);
       DataTable dtData;
       StringBuilder cSQL;
-      string Condicion = " and ";
+      string Condicion = " where ";
 
       if (oConn.bIsOpen)
       {

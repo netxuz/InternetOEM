@@ -35,6 +35,34 @@ namespace ICommunity.Antalis
       getMenuAntalis(indAntalis, oIsUsuario.CodUsuario);
 
       if (!IsPostBack) {
+
+        DBConn oConn = new DBConn();
+        if (oConn.Open()) {
+          cAntCentrosDistribucion oCentrosDistribucion = new cAntCentrosDistribucion(ref oConn);
+          oCentrosDistribucion.CodUsuario = oIsUsuario.CodUsuario;
+          DataTable dtCntDst = oCentrosDistribucion.GetCentrosDistByUsuario();
+          if (dtCntDst != null)
+          {
+            if (dtCntDst.Rows.Count > 0)
+            {
+              if (dtCntDst.Rows.Count > 1)
+                cmb_centrodistribucion.Items.Add(new ListItem("<< Seleccione una opcion >>", ""));
+
+              foreach (DataRow oRow in dtCntDst.Rows)
+              {
+                cmb_centrodistribucion.Items.Add(new ListItem(oRow["descripcion"].ToString(), oRow["cod_centrodist"].ToString()));
+              }
+            }
+            else
+            {
+              cmb_centrodistribucion.Items.Add(new ListItem("No existen centros de distribución asociados", ""));
+              cmb_centrodistribucion.Enabled = false;
+            }
+          }
+          dtCntDst = null;
+
+        }
+        oConn.Close();
         onLoadGrid();
       }
     }
@@ -174,6 +202,53 @@ namespace ICommunity.Antalis
     {
       gdPagos.PageIndex = e.NewPageIndex;
       onLoadGrid();
+    }
+
+    protected void gdPagos_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+      if (e.Row.RowType == DataControlRowType.DataRow) {
+        string sCodCentroDist = e.Row.Cells[3].Text.ToString();
+        string sTipoDocumento = e.Row.Cells[4].Text.ToString();
+        string sEstado = e.Row.Cells[6].Text.ToString();
+
+        DBConn oConn = new DBConn();
+        if (oConn.Open()) {
+          cAntCentrosDistribucion oCentrosDistribucion = new cAntCentrosDistribucion(ref oConn);
+          oCentrosDistribucion.CodCentroDist = sCodCentroDist;
+          DataTable dt = oCentrosDistribucion.GetByCod();
+          if (dt != null) {
+            if (dt.Rows.Count > 0) {
+              e.Row.Cells[3].Text = dt.Rows[0]["descripcion"].ToString();
+            }
+          }
+          dt = null;
+        }
+        oConn.Close();
+
+        switch (sTipoDocumento){
+          case "1":
+            e.Row.Cells[4].Text = "CHEQUE AL DIA";
+            break;
+          case "2":
+            e.Row.Cells[4].Text = "CHEQUE A FECHA";
+            break;
+          case "3":
+            e.Row.Cells[4].Text = "EFECTIVO";
+            break;
+          case "4":
+            e.Row.Cells[4].Text = "LETRA";
+            break;
+          case "5":
+            e.Row.Cells[4].Text = "TARJETA";
+            break;
+        }
+
+        if (sEstado == "A")
+          e.Row.Cells[6].Text = "ABIERTO";
+        else
+          e.Row.Cells[6].Text = "CERRADO";
+        
+      }
     }
   }
 }

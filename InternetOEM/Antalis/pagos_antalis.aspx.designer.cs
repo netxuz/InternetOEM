@@ -112,6 +112,60 @@ namespace ICommunity.Antalis {
         protected global::System.Web.UI.WebControls.Button btnIngresarPago;
         
         /// <summary>
+        /// txt_num_valija control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txt_num_valija;
+        
+        /// <summary>
+        /// txt_cliente control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txt_cliente;
+        
+        /// <summary>
+        /// cmb_centrodistribucion control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList cmb_centrodistribucion;
+        
+        /// <summary>
+        /// fch_inicio control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputText fch_inicio;
+        
+        /// <summary>
+        /// fch_hasta control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputText fch_hasta;
+        
+        /// <summary>
+        /// cmb_documento control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList cmb_documento;
+        
+        /// <summary>
         /// idBuscar control.
         /// </summary>
         /// <remarks>

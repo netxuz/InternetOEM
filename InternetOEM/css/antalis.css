@@ -123,3 +123,7 @@ span {
   background-size: 60% 100% !important;
   border: 0px;
 }
+
+.datepicker.datepicker-dropdown.dropdown-menu {
+  background-color: #fff !important;
+}

@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="validacion_pagos.aspx.cs" Inherits="ICommunity.Antalis.validacion_pagos" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="controllerpagotarjeta.aspx.cs" Inherits="ICommunity.Antalis.controllerpagotarjeta" %>
 
 <!DOCTYPE html>
 
@@ -8,12 +8,16 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Home</title>
-  <link rel="stylesheet" href="../css/bootstrap.min.css" />
-  <link rel="stylesheet" href="../css/style.css" />
-  <link rel="stylesheet" href="../css/stylesdebtcontrol.css" />
-  <link rel="stylesheet" href="../css/mdb.min.css" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+  <!-- Bootstrap core CSS -->
+  <link href="../css/bootstrap.min.css" rel="stylesheet">
+  <!-- Material Design Bootstrap -->
+  <link href="../css/mdb.min.css" rel="stylesheet">
+  <!-- Antalis -->
+  <link rel="stylesheet" href="../css/antalis.css" />
+  <link rel="stylesheet" href="../css/datepicker.css" />
 </head>
-<body class="bodydesktop">
+<body>
   <form id="form1" runat="server">
     <asp:ScriptManager ID="ScriptManager" runat="server"></asp:ScriptManager>
     <nav class="navbar-inverse">
@@ -60,28 +64,18 @@
         </div>
       </div>
     </nav>
-    <div>
-      validacion_pagos.aspx
+    <div class="container">
+      <div class="row">&nbsp;</div>
+      Controller Pago Tarjeta
     </div>
   </form>
-  <!-- SCRIPTS -->
-  <!-- JQuery -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-  <!-- googleapis -->
-  <script type="text/javascript" src="../js/jquery-3.1.1.min.js"></script>
-  <!-- Bootstrap core JavaScript -->
-  <script type="text/javascript" src="../js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <!-- Bootstrap tooltips -->
+  <script type="text/javascript" src="../js/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <!-- datepicker core JavaScript -->
+  <script type="text/javascript" src="../js/bootstrap-datepicker.js" charset="UTF-8"></script>
   <!-- MDB core JavaScript -->
   <script type="text/javascript" src="../js/mdb.min.js"></script>
-  <script>
-    wow = new WOW({
-      boxClass: 'wow', // default
-      animateClass: 'animated', // default
-      offset: 0, // default
-      mobile: true, // default
-      live: true // default
-    })
-    wow.init();
-  </script>
 </body>
 </html>

@@ -43,6 +43,15 @@ namespace OnlineServices.Antalis
     private string pEstado;
     public string Estado { get { return pEstado; } set { pEstado = value; } }
 
+    private string sRazonSocial;
+    public string RazonSocial { get { return sRazonSocial; } set { sRazonSocial = value; } }
+
+    private string sFechaInicial;
+    public string FechaInicial { get { return sFechaInicial; } set { sFechaInicial = value; } }
+
+    private string sFechaFinal;
+    public string FechaFinal { get { return sFechaFinal; } set { sFechaFinal = value; } }
+
     private string pAccion;
     public string Accion { get { return pAccion; } set { pAccion = value; } }
 
@@ -61,7 +70,7 @@ namespace OnlineServices.Antalis
 
     public DataTable Get()
     {
-      oParam = new DBConn.SQLParameters(3);
+      oParam = new DBConn.SQLParameters(7);
       DataTable dtData;
       StringBuilder cSQL;
       string Condicion = " where ";
@@ -78,6 +87,47 @@ namespace OnlineServices.Antalis
           Condicion = " and ";
           cSQL.Append(" cod_pago = @cod_pago  ");
           oParam.AddParameters("@cod_pago", pCodPagos, TypeSQL.Numeric);
+        }
+
+        if (!string.IsNullOrEmpty(pCodCentroDist))
+        {
+          cSQL.Append(Condicion);
+          Condicion = " and ";
+          cSQL.Append(" cod_centrodist = @cod_centrodist  ");
+          oParam.AddParameters("@cod_centrodist", pCodCentroDist, TypeSQL.Numeric);
+        }
+
+        if (!string.IsNullOrEmpty(pCodTipoPago))
+        {
+          cSQL.Append(Condicion);
+          Condicion = " and ";
+          cSQL.Append(" cod_tipo_pago = @cod_tipo_pago  ");
+          oParam.AddParameters("@cod_tipo_pago", pCodTipoPago, TypeSQL.Numeric);
+        }
+
+        if (!string.IsNullOrEmpty(sRazonSocial))
+        {
+          cSQL.Append(Condicion);
+          Condicion = " and ";
+          cSQL.Append(" nkey_cliente in(select nkey_cliente from cliente where snombre like ' + @snombre + ')  ");
+          oParam.AddParameters("@snombre", sRazonSocial, TypeSQL.Varchar);
+        }
+
+        if ((!string.IsNullOrEmpty(sFechaInicial))&&(!string.IsNullOrEmpty(sFechaFinal)))
+        {
+          cSQL.Append(Condicion);
+          Condicion = " and ";
+          cSQL.Append(" fech_recepcion between @fechainicial and @fechafinal ");
+          oParam.AddParameters("@fechainicial", sFechaInicial, TypeSQL.Varchar);
+          oParam.AddParameters("@fechafinal", sFechaFinal, TypeSQL.Varchar);
+        }
+
+        if (!string.IsNullOrEmpty(pEstado))
+        {
+          cSQL.Append(Condicion);
+          Condicion = " and ";
+          cSQL.Append(" estado = @estado  ");
+          oParam.AddParameters("@estado", pEstado, TypeSQL.Char);
         }
 
         dtData = oConn.Select(cSQL.ToString(), oParam);

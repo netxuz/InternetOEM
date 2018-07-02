@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="pagos_antalis.aspx.cs" Inherits="ICommunity.Antalis.pagos_antalis" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="controllerpagos.aspx.cs" Inherits="ICommunity.Antalis.controllerpagos" %>
 
 <!DOCTYPE html>
 
@@ -67,11 +67,8 @@
     <div class="container">
       <div class="row">&nbsp;</div>
       <div class="row">
-        <div class="col-md-6">
-          <asp:Label ID="lblTitle" runat="server" CssClass="lblTitle" Text="PAGOS ANTALIS"></asp:Label>
-        </div>
-        <div class="col-md-6 text-right">
-          <asp:Button ID="btnIngresarPago" runat="server" class="btn btn-primary" Text="Ingresar Pago" OnClick="btnIngresarPago_Click" />
+        <div class="col-md-12">
+          <asp:Label ID="lblTitle" runat="server" CssClass="lblTitle" Text="PAGOS ANTALIS A VALIDAR"></asp:Label>
         </div>
       </div>
       <div class="row vAlign">
@@ -133,20 +130,18 @@
       <div class="row">
         <div class="container">
           <asp:GridView ID="gdPagos" runat="server" CssClass="table table-hover"
-            DataKeyNames="cod_pago" BorderStyle="Solid"
+            DataKeyNames="cod_pago, cod_tipo_pago" BorderStyle="Solid"
             BorderWidth="0" GridLines="Horizontal"
-            AutoGenerateColumns="false"
-            OnRowDeleting="gdPagos_RowDeleting"
-            OnSelectedIndexChanged="gdPagos_SelectedIndexChanged"
-            OnPageIndexChanging="gdPagos_PageIndexChanging" OnRowDataBound="gdPagos_RowDataBound">
+            AutoGenerateColumns="false" 
+            OnSelectedIndexChanging="gdPagos_SelectedIndexChanging"
+            OnPageIndexChanging="gdPagos_PageIndexChanging" 
+            OnRowDataBound="gdPagos_RowDataBound">
             <Columns>
-              <asp:CommandField ButtonType="Link" ShowDeleteButton="true" DeleteText="Dele" ItemStyle-CssClass="BtnColEliminar" ItemStyle-Width="1px" />
               <asp:CommandField ButtonType="Link" ShowSelectButton="true" SelectText="Sele" ItemStyle-CssClass="BtnColEditar" ItemStyle-Width="1px" />
               <asp:BoundField HeaderText="# Valija" DataField="cod_pago" />
               <asp:BoundField HeaderText="Centro Distribución" DataField="cod_centrodist" />
               <asp:BoundField HeaderText="Documento" DataField="cod_tipo_pago" />
               <asp:BoundField HeaderText="Fecha Recepción" DataField="fech_recepcion" />
-              <asp:BoundField HeaderText="Estado" DataField="estado" />
             </Columns>
           </asp:GridView>
         </div>
@@ -166,6 +161,7 @@
   <script type="text/javascript" src="../js/bootstrap-datepicker.js" charset="UTF-8"></script>
   <!-- MDB core JavaScript -->
   <script type="text/javascript" src="../js/mdb.min.js"></script>
+
   <script>
     $(function () {
       $('#dp3').datepicker();

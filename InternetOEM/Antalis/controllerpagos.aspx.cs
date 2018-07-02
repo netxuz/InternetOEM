@@ -16,7 +16,7 @@ using OnlineServices.SystemData;
 
 namespace ICommunity.Antalis
 {
-  public partial class pagos_antalis : System.Web.UI.Page
+  public partial class controllerpagos : System.Web.UI.Page
   {
     private OnlineServices.Method.Web oWeb = new OnlineServices.Method.Web();
     private OnlineServices.Method.Usuario oIsUsuario;
@@ -34,10 +34,12 @@ namespace ICommunity.Antalis
 
       getMenuAntalis(indAntalis, oIsUsuario.CodUsuario);
 
-      if (!IsPostBack) {
+      if (!IsPostBack)
+      {
 
         DBConn oConn = new DBConn();
-        if (oConn.Open()) {
+        if (oConn.Open())
+        {
           cAntCentrosDistribucion oCentrosDistribucion = new cAntCentrosDistribucion(ref oConn);
           oCentrosDistribucion.CodUsuario = oIsUsuario.CodUsuario;
           DataTable dtCntDst = oCentrosDistribucion.GetCentrosDistByUsuario();
@@ -63,7 +65,6 @@ namespace ICommunity.Antalis
 
         }
         oConn.Close();
-        onLoadGrid();
       }
     }
 
@@ -93,7 +94,7 @@ namespace ICommunity.Antalis
                 if (oRow["cod_rol"].ToString() == "1")
                   oHtmControl.Controls.Add(new LiteralControl("<li><a href='../antalis/pagos_antalis.aspx'>Pagos</a></li>"));
                 if (oRow["cod_rol"].ToString() == "2")
-                  oHtmControl.Controls.Add(new LiteralControl("<li><a href='../antalis/controllerpagos.aspx'>Validación de Pago</a></li>"));
+                  oHtmControl.Controls.Add(new LiteralControl("<li><a href='../antalis/controller_pagos.aspx'>Validación de Pago</a></li>"));
               }
             }
             dtAntRoles = null;
@@ -128,33 +129,36 @@ namespace ICommunity.Antalis
       oConn.Close();
     }
 
-    protected void btnIngresarPago_Click(object sender, EventArgs e)
+    protected void onLoadGrid()
     {
-      Response.Redirect("ingreso_pagos.aspx");
-    }
-
-    protected void onLoadGrid() {
       DBConn oConn = new DBConn();
-      if (oConn.Open()) {
+      if (oConn.Open())
+      {
         cAntPagos oPagos = new cAntPagos(ref oConn);
+        oPagos.Estado = "C";
 
-        if (!string.IsNullOrEmpty(txt_num_valija.Text)) {
+        if (!string.IsNullOrEmpty(txt_num_valija.Text))
+        {
           oPagos.CodPagos = txt_num_valija.Text;
         }
 
-        if (!string.IsNullOrEmpty(cmb_centrodistribucion.SelectedValue)) {
+        if (!string.IsNullOrEmpty(cmb_centrodistribucion.SelectedValue))
+        {
           oPagos.CodCentroDist = cmb_centrodistribucion.SelectedValue;
         }
 
-        if (!string.IsNullOrEmpty(cmb_documento.SelectedValue)) {
+        if (!string.IsNullOrEmpty(cmb_documento.SelectedValue))
+        {
           oPagos.CodTipoPago = cmb_documento.SelectedValue;
         }
 
-        if (!string.IsNullOrEmpty(txt_cliente.Text)) {
+        if (!string.IsNullOrEmpty(txt_cliente.Text))
+        {
           oPagos.RazonSocial = txt_cliente.Text;
         }
 
-        if ((!string.IsNullOrEmpty(hdd_fch_inicio.Value)) && (!string.IsNullOrEmpty(hdd_fch_hasta.Value))) {
+        if ((!string.IsNullOrEmpty(hdd_fch_inicio.Value)) && (!string.IsNullOrEmpty(hdd_fch_hasta.Value)))
+        {
           oPagos.FechaInicial = DateTime.Parse(hdd_fch_inicio.Value).ToString("yyyyMMdd");
           oPagos.FechaFinal = DateTime.Parse(hdd_fch_hasta.Value).ToString("yyyyMMdd");
         }
@@ -166,60 +170,6 @@ namespace ICommunity.Antalis
 
     }
 
-    protected void gdPagos_SelectedIndexChanged(object sender, EventArgs e)
-    {
-      string pCodPago = gdPagos.SelectedDataKey.Value.ToString();
-      Response.Redirect(String.Format("ingreso_pagos.aspx?CodPago={0}", pCodPago));
-    }
-
-    protected void gdPagos_RowDeleting(object sender, GridViewDeleteEventArgs e)
-    {
-      string pCodPago = gdPagos.DataKeys[e.RowIndex].Value.ToString();
-
-      DBConn oConn = new DBConn();
-      if (oConn.Open()) {
-        cAntDocumentosPago oDocumentosPago = new cAntDocumentosPago(ref oConn);
-        oDocumentosPago.CodPagos = pCodPago;
-        DataTable dtDocPago = oDocumentosPago.Get();
-        if (dtDocPago != null) {
-          foreach (DataRow oRow in dtDocPago.Rows) {
-
-
-            string nCodFactura = oRow["cod_factura"].ToString();
-            string nImporte = oRow["importe"].ToString();
-            string nSaldo = string.Empty;
-            cAntFactura oFactura = new cAntFactura(ref oConn);
-            oFactura.CodFactura = nCodFactura;
-            DataTable dt = oFactura.Get();
-            if (dt != null)
-            {
-              if (dt.Rows.Count > 0)
-              {
-                nSaldo = dt.Rows[0]["saldo_factura"].ToString();
-              }
-            }
-            dt = null;
-
-            oFactura.SaldoFactura = (int.Parse(nImporte) + int.Parse(nSaldo)).ToString();
-            oFactura.Accion = "EDITAR";
-            oFactura.Put();
-          }
-        }
-        dtDocPago = null;
-        oDocumentosPago.Accion = "ELIMINAR";
-        oDocumentosPago.Put();
-
-        cAntPagos oPagos = new cAntPagos(ref oConn);
-        oPagos.CodPagos = pCodPago;
-        oPagos.Accion = "ELIMINAR";
-        oPagos.Put();
-
-      }
-      oConn.Close();
-
-      onLoadGrid();
-    }
-
     protected void gdPagos_PageIndexChanging(object sender, GridViewPageEventArgs e)
     {
       gdPagos.PageIndex = e.NewPageIndex;
@@ -228,54 +178,77 @@ namespace ICommunity.Antalis
 
     protected void gdPagos_RowDataBound(object sender, GridViewRowEventArgs e)
     {
-      if (e.Row.RowType == DataControlRowType.DataRow) {
-        string sCodCentroDist = e.Row.Cells[3].Text.ToString();
-        string sTipoDocumento = e.Row.Cells[4].Text.ToString();
-        string sEstado = e.Row.Cells[6].Text.ToString();
+      if (e.Row.RowType == DataControlRowType.DataRow)
+      {
+        string sCodCentroDist = e.Row.Cells[2].Text.ToString();
+        string sTipoDocumento = e.Row.Cells[3].Text.ToString();
 
         DBConn oConn = new DBConn();
-        if (oConn.Open()) {
+        if (oConn.Open())
+        {
           cAntCentrosDistribucion oCentrosDistribucion = new cAntCentrosDistribucion(ref oConn);
           oCentrosDistribucion.CodCentroDist = sCodCentroDist;
           DataTable dt = oCentrosDistribucion.GetByCod();
-          if (dt != null) {
-            if (dt.Rows.Count > 0) {
-              e.Row.Cells[3].Text = dt.Rows[0]["descripcion"].ToString();
+          if (dt != null)
+          {
+            if (dt.Rows.Count > 0)
+            {
+              e.Row.Cells[2].Text = dt.Rows[0]["descripcion"].ToString();
             }
           }
           dt = null;
         }
         oConn.Close();
 
-        switch (sTipoDocumento){
+        switch (sTipoDocumento)
+        {
           case "1":
-            e.Row.Cells[4].Text = "CHEQUE AL DIA";
+            e.Row.Cells[3].Text = "CHEQUE AL DIA";
             break;
           case "2":
-            e.Row.Cells[4].Text = "CHEQUE A FECHA";
+            e.Row.Cells[3].Text = "CHEQUE A FECHA";
             break;
           case "3":
-            e.Row.Cells[4].Text = "EFECTIVO";
+            e.Row.Cells[3].Text = "EFECTIVO";
             break;
           case "4":
-            e.Row.Cells[4].Text = "LETRA";
+            e.Row.Cells[3].Text = "LETRA";
             break;
           case "5":
-            e.Row.Cells[4].Text = "TARJETA";
+            e.Row.Cells[3].Text = "TARJETA";
             break;
         }
-
-        if (sEstado == "A")
-          e.Row.Cells[6].Text = "ABIERTO";
-        else
-          e.Row.Cells[6].Text = "CERRADO";
-        
       }
     }
 
     protected void idBuscar_Click(object sender, EventArgs e)
     {
       onLoadGrid();
+    }
+
+    protected void gdPagos_SelectedIndexChanging(object sender, GridViewSelectEventArgs e)
+    {
+      string sCodPago = gdPagos.DataKeys[e.NewSelectedIndex].Values[0].ToString();
+      string sCodTipoPago = gdPagos.DataKeys[e.NewSelectedIndex].Values[1].ToString();
+
+      switch (sCodTipoPago)
+      {
+        case "1":
+          Response.Redirect(String.Format("controllerpagochequedia.aspx?CodPago={0}", sCodPago));
+          break;
+        case "2":
+          Response.Redirect(String.Format("controllerpagochequefecha.aspx?CodPago={0}", sCodPago));
+          break;
+        case "3":
+          Response.Redirect(String.Format("controllerpagoefectivo.aspx?CodPago={0}", sCodPago));
+          break;
+        case "4":
+          Response.Redirect(String.Format("controllerpagoletra.aspx?CodPago={0}", sCodPago));
+          break;
+        case "5":
+          Response.Redirect(String.Format("controllerpagotarjeta.aspx?CodPago={0}", sCodPago));
+          break;
+      }
     }
   }
 }

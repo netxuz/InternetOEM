@@ -10,7 +10,7 @@
 namespace ICommunity.Antalis {
     
     
-    public partial class validacion_pagos {
+    public partial class controllerpagotarjeta {
         
         /// <summary>
         /// form1 control.

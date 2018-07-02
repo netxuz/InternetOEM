@@ -18,7 +18,7 @@
   <link rel="stylesheet" href="../css/datepicker.css" />
 </head>
 <body>
-  <form id="form1" runat="server">
+  <form id="form1" runat="server" autocomplete="off">
     <asp:ScriptManager ID="ScriptManager" runat="server"></asp:ScriptManager>
     <asp:HiddenField ID="hddnkey_cliente" runat="server" />
     <asp:HiddenField ID="hdd_cod_pago" runat="server" />

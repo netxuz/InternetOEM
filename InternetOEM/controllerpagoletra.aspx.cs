@@ -13,17 +13,17 @@ using OnlineServices.Reporting;
 
 using OnlineServices.Antalis;
 using OnlineServices.SystemData;
+using System.Web.Services;
 
-namespace ICommunity.Antalis
+namespace ICommunity
 {
-  public partial class validacion_pagos : System.Web.UI.Page
+  public partial class controllerpagoletra : System.Web.UI.Page
   {
     private OnlineServices.Method.Web oWeb = new OnlineServices.Method.Web();
     private OnlineServices.Method.Usuario oIsUsuario;
     protected void Page_Load(object sender, EventArgs e)
     {
       oIsUsuario = oWeb.ValidaUserAppReport();
-
       getMenu(idReportePago, oIsUsuario.CodUsuario, "1");
       getMenu(idProcesoSeguimiento, oIsUsuario.CodUsuario, "2");
       getMenu(idCartolas, oIsUsuario.CodUsuario, "3");
@@ -58,9 +58,9 @@ namespace ICommunity.Antalis
               {
 
                 if (oRow["cod_rol"].ToString() == "1")
-                  oHtmControl.Controls.Add(new LiteralControl("<li><a href='../antalis/ingreso_pagos.aspx'>Pagos</a></li>"));
+                  oHtmControl.Controls.Add(new LiteralControl("<li><a href='../antalis/pagos_antalis.aspx'>Pagos</a></li>"));
                 if (oRow["cod_rol"].ToString() == "2")
-                  oHtmControl.Controls.Add(new LiteralControl("<li><a href='../antalis/validacion_pagos.aspx'>Validación de Pago</a></li>"));
+                  oHtmControl.Controls.Add(new LiteralControl("<li><a href='../antalis/controllerpagos.aspx'>Validación de Pago</a></li>"));
               }
             }
             dtAntRoles = null;

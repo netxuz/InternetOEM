@@ -7,4 +7,3 @@ C:\Proyectos\DebtControl\InternetOEM\XtremConn\bin\Release\OnlineServices.Conn.d
 C:\Proyectos\DebtControl\InternetOEM\XtremConn\bin\Release\OnlineServices.Conn.pdb
 C:\Proyectos\DebtControl\InternetOEM\XtremConn\obj\Release\OnlineServices.Conn.dll
 C:\Proyectos\DebtControl\InternetOEM\XtremConn\obj\Release\OnlineServices.Conn.pdb
-C:\Proyectos\DebtControl\InternetOEM\XtremConn\obj\Release\OnlineServices.Conn.csprojResolveAssemblyReference.cache

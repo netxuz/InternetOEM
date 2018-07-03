@@ -106,7 +106,7 @@
       <HintPath>..\XtremConn\obj\Release\OnlineServices.Conn.dll</HintPath>
     </Reference>
     <Reference Include="OnlineServices.Method">
-      <HintPath>..\XtremMethod\obj\Release\OnlineServices.Method.dll</HintPath>
+      <HintPath>..\XtremMethod\bin\Release\OnlineServices.Method.dll</HintPath>
     </Reference>
     <Reference Include="OnlineServices.Reporting">
       <HintPath>..\OnlineServices.Reporting\obj\Release\OnlineServices.Reporting.dll</HintPath>
@@ -174,10 +174,8 @@
     <Content Include="Antalis\asignacion_centrodistribucion.aspx" />
     <Content Include="Antalis\asignacion_roles.aspx" />
     <Content Include="Antalis\controllerpagochequedia.aspx" />
-    <Content Include="Antalis\controllerpagochequefecha.aspx" />
     <Content Include="Antalis\controllerpagoefectivo.aspx" />
     <Content Include="Antalis\controllerpagos.aspx" />
-    <Content Include="Antalis\controllerpagotarjeta.aspx" />
     <Content Include="Antalis\default.aspx" />
     <Content Include="Antalis\ingreso_pagos.aspx" />
     <Content Include="Antalis\pagos_antalis.aspx" />
@@ -232,13 +230,6 @@
     <Compile Include="Antalis\controllerpagochequedia.aspx.designer.cs">
       <DependentUpon>controllerpagochequedia.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Antalis\controllerpagochequefecha.aspx.cs">
-      <DependentUpon>controllerpagochequefecha.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Antalis\controllerpagochequefecha.aspx.designer.cs">
-      <DependentUpon>controllerpagochequefecha.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Antalis\controllerpagoefectivo.aspx.cs">
       <DependentUpon>controllerpagoefectivo.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -252,13 +243,6 @@
     </Compile>
     <Compile Include="Antalis\controllerpagos.aspx.designer.cs">
       <DependentUpon>controllerpagos.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Antalis\controllerpagotarjeta.aspx.cs">
-      <DependentUpon>controllerpagotarjeta.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Antalis\controllerpagotarjeta.aspx.designer.cs">
-      <DependentUpon>controllerpagotarjeta.aspx</DependentUpon>
     </Compile>
     <Compile Include="Antalis\default.aspx.cs">
       <DependentUpon>default.aspx</DependentUpon>

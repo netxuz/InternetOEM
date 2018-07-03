@@ -42,9 +42,15 @@ namespace OnlineServices.Antalis
 
     private string pNumGuiaDespacho;
     public string NumGuiaDespacho { get { return pNumGuiaDespacho; } set { pNumGuiaDespacho = value; } }
-
+    
     private string pImporte;
     public string importe { get { return pImporte; } set { pImporte = value; } }
+
+    private string pImporteRecibido;
+    public string ImporteRecibido { get { return pImporteRecibido; } set { pImporteRecibido = value; } }
+
+    private string pDiscrepancia;
+    public string Discrepancia { get { return pDiscrepancia; } set { pDiscrepancia = value; } }
 
     private string pAccion;
     public string Accion { get { return pAccion; } set { pAccion = value; } }
@@ -73,7 +79,7 @@ namespace OnlineServices.Antalis
       if (oConn.bIsOpen)
       {
         cSQL = new StringBuilder();
-        cSQL.Append("select cod_documento, cod_pago, cod_factura, cod_sap, nom_deudor, num_documento, cod_banco, nom_banco, convert(varchar, fch_documento, 103) fch_documento, num_guia_despacho, importe  ");
+        cSQL.Append("select cod_documento, cod_pago, cod_factura, cod_sap, nom_deudor, num_documento, cod_banco, nom_banco, convert(varchar, fch_documento, 103) fch_documento, num_guia_despacho, importe, importe_recibido, discrepancia  ");
         cSQL.Append(" from ant_documentos_pago ");
 
         if (!string.IsNullOrEmpty(pCodDocumento))
@@ -129,7 +135,7 @@ namespace OnlineServices.Antalis
       if (oConn.bIsOpen)
       {
         cSQL = new StringBuilder();
-        cSQL.Append("select a.cod_documento, a.cod_pago, a.cod_factura,(select num_factura from ant_factura where cod_factura = a.cod_factura) num_factura, a.cod_sap, a.nom_deudor, a.num_documento, a.cod_banco, a.nom_banco, convert(varchar, a.fch_documento, 103) fch_documento, a.num_guia_despacho, a.importe, (select valor_factura from ant_factura where cod_factura = a.cod_factura) valor_factura ");
+        cSQL.Append("select a.cod_documento, a.cod_pago, a.cod_factura,(select num_factura from ant_factura where cod_factura = a.cod_factura) num_factura, a.cod_sap, a.nom_deudor, a.num_documento, a.cod_banco, a.nom_banco, convert(varchar, a.fch_documento, 103) fch_documento, a.num_guia_despacho, a.importe, (select valor_factura from ant_factura where cod_factura = a.cod_factura) valor_factura,  a.importe_recibido, a.discrepancia ");
         cSQL.Append(" from ant_documentos_pago a ");
 
         if (!string.IsNullOrEmpty(pCodDocumento))
@@ -237,6 +243,20 @@ namespace OnlineServices.Antalis
                 cSQL.Append(sComa);
                 cSQL.Append(" importe = @importe");
                 oParam.AddParameters("@importe", pImporte, TypeSQL.Numeric);
+                sComa = ", ";
+              }
+              if (!string.IsNullOrEmpty(pImporteRecibido))
+              {
+                cSQL.Append(sComa);
+                cSQL.Append(" importe_recibido = @importe_recibido");
+                oParam.AddParameters("@importe_recibido", pImporteRecibido, TypeSQL.Numeric);
+                sComa = ", ";
+              }
+              if (!string.IsNullOrEmpty(pDiscrepancia))
+              {
+                cSQL.Append(sComa);
+                cSQL.Append(" discrepancia = @discrepancia");
+                oParam.AddParameters("@discrepancia", pDiscrepancia, TypeSQL.Numeric);
                 sComa = ", ";
               }
               cSQL.Append(" where cod_documento = @cod_documento ");

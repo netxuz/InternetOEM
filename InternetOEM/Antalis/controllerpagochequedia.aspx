@@ -20,6 +20,8 @@
 <body>
   <form id="form1" runat="server">
     <asp:ScriptManager ID="ScriptManager" runat="server"></asp:ScriptManager>
+    <asp:HiddenField ID="hdd_cod_pago" runat="server" />
+    <asp:HiddenField ID="hdd_cod_documento" runat="server" />
     <nav class="navbar-inverse">
       <div class="container-fluid">
         <div class="navbar-header">
@@ -66,7 +68,118 @@
     </nav>
     <div class="container">
       <div class="row">&nbsp;</div>
-      Controller Pago Cheque al Dia
+      <div class="row">
+        <div class="col-md-6">
+          <asp:Label ID="lblTitle" runat="server" CssClass="lblTitle" Text=""></asp:Label>
+        </div>
+        <div class="col-md-6 text-right">
+          <asp:Label ID="lblValija" runat="server" CssClass="lblTitle"></asp:Label>
+        </div>
+      </div>
+      <div class="row vAlign">
+        <div class="col-md-4">
+          <span>RAZÓN SOCIAL:
+            <asp:Label ID="lblRazonSocial" runat="server"></asp:Label></span>
+        </div>
+        <div class="col-md-4">
+          <span>CENTRO DE DISTRIBUCION:
+            <asp:Label ID="lblCentroDistribucion" runat="server"></asp:Label></span>
+        </div>
+        <div class="col-md-4">
+          <span>FECHA RENDICIÓN:
+            <asp:Label ID="lblFecharecepcion" runat="server"></asp:Label></span>
+        </div>
+      </div>
+      <!--ROW 1 -->
+      <div id="idRow1" runat="server" visible="false" class="row vAlign">
+        <div class="col-md-4">
+          <span>FECHA TRANSACCIÓN:
+            <asp:Label ID="lblFechtransaccion" runat="server"></asp:Label></span>
+        </div>
+        <div class="col-md-4">
+          <span>NUMERO CHEQUE / OPERACION:
+            <asp:Label ID="lblNumOperacion" runat="server"></asp:Label></span>
+        </div>
+        <div class="col-md-4">
+          <span>BANCO:
+            <asp:Label ID="lblBanco" runat="server"></asp:Label></span>
+        </div>
+      </div>
+      <!--ROW 2 -->
+      <div id="idRow2" runat="server" visible="false" class="row vAlign">
+        <div class="col-md-4">
+          <span>IMPORTE:
+            <asp:Label ID="lblimporte" runat="server"></asp:Label></span>
+          <asp:HiddenField ID="hdd_importe" runat="server" />
+        </div>
+        <div class="col-md-4">
+          <div class="md-form" style="width: 20rem;">
+            <asp:TextBox ID="txt_importe_recibido" runat="server" CssClass="form-control"></asp:TextBox>
+            <label for="txt_importe_recibido">IMPORTE RECIBIDO</label>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="md-form" style="width: 20rem;">
+            <asp:TextBox ID="txt_discrepancia" runat="server" CssClass="form-control"></asp:TextBox>
+            <label for="txt_discrepancia">DISCREPANCIA</label>
+          </div>
+        </div>
+      </div>
+      <!--ROW 3 -->
+      <div id="idRow3" runat="server" visible="false" class="row vAlign">
+        <div class="col-md-12">
+          <asp:Button ID="btnCancelModify" runat="server" Text="CANCELAR" CssClass="btn btn-default" OnClick="btnCancelModify_Click" />
+          <asp:Button ID="btnModificar" runat="server" Text="ACEPTAR" CssClass="btn btn-primary" OnClick="btnModificar_Click" />
+        </div>
+      </div>
+      <div class="row">
+        <br />
+      </div>
+      <div class="row">
+        <asp:GridView ID="gdPagos" runat="server" CssClass="table table-hover"
+          DataKeyNames="cod_documento" BorderStyle="Solid"
+          BorderWidth="0" GridLines="Horizontal"
+          AutoGenerateColumns="false"  OnSelectedIndexChanged="gdPagos_SelectedIndexChanged" OnPageIndexChanging="gdPagos_PageIndexChanging" OnRowDataBound="gdPagos_RowDataBound">
+          <Columns>
+            <asp:CommandField ButtonType="Link" ShowSelectButton="true" SelectText="Sele" ItemStyle-CssClass="BtnColEditar" ItemStyle-Width="1px" />
+            <asp:BoundField HeaderText="# DOCUMENTO" DataField="num_documento" />
+            <asp:BoundField HeaderText="CODIGO BANCO" DataField="cod_banco" />
+            <asp:BoundField HeaderText="FECHA DOCUMENTO" DataField="fch_documento" />
+            <asp:BoundField HeaderText="# GUIA DESPACHO" DataField="num_guia_despacho" />
+            <asp:BoundField HeaderText="# FACTURA" DataField="num_factura" />
+            <asp:BoundField HeaderText="IMPORTE" DataField="importe" />
+            <asp:BoundField HeaderText="IMPORTE RECIBIDO" DataField="importe_recibido" />
+            <asp:BoundField HeaderText="DISCREPANCIA" DataField="discrepancia" />
+          </Columns>
+        </asp:GridView>
+      </div>
+      <div class="col-md-6"></div>
+      <div class="col-md-6 text-right">
+        <div class="row">
+          <span>Total de Documentos :
+            <asp:Label ID="lblCantidad" runat="server"></asp:Label></span>
+        </div>
+        <div class="row">
+          <span>Total Importe:
+            <asp:Label ID="lblMonto" runat="server"></asp:Label></span>
+        </div>
+        <div class="row">
+          <span>Total Recibido:
+            <asp:Label ID="lblImporteTotalRecibido" runat="server"></asp:Label></span>
+          <asp:HiddenField ID="hdd_importetotal_recibido" runat="server" />
+        </div>
+        <div class="row">
+          <span>Total Discrepancia:
+            <asp:Label ID="lblDiscrepanciaTotal" runat="server"></asp:Label></span>
+          <asp:HiddenField ID="hdd_total_discrepancia" runat="server" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <asp:Button ID="btnRechazar" runat="server" Text="RECHAZAR" class="btn btn-default" Visible="false" OnClick="btnRechazar_Click" />
+          <asp:Button ID="btnAceptar" runat="server" Text="ACEPTAR" class="btn btn-primary" Visible="false" OnClick="btnAceptar_Click" />
+        </div>
+      </div>
     </div>
   </form>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -77,5 +190,14 @@
   <script type="text/javascript" src="../js/bootstrap-datepicker.js" charset="UTF-8"></script>
   <!-- MDB core JavaScript -->
   <script type="text/javascript" src="../js/mdb.min.js"></script>
+  <script>
+    $("#txt_importe_recibido").focusout(function () {
+      if ($("#txt_importe_recibido").val() != '') {
+        var iDiscrepancia = parseInt($("#hdd_importe").val()) - parseInt($("#txt_importe_recibido").val());
+        $("#txt_discrepancia").val(iDiscrepancia);
+        $("#txt_discrepancia").focus();
+      }
+    });
+  </script>
 </body>
 </html>

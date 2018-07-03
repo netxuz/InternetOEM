@@ -192,14 +192,16 @@
         <div class="row">
           <span>Total de Documentos :
             <asp:Label ID="lblCantidad" runat="server"></asp:Label></span>
+          <asp:HiddenField ID="hdd_cantidad_doc" runat="server" />
         </div>
         <div class="row">
           <span>Monto Total :
             <asp:Label ID="lblMonto" runat="server"></asp:Label></span>
+          <asp:HiddenField ID="hdd_importe_total" runat="server" />
         </div>
       </div>
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12 text-center">
           <asp:Button ID="btnCerrarValija" runat="server" Text="Cerrar Valija" class="btn btn-primary" OnClick="btnCerrarValija_Click" Visible="false" />
         </div>
       </div>
@@ -239,17 +241,17 @@
         return false;
       }
 
-      if ($("#txt_num_documento").val() == "") {
+      if (($("#cmb_documento").val() != "3")&&($("#txt_num_documento").val() == "")) {
         alert('Debe ingresar código / número del documento');
         return false;
       }
 
-      if ($("#cmb_bancos").val() == "") {
+      if (($("#cmb_documento").val() != "3")&&($("#cmb_bancos").val() == "")) {
         alert('Debe ingresar el Banco del documento');
         return false;
       }
 
-      if ($("#fch_documento").val() == "") {
+      if (($("#cmb_documento").val() != "3")&&($("#fch_documento").val() == "")) {
         alert('Debe ingresar la fecha del documento');
         return false;
       } else {

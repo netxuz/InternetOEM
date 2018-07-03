@@ -52,6 +52,12 @@ namespace OnlineServices.Antalis
     private string sFechaFinal;
     public string FechaFinal { get { return sFechaFinal; } set { sFechaFinal = value; } }
 
+    private string pImporteTotalRecibido;
+    public string ImporteTotalRecibido { get { return pImporteTotalRecibido; } set { pImporteTotalRecibido = value; } }
+
+    private string pDiscrepancia;
+    public string Discrepancia { get { return pDiscrepancia; } set { pDiscrepancia = value; } }
+
     private string pAccion;
     public string Accion { get { return pAccion; } set { pAccion = value; } }
 
@@ -177,10 +183,38 @@ namespace OnlineServices.Antalis
             case "EDITAR":
               cSQL = new StringBuilder();
               cSQL.Append("update ant_pagos set ");
+              if (!string.IsNullOrEmpty(pCantDocumentos))
+              {
+                cSQL.Append(" cant_documentos = @cant_documentos ");
+                oParam.AddParameters("@cant_documentos", pCantDocumentos, TypeSQL.Numeric);
+                sComa = ", ";
+              }
+              if (!string.IsNullOrEmpty(pImporteTotal))
+              {
+                cSQL.Append(sComa);
+                cSQL.Append(" importe_total = @importe_total ");
+                oParam.AddParameters("@importe_total", pImporteTotal, TypeSQL.Numeric);
+                sComa = ", ";
+              }
               if (!string.IsNullOrEmpty(pEstado))
               {
+                cSQL.Append(sComa);
                 cSQL.Append(" estado = @estado");
                 oParam.AddParameters("@estado", pEstado, TypeSQL.Char);
+                sComa = ", ";
+              }
+              if (!string.IsNullOrEmpty(pImporteTotalRecibido))
+              {
+                cSQL.Append(sComa);
+                cSQL.Append(" importe_total_recibido = @importe_total_recibido");
+                oParam.AddParameters("@importe_total_recibido", pImporteTotalRecibido, TypeSQL.Numeric);
+                sComa = ", ";
+              }
+              if (!string.IsNullOrEmpty(pDiscrepancia))
+              {
+                cSQL.Append(sComa);
+                cSQL.Append(" discrepancia = @discrepancia");
+                oParam.AddParameters("@discrepancia", pDiscrepancia, TypeSQL.Numeric);
                 sComa = ", ";
               }
               cSQL.Append(" where cod_pago = @cod_pago ");

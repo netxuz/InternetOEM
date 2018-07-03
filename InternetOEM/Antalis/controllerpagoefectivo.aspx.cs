@@ -32,6 +32,53 @@ namespace ICommunity.Antalis
       getMenu(IndClasificacionRiesgo, oIsUsuario.CodUsuario, "6");
 
       getMenuAntalis(indAntalis, oIsUsuario.CodUsuario);
+
+      if (!IsPostBack) {
+        hdd_cod_pago.Value = oWeb.GetData("CodPago");
+
+        DBConn oConn = new DBConn();
+        if (oConn.Open()) {
+          cAntPagos oPagos = new cAntPagos(ref oConn);
+          oPagos.CodPagos = hdd_cod_pago.Value;
+          DataTable dt = oPagos.Get();
+          if (dt != null) {
+            if (dt.Rows.Count > 0) {
+              lblValija.Text = "# Valija " + dt.Rows[0]["cod_pago"].ToString();
+
+              cCliente oCliente = new cCliente(ref oConn);
+              oCliente.CodNkey = dt.Rows[0]["nkey_cliente"].ToString();
+              DataTable dtCliente = oCliente.GeCliente();
+              if (dtCliente != null) {
+                if (dtCliente.Rows.Count > 0) {
+                  lblRazonSocial.Text = dtCliente.Rows[0]["cliente"].ToString();
+                }
+              }
+              dtCliente = null;
+
+              cAntCentrosDistribucion oCentrosDistribucion = new cAntCentrosDistribucion(ref oConn);
+              oCentrosDistribucion.CodCentroDist = dt.Rows[0]["cod_centrodist"].ToString();
+              DataTable dtCentro = oCentrosDistribucion.GetByCod();
+              if (dtCentro != null)
+              {
+                if (dtCentro.Rows.Count > 0)
+                {
+                  lblCentroDistribucion.Text = dtCentro.Rows[0]["descripcion"].ToString();
+                }
+              }
+              dtCentro = null;
+
+              lblFecharecepcion.Text = dt.Rows[0]["fech_recepcion"].ToString();
+              lblimporte.Text = dt.Rows[0]["importe_total"].ToString();
+              hdd_importe.Value = dt.Rows[0]["importe_total"].ToString();
+
+            }
+          }
+          dt = null;
+
+        }
+        oConn.Close();
+      }
+
     }
 
     protected void getMenuAntalis(System.Web.UI.HtmlControls.HtmlGenericControl oHtmControl, string pCoduser)
@@ -86,13 +133,49 @@ namespace ICommunity.Antalis
           {
             foreach (DataRow oRow in dtQuery.Rows)
             {
-              oHtmControl.Controls.Add(new LiteralControl("<li><a href=\"" + oRow["url_consulta_new"].ToString() + "\">" + oRow["nom_consulta"].ToString() + "</a></li>"));
+              oHtmControl.Controls.Add(new LiteralControl("<li><a href=\"../reporting/" + oRow["url_consulta_new"].ToString() + "\">" + oRow["nom_consulta"].ToString() + "</a></li>"));
             }
           }
         }
         dtQuery = null;
       }
       oConn.Close();
+    }
+
+    protected void btnRechazar_Click(object sender, EventArgs e)
+    {
+      DBConn oConn = new DBConn();
+      if (oConn.Open()) {
+        cAntPagos oPagos = new cAntPagos(ref oConn);
+        oPagos.CodPagos = hdd_cod_pago.Value;
+        oPagos.ImporteTotalRecibido = txt_importe_recibido.Text;
+        oPagos.Discrepancia = txt_discrepancia.Text;
+        oPagos.Estado = "A";
+        oPagos.Accion = "EDITAR";
+        oPagos.Put();
+        oConn.Close();
+      }
+
+      Response.Redirect("controllerpagos.aspx");
+      
+    }
+
+    protected void btnAprobar_Click(object sender, EventArgs e)
+    {
+      DBConn oConn = new DBConn();
+      if (oConn.Open())
+      {
+        cAntPagos oPagos = new cAntPagos(ref oConn);
+        oPagos.CodPagos = hdd_cod_pago.Value;
+        oPagos.ImporteTotalRecibido = txt_importe_recibido.Text;
+        oPagos.Discrepancia = txt_discrepancia.Text;
+        oPagos.Estado = "F";
+        oPagos.Accion = "EDITAR";
+        oPagos.Put();
+        oConn.Close();
+      }
+
+      Response.Redirect("controllerpagos.aspx");
     }
   }
 }

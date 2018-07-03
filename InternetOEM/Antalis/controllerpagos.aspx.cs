@@ -120,7 +120,7 @@ namespace ICommunity.Antalis
           {
             foreach (DataRow oRow in dtQuery.Rows)
             {
-              oHtmControl.Controls.Add(new LiteralControl("<li><a href=\"" + oRow["url_consulta_new"].ToString() + "\">" + oRow["nom_consulta"].ToString() + "</a></li>"));
+              oHtmControl.Controls.Add(new LiteralControl("<li><a href=\"../reporting/" + oRow["url_consulta_new"].ToString() + "\">" + oRow["nom_consulta"].ToString() + "</a></li>"));
             }
           }
         }
@@ -234,19 +234,13 @@ namespace ICommunity.Antalis
       switch (sCodTipoPago)
       {
         case "1":
-          Response.Redirect(String.Format("controllerpagochequedia.aspx?CodPago={0}", sCodPago));
-          break;
         case "2":
-          Response.Redirect(String.Format("controllerpagochequefecha.aspx?CodPago={0}", sCodPago));
+        case "4":
+        case "5":
+          Response.Redirect(String.Format("controllerpagochequedia.aspx?CodPago={0}", sCodPago));
           break;
         case "3":
           Response.Redirect(String.Format("controllerpagoefectivo.aspx?CodPago={0}", sCodPago));
-          break;
-        case "4":
-          Response.Redirect(String.Format("controllerpagoletra.aspx?CodPago={0}", sCodPago));
-          break;
-        case "5":
-          Response.Redirect(String.Format("controllerpagotarjeta.aspx?CodPago={0}", sCodPago));
           break;
       }
     }

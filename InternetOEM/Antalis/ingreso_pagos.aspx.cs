@@ -101,7 +101,8 @@ namespace ICommunity.Antalis
                 lbl_fecha_recepcion.Text = dtPagos.Rows[0]["fech_recepcion"].ToString();
                 bEstadoValija = ((dtPagos.Rows[0]["estado"].ToString() != "C") ? true : false);
 
-                if (!bEstadoValija) {
+                if (!bEstadoValija)
+                {
                   idRow1.Visible = false;
                   idRow2.Visible = false;
                   idRow3.Visible = false;
@@ -117,8 +118,10 @@ namespace ICommunity.Antalis
           cCliente oCliente = new cCliente(ref oConn);
           oCliente.CodNkey = oIsUsuario.CodNkey;
           DataTable dt = oCliente.GeCliente();
-          if (dt != null) {
-            if (dt.Rows.Count > 0) {
+          if (dt != null)
+          {
+            if (dt.Rows.Count > 0)
+            {
               lblRazonSocial.Text = dt.Rows[0]["cliente"].ToString();
             }
           }
@@ -182,7 +185,7 @@ namespace ICommunity.Antalis
           {
             foreach (DataRow oRow in dtQuery.Rows)
             {
-              oHtmControl.Controls.Add(new LiteralControl("<li><a href=\"" + oRow["url_consulta_new"].ToString() + "\">" + oRow["nom_consulta"].ToString() + "</a></li>"));
+              oHtmControl.Controls.Add(new LiteralControl("<li><a href=\"../reporting/" + oRow["url_consulta_new"].ToString() + "\">" + oRow["nom_consulta"].ToString() + "</a></li>"));
             }
           }
         }
@@ -354,15 +357,20 @@ namespace ICommunity.Antalis
         oAntDocumentosPago.CodFactura = pCodFactura;
         oAntDocumentosPago.CodSAP = pCodSAP;
         oAntDocumentosPago.NombreDeudor = sRazonSocial;
-        oAntDocumentosPago.NumDocumento = pNumOperacion;
-        oAntDocumentosPago.CodBanco = pCodBanco;
-        oAntDocumentosPago.FchDocumento = pFchDocumento;
+        if (!string.IsNullOrEmpty(pNumOperacion))
+          oAntDocumentosPago.NumDocumento = pNumOperacion;
+        if (!string.IsNullOrEmpty(pCodBanco))
+          oAntDocumentosPago.CodBanco = pCodBanco;
+        if (!string.IsNullOrEmpty(pFchDocumento))
+          oAntDocumentosPago.FchDocumento = pFchDocumento;
         oAntDocumentosPago.NumGuiaDespacho = pGuiaDespacho;
         oAntDocumentosPago.importe = pImporte;
         oAntDocumentosPago.Accion = (string.IsNullOrEmpty(hdd_cod_documento.Value) ? "CREAR" : "EDITAR");
         oAntDocumentosPago.Put();
 
         string pCodDocumento = oAntDocumentosPago.CodDocumento;
+
+        bEstadoValija = true;
 
         onLoadGrid();
 
@@ -414,7 +422,9 @@ namespace ICommunity.Antalis
               btnCerrarValija.Visible = true;
 
             lblCantidad.Text = dt.Rows.Count.ToString();
+            hdd_cantidad_doc.Value = dt.Rows.Count.ToString();
             lblMonto.Text = dt.Compute("SUM(importe)", string.Empty).ToString();
+            hdd_importe_total.Value = dt.Compute("SUM(importe)", string.Empty).ToString();
 
           }
         }
@@ -586,6 +596,8 @@ namespace ICommunity.Antalis
       {
         cAntPagos oPagos = new cAntPagos(ref oConn);
         oPagos.CodPagos = hdd_cod_pago.Value;
+        oPagos.CantDocumentos = hdd_cantidad_doc.Value;
+        oPagos.ImporteTotal = hdd_importe_total.Value;
         oPagos.Estado = "C";
         oPagos.Accion = "EDITAR";
         oPagos.Put();
@@ -599,28 +611,33 @@ namespace ICommunity.Antalis
     {
       if (e.Row.RowType == DataControlRowType.DataRow)
       {
-        if (!bEstadoValija) {
+        if (!bEstadoValija)
+        {
           gdPagos.HeaderRow.Cells[0].Visible = false;
           e.Row.Cells[0].Visible = false;
           gdPagos.HeaderRow.Cells[1].Visible = false;
           e.Row.Cells[1].Visible = false;
         }
-
-        DBConn oConn = new DBConn();
-        if (oConn.Open()) {
-          cAntBancos oBancos = new cAntBancos(ref oConn);
-          oBancos.NKeyBanco = e.Row.Cells[3].Text.ToString();
-          DataTable dt = oBancos.Get();
-          if (dt != null) {
-            if (dt.Rows.Count > 0) {
-              e.Row.Cells[3].Text = dt.Rows[0]["snombre"].ToString();
+        if (e.Row.Cells[3].Text.ToString() != "&nbsp;")
+        {
+          DBConn oConn = new DBConn();
+          if (oConn.Open())
+          {
+            cAntBancos oBancos = new cAntBancos(ref oConn);
+            oBancos.NKeyBanco = e.Row.Cells[3].Text.ToString();
+            DataTable dt = oBancos.Get();
+            if (dt != null)
+            {
+              if (dt.Rows.Count > 0)
+              {
+                e.Row.Cells[3].Text = dt.Rows[0]["snombre"].ToString();
+              }
             }
+            dt = null;
+
           }
-          dt = null;
-
+          oConn.Close();
         }
-        oConn.Close();
-
       }
     }
   }

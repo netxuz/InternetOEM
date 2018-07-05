@@ -229,6 +229,15 @@ namespace ICommunity.Antalis {
         protected global::System.Web.UI.WebControls.TextBox txt_num_documento;
         
         /// <summary>
+        /// txt_importe control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txt_importe;
+        
+        /// <summary>
         /// cmb_bancos control.
         /// </summary>
         /// <remarks>
@@ -299,15 +308,6 @@ namespace ICommunity.Antalis {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hdd_facturas;
-        
-        /// <summary>
-        /// txt_importe control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txt_importe;
         
         /// <summary>
         /// idRow3 control.

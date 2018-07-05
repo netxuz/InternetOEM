@@ -78,7 +78,7 @@ namespace ICommunity.Antalis
           {
             foreach (DataRow oRow in dtBancos.Rows)
             {
-              cmb_bancos.Items.Add(new ListItem(oRow["snombre"].ToString(), oRow["nkey_banco"].ToString()));
+              cmb_bancos.Items.Add(new ListItem(oRow["nkey_banco"].ToString() + " - " + oRow["snombre"].ToString(), oRow["nkey_banco"].ToString()));
             }
           }
           dtBancos = null;
@@ -157,7 +157,7 @@ namespace ICommunity.Antalis
               {
 
                 if (oRow["cod_rol"].ToString() == "1")
-                  oHtmControl.Controls.Add(new LiteralControl("<li><a href='../antalis/pagos_antalis.aspx'>Pagos</a></li>"));
+                  oHtmControl.Controls.Add(new LiteralControl("<li><a href='../antalis/pagos_antalis.aspx'>Ingreso de Pago</a></li>"));
                 if (oRow["cod_rol"].ToString() == "2")
                   oHtmControl.Controls.Add(new LiteralControl("<li><a href='../antalis/controllerpagos.aspx'>Validación de Pago</a></li>"));
               }
@@ -257,7 +257,7 @@ namespace ICommunity.Antalis
       string pCodTipoPago = cmb_documento.SelectedValue;
       string pFchRecepcion = txt_fecha_recepcion.Value;
       string pCodSAP = txt_codigosap.Text;
-      string sRazonSocial = txt_razon_social.Text;
+      //string sRazonSocial = txt_razon_social.Text;
       string pNumOperacion = txt_num_documento.Text;
       string pCodBanco = cmb_bancos.SelectedValue;
       string pFchDocumento = hdd_fchdocument.Value;
@@ -356,7 +356,7 @@ namespace ICommunity.Antalis
         oAntDocumentosPago.CodDocumento = hdd_cod_documento.Value;
         oAntDocumentosPago.CodFactura = pCodFactura;
         oAntDocumentosPago.CodSAP = pCodSAP;
-        oAntDocumentosPago.NombreDeudor = sRazonSocial;
+        //oAntDocumentosPago.NombreDeudor = sRazonSocial;
         if (!string.IsNullOrEmpty(pNumOperacion))
           oAntDocumentosPago.NumDocumento = pNumOperacion;
         if (!string.IsNullOrEmpty(pCodBanco))
@@ -383,7 +383,7 @@ namespace ICommunity.Antalis
         txt_codigosap.Text = string.Empty;
         txt_codigosap.Enabled = true;
 
-        txt_razon_social.Text = string.Empty;
+        //txt_razon_social.Text = string.Empty;
         txt_num_documento.Text = string.Empty;
         cmb_bancos.SelectedValue = string.Empty;
 
@@ -451,7 +451,7 @@ namespace ICommunity.Antalis
             hdd_cod_documento.Value = dtDocPago.Rows[0]["cod_documento"].ToString();
             txt_codigosap.Text = dtDocPago.Rows[0]["cod_sap"].ToString();
             txt_codigosap.Enabled = false;
-            txt_razon_social.Text = dtDocPago.Rows[0]["nom_deudor"].ToString();
+            //txt_razon_social.Text = dtDocPago.Rows[0]["nom_deudor"].ToString();
             txt_num_documento.Text = dtDocPago.Rows[0]["num_documento"].ToString();
             cmb_bancos.SelectedValue = dtDocPago.Rows[0]["cod_banco"].ToString();
 
@@ -567,7 +567,7 @@ namespace ICommunity.Antalis
       txt_codigosap.Text = string.Empty;
       txt_codigosap.Enabled = true;
 
-      txt_razon_social.Text = string.Empty;
+      //txt_razon_social.Text = string.Empty;
       txt_num_documento.Text = string.Empty;
       cmb_bancos.SelectedValue = string.Empty;
 
@@ -630,7 +630,7 @@ namespace ICommunity.Antalis
             {
               if (dt.Rows.Count > 0)
               {
-                e.Row.Cells[3].Text = dt.Rows[0]["snombre"].ToString();
+                e.Row.Cells[3].Text = e.Row.Cells[3].Text.ToString() + " - " + dt.Rows[0]["snombre"].ToString();
               }
             }
             dt = null;

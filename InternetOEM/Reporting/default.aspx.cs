@@ -54,7 +54,7 @@ namespace ICommunity.Reporting
               foreach (DataRow oRow in dtAntRoles.Rows) {
 
                 if (oRow["cod_rol"].ToString() == "1")
-                  oHtmControl.Controls.Add(new LiteralControl("<li><a href='../antalis/pagos_antalis.aspx'>Pagos</a></li>"));
+                  oHtmControl.Controls.Add(new LiteralControl("<li><a href='../antalis/pagos_antalis.aspx'>Ingreso de Pago</a></li>"));
                 if (oRow["cod_rol"].ToString() == "2")
                   oHtmControl.Controls.Add(new LiteralControl("<li><a href='../antalis/controllerpagos.aspx'>Validación de Pago</a></li>"));
               }

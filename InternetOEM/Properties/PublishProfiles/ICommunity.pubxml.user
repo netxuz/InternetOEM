@@ -12,6 +12,39 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="adm/default.htm">
       <publishTime>04/27/2011 16:04:58</publishTime>
     </File>
+    <File Include="Antalis/asignacion_centrodistribucion.aspx">
+      <publishTime>06/10/2018 13:23:42</publishTime>
+    </File>
+    <File Include="Antalis/asignacion_roles.aspx">
+      <publishTime>06/10/2018 13:16:08</publishTime>
+    </File>
+    <File Include="Antalis/controllerpagochequedia.aspx">
+      <publishTime>07/04/2018 22:37:03</publishTime>
+    </File>
+    <File Include="Antalis/controllerpagoefectivo.aspx">
+      <publishTime>07/04/2018 22:37:10</publishTime>
+    </File>
+    <File Include="Antalis/controllerpagos.aspx">
+      <publishTime>07/04/2018 22:37:16</publishTime>
+    </File>
+    <File Include="Antalis/default.aspx">
+      <publishTime>06/09/2018 22:03:16</publishTime>
+    </File>
+    <File Include="Antalis/ingreso_pagos.aspx">
+      <publishTime>07/04/2018 23:15:49</publishTime>
+    </File>
+    <File Include="Antalis/pagos_antalis.aspx">
+      <publishTime>07/04/2018 22:37:50</publishTime>
+    </File>
+    <File Include="Antalis/redirection.htm">
+      <publishTime>06/15/2018 00:35:10</publishTime>
+    </File>
+    <File Include="Antalis/usuarios_centrosdistribucion.aspx">
+      <publishTime>06/19/2018 01:18:14</publishTime>
+    </File>
+    <File Include="Antalis/usuario_rol_antalis.aspx">
+      <publishTime>06/09/2018 23:49:33</publishTime>
+    </File>
     <File Include="AppRuta/applistactividad.aspx">
       <publishTime>05/27/2018 17:59:03</publishTime>
     </File>
@@ -78,6 +111,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Banners.aspx">
       <publishTime>09/12/2012 21:12:36</publishTime>
     </File>
+    <File Include="bin/Antlr3.Runtime.dll">
+      <publishTime>02/22/2013 08:43:40</publishTime>
+    </File>
     <File Include="bin/ClosedXML.dll">
       <publishTime>09/03/2016 21:07:18</publishTime>
     </File>
@@ -97,37 +133,70 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/01/2012 01:24:26</publishTime>
     </File>
     <File Include="bin/ICommunity.dll">
-      <publishTime>05/27/2018 19:08:38</publishTime>
+      <publishTime>07/05/2018 00:02:18</publishTime>
     </File>
     <File Include="bin/Ionic.Zip.dll">
       <publishTime>02/25/2010 23:29:50</publishTime>
     </File>
+    <File Include="bin/Microsoft.Web.Infrastructure.dll">
+      <publishTime>04/23/2012 15:23:58</publishTime>
+    </File>
+    <File Include="bin/Newtonsoft.Json.dll">
+      <publishTime>08/03/2014 19:33:56</publishTime>
+    </File>
+    <File Include="bin/OnlineServices.Antalis.dll">
+      <publishTime>07/02/2018 22:48:20</publishTime>
+    </File>
     <File Include="bin/OnlineServices.AppData.dll">
-      <publishTime>05/27/2018 18:11:17</publishTime>
+      <publishTime>07/02/2018 15:26:56</publishTime>
     </File>
     <File Include="bin/OnlineServices.AppRuta.dll">
-      <publishTime>05/27/2018 18:11:21</publishTime>
+      <publishTime>07/02/2018 15:26:52</publishTime>
     </File>
     <File Include="bin/OnlineServices.CmsData.dll">
-      <publishTime>05/27/2018 18:11:25</publishTime>
+      <publishTime>07/02/2018 15:31:58</publishTime>
     </File>
     <File Include="bin/OnlineServices.Conn.dll">
-      <publishTime>05/27/2018 18:11:16</publishTime>
+      <publishTime>07/02/2018 15:26:55</publishTime>
     </File>
     <File Include="bin/OnlineServices.Method.dll">
-      <publishTime>05/27/2018 18:11:05</publishTime>
+      <publishTime>07/02/2018 15:31:58</publishTime>
     </File>
     <File Include="bin/OnlineServices.Reporting.dll">
-      <publishTime>05/27/2018 18:11:12</publishTime>
+      <publishTime>07/02/2018 15:26:43</publishTime>
     </File>
     <File Include="bin/OnlineServices.SystemData.dll">
-      <publishTime>05/27/2018 18:10:54</publishTime>
+      <publishTime>07/02/2018 15:26:26</publishTime>
     </File>
     <File Include="bin/OnlineServices.Web.UI.dll">
-      <publishTime>05/27/2018 18:11:00</publishTime>
+      <publishTime>07/02/2018 15:31:59</publishTime>
+    </File>
+    <File Include="bin/System.Web.Helpers.dll">
+      <publishTime>01/28/2015 04:04:30</publishTime>
+    </File>
+    <File Include="bin/System.Web.Mvc.dll">
+      <publishTime>01/28/2015 04:02:18</publishTime>
+    </File>
+    <File Include="bin/System.Web.Optimization.dll">
+      <publishTime>02/11/2014 15:26:04</publishTime>
+    </File>
+    <File Include="bin/System.Web.Razor.dll">
+      <publishTime>01/28/2015 04:02:32</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.Deployment.dll">
+      <publishTime>01/28/2015 04:04:30</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.dll">
+      <publishTime>01/28/2015 04:04:30</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.Razor.dll">
+      <publishTime>01/28/2015 04:04:30</publishTime>
     </File>
     <File Include="bin/Telerik.Web.UI.dll">
       <publishTime>06/24/2016 00:24:48</publishTime>
+    </File>
+    <File Include="bin/WebGrease.dll">
+      <publishTime>09/10/2013 17:28:38</publishTime>
     </File>
     <File Include="CampoUsuarios.aspx">
       <publishTime>09/13/2013 21:55:02</publishTime>
@@ -143,6 +212,18 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Contenidos.aspx">
       <publishTime>04/05/2011 13:30:38</publishTime>
+    </File>
+    <File Include="Content/bootstrap.css">
+      <publishTime>06/17/2018 20:48:36</publishTime>
+    </File>
+    <File Include="Content/bootstrap.min.css">
+      <publishTime>06/17/2018 20:48:36</publishTime>
+    </File>
+    <File Include="Content/Site.css">
+      <publishTime>06/17/2018 20:48:27</publishTime>
+    </File>
+    <File Include="controllerpagoletra.aspx">
+      <publishTime>07/01/2018 23:54:06</publishTime>
     </File>
     <File Include="Controls/AdmVentaArriendo.ascx">
       <publishTime>06/24/2011 00:35:36</publishTime>
@@ -258,6 +339,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="css/animate.css">
       <publishTime>09/13/2016 00:06:57</publishTime>
     </File>
+    <File Include="css/antalis.css">
+      <publishTime>07/03/2018 00:35:48</publishTime>
+    </File>
     <File Include="css/bootstrap.css">
       <publishTime>12/29/2016 23:53:53</publishTime>
     </File>
@@ -269,6 +353,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="css/component.css">
       <publishTime>05/11/2017 00:47:07</publishTime>
+    </File>
+    <File Include="css/datepicker.css">
+      <publishTime>06/13/2018 00:50:26</publishTime>
     </File>
     <File Include="css/default.css">
       <publishTime>05/11/2017 00:47:07</publishTime>
@@ -325,7 +412,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/28/2017 17:32:13</publishTime>
     </File>
     <File Include="css/stylesdebtcontrol.css">
-      <publishTime>05/19/2018 23:22:47</publishTime>
+      <publishTime>06/12/2018 00:23:44</publishTime>
     </File>
     <File Include="css/thumbnails.css">
       <publishTime>09/13/2016 00:06:57</publishTime>
@@ -363,6 +450,18 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="fonts/fontawesome.woff">
       <publishTime>05/11/2017 00:48:02</publishTime>
     </File>
+    <File Include="fonts/glyphicons-halflings-regular.eot">
+      <publishTime>06/17/2018 20:48:36</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.svg">
+      <publishTime>06/17/2018 20:48:36</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.ttf">
+      <publishTime>06/17/2018 20:48:36</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.woff">
+      <publishTime>06/17/2018 20:48:36</publishTime>
+    </File>
     <File Include="fonts/readme.md">
       <publishTime>05/11/2017 00:48:03</publishTime>
     </File>
@@ -370,7 +469,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/21/2011 10:09:46</publishTime>
     </File>
     <File Include="framework.aspx">
-      <publishTime>01/04/2018 23:17:22</publishTime>
+      <publishTime>06/13/2018 01:25:21</publishTime>
     </File>
     <File Include="Global.asax">
       <publishTime>04/28/2011 19:10:16</publishTime>
@@ -624,6 +723,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="js/alert.js">
       <publishTime>09/13/2016 00:07:50</publishTime>
     </File>
+    <File Include="js/bootstrap-datepicker.js">
+      <publishTime>07/01/2018 20:21:55</publishTime>
+    </File>
     <File Include="js/bootstrap.js">
       <publishTime>09/13/2016 00:07:50</publishTime>
     </File>
@@ -708,6 +810,117 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="js/jquery.ui.totop.js">
       <publishTime>09/13/2016 00:07:52</publishTime>
     </File>
+    <File Include="js/locales/bootstrap-datepicker.bg.js">
+      <publishTime>06/13/2018 00:49:56</publishTime>
+    </File>
+    <File Include="js/locales/bootstrap-datepicker.ca.js">
+      <publishTime>06/13/2018 00:49:56</publishTime>
+    </File>
+    <File Include="js/locales/bootstrap-datepicker.cs.js">
+      <publishTime>06/13/2018 00:49:56</publishTime>
+    </File>
+    <File Include="js/locales/bootstrap-datepicker.da.js">
+      <publishTime>06/13/2018 00:49:56</publishTime>
+    </File>
+    <File Include="js/locales/bootstrap-datepicker.de.js">
+      <publishTime>06/13/2018 00:49:57</publishTime>
+    </File>
+    <File Include="js/locales/bootstrap-datepicker.el.js">
+      <publishTime>06/13/2018 00:49:57</publishTime>
+    </File>
+    <File Include="js/locales/bootstrap-datepicker.es.js">
+      <publishTime>06/13/2018 00:49:57</publishTime>
+    </File>
+    <File Include="js/locales/bootstrap-datepicker.fi.js">
+      <publishTime>06/13/2018 00:49:57</publishTime>
+    </File>
+    <File Include="js/locales/bootstrap-datepicker.fr.js">
+      <publishTime>06/13/2018 00:49:57</publishTime>
+    </File>
+    <File Include="js/locales/bootstrap-datepicker.he.js">
+      <publishTime>06/13/2018 00:49:57</publishTime>
+    </File>
+    <File Include="js/locales/bootstrap-datepicker.hr.js">
+      <publishTime>06/13/2018 00:49:57</publishTime>
+    </File>
+    <File Include="js/locales/bootstrap-datepicker.id.js">
+      <publishTime>06/13/2018 00:49:57</publishTime>
+    </File>
+    <File Include="js/locales/bootstrap-datepicker.is.js">
+      <publishTime>06/13/2018 00:49:57</publishTime>
+    </File>
+    <File Include="js/locales/bootstrap-datepicker.it.js">
+      <publishTime>06/13/2018 00:49:57</publishTime>
+    </File>
+    <File Include="js/locales/bootstrap-datepicker.ja.js">
+      <publishTime>06/13/2018 00:49:57</publishTime>
+    </File>
+    <File Include="js/locales/bootstrap-datepicker.kr.js">
+      <publishTime>06/13/2018 00:49:57</publishTime>
+    </File>
+    <File Include="js/locales/bootstrap-datepicker.lt.js">
+      <publishTime>06/13/2018 00:49:57</publishTime>
+    </File>
+    <File Include="js/locales/bootstrap-datepicker.lv.js">
+      <publishTime>06/13/2018 00:49:57</publishTime>
+    </File>
+    <File Include="js/locales/bootstrap-datepicker.ms.js">
+      <publishTime>06/13/2018 00:49:57</publishTime>
+    </File>
+    <File Include="js/locales/bootstrap-datepicker.nb.js">
+      <publishTime>06/13/2018 00:49:57</publishTime>
+    </File>
+    <File Include="js/locales/bootstrap-datepicker.nl.js">
+      <publishTime>06/13/2018 00:49:57</publishTime>
+    </File>
+    <File Include="js/locales/bootstrap-datepicker.pl.js">
+      <publishTime>06/13/2018 00:49:57</publishTime>
+    </File>
+    <File Include="js/locales/bootstrap-datepicker.pt-BR.js">
+      <publishTime>06/13/2018 00:49:57</publishTime>
+    </File>
+    <File Include="js/locales/bootstrap-datepicker.pt.js">
+      <publishTime>06/13/2018 00:49:57</publishTime>
+    </File>
+    <File Include="js/locales/bootstrap-datepicker.ro.js">
+      <publishTime>06/13/2018 00:49:57</publishTime>
+    </File>
+    <File Include="js/locales/bootstrap-datepicker.rs-latin.js">
+      <publishTime>06/13/2018 00:49:57</publishTime>
+    </File>
+    <File Include="js/locales/bootstrap-datepicker.rs.js">
+      <publishTime>06/13/2018 00:49:57</publishTime>
+    </File>
+    <File Include="js/locales/bootstrap-datepicker.ru.js">
+      <publishTime>06/13/2018 00:49:58</publishTime>
+    </File>
+    <File Include="js/locales/bootstrap-datepicker.sk.js">
+      <publishTime>06/13/2018 00:49:58</publishTime>
+    </File>
+    <File Include="js/locales/bootstrap-datepicker.sl.js">
+      <publishTime>06/13/2018 00:49:58</publishTime>
+    </File>
+    <File Include="js/locales/bootstrap-datepicker.sv.js">
+      <publishTime>06/13/2018 00:49:58</publishTime>
+    </File>
+    <File Include="js/locales/bootstrap-datepicker.sw.js">
+      <publishTime>06/13/2018 00:49:58</publishTime>
+    </File>
+    <File Include="js/locales/bootstrap-datepicker.th.js">
+      <publishTime>06/13/2018 00:49:58</publishTime>
+    </File>
+    <File Include="js/locales/bootstrap-datepicker.tr.js">
+      <publishTime>06/13/2018 00:49:58</publishTime>
+    </File>
+    <File Include="js/locales/bootstrap-datepicker.uk.js">
+      <publishTime>06/13/2018 00:49:58</publishTime>
+    </File>
+    <File Include="js/locales/bootstrap-datepicker.zh-CN.js">
+      <publishTime>06/13/2018 00:49:58</publishTime>
+    </File>
+    <File Include="js/locales/bootstrap-datepicker.zh-TW.js">
+      <publishTime>06/13/2018 00:49:58</publishTime>
+    </File>
     <File Include="js/mdb.js">
       <publishTime>12/06/2017 00:08:25</publishTime>
     </File>
@@ -789,6 +1002,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="nsmsg.aspx">
       <publishTime>04/27/2013 16:48:15</publishTime>
     </File>
+    <File Include="packages.config">
+      <publishTime>06/17/2018 20:50:48</publishTime>
+    </File>
     <File Include="ParamEmail.aspx">
       <publishTime>08/13/2012 14:26:36</publishTime>
     </File>
@@ -859,7 +1075,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/10/2016 18:08:18</publishTime>
     </File>
     <File Include="Reporting/app_mov_carg_cart_find.aspx">
-      <publishTime>11/13/2016 15:29:45</publishTime>
+      <publishTime>06/13/2018 22:35:38</publishTime>
     </File>
     <File Include="Reporting/app_promesas_pagos_find.aspx">
       <publishTime>11/12/2016 18:25:22</publishTime>
@@ -880,7 +1096,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/03/2016 16:55:42</publishTime>
     </File>
     <File Include="Reporting/app_rep_rut_cobranza_find.aspx">
-      <publishTime>11/11/2016 23:58:12</publishTime>
+      <publishTime>06/12/2018 00:32:32</publishTime>
     </File>
     <File Include="Reporting/app_resumen_cobranza_find.aspx">
       <publishTime>12/06/2016 00:22:29</publishTime>
@@ -907,7 +1123,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/03/2016 20:12:42</publishTime>
     </File>
     <File Include="Reporting/default.aspx">
-      <publishTime>12/06/2017 00:15:42</publishTime>
+      <publishTime>07/04/2018 22:36:40</publishTime>
     </File>
     <File Include="Reporting/Login.aspx">
       <publishTime>10/29/2016 18:42:31</publishTime>
@@ -1254,6 +1470,36 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="robots.txt">
       <publishTime>10/05/2013 15:41:12</publishTime>
     </File>
+    <File Include="Scripts/bootstrap.js">
+      <publishTime>06/17/2018 20:48:36</publishTime>
+    </File>
+    <File Include="Scripts/bootstrap.min.js">
+      <publishTime>06/17/2018 20:48:36</publishTime>
+    </File>
+    <File Include="Scripts/jquery-1.10.2.js">
+      <publishTime>06/17/2018 20:48:40</publishTime>
+    </File>
+    <File Include="Scripts/jquery-1.10.2.min.js">
+      <publishTime>06/17/2018 20:48:40</publishTime>
+    </File>
+    <File Include="Scripts/jquery-1.10.2.min.map">
+      <publishTime>06/17/2018 20:48:40</publishTime>
+    </File>
+    <File Include="Scripts/jquery.validate.js">
+      <publishTime>06/17/2018 20:48:57</publishTime>
+    </File>
+    <File Include="Scripts/jquery.validate.min.js">
+      <publishTime>06/17/2018 20:48:57</publishTime>
+    </File>
+    <File Include="Scripts/jquery.validate.unobtrusive.js">
+      <publishTime>06/17/2018 20:48:59</publishTime>
+    </File>
+    <File Include="Scripts/jquery.validate.unobtrusive.min.js">
+      <publishTime>06/17/2018 20:48:59</publishTime>
+    </File>
+    <File Include="Scripts/modernizr-2.6.2.js">
+      <publishTime>06/17/2018 20:50:07</publishTime>
+    </File>
     <File Include="serializa.aspx">
       <publishTime>10/01/2013 23:05:24</publishTime>
     </File>
@@ -1291,13 +1537,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/01/2017 22:50:27</publishTime>
     </File>
     <File Include="usuario_rep_debtcontrol.aspx">
-      <publishTime>02/01/2017 22:49:49</publishTime>
+      <publishTime>06/18/2018 23:50:01</publishTime>
     </File>
     <File Include="ViewTest.aspx">
       <publishTime>09/07/2012 16:46:54</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>04/23/2018 23:20:15</publishTime>
+      <publishTime>07/04/2018 23:16:35</publishTime>
     </File>
     <File Include="WebForm.aspx">
       <publishTime>07/15/2017 14:43:02</publishTime>

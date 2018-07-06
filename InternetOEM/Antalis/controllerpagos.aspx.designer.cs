@@ -31,6 +31,15 @@ namespace ICommunity.Antalis {
         protected global::System.Web.UI.ScriptManager ScriptManager;
         
         /// <summary>
+        /// hdd_tipo_controller control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdd_tipo_controller;
+        
+        /// <summary>
         /// idReportePago control.
         /// </summary>
         /// <remarks>

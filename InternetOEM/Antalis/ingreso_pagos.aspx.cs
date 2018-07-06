@@ -251,6 +251,32 @@ namespace ICommunity.Antalis
 
     }
 
+    [WebMethod]
+    public static cExiste[] getValida(string sCodNumDocumento, string sCodBanco)
+    {
+      List<cExiste> details = new List<cExiste>();
+      
+      DBConn oConn = new DBConn();
+      if (oConn.Open())
+      {
+        cAntDocumentosPago oDocumentosPago = new cAntDocumentosPago(ref oConn);
+        oDocumentosPago.CodBanco = sCodBanco;
+        oDocumentosPago.NumDocumento = sCodNumDocumento;
+        DataTable dt = oDocumentosPago.Get();
+        if (dt != null)
+        {
+          if (dt.Rows.Count > 0)
+          {
+            cExiste oExiste = new cExiste();
+            oExiste.bExiste = "EXISTE";
+            details.Add(oExiste);
+          }
+        }
+        oConn.Close();
+      }
+      return details.ToArray();
+    }
+
     protected void btnIngresarImportes_Click(object sender, EventArgs e)
     {
       string pCodCentroDist = cmb_centrodistribucion.SelectedValue;
@@ -640,6 +666,11 @@ namespace ICommunity.Antalis
         }
       }
     }
+  }
+
+  public class cExiste
+  {
+    public string bExiste { get; set; }
   }
 
   public class cGuiasDespacho

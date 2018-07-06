@@ -63,6 +63,29 @@ namespace ICommunity.Antalis
           }
           dtCntDst = null;
 
+          cAntsUsuarios oUsuarios = new cAntsUsuarios(ref oConn);
+          oUsuarios.CodUsuario = oIsUsuario.CodUsuario;
+          oUsuarios.CodRol = "2";
+          DataTable dt = oUsuarios.GetRoles();
+          if (dt != null) {
+            if (dt.Rows.Count > 0) {
+              hdd_tipo_controller.Value = dt.Rows[0]["tipo"].ToString();
+              switch (hdd_tipo_controller.Value) {
+                case "E":
+                  cmb_documento.Items.Add(new ListItem("Efectivo", "3"));
+                  cmb_documento.Items.Add(new ListItem("Tarjeta", "5"));
+                  break;
+
+                case "C":
+                  cmb_documento.Items.Add(new ListItem("Cheque al día", "1"));
+                  cmb_documento.Items.Add(new ListItem("Cheque al fecha", "2"));
+                  cmb_documento.Items.Add(new ListItem("Letra", "4"));
+                  break;
+              }
+            }
+          }
+          dt = null;
+
         }
         oConn.Close();
       }
@@ -94,7 +117,7 @@ namespace ICommunity.Antalis
                 if (oRow["cod_rol"].ToString() == "1")
                   oHtmControl.Controls.Add(new LiteralControl("<li><a href='../antalis/pagos_antalis.aspx'>Ingreso de Pago</a></li>"));
                 if (oRow["cod_rol"].ToString() == "2")
-                  oHtmControl.Controls.Add(new LiteralControl("<li><a href='../antalis/controller_pagos.aspx'>Validación de Pago</a></li>"));
+                  oHtmControl.Controls.Add(new LiteralControl("<li><a href='../antalis/controllerpagos.aspx'>Validación de Pago</a></li>"));
               }
             }
             dtAntRoles = null;
@@ -135,6 +158,7 @@ namespace ICommunity.Antalis
       if (oConn.Open())
       {
         cAntPagos oPagos = new cAntPagos(ref oConn);
+        oPagos.TipoPago = hdd_tipo_controller.Value;
         oPagos.Estado = "C";
 
         if (!string.IsNullOrEmpty(txt_num_valija.Text))

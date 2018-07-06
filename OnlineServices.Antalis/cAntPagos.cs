@@ -58,6 +58,9 @@ namespace OnlineServices.Antalis
     private string pDiscrepancia;
     public string Discrepancia { get { return pDiscrepancia; } set { pDiscrepancia = value; } }
 
+    private string pTipoPago;
+    public string TipoPago { get { return pTipoPago; } set { pTipoPago = value; } }
+
     private string pAccion;
     public string Accion { get { return pAccion; } set { pAccion = value; } }
 
@@ -134,6 +137,20 @@ namespace OnlineServices.Antalis
           Condicion = " and ";
           cSQL.Append(" estado = @estado  ");
           oParam.AddParameters("@estado", pEstado, TypeSQL.Char);
+        }
+
+        if ((!string.IsNullOrEmpty(pTipoPago)) && (string.IsNullOrEmpty(pCodTipoPago))) {
+          cSQL.Append(Condicion);
+          Condicion = " and ";
+
+          switch (pTipoPago) {
+            case "E":
+              cSQL.Append(" cod_tipo_pago in(3, 5)  ");
+              break;
+            case "C":
+              cSQL.Append(" cod_tipo_pago in(1, 2, 4)  ");
+              break;
+          }
         }
 
         dtData = oConn.Select(cSQL.ToString(), oParam);

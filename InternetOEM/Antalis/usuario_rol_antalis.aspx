@@ -39,9 +39,39 @@
           <div class="checkbox">
             <asp:CheckBox ID="chk_controller" runat="server" Text="CONTROLLER DE PAGOS" />
           </div>
+          <div id="idRowTipoPago" class="row" style="display:none;">
+            <div class="col-md-4">
+              <span for="cmb_tipo_pago">TIPO DE PAGO: </span>
+              <asp:DropDownList ID="cmb_tipo_pago" CssClass="form-control" runat="server">
+                <asp:ListItem Text="<< Seleccione tipo de pago >>" Value=""></asp:ListItem>
+                <asp:ListItem Text="Efectivo / Tarjeta" Value="E"></asp:ListItem>
+                <asp:ListItem Text="Cheque al día / Cheque a fecha / Letras" Value="C"></asp:ListItem>
+              </asp:DropDownList>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </form>
+  <script>
+    $("#chk_controller").click(function () {
+      var obj = document.getElementById("idRowTipoPago");
+      if ($("#chk_controller").is(':checked')) {
+        obj.style.display = "block";
+        $("#cmb_tipo_pago").val('');
+      } else {
+        obj.style.display = "none";
+      }
+    });
+
+    $("#btnGrabar").click(function () {
+      if ($("#chk_controller").is(':checked')) {
+        if ($("#cmb_tipo_pago").val() == '') {
+          alert("Debe seleccionar Tipo de Pago");
+          return false;
+        }
+      }
+    });
+  </script>
 </body>
 </html>

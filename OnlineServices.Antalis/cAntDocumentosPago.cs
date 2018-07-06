@@ -114,6 +114,14 @@ namespace OnlineServices.Antalis
           oParam.AddParameters("@num_documento", pNumDocumento, TypeSQL.Varchar);
         }
 
+        if (!string.IsNullOrEmpty(pCodBanco))
+        {
+          cSQL.Append(Condicion);
+          Condicion = " and ";
+          cSQL.Append(" cod_banco = @cod_banco  ");
+          oParam.AddParameters("@cod_banco", pCodBanco, TypeSQL.Numeric);
+        }
+
         dtData = oConn.Select(cSQL.ToString(), oParam);
         pError = oConn.Error;
         return dtData;

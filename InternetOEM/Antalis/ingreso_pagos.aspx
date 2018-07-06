@@ -278,6 +278,31 @@
         return false;
       }
 
+      var bExiste = false;
+      var cUrl = "ingreso_pagos.aspx/getValida";
+      var datos = "{sCodNumDocumento:" + $("#txt_num_documento").val() + ",sCodBanco:" + $("#cmb_bancos").val() + "}";
+      $.ajax({
+        type: "POST",
+        url: cUrl,
+        data: datos,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+
+        success: function (data) {
+          $.each(data.d, function (key, value) {
+            if (value.bExiste == "EXISTE") {
+              alert('Número de cheque ya ocupado de la misma entidad bancaria ')
+              bExiste = true;
+              return;
+            }
+          });
+        },
+
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+          alert(textStatus + ": " + XMLHttpRequest.responseText);
+        }
+      });
+
     });
 
 
@@ -285,6 +310,7 @@
       //96829710
       if ($("#txt_codigosap").val() != "") {
         var target = $("#cmb_guiadespacho");
+
         var cUrl = "ingreso_pagos.aspx/getGuiasDespacho";
         var datos = "{nkeycliente:" + $("#hddnkey_cliente").val() + ",ncodigodeudor:" + $("#txt_codigosap").val() + "}";
         $.ajax({
@@ -312,6 +338,7 @@
       } else {
         $("#cmb_guiadespacho").empty();
       }
+
     });
 
     //----------------------------------------------------------------------------------------------------------------------

@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
+using System.Text;
 
 using OnlineServices.Conn;
 using OnlineServices.SystemData;
@@ -48,8 +49,13 @@ namespace ICommunity.Antalis
                     if (oRow["cod_rol"].ToString() == "1")
                       chk_ingreso_pagos.Checked = true;
 
-                    if (oRow["cod_rol"].ToString() == "2")
+                    if (oRow["cod_rol"].ToString() == "2") { 
                       chk_controller.Checked = true;
+                      cmb_tipo_pago.SelectedValue = oRow["tipo"].ToString();
+
+                      Page.ClientScript.RegisterStartupScript(this.GetType(), "show", "$(function () { document.getElementById(\"idRowTipoPago\").style.display = 'block'; });", true);
+                    }
+
                   }
                 }
               }
@@ -81,7 +87,10 @@ namespace ICommunity.Antalis
         if (chk_controller.Checked) {
           oAntsUsuarios.Accion = "CREAR";
           oAntsUsuarios.CodRol = "2";
+          oAntsUsuarios.Tipo = cmb_tipo_pago.SelectedValue;
           oAntsUsuarios.Put();
+
+          Page.ClientScript.RegisterStartupScript(this.GetType(), "show", "$(function () { document.getElementById(\"idRowTipoPago\").style.display = 'block'; });", true);
         }
 
       }

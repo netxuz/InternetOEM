@@ -83,5 +83,14 @@ namespace ICommunity.Antalis {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox chk_controller;
+        
+        /// <summary>
+        /// cmb_tipo_pago control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList cmb_tipo_pago;
     }
 }

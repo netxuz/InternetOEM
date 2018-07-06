@@ -34,6 +34,9 @@ namespace OnlineServices.Antalis
     private string pCodCentroDist;
     public string CodCentroDist { get { return pCodCentroDist; } set { pCodCentroDist = value; } }
 
+    private string pTipo;
+    public string Tipo { get { return pTipo; } set { pTipo = value; } }
+
     private string pAccion;
     public string Accion { get { return pAccion; } set { pAccion = value; } }
 
@@ -119,7 +122,7 @@ namespace OnlineServices.Antalis
       if (oConn.bIsOpen)
       {
         cSQL = new StringBuilder();
-        cSQL.Append("select cod_user, cod_rol ");
+        cSQL.Append("select cod_user, cod_rol, tipo ");
         cSQL.Append("from ant_user_roles  ");
 
         if (!string.IsNullOrEmpty(pCodUsuario))
@@ -163,12 +166,13 @@ namespace OnlineServices.Antalis
           {
             case "CREAR":
               cSQL = new StringBuilder();
-              cSQL.Append("insert into ant_user_roles(cod_user, cod_rol) values(@cod_usuario, @cod_rol)");
+              cSQL.Append("insert into ant_user_roles(cod_user, cod_rol, tipo) values(@cod_usuario, @cod_rol, @tipo)");
               oParam.AddParameters("@cod_usuario", pCodUsuario, TypeSQL.Numeric);
               oParam.AddParameters("@cod_rol", pCodRol, TypeSQL.Numeric);
+              oParam.AddParameters("@tipo", pTipo, TypeSQL.Char);
               oConn.Insert(cSQL.ToString(), oParam);
-
               break;
+
             case "ELIMINAR":
               cSQL = new StringBuilder();
               cSQL.Append("delete from ant_user_roles where cod_user = @cod_usuario");

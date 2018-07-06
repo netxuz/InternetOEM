@@ -20,6 +20,7 @@
 <body>
   <form id="form1" runat="server" autocomplete="off">
     <asp:ScriptManager ID="ScriptManager" runat="server"></asp:ScriptManager>
+    <asp:HiddenField ID="hdd_tipo_controller" runat="server" />
     <nav class="navbar-inverse">
       <div class="container-fluid">
         <div class="navbar-header">
@@ -113,11 +114,6 @@
           <span for="cmb_documento">TIPO DE DOCUMENTO: </span>
           <asp:DropDownList ID="cmb_documento" CssClass="form-control" runat="server">
             <asp:ListItem Text="<< Seleccione tipo de documento >>" Value=""></asp:ListItem>
-            <asp:ListItem Text="Cheque al día" Value="1"></asp:ListItem>
-            <asp:ListItem Text="Cheque a fecha" Value="2"></asp:ListItem>
-            <asp:ListItem Text="Efectivo" Value="3"></asp:ListItem>
-            <asp:ListItem Text="Letra" Value="4"></asp:ListItem>
-            <asp:ListItem Text="Tarjeta" Value="5"></asp:ListItem>
           </asp:DropDownList>
         </div>
       </div>

@@ -255,7 +255,10 @@ namespace ICommunity.Antalis
     public static cExiste[] getValida(string sCodNumDocumento, string sCodBanco)
     {
       List<cExiste> details = new List<cExiste>();
-      
+
+      cExiste oExiste = new cExiste();
+      oExiste.bExiste = "NOEXISTE";
+
       DBConn oConn = new DBConn();
       if (oConn.Open())
       {
@@ -264,16 +267,11 @@ namespace ICommunity.Antalis
         oDocumentosPago.NumDocumento = sCodNumDocumento;
         DataTable dt = oDocumentosPago.Get();
         if (dt != null)
-        {
-          if (dt.Rows.Count > 0)
-          {
-            cExiste oExiste = new cExiste();
+          if (dt.Rows.Count > 0)  
             oExiste.bExiste = "EXISTE";
-            details.Add(oExiste);
-          }
-        }
         oConn.Close();
       }
+      details.Add(oExiste);
       return details.ToArray();
     }
 
@@ -420,8 +418,9 @@ namespace ICommunity.Antalis
         cmb_guiadespacho.Items.Clear();
         hddGuiasDespacho.Value = string.Empty;
 
-        cmb_facturas.Items.Clear();
-        cmb_facturas.Enabled = true;
+        //cmb_facturas.Items.Clear();
+        cmb_facturas.Text = string.Empty;
+        //cmb_facturas.Enabled = true;
         hdd_facturas.Value = string.Empty;
 
         txt_importe.Text = string.Empty;
@@ -498,22 +497,24 @@ namespace ICommunity.Antalis
             cmb_guiadespacho.Items.FindByValue(dtDocPago.Rows[0]["num_guia_despacho"].ToString()).Selected = true;
             cmb_guiadespacho.Enabled = false;
 
-            cmb_facturas.Items.Clear();
-            cGuiasFacturas Facturas = new cGuiasFacturas(ref oConn);
-            Facturas.GuiaDespacho = dtDocPago.Rows[0]["num_guia_despacho"].ToString();
-            DataTable dtFacturas = Facturas.GetFacturas();
-            if (dtFacturas != null)
-            {
-              cmb_facturas.Items.Add(new ListItem("<< Seleccione Factura >>", string.Empty));
-              foreach (DataRow oRow in dtFacturas.Rows)
-              {
-                cmb_facturas.Items.Add(new ListItem(oRow["nnumerofactura"].ToString(), oRow["nnumerofactura"].ToString() + "|" + oRow["nmontofactura"].ToString()));
-              }
-            }
-            dtFacturas = null;
-            cmb_facturas.SelectedValue = (dtDocPago.Rows[0]["num_factura"].ToString() + "|" + dtDocPago.Rows[0]["valor_factura"].ToString());
+            //cmb_facturas.Items.Clear();
+            //cGuiasFacturas Facturas = new cGuiasFacturas(ref oConn);
+            //Facturas.GuiaDespacho = dtDocPago.Rows[0]["num_guia_despacho"].ToString();
+            //DataTable dtFacturas = Facturas.GetFacturas();
+            //if (dtFacturas != null)
+            //{
+            //  cmb_facturas.Items.Add(new ListItem("<< Seleccione Factura >>", string.Empty));
+            //  foreach (DataRow oRow in dtFacturas.Rows)
+            //  {
+            //    cmb_facturas.Items.Add(new ListItem(oRow["nnumerofactura"].ToString(), oRow["nnumerofactura"].ToString() + "|" + oRow["nmontofactura"].ToString()));
+            //  }
+            //}
+            //dtFacturas = null;
+            //cmb_facturas.SelectedValue = (dtDocPago.Rows[0]["num_factura"].ToString() + "|" + dtDocPago.Rows[0]["valor_factura"].ToString());
             //cmb_facturas.Enabled = false;
 
+            cmb_facturas.Text = dtDocPago.Rows[0]["num_factura"].ToString();
+            hdd_facturas.Value = dtDocPago.Rows[0]["valor_factura"].ToString();
             fch_documento.Text = dtDocPago.Rows[0]["fch_documento"].ToString();
             txt_importe.Text = dtDocPago.Rows[0]["importe"].ToString();
 
@@ -574,6 +575,8 @@ namespace ICommunity.Antalis
         oConn.Close();
       }
 
+      bEstadoValija = true;
+
       onLoadGrid();
 
     }
@@ -604,8 +607,9 @@ namespace ICommunity.Antalis
       cmb_guiadespacho.Items.Clear();
       hddGuiasDespacho.Value = string.Empty;
 
-      cmb_facturas.Items.Clear();
-      cmb_facturas.Enabled = true;
+      //cmb_facturas.Items.Clear();
+      //cmb_facturas.Enabled = true;
+      cmb_facturas.Text = string.Empty;
       hdd_facturas.Value = string.Empty;
 
       txt_importe.Text = string.Empty;

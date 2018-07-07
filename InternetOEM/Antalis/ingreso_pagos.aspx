@@ -153,11 +153,10 @@
         </div>
         <div class="col-md-2">
           <span for="cmb_facturas">FACTURAS:</span>
-          <asp:DropDownList ID="cmb_facturas" CssClass="form-control" runat="server">
-          </asp:DropDownList>
+          <asp:Label ID="cmb_facturas" runat="server"></asp:Label>
           <asp:HiddenField ID="hdd_facturas" runat="server" />
         </div>
-        
+
       </div>
       <div id="idRow3" runat="server" class="row vAlign">
         <div class="col-md-12 text-center">
@@ -221,7 +220,8 @@
       $("#dp4").datepicker();
     });
 
-    $("#btnIngresarImportes").click(function () {
+    var allowSubmit = true;
+    $("#btnIngresarImportes").click(function (e) {
       if ($("#cmb_centrodistribucion").val() == "") {
         alert('Debe seleccionar centro de distribución');
         return false;
@@ -242,17 +242,17 @@
       //  return false;
       //}
 
-      if (($("#cmb_documento").val() != "3")&&($("#txt_num_documento").val() == "")) {
+      if (($("#cmb_documento").val() != "3") && ($("#txt_num_documento").val() == "")) {
         alert('Debe ingresar código / número del documento');
         return false;
       }
 
-      if (($("#cmb_documento").val() != "3")&&($("#cmb_bancos").val() == "")) {
+      if (($("#cmb_documento").val() != "3") && ($("#cmb_bancos").val() == "")) {
         alert('Debe ingresar el Banco del documento');
         return false;
       }
 
-      if (($("#cmb_documento").val() != "3")&&($("#fch_documento").val() == "")) {
+      if (($("#cmb_documento").val() != "3") && ($("#fch_documento").val() == "")) {
         alert('Debe ingresar la fecha del documento');
         return false;
       } else {
@@ -277,34 +277,37 @@
         alert('Debe ingresar el importe a pagar');
         return false;
       }
+      
+      var btn = $(this);
+      if (allowSubmit) {
+        e.preventDefault();
+        var cUrl = "ingreso_pagos.aspx/getValida";
+        var datos = "{sCodNumDocumento:" + $("#txt_num_documento").val() + ",sCodBanco:" + $("#cmb_bancos").val() + "}";
+        $.ajax({
+          type: "POST",
+          url: cUrl,
+          data: datos,
+          contentType: "application/json; charset=utf-8",
+          dataType: "json",
 
-      var bExiste = false;
-      var cUrl = "ingreso_pagos.aspx/getValida";
-      var datos = "{sCodNumDocumento:" + $("#txt_num_documento").val() + ",sCodBanco:" + $("#cmb_bancos").val() + "}";
-      $.ajax({
-        type: "POST",
-        url: cUrl,
-        data: datos,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
+          success: function (data) {
+            $.each(data.d, function (key, value) {
+              if (value.bExiste == "EXISTE") {
+                alert('Número de cheque ya ocupado de la misma entidad bancaria ');
+              } else {
+                allowSubmit = false;
+                btn.trigger('click');
+              }
+            });
+          },
 
-        success: function (data) {
-          $.each(data.d, function (key, value) {
-            if (value.bExiste == "EXISTE") {
-              alert('Número de cheque ya ocupado de la misma entidad bancaria ')
-              bExiste = true;
-              return;
-            }
-          });
-        },
-
-        error: function (XMLHttpRequest, textStatus, errorThrown) {
-          alert(textStatus + ": " + XMLHttpRequest.responseText);
-        }
-      });
+          error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(textStatus + ": " + XMLHttpRequest.responseText);
+          }
+        });
+      }
 
     });
-
 
     $("#txt_codigosap").focusout(function () {
       //96829710
@@ -358,12 +361,13 @@
 
           success: function (data) {
 
-            $("#cmb_facturas").empty().append($("<option></option>").val("0").html("<< Seleccione Guia Despacho >>"));
+           // $("#cmb_facturas").empty().append($("<option></option>").val("0").html("<< Seleccione Guia Despacho >>"));
             $.each(data.d, function (key, value) {
-              var option = $(document.createElement("option"));
-              option.html(value.nNumeroFactura);
-              option.val(value.nNumeroFactura + '|' + value.nMontoFactura);
-              $("#cmb_facturas").append(option);
+              //var option = $(document.createElement("option"));
+              //option.html(value.nNumeroFactura);
+              //option.val(value.nNumeroFactura + '|' + value.nMontoFactura);
+              $("#cmb_facturas").append(value.nNumeroFactura);
+              $("#hdd_facturas").append(value.nMontoFactura);
             });
           },
 

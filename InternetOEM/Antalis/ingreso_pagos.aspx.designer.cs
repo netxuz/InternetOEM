@@ -298,7 +298,7 @@ namespace ICommunity.Antalis {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList cmb_facturas;
+        protected global::System.Web.UI.WebControls.Label cmb_facturas;
         
         /// <summary>
         /// hdd_facturas control.

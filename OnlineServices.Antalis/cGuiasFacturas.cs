@@ -50,6 +50,7 @@ namespace OnlineServices.Antalis
       {
         cSQL = new StringBuilder();
         cSQL.Append("Select distinct(guidespacho) from factura where nkey_cliente = @nkeycliente and nkey_deudor in(select nkey_deudor from codigodeudor where ncodigodeudor = @ncodigodeudor and nKey_Cliente = @nkeycliente) ");
+        cSQL.Append(" and not nNumeroFactura in(select num_factura from ant_factura where saldo_factura <= 0 ) ");
         oParam.AddParameters("@nkeycliente", pNKeyCliente, TypeSQL.Numeric);
         oParam.AddParameters("@ncodigodeudor", pNCodigoDeudor, TypeSQL.Numeric);
 
@@ -73,7 +74,9 @@ namespace OnlineServices.Antalis
       if (oConn.bIsOpen)
       {
         cSQL = new StringBuilder();
-        cSQL.Append("Select * from factura where guidespacho = @guidespacho ");
+        cSQL.Append("Select a.nkey_factura, a.nnumerofactura, a.nmontofactura, isnull((select saldo_factura from ant_factura where num_factura = a.nnumerofactura),0) saldo ");
+        cSQL.Append(" from factura a where a.guidespacho = @guidespacho ");
+        cSQL.Append(" and not a.nnumerofactura in(select num_factura from ant_factura where saldo_factura <= 0 ) ");
         oParam.AddParameters("@guidespacho", pGuiaDespacho, TypeSQL.Numeric);
 
         dtData = oConn.Select(cSQL.ToString(), oParam);

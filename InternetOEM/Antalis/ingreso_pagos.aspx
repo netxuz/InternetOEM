@@ -151,17 +151,26 @@
           </asp:DropDownList>
           <asp:HiddenField ID="hddGuiasDespacho" runat="server" />
         </div>
-        <div class="col-md-2">
-          <span for="cmb_facturas">FACTURAS:</span>
-          <asp:Label ID="cmb_facturas" runat="server"></asp:Label>
+        <div class="col-md-4">
+          <div class="row">
+            <div class="col-md-12">
+              <span for="cmb_facturas"># FACTURA:</span>
+              <asp:Label ID="cmb_facturas" runat="server"></asp:Label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <span for="lbl_valor_factura">VALOR FACTURA:</span>
+              <asp:Label ID="lbl_valor_factura" runat="server"></asp:Label>
+            </div>
+          </div>
           <asp:HiddenField ID="hdd_facturas" runat="server" />
         </div>
-
       </div>
       <div id="idRow3" runat="server" class="row vAlign">
         <div class="col-md-12 text-center">
           <asp:Button ID="btnCancelarUpdate" runat="server" class="btn btn-default" Text="CANCELAR" OnClick="btnCancelarUpdate_Click" Visible="false" />
-          <asp:Button ID="btnIngresarImportes" runat="server" class="btn btn-primary" Text="INGRESAR PAGOS" OnClick="btnIngresarImportes_Click" />
+          <asp:Button ID="btnIngresarImportes" runat="server" class="btn btn-primary" Text="INGRESAR PAGO" OnClick="btnIngresarImportes_Click" />
         </div>
       </div>
       <div class="row">
@@ -202,7 +211,8 @@
       </div>
       <div class="row">
         <div class="col-md-12 text-center">
-          <asp:Button ID="btnCerrarValija" runat="server" Text="Cerrar Valija" class="btn btn-primary" OnClick="btnCerrarValija_Click" Visible="false" />
+          <asp:Button ID="btnAbrirValija" runat="server" Text="Abrir Valija" CssClass="btn btn-primary" OnClick="btnAbrirValija_Click" Visible="false" />
+          <asp:Button ID="btnCerrarValija" runat="server" Text="Cerrar Valija" CssClass="btn btn-primary" OnClick="btnCerrarValija_Click" Visible="false" />
         </div>
       </div>
     </div>
@@ -219,6 +229,8 @@
     $(function () {
       $("#dp4").datepicker();
     });
+
+    //----------------------------------------------------------------------------------------------------------------------
 
     var allowSubmit = true;
     $("#btnIngresarImportes").click(function (e) {
@@ -252,11 +264,33 @@
         return false;
       }
 
-      if (($("#cmb_documento").val() != "3") && ($("#fch_documento").val() == "")) {
-        alert('Debe ingresar la fecha del documento');
-        return false;
-      } else {
-        document.getElementById("<%=hdd_fchdocument.ClientID%>").value = $("#fch_documento").val();
+      if ($("#cmb_documento").val() != "3") {
+        if (($("#fch_documento").val() == "")) {
+          alert('Debe ingresar la fecha del documento');
+          return false;
+        } else {
+          var dSys = new Date();
+          var sano = dSys.getUTCFullYear();
+          var smes = '0' + (parseInt(dSys.getUTCMonth()) + 1);
+          smes = smes.substring(smes.length - 2, smes.length);
+          var sdia = '0' + dSys.getUTCDate();
+          sdia = sdia.substring(sdia.length - 2, sdia.length);
+          var sFchDia = sano + smes + sdia;
+
+          var sFchDoc = $("#fch_documento").val();
+          sFchDoc = sFchDoc.substring(sFchDoc.length - 4, sFchDoc.length) + sFchDoc.substring(sFchDoc.length - 7, sFchDoc.length - 5) + sFchDoc.substring(0, 2);
+
+          if (($("#cmb_documento").val() == "1") && (parseInt(sFchDia) < parseInt(sFchDoc))) {
+            alert('La fecha del documento no puede ser superior a la fecha actual');
+            return false;
+          }
+
+          if (($("#cmb_documento").val() == "2") && (parseInt(sFchDia) > parseInt(sFchDoc))) {
+            alert('La fecha del documento no puede ser con fecha menor o igual a la fecha actual');
+            return false;
+          }
+          document.getElementById("<%=hdd_fchdocument.ClientID%>").value = $("#fch_documento").val();
+        }
       }
 
       if (($("#cmb_guiadespacho").val() == null) || ($("#cmb_guiadespacho").val() == 0)) {
@@ -266,18 +300,16 @@
         document.getElementById("<%=hddGuiasDespacho.ClientID%>").value = $("#cmb_guiadespacho").val();
       }
 
-      if (($("#cmb_facturas").val() == null) || ($("#cmb_facturas").val() == 0)) {
+      if ($("#hdd_facturas").val() == "") {
         alert('Debe seleccionar numero de factura');
         return false;
-      } else {
-        document.getElementById("<%=hdd_facturas.ClientID%>").value = $("#cmb_facturas").val();
       }
 
       if (($("#txt_importe").val() == "")) {
         alert('Debe ingresar el importe a pagar');
         return false;
       }
-      
+
       var btn = $(this);
       if (allowSubmit) {
         e.preventDefault();
@@ -308,6 +340,25 @@
       }
 
     });
+
+    //----------------------------------------------------------------------------------------------------------------------
+
+    $("#cmb_documento").focusout(function () {
+      $("#txt_num_documento").removeAttr('disabled');
+      $("#cmb_bancos").removeAttr('disabled');
+
+      if ($("#cmb_documento").val() == "3") {
+        $("#txt_num_documento").attr('disabled', 'disabled');
+        $("#cmb_bancos").attr('disabled', 'disabled');
+      }
+
+      if ($("#cmb_documento").val() == "5") {
+        $("#cmb_bancos").attr('disabled', 'disabled');
+      }
+
+    });
+
+    //----------------------------------------------------------------------------------------------------------------------
 
     $("#txt_codigosap").focusout(function () {
       //96829710
@@ -360,14 +411,19 @@
           dataType: "json",
 
           success: function (data) {
-
-           // $("#cmb_facturas").empty().append($("<option></option>").val("0").html("<< Seleccione Guia Despacho >>"));
             $.each(data.d, function (key, value) {
-              //var option = $(document.createElement("option"));
-              //option.html(value.nNumeroFactura);
-              //option.val(value.nNumeroFactura + '|' + value.nMontoFactura);
+              $("#cmb_facturas").empty();
               $("#cmb_facturas").append(value.nNumeroFactura);
-              $("#hdd_facturas").append(value.nMontoFactura);
+
+              $("#lbl_valor_factura").empty();
+              if (value.nSaldo == "0") {
+                $("#lbl_valor_factura").append(value.nMontoFactura);
+                document.getElementById("<%=hdd_facturas.ClientID%>").value = value.nNumeroFactura + '|' + value.nMontoFactura;
+              } else {
+                $("#lbl_valor_factura").append(value.nSaldo);
+                document.getElementById("<%=hdd_facturas.ClientID%>").value = value.nNumeroFactura + '|' + value.nSaldo;
+              }
+              
             });
           },
 

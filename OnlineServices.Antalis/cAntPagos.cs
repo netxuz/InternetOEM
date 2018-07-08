@@ -179,7 +179,8 @@ namespace OnlineServices.Antalis
             case "CREAR":
               cSQL = new StringBuilder();
 
-              pCodPagos = oConn.getTableCod("ant_pagos", "cod_pago", oConn);
+              //pCodPagos = oConn.getTableCod("ant_pagos", "cod_pago", oConn);
+              pCodPagos = getCod();
               cSQL.Append("insert into ant_pagos(cod_pago,cod_user,nkey_cliente,cod_centrodist,cod_tipo_pago,fech_recepcion,horario,estado) values( ");
               cSQL.Append("@cod_pago,@cod_user,@nkey_cliente,@cod_centrodist,@cod_tipo_pago,@fech_recepcion,@horario,@estado) ");
               oParam.AddParameters("@cod_pago", pCodPagos, TypeSQL.Numeric);
@@ -253,6 +254,13 @@ namespace OnlineServices.Antalis
           pError = Ex.Message;
         }
       }
+    }
+
+    public string getCod()
+    { 
+      StringBuilder sSQL = new StringBuilder("select count(*) from ant_pagos where convert(varchar, fech_recepcion, 112) = convert(varchar, getdate(), 112) ");
+      DataTable dtCodigo = oConn.Select(sSQL.ToString());
+      return DateTime.Now.ToString("yyMMdd").ToString() + ((dtCodigo.Rows.Count > 0) ? (long.Parse(dtCodigo.Rows[0][0].ToString()) + 1).ToString() : "1");
     }
 
   }

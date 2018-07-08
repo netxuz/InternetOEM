@@ -34,10 +34,12 @@ namespace ICommunity.Antalis
 
       getMenuAntalis(indAntalis, oIsUsuario.CodUsuario);
 
-      if (!IsPostBack) {
+      if (!IsPostBack)
+      {
 
         DBConn oConn = new DBConn();
-        if (oConn.Open()) {
+        if (oConn.Open())
+        {
           cAntCentrosDistribucion oCentrosDistribucion = new cAntCentrosDistribucion(ref oConn);
           oCentrosDistribucion.CodUsuario = oIsUsuario.CodUsuario;
           DataTable dtCntDst = oCentrosDistribucion.GetCentrosDistByUsuario();
@@ -133,28 +135,35 @@ namespace ICommunity.Antalis
       Response.Redirect("ingreso_pagos.aspx");
     }
 
-    protected void onLoadGrid() {
+    protected void onLoadGrid()
+    {
       DBConn oConn = new DBConn();
-      if (oConn.Open()) {
+      if (oConn.Open())
+      {
         cAntPagos oPagos = new cAntPagos(ref oConn);
 
-        if (!string.IsNullOrEmpty(txt_num_valija.Text)) {
+        if (!string.IsNullOrEmpty(txt_num_valija.Text))
+        {
           oPagos.CodPagos = txt_num_valija.Text;
         }
 
-        if (!string.IsNullOrEmpty(cmb_centrodistribucion.SelectedValue)) {
+        if (!string.IsNullOrEmpty(cmb_centrodistribucion.SelectedValue))
+        {
           oPagos.CodCentroDist = cmb_centrodistribucion.SelectedValue;
         }
 
-        if (!string.IsNullOrEmpty(cmb_documento.SelectedValue)) {
+        if (!string.IsNullOrEmpty(cmb_documento.SelectedValue))
+        {
           oPagos.CodTipoPago = cmb_documento.SelectedValue;
         }
 
-        if (!string.IsNullOrEmpty(txt_cliente.Text)) {
+        if (!string.IsNullOrEmpty(txt_cliente.Text))
+        {
           oPagos.RazonSocial = txt_cliente.Text;
         }
 
-        if ((!string.IsNullOrEmpty(hdd_fch_inicio.Value)) && (!string.IsNullOrEmpty(hdd_fch_hasta.Value))) {
+        if ((!string.IsNullOrEmpty(hdd_fch_inicio.Value)) && (!string.IsNullOrEmpty(hdd_fch_hasta.Value)))
+        {
           oPagos.FechaInicial = DateTime.Parse(hdd_fch_inicio.Value).ToString("yyyyMMdd");
           oPagos.FechaFinal = DateTime.Parse(hdd_fch_hasta.Value).ToString("yyyyMMdd");
         }
@@ -177,12 +186,15 @@ namespace ICommunity.Antalis
       string pCodPago = gdPagos.DataKeys[e.RowIndex].Value.ToString();
 
       DBConn oConn = new DBConn();
-      if (oConn.Open()) {
+      if (oConn.Open())
+      {
         cAntDocumentosPago oDocumentosPago = new cAntDocumentosPago(ref oConn);
         oDocumentosPago.CodPagos = pCodPago;
         DataTable dtDocPago = oDocumentosPago.Get();
-        if (dtDocPago != null) {
-          foreach (DataRow oRow in dtDocPago.Rows) {
+        if (dtDocPago != null)
+        {
+          foreach (DataRow oRow in dtDocPago.Rows)
+          {
 
 
             string nCodFactura = oRow["cod_factura"].ToString();
@@ -228,18 +240,33 @@ namespace ICommunity.Antalis
 
     protected void gdPagos_RowDataBound(object sender, GridViewRowEventArgs e)
     {
-      if (e.Row.RowType == DataControlRowType.DataRow) {
+      if (e.Row.RowType == DataControlRowType.DataRow)
+      {
+
+        foreach (DataControlFieldCell cell in e.Row.Cells)
+        {
+          foreach (Control control in cell.Controls)
+          {
+            LinkButton lnkBtnDelete = control as LinkButton;
+            if (lnkBtnDelete != null && lnkBtnDelete.CommandName == "Delete")
+              lnkBtnDelete.Attributes.Add("onclick", "javascript:return confirm('Esta seguro de eliminar este pago?');");
+          }
+        }
+
         string sCodCentroDist = e.Row.Cells[3].Text.ToString();
         string sTipoDocumento = e.Row.Cells[4].Text.ToString();
         string sEstado = e.Row.Cells[6].Text.ToString();
 
         DBConn oConn = new DBConn();
-        if (oConn.Open()) {
+        if (oConn.Open())
+        {
           cAntCentrosDistribucion oCentrosDistribucion = new cAntCentrosDistribucion(ref oConn);
           oCentrosDistribucion.CodCentroDist = sCodCentroDist;
           DataTable dt = oCentrosDistribucion.GetByCod();
-          if (dt != null) {
-            if (dt.Rows.Count > 0) {
+          if (dt != null)
+          {
+            if (dt.Rows.Count > 0)
+            {
               e.Row.Cells[3].Text = dt.Rows[0]["descripcion"].ToString();
             }
           }
@@ -247,7 +274,8 @@ namespace ICommunity.Antalis
         }
         oConn.Close();
 
-        switch (sTipoDocumento){
+        switch (sTipoDocumento)
+        {
           case "1":
             e.Row.Cells[4].Text = "CHEQUE AL DIA";
             break;
@@ -269,7 +297,7 @@ namespace ICommunity.Antalis
           e.Row.Cells[6].Text = "ABIERTO";
         else
           e.Row.Cells[6].Text = "CERRADO";
-        
+
       }
     }
 

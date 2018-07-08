@@ -100,6 +100,8 @@ namespace ICommunity.Antalis
                 txt_fecha_recepcion.Value = dtPagos.Rows[0]["fech_recepcion"].ToString();
                 lbl_fecha_recepcion.Text = dtPagos.Rows[0]["fech_recepcion"].ToString();
                 bEstadoValija = ((dtPagos.Rows[0]["estado"].ToString() != "C") ? true : false);
+                if (dtPagos.Rows[0]["estado"].ToString() == "C")
+                  btnAbrirValija.Visible = true;
 
                 if (!bEstadoValija)
                 {
@@ -241,6 +243,7 @@ namespace ICommunity.Antalis
             oFacturas.nKeyFactura = oRow["nkey_factura"].ToString();
             oFacturas.nNumeroFactura = oRow["nnumerofactura"].ToString();
             oFacturas.nMontoFactura = oRow["nmontofactura"].ToString();
+            oFacturas.nSaldo = oRow["saldo"].ToString();
             details.Add(oFacturas);
           }
         }
@@ -421,6 +424,7 @@ namespace ICommunity.Antalis
         //cmb_facturas.Items.Clear();
         cmb_facturas.Text = string.Empty;
         //cmb_facturas.Enabled = true;
+        lbl_valor_factura.Text = string.Empty;
         hdd_facturas.Value = string.Empty;
 
         txt_importe.Text = string.Empty;
@@ -476,7 +480,6 @@ namespace ICommunity.Antalis
             hdd_cod_documento.Value = dtDocPago.Rows[0]["cod_documento"].ToString();
             txt_codigosap.Text = dtDocPago.Rows[0]["cod_sap"].ToString();
             txt_codigosap.Enabled = false;
-            //txt_razon_social.Text = dtDocPago.Rows[0]["nom_deudor"].ToString();
             txt_num_documento.Text = dtDocPago.Rows[0]["num_documento"].ToString();
             cmb_bancos.SelectedValue = dtDocPago.Rows[0]["cod_banco"].ToString();
 
@@ -497,24 +500,10 @@ namespace ICommunity.Antalis
             cmb_guiadespacho.Items.FindByValue(dtDocPago.Rows[0]["num_guia_despacho"].ToString()).Selected = true;
             cmb_guiadespacho.Enabled = false;
 
-            //cmb_facturas.Items.Clear();
-            //cGuiasFacturas Facturas = new cGuiasFacturas(ref oConn);
-            //Facturas.GuiaDespacho = dtDocPago.Rows[0]["num_guia_despacho"].ToString();
-            //DataTable dtFacturas = Facturas.GetFacturas();
-            //if (dtFacturas != null)
-            //{
-            //  cmb_facturas.Items.Add(new ListItem("<< Seleccione Factura >>", string.Empty));
-            //  foreach (DataRow oRow in dtFacturas.Rows)
-            //  {
-            //    cmb_facturas.Items.Add(new ListItem(oRow["nnumerofactura"].ToString(), oRow["nnumerofactura"].ToString() + "|" + oRow["nmontofactura"].ToString()));
-            //  }
-            //}
-            //dtFacturas = null;
-            //cmb_facturas.SelectedValue = (dtDocPago.Rows[0]["num_factura"].ToString() + "|" + dtDocPago.Rows[0]["valor_factura"].ToString());
-            //cmb_facturas.Enabled = false;
-
             cmb_facturas.Text = dtDocPago.Rows[0]["num_factura"].ToString();
-            hdd_facturas.Value = dtDocPago.Rows[0]["valor_factura"].ToString();
+            lbl_valor_factura.Text = dtDocPago.Rows[0]["valor_factura"].ToString();
+            hdd_facturas.Value = dtDocPago.Rows[0]["num_factura"].ToString() + '|' + dtDocPago.Rows[0]["valor_factura"].ToString();
+            
             fch_documento.Text = dtDocPago.Rows[0]["fch_documento"].ToString();
             txt_importe.Text = dtDocPago.Rows[0]["importe"].ToString();
 
@@ -583,6 +572,7 @@ namespace ICommunity.Antalis
 
     protected void gdPagos_PageIndexChanging(object sender, GridViewPageEventArgs e)
     {
+      bEstadoValija = true;
       gdPagos.PageIndex = e.NewPageIndex;
       onLoadGrid();
     }
@@ -596,7 +586,6 @@ namespace ICommunity.Antalis
       txt_codigosap.Text = string.Empty;
       txt_codigosap.Enabled = true;
 
-      //txt_razon_social.Text = string.Empty;
       txt_num_documento.Text = string.Empty;
       cmb_bancos.SelectedValue = string.Empty;
 
@@ -607,14 +596,15 @@ namespace ICommunity.Antalis
       cmb_guiadespacho.Items.Clear();
       hddGuiasDespacho.Value = string.Empty;
 
-      //cmb_facturas.Items.Clear();
-      //cmb_facturas.Enabled = true;
       cmb_facturas.Text = string.Empty;
+      lbl_valor_factura.Text = string.Empty;
       hdd_facturas.Value = string.Empty;
 
       txt_importe.Text = string.Empty;
 
       btnCancelarUpdate.Visible = false;
+
+      bEstadoValija = true;
 
       onLoadGrid();
     }
@@ -641,6 +631,16 @@ namespace ICommunity.Antalis
     {
       if (e.Row.RowType == DataControlRowType.DataRow)
       {
+        foreach (DataControlFieldCell cell in e.Row.Cells)
+        {
+          foreach (Control control in cell.Controls)
+          {
+            LinkButton lnkBtnDelete = control as LinkButton;
+            if (lnkBtnDelete != null && lnkBtnDelete.CommandName == "Delete")
+              lnkBtnDelete.Attributes.Add("onclick", "javascript:return confirm('Esta seguro de eliminar este pago?');");
+          }
+        }
+
         if (!bEstadoValija)
         {
           gdPagos.HeaderRow.Cells[0].Visible = false;
@@ -670,6 +670,29 @@ namespace ICommunity.Antalis
         }
       }
     }
+
+    protected void btnAbrirValija_Click(object sender, EventArgs e)
+    {
+      DBConn oConn = new DBConn();
+      if (oConn.Open())
+      {
+        cAntPagos oPagos = new cAntPagos(ref oConn);
+        oPagos.CodPagos = hdd_cod_pago.Value;
+        oPagos.Estado = "A";
+        oPagos.Accion = "EDITAR";
+        oPagos.Put();
+      }
+      oConn.Close();
+
+      idRow1.Visible = true;
+      idRow2.Visible = true;
+      idRow3.Visible = true;
+
+      bEstadoValija = true;
+      onLoadGrid();
+
+      btnAbrirValija.Visible = false;
+    }
   }
 
   public class cExiste
@@ -687,5 +710,6 @@ namespace ICommunity.Antalis
     public string nKeyFactura { get; set; }
     public string nNumeroFactura { get; set; }
     public string nMontoFactura { get; set; }
+    public string nSaldo { get; set; }
   }
 }

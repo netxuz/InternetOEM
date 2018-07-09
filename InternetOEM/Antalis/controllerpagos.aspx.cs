@@ -74,6 +74,7 @@ namespace ICommunity.Antalis
                 case "E":
                   cmb_documento.Items.Add(new ListItem("Efectivo", "3"));
                   cmb_documento.Items.Add(new ListItem("Tarjeta", "5"));
+                  cmb_documento.Items.Add(new ListItem("Transferencia", "6"));
                   break;
 
                 case "C":
@@ -88,6 +89,8 @@ namespace ICommunity.Antalis
 
         }
         oConn.Close();
+
+        onLoadGrid();
       }
     }
 
@@ -126,6 +129,8 @@ namespace ICommunity.Antalis
         dtPerfil = null;
       }
       oConn.Close();
+
+      oHtmControl.Controls.Add(new LiteralControl("<li><a href='../antalis/reportevalijas.aspx'>Valijas Validadas</a></li>"));
     }
 
     protected void getMenu(System.Web.UI.HtmlControls.HtmlGenericControl oHtmControl, string pCodUser, string oOrdConsulta)
@@ -241,6 +246,9 @@ namespace ICommunity.Antalis
           case "5":
             e.Row.Cells[3].Text = "TARJETA";
             break;
+          case "6":
+            e.Row.Cells[3].Text = "TRANSFERENCIA";
+            break;
         }
       }
     }
@@ -261,6 +269,7 @@ namespace ICommunity.Antalis
         case "2":
         case "4":
         case "5":
+        case "6":
           Response.Redirect(String.Format("controllerpagochequedia.aspx?CodPago={0}", sCodPago));
           break;
         case "3":

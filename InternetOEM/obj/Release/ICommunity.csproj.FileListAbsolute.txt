@@ -74,3 +74,7 @@ C:\Proyectos\DebtControl\InternetOEM\InternetOEM\obj\Release\ICommunity.dll
 C:\Proyectos\DebtControl\InternetOEM\InternetOEM\obj\Release\ICommunity.pdb
 C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\OnlineServices.Web.UI.dll
 C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\OnlineServices.Web.UI.pdb
+C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\ColorCode.dll
+C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\Select.HtmlToPdf.dll
+C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\Select.HtmlToPdf.xml
+C:\Proyectos\DebtControl\InternetOEM\InternetOEM\obj\Release\ICommunity.csprojResolveAssemblyReference.cache

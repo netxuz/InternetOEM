@@ -104,6 +104,8 @@ namespace ICommunity.Antalis
         dtPerfil = null;
       }
       oConn.Close();
+
+      oHtmControl.Controls.Add(new LiteralControl("<li><a href='../antalis/reportevalijas.aspx'>Valijas Validadas</a></li>"));
     }
 
     protected void getMenu(System.Web.UI.HtmlControls.HtmlGenericControl oHtmControl, string pCodUser, string oOrdConsulta)
@@ -141,6 +143,7 @@ namespace ICommunity.Antalis
       if (oConn.Open())
       {
         cAntPagos oPagos = new cAntPagos(ref oConn);
+        oPagos.EstadoNoValidada = true;
 
         if (!string.IsNullOrEmpty(txt_num_valija.Text))
         {
@@ -290,6 +293,9 @@ namespace ICommunity.Antalis
             break;
           case "5":
             e.Row.Cells[4].Text = "TARJETA";
+            break;
+          case "6":
+            e.Row.Cells[4].Text = "TRANSFERENCIA";
             break;
         }
 

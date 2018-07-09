@@ -89,14 +89,15 @@
           </asp:DropDownList>
         </div>
         <div class="col-md-3">
-          <span for="cmb_documento">TIPO DE DOCUMENTO: </span>
+          <span for="cmb_documento">METODO DE PAGO: </span>
           <asp:DropDownList ID="cmb_documento" CssClass="form-control" runat="server">
-            <asp:ListItem Text="<< Seleccione tipo de documento >>" Value=""></asp:ListItem>
+            <asp:ListItem Text="<< Seleccione Método de Pago >>" Value=""></asp:ListItem>
             <asp:ListItem Text="Cheque al día" Value="1"></asp:ListItem>
             <asp:ListItem Text="Cheque a fecha" Value="2"></asp:ListItem>
             <asp:ListItem Text="Efectivo" Value="3"></asp:ListItem>
             <asp:ListItem Text="Letra" Value="4"></asp:ListItem>
             <asp:ListItem Text="Tarjeta" Value="5"></asp:ListItem>
+            <asp:ListItem Text="Transferencia" Value="6"></asp:ListItem>
           </asp:DropDownList>
         </div>
         <div class="col-md-3">
@@ -211,6 +212,7 @@
       </div>
       <div class="row">
         <div class="col-md-12 text-center">
+          <asp:Button ID="btnImprimirValija" runat="server" Text="Imprimir Valija" CssClass="btn btn-default" OnClick="btnImprimirValija_Click" Visible="false" />
           <asp:Button ID="btnAbrirValija" runat="server" Text="Abrir Valija" CssClass="btn btn-primary" OnClick="btnAbrirValija_Click" Visible="false" />
           <asp:Button ID="btnCerrarValija" runat="server" Text="Cerrar Valija" CssClass="btn btn-primary" OnClick="btnCerrarValija_Click" Visible="false" />
         </div>
@@ -259,7 +261,7 @@
         return false;
       }
 
-      if (($("#cmb_documento").val() != "3") && ($("#cmb_bancos").val() == "")) {
+      if ((($("#cmb_documento").val() != "3") && ($("#cmb_documento").val() != "5") && ($("#cmb_documento").val() != "6")) && ($("#cmb_bancos").val() == "")) {
         alert('Debe ingresar el Banco del documento');
         return false;
       }
@@ -311,7 +313,7 @@
       }
 
       var btn = $(this);
-      if (allowSubmit) {
+      if ((allowSubmit) && (($("#cmb_documento").val() == "1") || ($("#cmb_documento").val() == "2"))) {
         e.preventDefault();
         var cUrl = "ingreso_pagos.aspx/getValida";
         var datos = "{sCodNumDocumento:" + $("#txt_num_documento").val() + ",sCodBanco:" + $("#cmb_bancos").val() + "}";
@@ -353,6 +355,10 @@
       }
 
       if ($("#cmb_documento").val() == "5") {
+        $("#cmb_bancos").attr('disabled', 'disabled');
+      }
+
+      if ($("#cmb_documento").val() == "6") {
         $("#cmb_bancos").attr('disabled', 'disabled');
       }
 
@@ -423,7 +429,7 @@
                 $("#lbl_valor_factura").append(value.nSaldo);
                 document.getElementById("<%=hdd_facturas.ClientID%>").value = value.nNumeroFactura + '|' + value.nSaldo;
               }
-              
+
             });
           },
 

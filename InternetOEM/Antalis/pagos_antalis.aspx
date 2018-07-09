@@ -113,14 +113,15 @@
           </div>
         </div>
         <div class="col-md-6">
-          <span for="cmb_documento">TIPO DE DOCUMENTO: </span>
+          <span for="cmb_documento">METODO DE PAGO: </span>
           <asp:DropDownList ID="cmb_documento" CssClass="form-control" runat="server">
-            <asp:ListItem Text="<< Seleccione tipo de documento >>" Value=""></asp:ListItem>
+            <asp:ListItem Text="<< Seleccione método de pago >>" Value=""></asp:ListItem>
             <asp:ListItem Text="Cheque al día" Value="1"></asp:ListItem>
             <asp:ListItem Text="Cheque a fecha" Value="2"></asp:ListItem>
             <asp:ListItem Text="Efectivo" Value="3"></asp:ListItem>
             <asp:ListItem Text="Letra" Value="4"></asp:ListItem>
             <asp:ListItem Text="Tarjeta" Value="5"></asp:ListItem>
+            <asp:ListItem Text="Transferencia" Value="6"></asp:ListItem>
           </asp:DropDownList>
         </div>
       </div>

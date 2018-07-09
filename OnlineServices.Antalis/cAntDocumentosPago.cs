@@ -175,7 +175,7 @@ namespace OnlineServices.Antalis
 
     public void Put()
     {
-      oParam = new DBConn.SQLParameters(12);
+      oParam = new DBConn.SQLParameters(15);
       StringBuilder cSQL;
       string sComa = string.Empty;
 
@@ -189,8 +189,8 @@ namespace OnlineServices.Antalis
               cSQL = new StringBuilder();
 
               pCodDocumento = oConn.getTableCod("ant_documentos_pago", "cod_documento", oConn);
-              cSQL.Append("insert into ant_documentos_pago(cod_documento, cod_pago, cod_factura, cod_sap, nom_deudor, num_documento, cod_banco, nom_banco, fch_documento, num_guia_despacho, importe) values( ");
-              cSQL.Append("@cod_documento, @cod_pago, @cod_factura, @cod_sap, @nom_deudor, @num_documento, @cod_banco, @nom_banco, @fch_documento, @num_guia_despacho, @importe) ");
+              cSQL.Append("insert into ant_documentos_pago(cod_documento, cod_pago, cod_factura, cod_sap, nom_deudor, num_documento, cod_banco, nom_banco, fch_documento, num_guia_despacho, importe, importe_recibido, discrepancia) values( ");
+              cSQL.Append("@cod_documento, @cod_pago, @cod_factura, @cod_sap, @nom_deudor, @num_documento, @cod_banco, @nom_banco, @fch_documento, @num_guia_despacho, @importe, @importe_recibido, @discrepancia) ");
               oParam.AddParameters("@cod_documento", pCodDocumento, TypeSQL.Numeric);
               oParam.AddParameters("@cod_pago", pCodPagos, TypeSQL.Numeric);
               oParam.AddParameters("@cod_factura", pCodFactura, TypeSQL.Numeric);
@@ -202,6 +202,8 @@ namespace OnlineServices.Antalis
               oParam.AddParameters("@fch_documento", pFchDocumento, TypeSQL.DateTime);
               oParam.AddParameters("@num_guia_despacho", pNumGuiaDespacho, TypeSQL.Numeric);
               oParam.AddParameters("@importe", pImporte, TypeSQL.Numeric);
+              oParam.AddParameters("@importe_recibido", pImporteRecibido, TypeSQL.Numeric);
+              oParam.AddParameters("@discrepancia", pDiscrepancia, TypeSQL.Numeric);
               oConn.Insert(cSQL.ToString(), oParam);
 
               if (!string.IsNullOrEmpty(oConn.Error)) {

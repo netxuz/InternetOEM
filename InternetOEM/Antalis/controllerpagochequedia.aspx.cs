@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Configuration;
 
 using System.Data;
 using System.Text;
@@ -21,6 +22,8 @@ namespace ICommunity.Antalis
   {
     private OnlineServices.Method.Web oWeb = new OnlineServices.Method.Web();
     private OnlineServices.Method.Usuario oIsUsuario;
+    Emailing oEmailing = new Emailing();
+
     protected void Page_Load(object sender, EventArgs e)
     {
       oIsUsuario = oWeb.ValidaUserAppReport();
@@ -73,9 +76,10 @@ namespace ICommunity.Antalis
               dtCentro = null;
 
               lblFecharecepcion.Text = dt.Rows[0]["fech_recepcion"].ToString();
-
+              hdd_tipo_documento.Value = dt.Rows[0]["cod_tipo_pago"].ToString();
               string lblTitulo = string.Empty;
-              switch (dt.Rows[0]["cod_tipo_pago"].ToString()) {
+              switch (dt.Rows[0]["cod_tipo_pago"].ToString())
+              {
                 case "1":
                   lblTitulo = "VALIDACIÓN DE RECAUDACIÓN DE PAGOS / CHEQUES AL DÍA";
                   break;
@@ -87,6 +91,9 @@ namespace ICommunity.Antalis
                   break;
                 case "5":
                   lblTitulo = "VALIDACIÓN DE RECAUDACIÓN DE PAGOS / TARJETA";
+                  break;
+                case "6":
+                  lblTitulo = "VALIDACIÓN DE RECAUDACIÓN DE PAGOS / TRANSFERENCIA";
                   break;
               }
               lblTitle.Text = lblTitulo;
@@ -136,6 +143,8 @@ namespace ICommunity.Antalis
         dtPerfil = null;
       }
       oConn.Close();
+
+      oHtmControl.Controls.Add(new LiteralControl("<li><a href='../antalis/reportevalijas.aspx'>Valijas Validadas</a></li>"));
     }
 
     protected void getMenu(System.Web.UI.HtmlControls.HtmlGenericControl oHtmControl, string pCodUser, string oOrdConsulta)
@@ -182,18 +191,20 @@ namespace ICommunity.Antalis
             string iImporteTotal = dt.Compute("SUM(importe)", string.Empty).ToString();
             lblMonto.Text = iImporteTotal;
 
-            string iImporteTotalRecibido = (!string.IsNullOrEmpty(dt.Compute("SUM(importe_recibido)", string.Empty).ToString())? dt.Compute("SUM(importe_recibido)", string.Empty).ToString() : "0") ;
+            string iImporteTotalRecibido = (!string.IsNullOrEmpty(dt.Compute("SUM(importe_recibido)", string.Empty).ToString()) ? dt.Compute("SUM(importe_recibido)", string.Empty).ToString() : "0");
             lblImporteTotalRecibido.Text = iImporteTotalRecibido;
             hdd_importetotal_recibido.Value = iImporteTotalRecibido;
 
-            string iDiscrepancia = (!string.IsNullOrEmpty(dt.Compute("SUM(discrepancia)", string.Empty).ToString())? dt.Compute("SUM(discrepancia)", string.Empty).ToString(): "0");
+            string iDiscrepancia = (!string.IsNullOrEmpty(dt.Compute("SUM(discrepancia)", string.Empty).ToString()) ? dt.Compute("SUM(discrepancia)", string.Empty).ToString() : "0");
             lblDiscrepanciaTotal.Text = iDiscrepancia;
             hdd_total_discrepancia.Value = iDiscrepancia;
 
-            if ((iImporteTotal == iImporteTotalRecibido) && (int.Parse(iDiscrepancia) == 0)) {
+            if ((iImporteTotal == iImporteTotalRecibido) && (int.Parse(iDiscrepancia) == 0))
+            {
               btnAceptar.Visible = true;
               btnRechazar.Visible = false;
-            } else if ((iImporteTotal != iImporteTotalRecibido) && (int.Parse(iDiscrepancia) >= 0))
+            }
+            else if ((iImporteTotal != iImporteTotalRecibido) && (int.Parse(iDiscrepancia) >= 0))
             {
               btnAceptar.Visible = false;
               btnRechazar.Visible = true;
@@ -206,46 +217,6 @@ namespace ICommunity.Antalis
       }
     }
 
-    protected void gdPagos_SelectedIndexChanged(object sender, EventArgs e)
-    {
-      string pCodDocumento = gdPagos.SelectedDataKey.Value.ToString();
-      DBConn oConn = new DBConn();
-      if (oConn.Open()) {
-        cAntDocumentosPago oDocumentosPago = new cAntDocumentosPago(ref oConn);
-        oDocumentosPago.CodDocumento = pCodDocumento;
-        DataTable dt = oDocumentosPago.Get();
-        if (dt != null) {
-          if (dt.Rows.Count > 0) {
-            idRow1.Visible = true;
-            idRow2.Visible = true;
-            idRow3.Visible = true;
-
-            hdd_cod_documento.Value = dt.Rows[0]["cod_documento"].ToString();
-            lblFechtransaccion.Text = dt.Rows[0]["fch_documento"].ToString();
-            lblNumOperacion.Text = dt.Rows[0]["num_documento"].ToString();
-
-            cAntBancos oBancos = new cAntBancos(ref oConn);
-            oBancos.NKeyBanco = dt.Rows[0]["cod_banco"].ToString();
-            DataTable dtBanco = oBancos.Get();
-            if (dtBanco != null) {
-              if (dtBanco.Rows.Count > 0) {
-                lblBanco.Text = dtBanco.Rows[0]["snombre"].ToString();
-              }
-            }
-            dtBanco = null;
-
-            lblimporte.Text = dt.Rows[0]["importe"].ToString();
-            hdd_importe.Value = dt.Rows[0]["importe"].ToString();
-
-          }
-        }
-        dt = null;
-        oConn.Close();
-      }
-      btnAceptar.Visible = false;
-      btnRechazar.Visible = false;
-    }
-
     protected void gdPagos_PageIndexChanging(object sender, GridViewPageEventArgs e)
     {
       gdPagos.PageIndex = e.NewPageIndex;
@@ -256,29 +227,42 @@ namespace ICommunity.Antalis
     {
       if (e.Row.RowType == DataControlRowType.DataRow)
       {
-        DBConn oConn = new DBConn();
-        if (oConn.Open())
+        switch (hdd_tipo_documento.Value)
         {
-          cAntBancos oBancos = new cAntBancos(ref oConn);
-          oBancos.NKeyBanco = e.Row.Cells[2].Text.ToString();
-          DataTable dt = oBancos.Get();
-          if (dt != null)
-          {
-            if (dt.Rows.Count > 0)
+          case "1":
+          case "2":
+          case "4":
+
+            if (e.Row.Cells[4].Text.ToString() != "&nbsp;")
             {
-              e.Row.Cells[2].Text = e.Row.Cells[2].Text.ToString() + " - " + dt.Rows[0]["snombre"].ToString();
+              DBConn oConn = new DBConn();
+              if (oConn.Open())
+              {
+                cAntBancos oBancos = new cAntBancos(ref oConn);
+                oBancos.NKeyBanco = e.Row.Cells[4].Text.ToString();
+                DataTable dt = oBancos.Get();
+                if (dt != null)
+                {
+                  if (dt.Rows.Count > 0)
+                  {
+                    e.Row.Cells[4].Text = e.Row.Cells[4].Text.ToString() + " - " + dt.Rows[0]["snombre"].ToString();
+                  }
+                }
+                dt = null;
+
+              }
+              oConn.Close();
             }
-          }
-          dt = null;
+            break;
         }
-        oConn.Close();
       }
     }
 
     protected void btnModificar_Click(object sender, EventArgs e)
     {
       DBConn oConn = new DBConn();
-      if (oConn.Open()) {
+      if (oConn.Open())
+      {
         cAntDocumentosPago oDocumentosPago = new cAntDocumentosPago(ref oConn);
         oDocumentosPago.CodDocumento = hdd_cod_documento.Value;
         oDocumentosPago.ImporteRecibido = txt_importe_recibido.Text;
@@ -300,6 +284,7 @@ namespace ICommunity.Antalis
       idRow1.Visible = false;
       idRow2.Visible = false;
       idRow3.Visible = false;
+      idColBanco.Visible = false;
 
       onLoadGrid();
     }
@@ -317,6 +302,7 @@ namespace ICommunity.Antalis
       idRow1.Visible = false;
       idRow2.Visible = false;
       idRow3.Visible = false;
+      idColBanco.Visible = false;
 
       onLoadGrid();
     }
@@ -336,6 +322,19 @@ namespace ICommunity.Antalis
         oConn.Close();
       }
 
+      StringBuilder sHmtl = new StringBuilder();
+      sHmtl.Append("Se informa que la valija # ").Append(lblValija.Text).Append(" a sido rechazada.");
+
+      AppSettingsReader appReader = new System.Configuration.AppSettingsReader();
+      string sEmlAddr = appReader.GetValue("AntalisMail", typeof(string)).ToString();
+
+      oEmailing.FromName = Application["NameSender"].ToString();
+      oEmailing.From = Application["EmailSender"].ToString();
+      oEmailing.Address = sEmlAddr;
+      oEmailing.Subject = "Valija # " + lblValija.Text + ", RECHAZADA";
+      oEmailing.Body = sHmtl;
+      oEmailing.EmailSend();
+
       Response.Redirect("controllerpagos.aspx");
     }
 
@@ -348,13 +347,108 @@ namespace ICommunity.Antalis
         oPagos.CodPagos = hdd_cod_pago.Value;
         oPagos.ImporteTotalRecibido = hdd_importetotal_recibido.Value;
         oPagos.Discrepancia = hdd_total_discrepancia.Value;
-        oPagos.Estado = "A";
+        oPagos.Estado = "V";
         oPagos.Accion = "EDITAR";
         oPagos.Put();
         oConn.Close();
       }
 
+      StringBuilder sHmtl = new StringBuilder();
+      sHmtl.Append("Se informa que la valija # ").Append(lblValija.Text).Append(" a sido validada.");
+
+      AppSettingsReader appReader = new System.Configuration.AppSettingsReader();
+      string sEmlAddr = appReader.GetValue("AntalisMail", typeof(string)).ToString();
+
+      oEmailing.FromName = Application["NameSender"].ToString();
+      oEmailing.From = Application["EmailSender"].ToString();
+      oEmailing.Address = sEmlAddr;
+      oEmailing.Subject = "Valija # " + lblValija.Text + ", VALIDADA";
+      oEmailing.Body = sHmtl;
+      oEmailing.EmailSend();
+
       Response.Redirect("controllerpagos.aspx");
+    }
+
+    protected void gdPagos_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+      LinkButton lnkBtn = (LinkButton)e.CommandSource;    // the button
+      GridViewRow myRow = (GridViewRow)lnkBtn.Parent.Parent;  // the row
+      GridView myGrid = (GridView)sender; // the gridview
+      string pCodDocumento = gdPagos.DataKeys[myRow.RowIndex].Value.ToString(); // value of the datakey 
+
+      if (e.CommandName == "NO")
+      {
+
+        DBConn oConn = new DBConn();
+        if (oConn.Open())
+        {
+          cAntDocumentosPago oDocumentosPago = new cAntDocumentosPago(ref oConn);
+          oDocumentosPago.CodDocumento = pCodDocumento;
+          DataTable dt = oDocumentosPago.Get();
+          if (dt != null)
+          {
+            if (dt.Rows.Count > 0)
+            {
+              idRow1.Visible = true;
+              idRow2.Visible = true;
+              idRow3.Visible = true;
+
+              hdd_cod_documento.Value = dt.Rows[0]["cod_documento"].ToString();
+              lblFechtransaccion.Text = dt.Rows[0]["fch_documento"].ToString();
+              lblNumOperacion.Text = dt.Rows[0]["num_documento"].ToString();
+
+              cAntBancos oBancos = new cAntBancos(ref oConn);
+              oBancos.NKeyBanco = dt.Rows[0]["cod_banco"].ToString();
+              DataTable dtBanco = oBancos.Get();
+              if (dtBanco != null)
+              {
+                if (dtBanco.Rows.Count > 0)
+                {
+                  lblBanco.Text = dt.Rows[0]["cod_banco"].ToString() + " - " + dtBanco.Rows[0]["snombre"].ToString();
+                }
+              }
+              dtBanco = null;
+
+              lblimporte.Text = dt.Rows[0]["importe"].ToString();
+              hdd_importe.Value = dt.Rows[0]["importe"].ToString();
+
+            }
+          }
+          dt = null;
+          oConn.Close();
+        }
+        btnAceptar.Visible = false;
+        btnRechazar.Visible = false;
+        if ((hdd_tipo_documento.Value == "1")||(hdd_tipo_documento.Value == "2")||(hdd_tipo_documento.Value == "4"))
+          idColBanco.Visible = true;
+
+      }
+      else if (e.CommandName == "SI")
+      {
+        DBConn oConn = new DBConn();
+        if (oConn.Open())
+        {
+          cAntDocumentosPago oDocumentosPago = new cAntDocumentosPago(ref oConn);
+          oDocumentosPago.CodDocumento = pCodDocumento;
+          DataTable dt = oDocumentosPago.Get();
+          if (dt != null)
+          {
+            if (dt.Rows.Count > 0)
+            {
+              oDocumentosPago.ImporteRecibido = dt.Rows[0]["importe"].ToString();
+            }
+          }
+          dt = null;
+
+          oDocumentosPago.Discrepancia = "0";
+          oDocumentosPago.Accion = "EDITAR";
+          oDocumentosPago.Put();
+
+          oConn.Close();
+        }
+
+        onLoadGrid();
+      }
     }
   }
 }

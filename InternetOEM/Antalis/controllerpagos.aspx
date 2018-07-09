@@ -111,7 +111,7 @@
           </div>
         </div>
         <div class="col-md-6">
-          <span for="cmb_documento">TIPO DE DOCUMENTO: </span>
+          <span for="cmb_documento">MOTIVO DE PAGO: </span>
           <asp:DropDownList ID="cmb_documento" CssClass="form-control" runat="server">
             <asp:ListItem Text="<< Seleccione tipo de documento >>" Value=""></asp:ListItem>
           </asp:DropDownList>

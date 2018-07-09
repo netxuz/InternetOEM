@@ -41,10 +41,10 @@
           </div>
           <div id="idRowTipoPago" class="row" style="display:none;">
             <div class="col-md-4">
-              <span for="cmb_tipo_pago">TIPO DE PAGO: </span>
+              <span for="cmb_tipo_pago">METODO DE PAGO: </span>
               <asp:DropDownList ID="cmb_tipo_pago" CssClass="form-control" runat="server">
                 <asp:ListItem Text="<< Seleccione tipo de pago >>" Value=""></asp:ListItem>
-                <asp:ListItem Text="Efectivo / Tarjeta" Value="E"></asp:ListItem>
+                <asp:ListItem Text="Efectivo / Transferencia / Tarjeta" Value="E"></asp:ListItem>
                 <asp:ListItem Text="Cheque al día / Cheque a fecha / Letras" Value="C"></asp:ListItem>
               </asp:DropDownList>
             </div>
@@ -67,7 +67,7 @@
     $("#btnGrabar").click(function () {
       if ($("#chk_controller").is(':checked')) {
         if ($("#cmb_tipo_pago").val() == '') {
-          alert("Debe seleccionar Tipo de Pago");
+          alert("Debe seleccionar Metodo de Pago");
           return false;
         }
       }

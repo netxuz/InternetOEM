@@ -4,4 +4,3 @@ C:\Proyectos\DebtControl\InternetOEM\OnlineServices.Antalis\bin\Release\OnlineSe
 C:\Proyectos\DebtControl\InternetOEM\OnlineServices.Antalis\bin\Release\OnlineServices.Conn.pdb
 C:\Proyectos\DebtControl\InternetOEM\OnlineServices.Antalis\obj\Release\OnlineServices.Antalis.dll
 C:\Proyectos\DebtControl\InternetOEM\OnlineServices.Antalis\obj\Release\OnlineServices.Antalis.pdb
-C:\Proyectos\DebtControl\InternetOEM\OnlineServices.Antalis\obj\Release\OnlineServices.Antalis.csprojResolveAssemblyReference.cache

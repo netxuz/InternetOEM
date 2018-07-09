@@ -4,9 +4,11 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-
 using System.Data;
 using System.Text;
+using System.IO;
+using System.Configuration;
+
 using OnlineServices.Conn;
 using OnlineServices.Method;
 using OnlineServices.Reporting;
@@ -14,6 +16,7 @@ using OnlineServices.Reporting;
 using OnlineServices.Antalis;
 using OnlineServices.SystemData;
 using System.Web.Services;
+using SelectPdf;
 
 namespace ICommunity.Antalis
 {
@@ -97,11 +100,19 @@ namespace ICommunity.Antalis
                 cmb_centrodistribucion.Enabled = false;
                 cmb_documento.Items.FindByValue(dtPagos.Rows[0]["cod_tipo_pago"].ToString()).Selected = true;
                 cmb_documento.Enabled = false;
+
+                string pCodTipoPago = dtPagos.Rows[0]["cod_tipo_pago"].ToString();
+
+                if ((pCodTipoPago == "3") || (pCodTipoPago == "5") || (pCodTipoPago == "6"))
+                  cmb_bancos.Enabled = false;
+
                 txt_fecha_recepcion.Value = dtPagos.Rows[0]["fech_recepcion"].ToString();
                 lbl_fecha_recepcion.Text = dtPagos.Rows[0]["fech_recepcion"].ToString();
                 bEstadoValija = ((dtPagos.Rows[0]["estado"].ToString() != "C") ? true : false);
-                if (dtPagos.Rows[0]["estado"].ToString() == "C")
+                if (dtPagos.Rows[0]["estado"].ToString() == "C") {
+                  btnImprimirValija.Visible = true;
                   btnAbrirValija.Visible = true;
+                }
 
                 if (!bEstadoValija)
                 {
@@ -170,6 +181,8 @@ namespace ICommunity.Antalis
         dtPerfil = null;
       }
       oConn.Close();
+
+      oHtmControl.Controls.Add(new LiteralControl("<li><a href='../antalis/reportevalijas.aspx'>Valijas Validadas</a></li>"));
     }
 
     protected void getMenu(System.Web.UI.HtmlControls.HtmlGenericControl oHtmControl, string pCodUser, string oOrdConsulta)
@@ -270,7 +283,7 @@ namespace ICommunity.Antalis
         oDocumentosPago.NumDocumento = sCodNumDocumento;
         DataTable dt = oDocumentosPago.Get();
         if (dt != null)
-          if (dt.Rows.Count > 0)  
+          if (dt.Rows.Count > 0)
             oExiste.bExiste = "EXISTE";
         oConn.Close();
       }
@@ -392,6 +405,8 @@ namespace ICommunity.Antalis
           oAntDocumentosPago.FchDocumento = pFchDocumento;
         oAntDocumentosPago.NumGuiaDespacho = pGuiaDespacho;
         oAntDocumentosPago.importe = pImporte;
+        oAntDocumentosPago.ImporteRecibido = "0";
+        oAntDocumentosPago.Discrepancia = "0";
         oAntDocumentosPago.Accion = (string.IsNullOrEmpty(hdd_cod_documento.Value) ? "CREAR" : "EDITAR");
         oAntDocumentosPago.Put();
 
@@ -413,6 +428,9 @@ namespace ICommunity.Antalis
         //txt_razon_social.Text = string.Empty;
         txt_num_documento.Text = string.Empty;
         cmb_bancos.SelectedValue = string.Empty;
+
+        if ((pCodTipoPago == "3") || (pCodTipoPago == "5") || (pCodTipoPago == "6"))
+          cmb_bancos.Enabled = false;
 
         fch_documento.Text = string.Empty;
         hdd_fchdocument.Value = string.Empty;
@@ -503,7 +521,7 @@ namespace ICommunity.Antalis
             cmb_facturas.Text = dtDocPago.Rows[0]["num_factura"].ToString();
             lbl_valor_factura.Text = dtDocPago.Rows[0]["valor_factura"].ToString();
             hdd_facturas.Value = dtDocPago.Rows[0]["num_factura"].ToString() + '|' + dtDocPago.Rows[0]["valor_factura"].ToString();
-            
+
             fch_documento.Text = dtDocPago.Rows[0]["fch_documento"].ToString();
             txt_importe.Text = dtDocPago.Rows[0]["importe"].ToString();
 
@@ -611,6 +629,9 @@ namespace ICommunity.Antalis
 
     protected void btnCerrarValija_Click(object sender, EventArgs e)
     {
+      StringBuilder sHtml = new StringBuilder();
+      sHtml.Append(File.ReadAllText(Server.MapPath("reportepago.html")));
+      string sTipoPago = string.Empty;
       DBConn oConn = new DBConn();
       if (oConn.Open())
       {
@@ -618,13 +639,140 @@ namespace ICommunity.Antalis
         oPagos.CodPagos = hdd_cod_pago.Value;
         oPagos.CantDocumentos = hdd_cantidad_doc.Value;
         oPagos.ImporteTotal = hdd_importe_total.Value;
+        oPagos.ImporteTotalRecibido = "0";
+        oPagos.Discrepancia = "0";
         oPagos.Estado = "C";
         oPagos.Accion = "EDITAR";
-        oPagos.Put();
+        oPagos.Put();       
+
+        switch (cmb_documento.SelectedValue) {
+          case "1":
+            sTipoPago = "Cheque al día";
+            break;
+          case "2":
+            sTipoPago = "Cheque a fecha";
+            break;
+          case "3":
+            sTipoPago = "Efectivo";
+            break;
+          case "4":
+            sTipoPago = "Letra";
+            break;
+          case "5":
+            sTipoPago = "Tarjeta";
+            break;
+          case "6":
+            sTipoPago = "Transferencia";
+            break;
+        }
+
+        int iTotal = 0;
+        int iTotalxPago = 0;
+        DataTable dtPagos = oPagos.GetCantTipoDoc();
+        if (dtPagos != null) {
+          if (dtPagos.Rows.Count > 0) {
+            foreach (DataRow oRow in dtPagos.Rows) {
+              iTotal = iTotal + int.Parse(oRow["cantidad"].ToString());
+              switch (cmb_documento.SelectedValue)
+              {
+                case "1":
+                  iTotalxPago = int.Parse(oRow["cantidad"].ToString());
+                  break;
+                case "2":
+                  iTotalxPago = int.Parse(oRow["cantidad"].ToString());
+                  break;
+                case "3":
+                  iTotalxPago = int.Parse(oRow["cantidad"].ToString());
+                  break;
+                case "4":
+                  iTotalxPago = int.Parse(oRow["cantidad"].ToString());
+                  break;
+                case "5":
+                  iTotalxPago = int.Parse(oRow["cantidad"].ToString());
+                  break;
+                case "6":
+                  iTotalxPago = int.Parse(oRow["cantidad"].ToString());
+                  break;
+              }
+            }
+          }
+        }
+        dtPagos = null;
+
+        StringBuilder sGrafico = new StringBuilder();
+        sGrafico.Append("['").Append(sTipoPago).Append("',").Append(iTotalxPago.ToString()).Append("],");
+        sGrafico.Append("['Otros Pagos',").Append((iTotal - iTotalxPago).ToString()).Append("]");
+        sHtml.Replace("[#DATOSCHART]", sGrafico.ToString());
+        sHtml.Replace("[#TIPOPAGO]", sTipoPago);
+        sHtml.Replace("[#NUMPAGO]", hdd_cod_pago.Value);
+        sHtml.Replace("[#CANTTOTAL]", hdd_cantidad_doc.Value);
+        sHtml.Replace("[#MONTOTOTAL]", hdd_importe_total.Value);
+        sHtml.Replace("[#RAZONSOCIAL]", lblRazonSocial.Text);
+
+        cAntCentrosDistribucion oCentrosDistribucion = new cAntCentrosDistribucion(ref oConn);
+        oCentrosDistribucion.CodCentroDist = cmb_centrodistribucion.SelectedValue;
+        DataTable dt = oCentrosDistribucion.GetByCod();
+        if (dt != null) {
+          if (dt.Rows.Count > 0) {
+            sHtml.Replace("[#CENTRODIST]", dt.Rows[0]["descripcion"].ToString());
+          }
+        }
+        dt = null;
+        sHtml.Replace("[#FCHRECEPCION]", lbl_fecha_recepcion.Text);
+
+        StringBuilder sTable = new StringBuilder();
+        cAntDocumentosPago oDocumentosPago = new cAntDocumentosPago(ref oConn);
+        oDocumentosPago.CodPagos = hdd_cod_pago.Value;
+        dt = oDocumentosPago.GetDocFacturas();
+        if (dt != null) {
+          foreach (DataRow oRow in dt.Rows) {
+            sTable.Append("<tr>");
+
+            sTable.Append("<td>").Append(oRow["num_documento"].ToString()).Append("</td>");
+
+            cAntBancos oBancos = new cAntBancos(ref oConn);
+            oBancos.NKeyBanco = oRow["cod_banco"].ToString();
+            DataTable dBanco = oBancos.Get();
+            if (dBanco != null)
+            {
+              if (dBanco.Rows.Count > 0)
+              {
+                sTable.Append("<td>").Append(dBanco.Rows[0]["nkey_banco"].ToString() + '-' + dBanco.Rows[0]["snombre"].ToString()).Append("</td>");
+              }
+            }
+            dBanco = null;
+            
+            sTable.Append("<td>").Append(oRow["fch_documento"].ToString()).Append("</td>");
+            sTable.Append("<td>").Append(oRow["num_factura"].ToString()).Append("</td>");
+            sTable.Append("<td>").Append(oRow["importe"].ToString()).Append("</td>");
+
+            sTable.Append("</tr>");
+          }
+        }
+        dt = null;
+        sHtml.Replace("[#DATOSGRILLA]", sTable.ToString());
       }
       oConn.Close();
 
-      Response.Redirect("pagos_antalis.aspx");
+      if (!Directory.Exists(Server.MapPath("Valijas/")))
+        Directory.CreateDirectory(Server.MapPath("Valijas/"));
+
+      string sFileHtml = Server.MapPath("Valijas/") + hdd_cod_pago.Value + ".html";
+      File.WriteAllText(sFileHtml, sHtml.ToString(), Encoding.UTF8);
+
+      //Response.Redirect("pagos_antalis.aspx");
+
+      idRow1.Visible = false;
+      idRow2.Visible = false;
+      idRow3.Visible = false;
+
+      bEstadoValija = false;
+
+      onLoadGrid();
+
+      btnImprimirValija.Visible = true;
+      btnAbrirValija.Visible = true;
+      btnCerrarValija.Visible = false;
     }
 
     protected void gdPagos_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -691,7 +839,76 @@ namespace ICommunity.Antalis
       bEstadoValija = true;
       onLoadGrid();
 
+      btnImprimirValija.Visible = false;
       btnAbrirValija.Visible = false;
+    }
+
+    protected void btnImprimirValija_Click(object sender, EventArgs e)
+    {
+      AppSettingsReader appReader = new System.Configuration.AppSettingsReader();
+      string sUrl = appReader.GetValue("SiteName", typeof(string)).ToString();
+      sUrl = sUrl + hdd_cod_pago.Value + ".html";
+
+      string pdf_page_size = "A4";
+      PdfPageSize pageSize = (PdfPageSize)Enum.Parse(typeof(PdfPageSize),
+          pdf_page_size, true);
+
+      string pdf_orientation = "Portrait";
+      PdfPageOrientation pdfOrientation =
+          (PdfPageOrientation)Enum.Parse(typeof(PdfPageOrientation),
+          pdf_orientation, true);
+
+      int webPageWidth = 1024;
+      int webPageHeight = 0;
+      HtmlToPdf converter = new HtmlToPdf();
+
+      // set converter options
+      converter.Options.PdfPageSize = pageSize;
+      converter.Options.PdfPageOrientation = pdfOrientation;
+      converter.Options.WebPageWidth = webPageWidth;
+      converter.Options.WebPageHeight = webPageHeight;
+
+      // create a new pdf document converting an url
+      PdfDocument doc = converter.ConvertUrl(sUrl);
+
+      string sFile = Server.MapPath("Valijas/") + hdd_cod_pago.Value + ".pdf";
+      doc.Save(sFile);
+      doc.Close();
+
+      System.Web.HttpResponse oResponse = System.Web.HttpContext.Current.Response;
+      oResponse.AppendHeader("Content-Disposition", "attachment; filename=" + hdd_cod_pago.Value + ".pdf");
+
+      // Write the file to the Response
+      const int bufferLength = 10000;
+      byte[] buffer = new Byte[bufferLength];
+      int length = 0;
+      Stream download = null;
+      try
+      {
+        download = new FileStream(sFile, FileMode.Open, FileAccess.Read);
+        do
+        {
+          if (oResponse.IsClientConnected)
+          {
+            length = download.Read(buffer, 0, bufferLength);
+            oResponse.OutputStream.Write(buffer, 0, length);
+            buffer = new Byte[bufferLength];
+          }
+          else
+          {
+            length = -1;
+          }
+        }
+        while (length > 0);
+        oResponse.Flush();
+        oResponse.End();
+      }
+      finally
+      {
+        if (download != null)
+          download.Close();
+      }
+
     }
   }
 

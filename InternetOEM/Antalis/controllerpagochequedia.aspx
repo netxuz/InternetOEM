@@ -22,6 +22,7 @@
     <asp:ScriptManager ID="ScriptManager" runat="server"></asp:ScriptManager>
     <asp:HiddenField ID="hdd_cod_pago" runat="server" />
     <asp:HiddenField ID="hdd_cod_documento" runat="server" />
+    <asp:HiddenField ID="hdd_tipo_documento" runat="server" />
     <nav class="navbar-inverse">
       <div class="container-fluid">
         <div class="navbar-header">
@@ -96,13 +97,13 @@
           <span>FECHA TRANSACCIÓN:
             <asp:Label ID="lblFechtransaccion" runat="server"></asp:Label></span>
         </div>
+        <div class="col-md-4" id="idColBanco" runat="server" visible="false">
+          <span>BANCO:
+            <asp:Label ID="lblBanco" runat="server"></asp:Label></span>
+        </div>
         <div class="col-md-4">
           <span>NUMERO CHEQUE / OPERACION:
             <asp:Label ID="lblNumOperacion" runat="server"></asp:Label></span>
-        </div>
-        <div class="col-md-4">
-          <span>BANCO:
-            <asp:Label ID="lblBanco" runat="server"></asp:Label></span>
         </div>
       </div>
       <!--ROW 2 -->
@@ -139,12 +140,21 @@
         <asp:GridView ID="gdPagos" runat="server" CssClass="table table-hover"
           DataKeyNames="cod_documento" BorderStyle="Solid"
           BorderWidth="0" GridLines="Horizontal"
-          AutoGenerateColumns="false"  OnSelectedIndexChanged="gdPagos_SelectedIndexChanged" OnPageIndexChanging="gdPagos_PageIndexChanging" OnRowDataBound="gdPagos_RowDataBound">
+          AutoGenerateColumns="false" OnRowCommand="gdPagos_RowCommand" OnPageIndexChanging="gdPagos_PageIndexChanging" OnRowDataBound="gdPagos_RowDataBound">
           <Columns>
-            <asp:CommandField ButtonType="Link" ShowSelectButton="true" SelectText="Sele" ItemStyle-CssClass="BtnColEditar" ItemStyle-Width="1px" />
+            <asp:TemplateField>
+              <ItemTemplate>
+                <asp:LinkButton runat="server" ID="BtnlnkSI" CssClass="BtnColEditar" CommandName="SI">SI</asp:LinkButton>
+              </ItemTemplate>
+            </asp:TemplateField>
+            <asp:TemplateField>
+              <ItemTemplate>
+                <asp:LinkButton runat="server" ID="BtnlnkNO" CssClass="BtnColEditar" CommandName="NO">NO</asp:LinkButton>
+              </ItemTemplate>
+            </asp:TemplateField>
             <asp:BoundField HeaderText="# DOCUMENTO" DataField="num_documento" />
-            <asp:BoundField HeaderText="CODIGO BANCO" DataField="cod_banco" />
             <asp:BoundField HeaderText="FECHA DOCUMENTO" DataField="fch_documento" />
+            <asp:BoundField HeaderText="BANCO" DataField="cod_banco" />
             <asp:BoundField HeaderText="# GUIA DESPACHO" DataField="num_guia_despacho" />
             <asp:BoundField HeaderText="# FACTURA" DataField="num_factura" />
             <asp:BoundField HeaderText="IMPORTE" DataField="importe" />

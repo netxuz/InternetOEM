@@ -56,6 +56,9 @@
     <Reference Include="ClosedXML">
       <HintPath>..\..\..\..\Software\ClosedXML\ClosedXML.dll</HintPath>
     </Reference>
+    <Reference Include="ColorCode">
+      <HintPath>..\..\WindowsService\sDBTLicenciatarios\sDBTLicenciatarios\bin\Release\ColorCode.dll</HintPath>
+    </Reference>
     <Reference Include="dcControlPanel, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Panel de Control\Sitio\dcControlPanel\dcControlPanel\obj\Release\dcControlPanel.dll</HintPath>
@@ -117,6 +120,9 @@
     <Reference Include="OnlineServices.Web.UI">
       <HintPath>..\OnlineServices.Web.UI\bin\Release\OnlineServices.Web.UI.dll</HintPath>
     </Reference>
+    <Reference Include="Select.HtmlToPdf">
+      <HintPath>..\..\WindowsService\sDBTLicenciatarios\sDBTLicenciatarios\bin\Release\Select.HtmlToPdf.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -177,9 +183,13 @@
     <Content Include="Antalis\controllerpagoefectivo.aspx" />
     <Content Include="Antalis\controllerpagos.aspx" />
     <Content Include="Antalis\default.aspx" />
+    <Content Include="Antalis\detallevalija.aspx" />
+    <Content Include="Antalis\grafico.html" />
     <Content Include="Antalis\ingreso_pagos.aspx" />
     <Content Include="Antalis\pagos_antalis.aspx" />
     <Content Include="Antalis\redirection.htm" />
+    <Content Include="Antalis\reportepago.html" />
+    <Content Include="Antalis\reportevalijas.aspx" />
     <Content Include="Antalis\usuarios_centrosdistribucion.aspx" />
     <Content Include="Antalis\usuario_rol_antalis.aspx" />
     <Content Include="AppRuta\applistactividad.aspx" />
@@ -251,6 +261,13 @@
     <Compile Include="Antalis\default.aspx.designer.cs">
       <DependentUpon>default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Antalis\detallevalija.aspx.cs">
+      <DependentUpon>detallevalija.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Antalis\detallevalija.aspx.designer.cs">
+      <DependentUpon>detallevalija.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Antalis\ingreso_pagos.aspx.cs">
       <DependentUpon>ingreso_pagos.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -264,6 +281,13 @@
     </Compile>
     <Compile Include="Antalis\pagos_antalis.aspx.designer.cs">
       <DependentUpon>pagos_antalis.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Antalis\reportevalijas.aspx.cs">
+      <DependentUpon>reportevalijas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Antalis\reportevalijas.aspx.designer.cs">
+      <DependentUpon>reportevalijas.aspx</DependentUpon>
     </Compile>
     <Compile Include="Antalis\usuarios_centrosdistribucion.aspx.cs">
       <DependentUpon>usuarios_centrosdistribucion.aspx</DependentUpon>
@@ -1696,6 +1720,7 @@
     <Content Include="serializaimages.aspx" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Antalis\Valijas\" />
     <Folder Include="App_Data\" />
     <Folder Include="ContentFlash\" />
     <Folder Include="ContentImages\" />

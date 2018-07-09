@@ -65,6 +65,8 @@ namespace ICommunity.Reporting
         dtPerfil = null;
       }
       oConn.Close();
+
+      oHtmControl.Controls.Add(new LiteralControl("<li><a href='../antalis/reportevalijas.aspx'>Valijas Validadas</a></li>"));
     }
 
     protected void getMenu(System.Web.UI.HtmlControls.HtmlGenericControl oHtmControl, string pCodUser, string oOrdConsulta)

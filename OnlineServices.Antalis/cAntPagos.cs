@@ -61,6 +61,9 @@ namespace OnlineServices.Antalis
     private string pTipoPago;
     public string TipoPago { get { return pTipoPago; } set { pTipoPago = value; } }
 
+    private bool pEstadoNoValidada;
+    public bool EstadoNoValidada { get { return pEstadoNoValidada; } set { pEstadoNoValidada = value; } }
+
     private string pAccion;
     public string Accion { get { return pAccion; } set { pAccion = value; } }
 
@@ -69,11 +72,13 @@ namespace OnlineServices.Antalis
 
     private DBConn oConn;
 
-    public cAntPagos() {
+    public cAntPagos()
+    {
 
     }
 
-    public cAntPagos(ref DBConn oConn) {
+    public cAntPagos(ref DBConn oConn)
+    {
       this.oConn = oConn;
     }
 
@@ -122,7 +127,7 @@ namespace OnlineServices.Antalis
           oParam.AddParameters("@snombre", sRazonSocial, TypeSQL.Varchar);
         }
 
-        if ((!string.IsNullOrEmpty(sFechaInicial))&&(!string.IsNullOrEmpty(sFechaFinal)))
+        if ((!string.IsNullOrEmpty(sFechaInicial)) && (!string.IsNullOrEmpty(sFechaFinal)))
         {
           cSQL.Append(Condicion);
           Condicion = " and ";
@@ -139,13 +144,22 @@ namespace OnlineServices.Antalis
           oParam.AddParameters("@estado", pEstado, TypeSQL.Char);
         }
 
-        if ((!string.IsNullOrEmpty(pTipoPago)) && (string.IsNullOrEmpty(pCodTipoPago))) {
+        if (pEstadoNoValidada)
+        {
+          cSQL.Append(Condicion);
+          Condicion = " and ";
+          cSQL.Append(" estado in ('A','C') ");
+        }
+
+        if ((!string.IsNullOrEmpty(pTipoPago)) && (string.IsNullOrEmpty(pCodTipoPago)))
+        {
           cSQL.Append(Condicion);
           Condicion = " and ";
 
-          switch (pTipoPago) {
+          switch (pTipoPago)
+          {
             case "E":
-              cSQL.Append(" cod_tipo_pago in(3, 5)  ");
+              cSQL.Append(" cod_tipo_pago in(3, 5, 6)  ");
               break;
             case "C":
               cSQL.Append(" cod_tipo_pago in(1, 2, 4)  ");
@@ -154,6 +168,26 @@ namespace OnlineServices.Antalis
         }
 
         dtData = oConn.Select(cSQL.ToString(), oParam);
+        pError = oConn.Error;
+        return dtData;
+      }
+      else
+      {
+        pError = "Conexion Cerrada";
+        return null;
+      }
+    }
+
+    public DataTable GetCantTipoDoc()
+    {
+      DataTable dtData;
+      StringBuilder cSQL;
+
+      if (oConn.bIsOpen)
+      {
+        cSQL = new StringBuilder();
+        cSQL.Append("select distinct(cod_tipo_pago), count(*) cantidad from ant_pagos where estado = 'C' group by cod_tipo_pago ");
+        dtData = oConn.Select(cSQL.ToString());
         pError = oConn.Error;
         return dtData;
       }
@@ -193,7 +227,8 @@ namespace OnlineServices.Antalis
               oParam.AddParameters("@estado", pEstado, TypeSQL.Char);
               oConn.Insert(cSQL.ToString(), oParam);
 
-              if (!string.IsNullOrEmpty(oConn.Error)) {
+              if (!string.IsNullOrEmpty(oConn.Error))
+              {
                 pError = oConn.Error;
               }
 
@@ -257,7 +292,7 @@ namespace OnlineServices.Antalis
     }
 
     public string getCod()
-    { 
+    {
       StringBuilder sSQL = new StringBuilder("select count(*) from ant_pagos where convert(varchar, fech_recepcion, 112) = convert(varchar, getdate(), 112) ");
       DataTable dtCodigo = oConn.Select(sSQL.ToString());
       return DateTime.Now.ToString("yyMMdd").ToString() + ((dtCodigo.Rows.Count > 0) ? (long.Parse(dtCodigo.Rows[0][0].ToString()) + 1).ToString() : "1");

@@ -1,0 +1,8 @@
+﻿insert into sys_tipo_usuario(cod_tipo, nom_tipo) values(1, 'Usuario')
+go
+insert into sys_tipo_usuario(cod_tipo, nom_tipo) values(2, 'Alto')
+go
+insert into sys_tipo_usuario(cod_tipo, nom_tipo) values(3, 'Medio')
+go
+insert into sys_tipo_usuario(cod_tipo, nom_tipo) values(4, 'Bajo')
+go

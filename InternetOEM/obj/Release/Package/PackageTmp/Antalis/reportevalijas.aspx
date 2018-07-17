@@ -68,7 +68,7 @@
       <div class="row">&nbsp;</div>
       <div class="row">
         <div class="col-md-12">
-          <asp:Label ID="lblTitle" runat="server" CssClass="lblTitle" Text="PAGOS ANTALIS A VALIDAR"></asp:Label>
+          <asp:Label ID="lblTitle" runat="server" CssClass="lblTitle" Text="PAGOS ANTALIS A VALIDADOS"></asp:Label>
         </div>
       </div>
       <div class="row vAlign">

@@ -122,6 +122,11 @@ namespace ICommunity
           rdMenu.CssClass = "mn-superiordos";
           rdSubMenu.Items.Add(rdMenu);
 
+          rdMenu = new RadMenuItem();
+          rdMenu.Text = "CONSULTA DE LOG'S";
+          rdMenu.CssClass = "mn-superiordos";
+          rdSubMenu.Items.Add(rdMenu);
+
           //rdMenu = new RadMenuItem();
           //rdMenu.Text = "RANKING";
           //rdMenu.CssClass = "mn-superior";
@@ -200,6 +205,9 @@ namespace ICommunity
           break;
         case "ANTALIS":
           rpnNavigate.ContentUrl = "antalis/default.aspx";
+          break;
+        case "CONSULTA DE LOG'S":
+          rpnNavigate.ContentUrl = "consulta_logs.aspx";
           break;
       }
     }

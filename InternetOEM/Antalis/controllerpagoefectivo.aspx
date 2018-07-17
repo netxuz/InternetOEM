@@ -77,8 +77,12 @@
       </div>
       <div class="row vAlign">
         <div class="col-md-4">
-          <span>RAZÓN SOCIAL:
+          <span>CLIENTE:
             <asp:Label ID="lblRazonSocial" runat="server"></asp:Label></span>
+        </div>
+        <div class="col-md-4">
+          <span>RAZÓN SOCIAL:
+            <asp:Label ID="lblNomDeudor" runat="server"></asp:Label></span>
         </div>
         <div class="col-md-4">
           <span>CENTRO DE DISTRIBUCION:

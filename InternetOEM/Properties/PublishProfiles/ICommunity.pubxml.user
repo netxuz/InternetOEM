@@ -19,10 +19,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/10/2018 13:16:08</publishTime>
     </File>
     <File Include="Antalis/controllerpagochequedia.aspx">
-      <publishTime>07/08/2018 23:40:03</publishTime>
+      <publishTime>07/15/2018 18:59:22</publishTime>
     </File>
     <File Include="Antalis/controllerpagoefectivo.aspx">
-      <publishTime>07/04/2018 22:37:10</publishTime>
+      <publishTime>07/11/2018 01:56:58</publishTime>
     </File>
     <File Include="Antalis/controllerpagos.aspx">
       <publishTime>07/09/2018 00:51:34</publishTime>
@@ -31,13 +31,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/09/2018 22:03:16</publishTime>
     </File>
     <File Include="Antalis/detallevalija.aspx">
-      <publishTime>07/09/2018 00:21:38</publishTime>
+      <publishTime>07/15/2018 19:09:51</publishTime>
     </File>
     <File Include="Antalis/grafico.html">
       <publishTime>07/08/2018 20:29:27</publishTime>
     </File>
     <File Include="Antalis/ingreso_pagos.aspx">
-      <publishTime>07/09/2018 00:45:37</publishTime>
+      <publishTime>07/16/2018 01:51:46</publishTime>
+    </File>
+    <File Include="Antalis/logoantalis.jpg">
+      <publishTime>07/11/2018 01:33:05</publishTime>
     </File>
     <File Include="Antalis/pagos_antalis.aspx">
       <publishTime>07/09/2018 01:00:45</publishTime>
@@ -46,10 +49,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/15/2018 00:35:10</publishTime>
     </File>
     <File Include="Antalis/reportepago.html">
-      <publishTime>07/08/2018 20:44:57</publishTime>
+      <publishTime>07/15/2018 17:26:54</publishTime>
     </File>
     <File Include="Antalis/reportevalijas.aspx">
-      <publishTime>07/09/2018 00:49:40</publishTime>
+      <publishTime>07/11/2018 02:55:44</publishTime>
     </File>
     <File Include="Antalis/usuarios_centrosdistribucion.aspx">
       <publishTime>06/19/2018 01:18:14</publishTime>
@@ -148,7 +151,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/01/2012 01:24:26</publishTime>
     </File>
     <File Include="bin/ICommunity.dll">
-      <publishTime>07/09/2018 01:52:01</publishTime>
+      <publishTime>07/16/2018 21:26:34</publishTime>
     </File>
     <File Include="bin/Ionic.Zip.dll">
       <publishTime>02/25/2010 23:29:50</publishTime>
@@ -160,31 +163,31 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/03/2014 19:33:56</publishTime>
     </File>
     <File Include="bin/OnlineServices.Antalis.dll">
-      <publishTime>07/09/2018 01:51:47</publishTime>
+      <publishTime>07/16/2018 20:33:10</publishTime>
     </File>
     <File Include="bin/OnlineServices.AppData.dll">
-      <publishTime>07/02/2018 15:26:56</publishTime>
+      <publishTime>07/12/2018 02:22:14</publishTime>
     </File>
     <File Include="bin/OnlineServices.AppRuta.dll">
-      <publishTime>07/02/2018 15:26:52</publishTime>
+      <publishTime>07/12/2018 02:22:09</publishTime>
     </File>
     <File Include="bin/OnlineServices.CmsData.dll">
-      <publishTime>07/02/2018 15:31:58</publishTime>
+      <publishTime>07/12/2018 02:22:04</publishTime>
     </File>
     <File Include="bin/OnlineServices.Conn.dll">
-      <publishTime>07/02/2018 15:26:55</publishTime>
+      <publishTime>07/12/2018 02:22:14</publishTime>
     </File>
     <File Include="bin/OnlineServices.Method.dll">
-      <publishTime>07/02/2018 15:31:58</publishTime>
+      <publishTime>07/12/2018 02:21:53</publishTime>
     </File>
     <File Include="bin/OnlineServices.Reporting.dll">
-      <publishTime>07/02/2018 15:26:43</publishTime>
+      <publishTime>07/12/2018 02:21:49</publishTime>
     </File>
     <File Include="bin/OnlineServices.SystemData.dll">
-      <publishTime>07/02/2018 15:26:26</publishTime>
+      <publishTime>07/16/2018 19:31:04</publishTime>
     </File>
     <File Include="bin/OnlineServices.Web.UI.dll">
-      <publishTime>07/02/2018 15:31:59</publishTime>
+      <publishTime>07/12/2018 02:21:37</publishTime>
     </File>
     <File Include="bin/Select.HtmlToPdf.dll">
       <publishTime>05/29/2015 04:54:17</publishTime>
@@ -224,6 +227,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="codepassword.aspx">
       <publishTime>04/22/2018 22:48:25</publishTime>
+    </File>
+    <File Include="consulta_logs.aspx">
+      <publishTime>07/16/2018 19:29:57</publishTime>
     </File>
     <File Include="Contenido.aspx">
       <publishTime>06/21/2011 14:26:38</publishTime>
@@ -1048,79 +1054,79 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/18/2011 16:35:40</publishTime>
     </File>
     <File Include="Reporting/app_antiguedad_deuda_fin.aspx">
-      <publishTime>12/03/2016 19:22:43</publishTime>
+      <publishTime>07/16/2018 15:58:46</publishTime>
     </File>
     <File Include="Reporting/app_cartola_find.aspx">
-      <publishTime>11/13/2016 13:14:56</publishTime>
+      <publishTime>07/16/2018 15:59:08</publishTime>
     </File>
     <File Include="Reporting/app_cli_retenidos_bus.aspx">
-      <publishTime>12/03/2016 20:13:09</publishTime>
+      <publishTime>07/16/2018 15:59:18</publishTime>
     </File>
     <File Include="Reporting/app_cntrl_sol_not_crtd_find.aspx">
-      <publishTime>11/27/2016 14:17:37</publishTime>
+      <publishTime>07/16/2018 15:59:35</publishTime>
     </File>
     <File Include="Reporting/app_comportamiento_pago_find.aspx">
-      <publishTime>12/03/2016 19:22:29</publishTime>
+      <publishTime>07/16/2018 15:59:42</publishTime>
     </File>
     <File Include="Reporting/app_contactos_deudor_find.aspx">
-      <publishTime>12/03/2016 19:41:12</publishTime>
+      <publishTime>07/16/2018 15:59:48</publishTime>
     </File>
     <File Include="Reporting/app_control_metas_real_find.aspx">
-      <publishTime>12/11/2016 20:17:10</publishTime>
+      <publishTime>07/16/2018 15:59:54</publishTime>
     </File>
     <File Include="Reporting/app_cop_ced_bod_find.aspx">
-      <publishTime>11/27/2016 14:34:23</publishTime>
+      <publishTime>07/16/2018 16:00:00</publishTime>
     </File>
     <File Include="Reporting/app_cta_cte_find.aspx">
-      <publishTime>11/12/2016 19:25:14</publishTime>
+      <publishTime>07/16/2018 16:00:50</publishTime>
     </File>
     <File Include="Reporting/app_det_ent_doctos _find.aspx">
-      <publishTime>11/27/2016 18:26:47</publishTime>
+      <publishTime>07/16/2018 16:00:57</publishTime>
     </File>
     <File Include="Reporting/app_dist_ret_doc_find.aspx">
-      <publishTime>11/27/2016 17:44:31</publishTime>
+      <publishTime>07/16/2018 16:01:03</publishTime>
     </File>
     <File Include="Reporting/app_documentos_litigio_find.aspx">
-      <publishTime>11/27/2016 17:08:46</publishTime>
+      <publishTime>07/16/2018 16:01:10</publishTime>
     </File>
     <File Include="Reporting/app_facturas_vencidas_find.aspx">
-      <publishTime>11/12/2016 13:26:31</publishTime>
+      <publishTime>07/16/2018 16:01:22</publishTime>
     </File>
     <File Include="Reporting/app_historico_pago_find.aspx">
-      <publishTime>09/23/2017 15:11:43</publishTime>
+      <publishTime>07/16/2018 16:01:28</publishTime>
     </File>
     <File Include="Reporting/app_indicadores_efectividad_find.aspx">
-      <publishTime>12/10/2016 18:08:18</publishTime>
+      <publishTime>07/16/2018 16:01:36</publishTime>
     </File>
     <File Include="Reporting/app_mov_carg_cart_find.aspx">
-      <publishTime>06/13/2018 22:35:38</publishTime>
+      <publishTime>07/16/2018 16:01:43</publishTime>
     </File>
     <File Include="Reporting/app_promesas_pagos_find.aspx">
-      <publishTime>11/12/2016 18:25:22</publishTime>
+      <publishTime>07/16/2018 16:01:49</publishTime>
     </File>
     <File Include="Reporting/app_proyeccion_pago_find.aspx">
-      <publishTime>11/12/2016 14:10:02</publishTime>
+      <publishTime>07/16/2018 16:01:55</publishTime>
     </File>
     <File Include="Reporting/app_rep_chq_fecha_find.aspx">
-      <publishTime>11/12/2016 12:10:02</publishTime>
+      <publishTime>07/16/2018 16:02:01</publishTime>
     </File>
     <File Include="Reporting/app_rep_cli_riesgosos_bus.aspx">
-      <publishTime>12/03/2016 19:48:52</publishTime>
+      <publishTime>07/16/2018 16:02:06</publishTime>
     </File>
     <File Include="Reporting/app_rep_lit_por_motivo_find.aspx">
-      <publishTime>11/27/2016 18:06:38</publishTime>
+      <publishTime>07/16/2018 16:02:12</publishTime>
     </File>
     <File Include="Reporting/app_rep_mot_no_pago_find.aspx">
-      <publishTime>12/03/2016 16:55:42</publishTime>
+      <publishTime>07/16/2018 16:02:18</publishTime>
     </File>
     <File Include="Reporting/app_rep_rut_cobranza_find.aspx">
-      <publishTime>06/12/2018 00:32:32</publishTime>
+      <publishTime>07/16/2018 16:02:24</publishTime>
     </File>
     <File Include="Reporting/app_resumen_cobranza_find.aspx">
-      <publishTime>12/06/2016 00:22:29</publishTime>
+      <publishTime>07/16/2018 16:02:30</publishTime>
     </File>
     <File Include="Reporting/app_seg_deudores_find.aspx">
-      <publishTime>11/27/2016 16:44:29</publishTime>
+      <publishTime>07/16/2018 16:02:41</publishTime>
     </File>
     <File Include="Reporting/app_show_analistas.aspx">
       <publishTime>12/08/2016 20:53:54</publishTime>
@@ -1138,7 +1144,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/03/2016 18:49:21</publishTime>
     </File>
     <File Include="Reporting/app_sob_lin_credito_bus.aspx">
-      <publishTime>12/03/2016 20:12:42</publishTime>
+      <publishTime>07/16/2018 16:02:49</publishTime>
     </File>
     <File Include="Reporting/default.aspx">
       <publishTime>07/04/2018 22:36:40</publishTime>

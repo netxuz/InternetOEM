@@ -175,13 +175,31 @@ namespace ICommunity.Antalis {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl idRow1;
         
         /// <summary>
-        /// lblFechtransaccion control.
+        /// lblRazonSocialPago control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblFechtransaccion;
+        protected global::System.Web.UI.WebControls.Label lblRazonSocialPago;
+        
+        /// <summary>
+        /// lblcuentacorriente control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblcuentacorriente;
+        
+        /// <summary>
+        /// lblNumOperacion control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblNumOperacion;
         
         /// <summary>
         /// idColBanco control.
@@ -202,13 +220,13 @@ namespace ICommunity.Antalis {
         protected global::System.Web.UI.WebControls.Label lblBanco;
         
         /// <summary>
-        /// lblNumOperacion control.
+        /// lblFechtransaccion control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblNumOperacion;
+        protected global::System.Web.UI.WebControls.Label lblFechtransaccion;
         
         /// <summary>
         /// idRow2 control.

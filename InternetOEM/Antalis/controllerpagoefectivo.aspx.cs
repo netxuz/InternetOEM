@@ -64,6 +64,16 @@ namespace ICommunity.Antalis
               }
               dtCliente = null;
 
+              cAntDocumentosPago oDocPago = new cAntDocumentosPago(ref oConn);
+              oDocPago.CodPagos = hdd_cod_pago.Value;
+              DataTable dtDocPago = oDocPago.Get();
+              if (dtDocPago != null) {
+                if (dtDocPago.Rows.Count > 0) {
+                  lblNomDeudor.Text = dtDocPago.Rows[0]["nom_deudor"].ToString();
+                }
+                dtDocPago = null;
+              }
+              
               cAntCentrosDistribucion oCentrosDistribucion = new cAntCentrosDistribucion(ref oConn);
               oCentrosDistribucion.CodCentroDist = dt.Rows[0]["cod_centrodist"].ToString();
               DataTable dtCentro = oCentrosDistribucion.GetByCod();
@@ -77,7 +87,7 @@ namespace ICommunity.Antalis
               dtCentro = null;
 
               lblFecharecepcion.Text = dt.Rows[0]["fech_recepcion"].ToString();
-              lblimporte.Text = dt.Rows[0]["importe_total"].ToString();
+              lblimporte.Text = string.Format("{0:N0}",int.Parse(dt.Rows[0]["importe_total"].ToString()));
               hdd_importe.Value = dt.Rows[0]["importe_total"].ToString();
 
             }
@@ -86,6 +96,13 @@ namespace ICommunity.Antalis
 
         }
         oConn.Close();
+
+        Log oLog = new Log();
+        oLog.IdUsuario = oIsUsuario.CodUsuario;
+        oLog.ObsLog = "VALIDACION VALIJA #" + hdd_cod_pago.Value;
+        oLog.CodEvtLog = "2";
+        oLog.AppLog = "ANTALIS";
+        oLog.putLog();
       }
 
     }
@@ -181,6 +198,13 @@ namespace ICommunity.Antalis
       oEmailing.Body = sHmtl;
       oEmailing.EmailSend();
 
+      Log oLog = new Log();
+      oLog.IdUsuario = oIsUsuario.CodUsuario;
+      oLog.ObsLog = "RECHAZO VALIJA #" + hdd_cod_pago.Value;
+      oLog.CodEvtLog = "2";
+      oLog.AppLog = "ANTALIS";
+      oLog.putLog();
+
       Response.Redirect("controllerpagos.aspx");
 
     }
@@ -201,7 +225,7 @@ namespace ICommunity.Antalis
       }
 
       StringBuilder sHmtl = new StringBuilder();
-      sHmtl.Append("Se informa que la valija # ").Append(lblValija.Text).Append(" a sido validada.");
+      sHmtl.Append("Se informa que la valija # ").Append(lblValija.Text).Append(", de tipo de pago EFECTIVO  a sido validada.");
 
       AppSettingsReader appReader = new System.Configuration.AppSettingsReader();
       string sEmlAddr = appReader.GetValue("AntalisMail", typeof(string)).ToString();
@@ -212,6 +236,13 @@ namespace ICommunity.Antalis
       oEmailing.Subject = "Valija # " + lblValija.Text + ", VALIDADA";
       oEmailing.Body = sHmtl;
       oEmailing.EmailSend();
+
+      Log oLog = new Log();
+      oLog.IdUsuario = oIsUsuario.CodUsuario;
+      oLog.ObsLog = "VALIDADO VALIJA #" + hdd_cod_pago.Value;
+      oLog.CodEvtLog = "2";
+      oLog.AppLog = "ANTALIS";
+      oLog.putLog();
 
       Response.Redirect("controllerpagos.aspx");
     }

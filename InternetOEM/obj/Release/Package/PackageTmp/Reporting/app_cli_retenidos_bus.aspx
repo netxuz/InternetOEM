@@ -54,8 +54,10 @@
               <a class="dropdown-toggle" data-toggle="dropdown" href="#">Clasificación de Riesgo<span class="caret"></span></a>
               <ul id="IndClasificacionRiesgo" runat="server" class="dropdown-menu"></ul>
             </li>
-
-            <li><a href="#">Panel de Control</a></li>
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#">Gestión de Pago<span class="caret"></span></a>
+              <ul id="indAntalis" runat="server" class="dropdown-menu"></ul>
+            </li>
           </ul>
         </div>
       </div>

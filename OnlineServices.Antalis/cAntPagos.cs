@@ -123,7 +123,7 @@ namespace OnlineServices.Antalis
         {
           cSQL.Append(Condicion);
           Condicion = " and ";
-          cSQL.Append(" nkey_cliente in(select nkey_cliente from cliente where snombre like ' + @snombre + ')  ");
+          cSQL.Append(" nkey_cliente in(select nkey_cliente from cliente where snombre like '%' + @snombre + '%')  ");
           oParam.AddParameters("@snombre", sRazonSocial, TypeSQL.Varchar);
         }
 
@@ -166,6 +166,8 @@ namespace OnlineServices.Antalis
               break;
           }
         }
+
+        cSQL.Append(" order by fech_recepcion desc ");
 
         dtData = oConn.Select(cSQL.ToString(), oParam);
         pError = oConn.Error;
@@ -213,8 +215,8 @@ namespace OnlineServices.Antalis
             case "CREAR":
               cSQL = new StringBuilder();
 
-              //pCodPagos = oConn.getTableCod("ant_pagos", "cod_pago", oConn);
-              pCodPagos = getCod();
+              pCodPagos = oConn.getTableCod("ant_pagos", "cod_pago", oConn);
+              //pCodPagos = getCod();
               cSQL.Append("insert into ant_pagos(cod_pago,cod_user,nkey_cliente,cod_centrodist,cod_tipo_pago,fech_recepcion,horario,estado) values( ");
               cSQL.Append("@cod_pago,@cod_user,@nkey_cliente,@cod_centrodist,@cod_tipo_pago,@fech_recepcion,@horario,@estado) ");
               oParam.AddParameters("@cod_pago", pCodPagos, TypeSQL.Numeric);
@@ -291,11 +293,33 @@ namespace OnlineServices.Antalis
       }
     }
 
-    public string getCod()
+    //public string getCod()
+    //{
+    //  StringBuilder sSQL = new StringBuilder("select count(*) from ant_pagos where convert(varchar, fech_recepcion, 112) = convert(varchar, getdate(), 112) ");
+    //  DataTable dtCodigo = oConn.Select(sSQL.ToString());
+
+    //  string sAno = DateTime.Now.Year.ToString();
+    //  string sMes = DateTime.Now.Month.ToString();
+    //  sMes = ((sMes.Length == 1) ? "0" + sMes : sMes);
+    //  string sDia = DateTime.Now.Day.ToString();
+    //  sDia = ((sDia.Length == 1) ? "0" + sDia : sDia);
+
+    //  return sAno + sMes + sDia + ((dtCodigo.Rows.Count > 0) ? (long.Parse(dtCodigo.Rows[0][0].ToString()) + 1).ToString() : "1");
+    //}
+
+    public string getCod(string pTable, string pKey, DBConn oConn)
     {
-      StringBuilder sSQL = new StringBuilder("select count(*) from ant_pagos where convert(varchar, fech_recepcion, 112) = convert(varchar, getdate(), 112) ");
-      DataTable dtCodigo = oConn.Select(sSQL.ToString());
-      return DateTime.Now.ToString("yyMMdd").ToString() + ((dtCodigo.Rows.Count > 0) ? (long.Parse(dtCodigo.Rows[0][0].ToString()) + 1).ToString() : "1");
+      long lngCodigo;
+      DataTable dtCodigo;
+      StringBuilder sSQL = new StringBuilder("SELECT 1 FROM " + pTable + " WHERE " + pKey + " = ");
+      do
+      {
+        lngCodigo = long.Parse(DateTime.Now.ToString("yyyyMMddHHmmss").ToString());
+        dtCodigo = oConn.Select(sSQL.ToString() + lngCodigo);
+      } while (dtCodigo.Rows.Count > 0);
+      return lngCodigo.ToString();
+
+
     }
 
   }

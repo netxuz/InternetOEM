@@ -52,7 +52,7 @@ namespace OnlineServices.Antalis
         cSQL.Append("Select distinct(guidespacho) from factura where nkey_cliente = @nkeycliente and nkey_deudor in(select nkey_deudor from codigodeudor where ncodigodeudor = @ncodigodeudor and nKey_Cliente = @nkeycliente) ");
         cSQL.Append(" and not nNumeroFactura in(select num_factura from ant_factura where saldo_factura <= 0 ) ");
         oParam.AddParameters("@nkeycliente", pNKeyCliente, TypeSQL.Numeric);
-        oParam.AddParameters("@ncodigodeudor", pNCodigoDeudor, TypeSQL.Numeric);
+        oParam.AddParameters("@ncodigodeudor", pNCodigoDeudor, TypeSQL.Varchar);
 
         dtData = oConn.Select(cSQL.ToString(), oParam);
         pError = oConn.Error;

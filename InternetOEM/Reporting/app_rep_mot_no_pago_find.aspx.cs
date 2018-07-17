@@ -12,6 +12,9 @@ using OnlineServices.Reporting;
 using Telerik.Web.UI;
 using ClosedXML.Excel;
 
+using OnlineServices.Antalis;
+using OnlineServices.SystemData;
+
 namespace ICommunity.Reporting
 {
   public partial class app_rep_mot_no_pago_find : System.Web.UI.Page
@@ -30,6 +33,7 @@ namespace ICommunity.Reporting
       getMenu(idProcesoNormalizacion, oIsUsuario.CodUsuario, "4");
       getMenu(idIndicadoresClaves, oIsUsuario.CodUsuario, "5");
       getMenu(IndClasificacionRiesgo, oIsUsuario.CodUsuario, "6");
+      getMenuAntalis(indAntalis, oIsUsuario.CodUsuario);
 
       if (!IsPostBack)
       {
@@ -37,8 +41,54 @@ namespace ICommunity.Reporting
         RadDatePicker2.DateInput.DateFormat = "dd-MM-yyyy";
         RadDatePicker1.SelectedDate = dTimeNow.AddMonths(-1);
         RadDatePicker2.SelectedDate = dTimeNow;
+
+        Log oLog = new Log();
+        oLog.IdUsuario = oIsUsuario.CodUsuario;
+        oLog.ObsLog = "REPORTE DE MOTIVOS NO PAGO";
+        oLog.CodEvtLog = "1";
+        oLog.AppLog = "REPORTES DEBTCONTROL";
+        oLog.putLog();
       }
 
+    }
+
+    protected void getMenuAntalis(System.Web.UI.HtmlControls.HtmlGenericControl oHtmControl, string pCoduser)
+    {
+
+      DBConn oConn = new DBConn();
+      if (oConn.Open())
+      {
+
+        SyrPerfilesUsuarios oSysPerfilesUsuarios = new SyrPerfilesUsuarios(ref oConn);
+        oSysPerfilesUsuarios.CodUsuario = pCoduser;
+        oSysPerfilesUsuarios.CodPerfil = "7";
+        DataTable dtPerfil = oSysPerfilesUsuarios.Get();
+        if (dtPerfil != null)
+        {
+          if (dtPerfil.Rows.Count > 0)
+          {
+            cAntsUsuarios oAntsUsuarios = new cAntsUsuarios(ref oConn);
+            oAntsUsuarios.CodUsuario = pCoduser;
+            DataTable dtAntRoles = oAntsUsuarios.GetRoles();
+            if (dtAntRoles != null)
+            {
+              foreach (DataRow oRow in dtAntRoles.Rows)
+              {
+
+                if (oRow["cod_rol"].ToString() == "1")
+                  oHtmControl.Controls.Add(new LiteralControl("<li><a href='../antalis/pagos_antalis.aspx'>Ingreso de Pago</a></li>"));
+                if (oRow["cod_rol"].ToString() == "2")
+                  oHtmControl.Controls.Add(new LiteralControl("<li><a href='../antalis/controllerpagos.aspx'>Validación de Pago</a></li>"));
+              }
+            }
+            dtAntRoles = null;
+          }
+        }
+        dtPerfil = null;
+      }
+      oConn.Close();
+
+      oHtmControl.Controls.Add(new LiteralControl("<li><a href='../antalis/reportevalijas.aspx'>Valijas Validadas</a></li>"));
     }
 
     protected void getMenu(System.Web.UI.HtmlControls.HtmlGenericControl oHtmControl, string pCodUser, string oOrdConsulta)
@@ -56,7 +106,7 @@ namespace ICommunity.Reporting
           {
             foreach (DataRow oRow in dtQuery.Rows)
             {
-              oHtmControl.Controls.Add(new LiteralControl("<li><a href=\"" + oRow["url_consulta_new"].ToString() + "\">" + oRow["nom_consulta"].ToString() + "</a></li>"));
+              oHtmControl.Controls.Add(new LiteralControl("<li><a href=\"../reporting/" + oRow["url_consulta_new"].ToString() + "\">" + oRow["nom_consulta"].ToString() + "</a></li>"));
             }
           }
         }

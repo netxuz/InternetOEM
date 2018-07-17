@@ -36,6 +36,12 @@ namespace ICommunity.Antalis
 
       if (!IsPostBack)
       {
+        Log oLog = new Log();
+        oLog.IdUsuario = oIsUsuario.CodUsuario;
+        oLog.ObsLog = "REPORTE DE VALIJAS A VALIDAR";
+        oLog.CodEvtLog = "2";
+        oLog.AppLog = "ANTALIS";
+        oLog.putLog();
 
         DBConn oConn = new DBConn();
         if (oConn.Open())

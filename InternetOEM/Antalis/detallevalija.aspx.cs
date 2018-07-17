@@ -81,13 +81,16 @@ namespace ICommunity.Antalis
                   lblTitulo = "DETALLE DE PAGO / CHEQUES AL DÍA";
                   break;
                 case "2":
-                  lblTitulo = "DETALLE DE PAGO / CHEQUES AL FECHA";
+                  lblTitulo = "DETALLE DE PAGO / CHEQUES A FECHA";
                   break;
                 case "4":
                   lblTitulo = "DETALLE DE PAGO / LETRA";
                   break;
                 case "5":
                   lblTitulo = "DETALLE DE PAGO / TARJETA";
+                  break;
+                case "6":
+                  lblTitulo = "DETALLE DE PAGO / TRANSFERENCIA";
                   break;
               }
               lblTitle.Text = lblTitulo;
@@ -180,17 +183,17 @@ namespace ICommunity.Antalis
         {
           if (dt.Rows.Count > 0)
           {
-            lblCantidad.Text = dt.Rows.Count.ToString();
+            lblCantidad.Text = string.Format("{0:N0}", dt.Compute("COUNT(cod_documento)", " nod_cod_documento is null "));
 
             string iImporteTotal = dt.Compute("SUM(importe)", string.Empty).ToString();
-            lblMonto.Text = iImporteTotal;
+            lblMonto.Text = string.Format("{0:N0}",int.Parse(iImporteTotal));
 
             string iImporteTotalRecibido = (!string.IsNullOrEmpty(dt.Compute("SUM(importe_recibido)", string.Empty).ToString()) ? dt.Compute("SUM(importe_recibido)", string.Empty).ToString() : "0");
-            lblImporteTotalRecibido.Text = iImporteTotalRecibido;
+            lblImporteTotalRecibido.Text = string.Format("{0:N0}", int.Parse(iImporteTotalRecibido));
             hdd_importetotal_recibido.Value = iImporteTotalRecibido;
 
             string iDiscrepancia = (!string.IsNullOrEmpty(dt.Compute("SUM(discrepancia)", string.Empty).ToString()) ? dt.Compute("SUM(discrepancia)", string.Empty).ToString() : "0");
-            lblDiscrepanciaTotal.Text = iDiscrepancia;
+            lblDiscrepanciaTotal.Text = string.Format("{0:N0}", int.Parse(iDiscrepancia));
             hdd_total_discrepancia.Value = iDiscrepancia;
           }
         }
@@ -222,13 +225,13 @@ namespace ICommunity.Antalis
               if (oConn.Open())
               {
                 cAntBancos oBancos = new cAntBancos(ref oConn);
-                oBancos.NKeyBanco = e.Row.Cells[3].Text.ToString();
+                oBancos.NKeyBanco = e.Row.Cells[4].Text.ToString();
                 DataTable dt = oBancos.Get();
                 if (dt != null)
                 {
                   if (dt.Rows.Count > 0)
                   {
-                    e.Row.Cells[3].Text = e.Row.Cells[3].Text.ToString() + " - " + dt.Rows[0]["snombre"].ToString();
+                    e.Row.Cells[4].Text = e.Row.Cells[4].Text.ToString() + " - " + dt.Rows[0]["snombre"].ToString();
                   }
                 }
                 dt = null;

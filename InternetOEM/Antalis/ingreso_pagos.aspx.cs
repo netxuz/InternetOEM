@@ -39,6 +39,13 @@ namespace ICommunity.Antalis
 
       if (!IsPostBack)
       {
+        Log oLog = new Log();
+        oLog.IdUsuario = oIsUsuario.CodUsuario;
+        oLog.ObsLog = "INGRESO DE PAGOS ANTALIS";
+        oLog.CodEvtLog = "2";
+        oLog.AppLog = "ANTALIS";
+        oLog.putLog();
+
         hdd_cod_pago.Value = oWeb.GetData("CodPago");
 
         if (string.IsNullOrEmpty(hdd_cod_pago.Value))
@@ -106,10 +113,16 @@ namespace ICommunity.Antalis
                 if ((pCodTipoPago == "3") || (pCodTipoPago == "5") || (pCodTipoPago == "6"))
                   cmb_bancos.Enabled = false;
 
+                if (pCodTipoPago == "2")
+                  txt_cta_cte.Enabled = true;
+                else
+                  txt_cta_cte.Enabled = false;
+
                 txt_fecha_recepcion.Value = dtPagos.Rows[0]["fech_recepcion"].ToString();
                 lbl_fecha_recepcion.Text = dtPagos.Rows[0]["fech_recepcion"].ToString();
                 bEstadoValija = ((dtPagos.Rows[0]["estado"].ToString() != "C") ? true : false);
-                if (dtPagos.Rows[0]["estado"].ToString() == "C") {
+                if (dtPagos.Rows[0]["estado"].ToString() == "C")
+                {
                   btnImprimirValija.Visible = true;
                   btnAbrirValija.Visible = true;
                 }
@@ -230,6 +243,13 @@ namespace ICommunity.Antalis
             details.Add(oGuiasDespacho);
           }
         }
+
+        Log oLog = new Log();
+        oLog.ObsLog = oGuiasFacturas.Error;
+        oLog.CodEvtLog = "9";
+        oLog.AppLog = "ERRROR - getGuiasDespacho";
+        oLog.putLog();
+
         dtGuias = null;
         oConn.Close();
       }
@@ -255,8 +275,8 @@ namespace ICommunity.Antalis
             cFacturas oFacturas = new cFacturas();
             oFacturas.nKeyFactura = oRow["nkey_factura"].ToString();
             oFacturas.nNumeroFactura = oRow["nnumerofactura"].ToString();
-            oFacturas.nMontoFactura = oRow["nmontofactura"].ToString();
-            oFacturas.nSaldo = oRow["saldo"].ToString();
+            oFacturas.nMontoFactura = string.Format("{0:N0}", int.Parse(oRow["nmontofactura"].ToString()));
+            oFacturas.nSaldo = string.Format("{0:N0}", int.Parse(oRow["saldo"].ToString()));
             details.Add(oFacturas);
           }
         }
@@ -291,21 +311,51 @@ namespace ICommunity.Antalis
       return details.ToArray();
     }
 
+    [WebMethod]
+    public static string getDeudor(string nKeyCliente, string nCodigoDeudor)
+    {
+
+      string sValue = string.Empty;
+
+      DBConn oConn = new DBConn();
+      if (oConn.Open())
+      {
+        cDeudor oDeudor = new cDeudor(ref oConn);
+        oDeudor.NCodigoDeudor = nCodigoDeudor;
+        oDeudor.NKeyCliente = nKeyCliente;
+        DataTable dt = oDeudor.Get();
+        if (dt != null)
+          if (dt.Rows.Count > 0)
+            sValue = dt.Rows[0]["sNombre"].ToString();
+
+        if (string.IsNullOrEmpty(sValue))
+        {
+          if (!string.IsNullOrEmpty(oDeudor.Error))
+            sValue = oDeudor.Error;
+          else
+            sValue = "SIN INFORMACION";
+        }
+        oConn.Close();
+      }
+      return sValue;
+    }
+
     protected void btnIngresarImportes_Click(object sender, EventArgs e)
     {
       string pCodCentroDist = cmb_centrodistribucion.SelectedValue;
       string pCodTipoPago = cmb_documento.SelectedValue;
       string pFchRecepcion = txt_fecha_recepcion.Value;
       string pCodSAP = txt_codigosap.Text;
-      //string sRazonSocial = txt_razon_social.Text;
+      string sNomDeudor = lblNomDeudor.Text;
       string pNumOperacion = txt_num_documento.Text;
+      string sCuentaCorriente = txt_cta_cte.Text;
       string pCodBanco = cmb_bancos.SelectedValue;
       string pFchDocumento = hdd_fchdocument.Value;
       string pGuiaDespacho = hddGuiasDespacho.Value;
       string[] sFactura = hdd_facturas.Value.Split('|');
       string pNumFactura = sFactura[0].ToString();
       string pValor = sFactura[1].ToString();
-      string pImporte = txt_importe.Text;
+      string pImporte = txt_importe.Text.Replace(".", "").Replace(",", "");
 
       DBConn oConn = new DBConn();
       if (oConn.Open())
@@ -322,6 +372,12 @@ namespace ICommunity.Antalis
           oPagos.Accion = "CREAR";
           oPagos.Put();
 
+          if (!string.IsNullOrEmpty(oPagos.Error))
+          {
+            Response.Write("[Ingresar Valija] Se ha encontrado el siguiente error : " + oPagos.Error);
+            Response.End();
+          }
+
           string pCodPago = oPagos.CodPagos;
           hdd_cod_pago.Value = pCodPago;
           lblValija.Text = "# Valija " + hdd_cod_pago.Value;
@@ -331,7 +387,7 @@ namespace ICommunity.Antalis
         cAntFactura oFactura;
         cAntDocumentosPago oAntDocumentosPago;
 
-        if (!string.IsNullOrEmpty(hdd_cod_documento.Value))
+        if ((!string.IsNullOrEmpty(hdd_cod_documento.Value)) && (string.IsNullOrEmpty(hdd_nod_documento.Value)))
         {
           oAntDocumentosPago = new cAntDocumentosPago(ref oConn);
           oAntDocumentosPago.CodDocumento = hdd_cod_documento.Value;
@@ -351,6 +407,12 @@ namespace ICommunity.Antalis
                   oFactura.SaldoFactura = (int.Parse(nSaldo) + int.Parse(dt.Rows[0]["importe"].ToString())).ToString();
                   oFactura.Accion = "EDITAR";
                   oFactura.Put();
+
+                  if (!string.IsNullOrEmpty(oFactura.Error))
+                  {
+                    Response.Write("[Ingresar / Factura Editar 1] Se ha encontrado el siguiente error : " + oFactura.Error);
+                    Response.End();
+                  }
                 }
               }
               dtFactura = null;
@@ -371,20 +433,32 @@ namespace ICommunity.Antalis
             pCodFactura = dtFactura.Rows[0]["cod_factura"].ToString();
             pValor = dtFactura.Rows[0]["saldo_factura"].ToString();
 
-            if (int.Parse(pValor) > int.Parse(pImporte))
-              oFactura.SaldoFactura = (int.Parse(pValor) - int.Parse(pImporte)).ToString();
+            if (int.Parse(pValor) > int.Parse(pImporte.Replace(".", string.Empty)))
+              oFactura.SaldoFactura = (int.Parse(pValor.Replace(".", string.Empty)) - int.Parse(pImporte.Replace(".", string.Empty))).ToString();
             else
               oFactura.SaldoFactura = "0";
             oFactura.CodFactura = pCodFactura;
             oFactura.Accion = "EDITAR";
             oFactura.Put();
+
+            if (!string.IsNullOrEmpty(oFactura.Error))
+            {
+              Response.Write("[Ingresar / Factura Editar 2] Se ha encontrado el siguiente error : " + oFactura.Error);
+              Response.End();
+            }
           }
           else
           {
-            oFactura.ValorFactura = pValor;
-            oFactura.SaldoFactura = (int.Parse(pValor) - int.Parse(pImporte)).ToString();
+            oFactura.ValorFactura = pValor.Replace(".", string.Empty);
+            oFactura.SaldoFactura = (int.Parse(pValor.Replace(".", string.Empty)) - int.Parse(pImporte.Replace(".", string.Empty))).ToString();
             oFactura.Accion = "CREAR";
             oFactura.Put();
+
+            if (!string.IsNullOrEmpty(oFactura.Error))
+            {
+              Response.Write("[Ingresar / Factura Crear] Se ha encontrado el siguiente error : " + oFactura.Error);
+              Response.End();
+            }
 
             pCodFactura = oFactura.CodFactura;
           }
@@ -393,10 +467,14 @@ namespace ICommunity.Antalis
 
         oAntDocumentosPago = new cAntDocumentosPago(ref oConn);
         oAntDocumentosPago.CodPagos = hdd_cod_pago.Value;
-        oAntDocumentosPago.CodDocumento = hdd_cod_documento.Value;
+        if (string.IsNullOrEmpty(hdd_nod_documento.Value))
+          oAntDocumentosPago.CodDocumento = hdd_cod_documento.Value;
+        if (!string.IsNullOrEmpty(hdd_nod_documento.Value))
+          oAntDocumentosPago.NodCodDocumento = hdd_cod_documento.Value;
         oAntDocumentosPago.CodFactura = pCodFactura;
         oAntDocumentosPago.CodSAP = pCodSAP;
-        //oAntDocumentosPago.NombreDeudor = sRazonSocial;
+        oAntDocumentosPago.NombreDeudor = sNomDeudor;
+        oAntDocumentosPago.CuentaCorriente = sCuentaCorriente;
         if (!string.IsNullOrEmpty(pNumOperacion))
           oAntDocumentosPago.NumDocumento = pNumOperacion;
         if (!string.IsNullOrEmpty(pCodBanco))
@@ -404,11 +482,20 @@ namespace ICommunity.Antalis
         if (!string.IsNullOrEmpty(pFchDocumento))
           oAntDocumentosPago.FchDocumento = pFchDocumento;
         oAntDocumentosPago.NumGuiaDespacho = pGuiaDespacho;
-        oAntDocumentosPago.importe = pImporte;
+        oAntDocumentosPago.importe = pImporte.Replace(".", string.Empty);
         oAntDocumentosPago.ImporteRecibido = "0";
         oAntDocumentosPago.Discrepancia = "0";
-        oAntDocumentosPago.Accion = (string.IsNullOrEmpty(hdd_cod_documento.Value) ? "CREAR" : "EDITAR");
+        if (string.IsNullOrEmpty(hdd_nod_documento.Value))
+          oAntDocumentosPago.Accion = (string.IsNullOrEmpty(hdd_cod_documento.Value) ? "CREAR" : "EDITAR");
+        else
+          oAntDocumentosPago.Accion = "CREAR";
         oAntDocumentosPago.Put();
+
+        if (!string.IsNullOrEmpty(oAntDocumentosPago.Error))
+        {
+          Response.Write("[Ingresar Pago] Se ha encontrado el siguiente error : " + oAntDocumentosPago.Error);
+          Response.End();
+        }
 
         string pCodDocumento = oAntDocumentosPago.CodDocumento;
 
@@ -419,35 +506,60 @@ namespace ICommunity.Antalis
         oConn.Close();
 
         hdd_cod_documento.Value = string.Empty;
+        hdd_nod_documento.Value = string.Empty;
         cmb_centrodistribucion.Enabled = false;
         cmb_documento.Enabled = false;
 
         txt_codigosap.Text = string.Empty;
         txt_codigosap.Enabled = true;
 
-        //txt_razon_social.Text = string.Empty;
+        lblNomDeudor.Text = string.Empty;
+        lblNomDeudor.Enabled = true;
+
+        txt_cta_cte.Text = string.Empty;
+        if (pCodTipoPago != "2")
+          txt_cta_cte.Enabled = false;
+        else
+          txt_cta_cte.Enabled = true;
+
         txt_num_documento.Text = string.Empty;
+        if (pCodTipoPago == "3")
+          txt_num_documento.Enabled = false;
+        else
+          txt_num_documento.Enabled = true;
+
         cmb_bancos.SelectedValue = string.Empty;
 
         if ((pCodTipoPago == "3") || (pCodTipoPago == "5") || (pCodTipoPago == "6"))
           cmb_bancos.Enabled = false;
+        else
+          cmb_bancos.Enabled = true;
 
         fch_documento.Text = string.Empty;
+        fch_documento.Enabled = true;
         hdd_fchdocument.Value = string.Empty;
 
         cmb_guiadespacho.Enabled = true;
         cmb_guiadespacho.Items.Clear();
         hddGuiasDespacho.Value = string.Empty;
 
-        //cmb_facturas.Items.Clear();
         cmb_facturas.Text = string.Empty;
-        //cmb_facturas.Enabled = true;
         lbl_valor_factura.Text = string.Empty;
         hdd_facturas.Value = string.Empty;
 
         txt_importe.Text = string.Empty;
 
       }
+
+      btnIngresarImportes.Text = "INGRESAR PAGO";
+      btnCancelarUpdate.Visible = false;
+
+      Log oLog = new Log();
+      oLog.IdUsuario = oIsUsuario.CodUsuario;
+      oLog.ObsLog = "EJECUCION DE INGRESO DE PAGO ANTALIS VALIJA #" + hdd_cod_pago.Value;
+      oLog.CodEvtLog = "2";
+      oLog.AppLog = "ANTALIS";
+      oLog.putLog();
     }
 
     protected void onLoadGrid()
@@ -468,9 +580,9 @@ namespace ICommunity.Antalis
             if (bEstadoValija)
               btnCerrarValija.Visible = true;
 
-            lblCantidad.Text = dt.Rows.Count.ToString();
-            hdd_cantidad_doc.Value = dt.Rows.Count.ToString();
-            lblMonto.Text = dt.Compute("SUM(importe)", string.Empty).ToString();
+            lblCantidad.Text = string.Format("{0:N0}", dt.Compute("COUNT(cod_documento)", " nod_cod_documento is null "));
+            hdd_cantidad_doc.Value = dt.Compute("COUNT(cod_documento)", " nod_cod_documento is null ").ToString();
+            lblMonto.Text = string.Format("{0:N0}", dt.Compute("SUM(importe)", string.Empty));
             hdd_importe_total.Value = dt.Compute("SUM(importe)", string.Empty).ToString();
 
           }
@@ -483,7 +595,7 @@ namespace ICommunity.Antalis
 
     protected void gdPagos_SelectedIndexChanged(object sender, EventArgs e)
     {
-      string pCodDocumento = gdPagos.SelectedDataKey.Value.ToString();
+      string pCodDocumento = gdPagos.SelectedDataKey.Values["cod_documento"].ToString();
       DBConn oConn = new DBConn();
       if (oConn.Open())
       {
@@ -498,6 +610,12 @@ namespace ICommunity.Antalis
             hdd_cod_documento.Value = dtDocPago.Rows[0]["cod_documento"].ToString();
             txt_codigosap.Text = dtDocPago.Rows[0]["cod_sap"].ToString();
             txt_codigosap.Enabled = false;
+            lblNomDeudor.Text = dtDocPago.Rows[0]["nom_deudor"].ToString();
+            txt_cta_cte.Text = dtDocPago.Rows[0]["cuenta_corriente"].ToString();
+
+            if (cmb_documento.SelectedValue == "2")
+              txt_cta_cte.Enabled = true;
+
             txt_num_documento.Text = dtDocPago.Rows[0]["num_documento"].ToString();
             cmb_bancos.SelectedValue = dtDocPago.Rows[0]["cod_banco"].ToString();
 
@@ -515,12 +633,27 @@ namespace ICommunity.Antalis
               }
             }
             dtGuias = null;
-            cmb_guiadespacho.Items.FindByValue(dtDocPago.Rows[0]["num_guia_despacho"].ToString()).Selected = true;
+
+            bool bItemExist = false;
+            foreach (ListItem oItem in cmb_guiadespacho.Items)
+            {
+              if (oItem.Value == dtDocPago.Rows[0]["num_guia_despacho"].ToString())
+                bItemExist = true;
+            }
+
+            if (bItemExist)
+              cmb_guiadespacho.SelectedValue = dtDocPago.Rows[0]["num_guia_despacho"].ToString();
+            else
+            {
+              cmb_guiadespacho.Items.Add(new ListItem(dtDocPago.Rows[0]["num_guia_despacho"].ToString(), dtDocPago.Rows[0]["num_guia_despacho"].ToString()));
+              cmb_guiadespacho.SelectedValue = dtDocPago.Rows[0]["num_guia_despacho"].ToString();
+            }
             cmb_guiadespacho.Enabled = false;
 
             cmb_facturas.Text = dtDocPago.Rows[0]["num_factura"].ToString();
-            lbl_valor_factura.Text = dtDocPago.Rows[0]["valor_factura"].ToString();
-            hdd_facturas.Value = dtDocPago.Rows[0]["num_factura"].ToString() + '|' + dtDocPago.Rows[0]["valor_factura"].ToString();
+
+            lbl_valor_factura.Text = string.Format("{0:N0}", int.Parse(dtDocPago.Rows[0]["saldo_factura"].ToString()) + int.Parse(dtDocPago.Rows[0]["importe"].ToString()));
+            hdd_facturas.Value = dtDocPago.Rows[0]["num_factura"].ToString() + '|' + (int.Parse(dtDocPago.Rows[0]["saldo_factura"].ToString()) + int.Parse(dtDocPago.Rows[0]["importe"].ToString())).ToString();
 
             fch_documento.Text = dtDocPago.Rows[0]["fch_documento"].ToString();
             txt_importe.Text = dtDocPago.Rows[0]["importe"].ToString();
@@ -535,11 +668,13 @@ namespace ICommunity.Antalis
         oConn.Close();
       }
 
+      btnIngresarImportes.Text = "ACTUALIZAR PAGO";
+
     }
 
     protected void gdPagos_RowDeleting(object sender, GridViewDeleteEventArgs e)
     {
-      string pCodDocumento = gdPagos.DataKeys[e.RowIndex].Value.ToString();
+      string pCodDocumento = gdPagos.DataKeys[e.RowIndex].Values["cod_documento"].ToString();
 
       DBConn oConn = new DBConn();
       if (oConn.Open())
@@ -576,8 +711,20 @@ namespace ICommunity.Antalis
         oFactura.Accion = "EDITAR";
         oFactura.Put();
 
+        if (!string.IsNullOrEmpty(oFactura.Error))
+        {
+          Response.Write("[Eliminar / Factura Editar] Se ha encontrado el siguiente error : " + oFactura.Error);
+          Response.End();
+        }
+
         oDocumentosPago.Accion = "ELIMINAR";
         oDocumentosPago.Put();
+
+        if (!string.IsNullOrEmpty(oDocumentosPago.Error))
+        {
+          Response.Write("[Eliminar / Pago] Se ha encontrado el siguiente error : " + oDocumentosPago.Error);
+          Response.End();
+        }
 
         oConn.Close();
       }
@@ -586,6 +733,17 @@ namespace ICommunity.Antalis
 
       onLoadGrid();
 
+      if (pCodDocumento == hdd_cod_documento.Value)
+        hdd_cod_documento.Value = string.Empty;
+
+      btnCancelarUpdate.Visible = false;
+
+      Log oLog = new Log();
+      oLog.IdUsuario = oIsUsuario.CodUsuario;
+      oLog.ObsLog = "ELIMINACION DE REGISTRO DE PAGO ANTALIS VALIJA # " + hdd_cod_pago.Value;
+      oLog.CodEvtLog = "2";
+      oLog.AppLog = "ANTALIS";
+      oLog.putLog();
     }
 
     protected void gdPagos_PageIndexChanging(object sender, GridViewPageEventArgs e)
@@ -604,10 +762,29 @@ namespace ICommunity.Antalis
       txt_codigosap.Text = string.Empty;
       txt_codigosap.Enabled = true;
 
+      lblNomDeudor.Text = string.Empty;
+      lblNomDeudor.Enabled = true;
+
+      txt_cta_cte.Text = string.Empty;
+      if (cmb_documento.SelectedValue != "2")
+        txt_cta_cte.Enabled = false;
+      else
+        txt_cta_cte.Enabled = true;
+
       txt_num_documento.Text = string.Empty;
+      if (cmb_documento.SelectedValue == "3")
+        txt_num_documento.Enabled = false;
+      else
+        txt_num_documento.Enabled = true;
+
       cmb_bancos.SelectedValue = string.Empty;
+      if ((cmb_documento.SelectedValue == "3") || (cmb_documento.SelectedValue == "5") || (cmb_documento.SelectedValue == "6"))
+        cmb_bancos.Enabled = false;
+      else
+        cmb_bancos.Enabled = true;
 
       fch_documento.Text = string.Empty;
+      fch_documento.Enabled = true;
       hdd_fchdocument.Value = string.Empty;
 
       cmb_guiadespacho.Enabled = true;
@@ -643,9 +820,16 @@ namespace ICommunity.Antalis
         oPagos.Discrepancia = "0";
         oPagos.Estado = "C";
         oPagos.Accion = "EDITAR";
-        oPagos.Put();       
+        oPagos.Put();
 
-        switch (cmb_documento.SelectedValue) {
+        if (!string.IsNullOrEmpty(oPagos.Error))
+        {
+          Response.Write("[Cerrar / Valija] Se ha encontrado el siguiente error : " + oPagos.Error);
+          Response.End();
+        }
+
+        switch (cmb_documento.SelectedValue)
+        {
           case "1":
             sTipoPago = "Cheque al día";
             break;
@@ -669,9 +853,12 @@ namespace ICommunity.Antalis
         int iTotal = 0;
         int iTotalxPago = 0;
         DataTable dtPagos = oPagos.GetCantTipoDoc();
-        if (dtPagos != null) {
-          if (dtPagos.Rows.Count > 0) {
-            foreach (DataRow oRow in dtPagos.Rows) {
+        if (dtPagos != null)
+        {
+          if (dtPagos.Rows.Count > 0)
+          {
+            foreach (DataRow oRow in dtPagos.Rows)
+            {
               iTotal = iTotal + int.Parse(oRow["cantidad"].ToString());
               switch (cmb_documento.SelectedValue)
               {
@@ -706,14 +893,16 @@ namespace ICommunity.Antalis
         sHtml.Replace("[#TIPOPAGO]", sTipoPago);
         sHtml.Replace("[#NUMPAGO]", hdd_cod_pago.Value);
         sHtml.Replace("[#CANTTOTAL]", hdd_cantidad_doc.Value);
-        sHtml.Replace("[#MONTOTOTAL]", hdd_importe_total.Value);
+        sHtml.Replace("[#MONTOTOTAL]", string.Format("{0:N0}", int.Parse(hdd_importe_total.Value)));
         sHtml.Replace("[#RAZONSOCIAL]", lblRazonSocial.Text);
 
         cAntCentrosDistribucion oCentrosDistribucion = new cAntCentrosDistribucion(ref oConn);
         oCentrosDistribucion.CodCentroDist = cmb_centrodistribucion.SelectedValue;
         DataTable dt = oCentrosDistribucion.GetByCod();
-        if (dt != null) {
-          if (dt.Rows.Count > 0) {
+        if (dt != null)
+        {
+          if (dt.Rows.Count > 0)
+          {
             sHtml.Replace("[#CENTRODIST]", dt.Rows[0]["descripcion"].ToString());
           }
         }
@@ -724,11 +913,15 @@ namespace ICommunity.Antalis
         cAntDocumentosPago oDocumentosPago = new cAntDocumentosPago(ref oConn);
         oDocumentosPago.CodPagos = hdd_cod_pago.Value;
         dt = oDocumentosPago.GetDocFacturas();
-        if (dt != null) {
-          foreach (DataRow oRow in dt.Rows) {
+        if (dt != null)
+        {
+          foreach (DataRow oRow in dt.Rows)
+          {
             sTable.Append("<tr>");
 
             sTable.Append("<td>").Append(oRow["num_documento"].ToString()).Append("</td>");
+            sTable.Append("<td>").Append(oRow["nom_deudor"].ToString()).Append("</td>");
+            sTable.Append("<td>").Append(oRow["cuenta_corriente"].ToString()).Append("</td>");
 
             cAntBancos oBancos = new cAntBancos(ref oConn);
             oBancos.NKeyBanco = oRow["cod_banco"].ToString();
@@ -741,10 +934,11 @@ namespace ICommunity.Antalis
               }
             }
             dBanco = null;
-            
+
             sTable.Append("<td>").Append(oRow["fch_documento"].ToString()).Append("</td>");
+            sTable.Append("<td>").Append(oRow["num_guia_despacho"].ToString()).Append("</td>");
             sTable.Append("<td>").Append(oRow["num_factura"].ToString()).Append("</td>");
-            sTable.Append("<td>").Append(oRow["importe"].ToString()).Append("</td>");
+            sTable.Append("<td>").Append(string.Format("{0:N0}", int.Parse(oRow["importe"].ToString()))).Append("</td>");
 
             sTable.Append("</tr>");
           }
@@ -760,8 +954,6 @@ namespace ICommunity.Antalis
       string sFileHtml = Server.MapPath("Valijas/") + hdd_cod_pago.Value + ".html";
       File.WriteAllText(sFileHtml, sHtml.ToString(), Encoding.UTF8);
 
-      //Response.Redirect("pagos_antalis.aspx");
-
       idRow1.Visible = false;
       idRow2.Visible = false;
       idRow3.Visible = false;
@@ -773,12 +965,21 @@ namespace ICommunity.Antalis
       btnImprimirValija.Visible = true;
       btnAbrirValija.Visible = true;
       btnCerrarValija.Visible = false;
+
+      Log oLog = new Log();
+      oLog.IdUsuario = oIsUsuario.CodUsuario;
+      oLog.ObsLog = "CIERRE DE VALIJA DE PAGO ANTALIS # " + hdd_cod_pago.Value;
+      oLog.CodEvtLog = "2";
+      oLog.AppLog = "ANTALIS";
+      oLog.putLog();
     }
 
     protected void gdPagos_RowDataBound(object sender, GridViewRowEventArgs e)
     {
       if (e.Row.RowType == DataControlRowType.DataRow)
       {
+        string sNodCodDocumento = gdPagos.DataKeys[e.Row.RowIndex].Values["nod_cod_documento"].ToString();
+
         foreach (DataControlFieldCell cell in e.Row.Cells)
         {
           foreach (Control control in cell.Controls)
@@ -786,6 +987,10 @@ namespace ICommunity.Antalis
             LinkButton lnkBtnDelete = control as LinkButton;
             if (lnkBtnDelete != null && lnkBtnDelete.CommandName == "Delete")
               lnkBtnDelete.Attributes.Add("onclick", "javascript:return confirm('Esta seguro de eliminar este pago?');");
+            else if ((lnkBtnDelete != null) && (lnkBtnDelete.CommandName == "SameData") && (!string.IsNullOrEmpty(sNodCodDocumento)))
+            {
+              lnkBtnDelete.Visible = false;
+            }
           }
         }
 
@@ -796,19 +1001,19 @@ namespace ICommunity.Antalis
           gdPagos.HeaderRow.Cells[1].Visible = false;
           e.Row.Cells[1].Visible = false;
         }
-        if (e.Row.Cells[3].Text.ToString() != "&nbsp;")
+        if (e.Row.Cells[6].Text.ToString() != "&nbsp;")
         {
           DBConn oConn = new DBConn();
           if (oConn.Open())
           {
             cAntBancos oBancos = new cAntBancos(ref oConn);
-            oBancos.NKeyBanco = e.Row.Cells[3].Text.ToString();
+            oBancos.NKeyBanco = e.Row.Cells[6].Text.ToString();
             DataTable dt = oBancos.Get();
             if (dt != null)
             {
               if (dt.Rows.Count > 0)
               {
-                e.Row.Cells[3].Text = e.Row.Cells[3].Text.ToString() + " - " + dt.Rows[0]["snombre"].ToString();
+                e.Row.Cells[6].Text = e.Row.Cells[6].Text.ToString() + " - " + dt.Rows[0]["snombre"].ToString();
               }
             }
             dt = null;
@@ -829,6 +1034,12 @@ namespace ICommunity.Antalis
         oPagos.Estado = "A";
         oPagos.Accion = "EDITAR";
         oPagos.Put();
+
+        if (!string.IsNullOrEmpty(oPagos.Error))
+        {
+          Response.Write("[Abrir / Valija] Se ha encontrado el siguiente error : " + oPagos.Error);
+          Response.End();
+        }
       }
       oConn.Close();
 
@@ -841,6 +1052,13 @@ namespace ICommunity.Antalis
 
       btnImprimirValija.Visible = false;
       btnAbrirValija.Visible = false;
+
+      Log oLog = new Log();
+      oLog.IdUsuario = oIsUsuario.CodUsuario;
+      oLog.ObsLog = "ABRIR VALIJA DE PAGO ANTALIS # " + hdd_cod_pago.Value;
+      oLog.CodEvtLog = "2";
+      oLog.AppLog = "ANTALIS";
+      oLog.putLog();
     }
 
     protected void btnImprimirValija_Click(object sender, EventArgs e)
@@ -874,6 +1092,13 @@ namespace ICommunity.Antalis
       string sFile = Server.MapPath("Valijas/") + hdd_cod_pago.Value + ".pdf";
       doc.Save(sFile);
       doc.Close();
+
+      Log oLog = new Log();
+      oLog.IdUsuario = oIsUsuario.CodUsuario;
+      oLog.ObsLog = "IMPRIME VALIJA DE PAGO ANTALIS # " + hdd_cod_pago.Value;
+      oLog.CodEvtLog = "2";
+      oLog.AppLog = "ANTALIS";
+      oLog.putLog();
 
       System.Web.HttpResponse oResponse = System.Web.HttpContext.Current.Response;
       oResponse.AppendHeader("Content-Disposition", "attachment; filename=" + hdd_cod_pago.Value + ".pdf");
@@ -909,6 +1134,75 @@ namespace ICommunity.Antalis
           download.Close();
       }
 
+    }
+
+    protected void gdPagos_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+      if (e.CommandName == "SameData")
+      {
+        LinkButton BtnSameData = (LinkButton)e.CommandSource;    // the button
+        GridViewRow myRow = (GridViewRow)BtnSameData.Parent.Parent;  // the row
+        GridView myGrid = (GridView)sender; // the gridview
+        string pCodDocumento = gdPagos.DataKeys[myRow.RowIndex].Values["cod_documento"].ToString(); // value of the datakey 
+
+        DBConn oConn = new DBConn();
+        if (oConn.Open())
+        {
+          cAntDocumentosPago oAntDocumentosPago = new cAntDocumentosPago(ref oConn);
+          oAntDocumentosPago.CodDocumento = pCodDocumento;
+          DataTable dtDocPago = oAntDocumentosPago.GetDocFacturas();
+
+          if (dtDocPago != null)
+          {
+            if (dtDocPago.Rows.Count > 0)
+            {
+              hdd_cod_documento.Value = dtDocPago.Rows[0]["cod_documento"].ToString();
+              hdd_nod_documento.Value = "1";
+              txt_codigosap.Text = dtDocPago.Rows[0]["cod_sap"].ToString();
+              txt_codigosap.Enabled = false;
+              lblNomDeudor.Text = dtDocPago.Rows[0]["nom_deudor"].ToString();
+              lblNomDeudor.Enabled = false;
+              txt_cta_cte.Text = dtDocPago.Rows[0]["cuenta_corriente"].ToString();
+              txt_cta_cte.Enabled = false;
+              txt_num_documento.Text = dtDocPago.Rows[0]["num_documento"].ToString();
+              txt_num_documento.Enabled = false;
+              cmb_bancos.SelectedValue = dtDocPago.Rows[0]["cod_banco"].ToString();
+              cmb_bancos.Enabled = false;
+
+              cmb_guiadespacho.Items.Clear();
+              cGuiasFacturas oGuiasFacturas = new cGuiasFacturas(ref oConn);
+              oGuiasFacturas.NKeyCliente = oIsUsuario.CodNkey;
+              oGuiasFacturas.NCodigoDeudor = dtDocPago.Rows[0]["cod_sap"].ToString();
+              DataTable dtGuias = oGuiasFacturas.GetGuiaDespacho();
+              if (dtGuias != null)
+              {
+                cmb_guiadespacho.Items.Add(new ListItem("<< Seleccione Guia Despacho >>", string.Empty));
+                foreach (DataRow oRow in dtGuias.Rows)
+                {
+                  cmb_guiadespacho.Items.Add(new ListItem(oRow["guidespacho"].ToString(), oRow["guidespacho"].ToString()));
+                }
+              }
+              dtGuias = null;
+
+              cmb_facturas.Text = string.Empty;
+              lbl_valor_factura.Text = string.Empty;
+              hdd_facturas.Value = string.Empty;
+              fch_documento.Text = dtDocPago.Rows[0]["fch_documento"].ToString();
+              fch_documento.Enabled = false;
+              txt_importe.Text = string.Empty;
+              btnCerrarValija.Visible = false;
+              btnCancelarUpdate.Visible = false;
+            }
+          }
+          dtDocPago = null;
+
+
+          oConn.Close();
+        }
+
+        btnIngresarImportes.Text = "INGRESAR PAGO";
+        btnCancelarUpdate.Visible = true;
+      }
     }
   }
 

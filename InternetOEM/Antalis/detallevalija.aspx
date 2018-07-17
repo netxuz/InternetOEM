@@ -78,7 +78,7 @@
       </div>
       <div class="row vAlign">
         <div class="col-md-4">
-          <span>RAZÓN SOCIAL:
+          <span>CLIENTE:
             <asp:Label ID="lblRazonSocial" runat="server"></asp:Label></span>
         </div>
         <div class="col-md-4">
@@ -100,13 +100,15 @@
           AutoGenerateColumns="false" OnPageIndexChanging="gdPagos_PageIndexChanging" OnRowDataBound="gdPagos_RowDataBound">
           <Columns>
             <asp:BoundField HeaderText="# DOCUMENTO" DataField="num_documento" />
+            <asp:BoundField HeaderText="RAZÓN SOCIAL" DataField="nom_deudor" />
+            <asp:BoundField HeaderText="CUENTA CORRIENTE" DataField="cuenta_corriente" />
             <asp:BoundField HeaderText="FECHA DOCUMENTO" DataField="fch_documento" />
             <asp:BoundField HeaderText="BANCO" DataField="cod_banco" />
             <asp:BoundField HeaderText="# GUIA DESPACHO" DataField="num_guia_despacho" />
             <asp:BoundField HeaderText="# FACTURA" DataField="num_factura" />
-            <asp:BoundField HeaderText="IMPORTE" DataField="importe" />
-            <asp:BoundField HeaderText="IMPORTE RECIBIDO" DataField="importe_recibido" />
-            <asp:BoundField HeaderText="DISCREPANCIA" DataField="discrepancia" />
+            <asp:BoundField HeaderText="IMPORTE" DataField="importe" DataFormatString="{0:N0}" />
+            <asp:BoundField HeaderText="IMPORTE RECIBIDO" DataField="importe_recibido" DataFormatString="{0:N0}" />
+            <asp:BoundField HeaderText="DISCREPANCIA" DataField="discrepancia" DataFormatString="{0:N0}" />
           </Columns>
         </asp:GridView>
       </div>

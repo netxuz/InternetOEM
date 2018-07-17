@@ -51,6 +51,7 @@
     <Compile Include="cAntFactura.cs" />
     <Compile Include="cAntPagos.cs" />
     <Compile Include="cAntsUsuarios.cs" />
+    <Compile Include="cDeudor.cs" />
     <Compile Include="cGuiasFacturas.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

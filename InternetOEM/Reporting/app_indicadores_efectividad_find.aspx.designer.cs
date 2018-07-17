@@ -103,6 +103,15 @@ namespace ICommunity.Reporting {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl IndClasificacionRiesgo;
         
         /// <summary>
+        /// indAntalis control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl indAntalis;
+        
+        /// <summary>
         /// lblTitle control.
         /// </summary>
         /// <remarks>

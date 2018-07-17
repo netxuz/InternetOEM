@@ -79,7 +79,7 @@
       </div>
       <div class="row vAlign">
         <div class="col-md-4">
-          <span>RAZÓN SOCIAL:
+          <span>CLIENTE:
             <asp:Label ID="lblRazonSocial" runat="server"></asp:Label></span>
         </div>
         <div class="col-md-4">
@@ -93,17 +93,25 @@
       </div>
       <!--ROW 1 -->
       <div id="idRow1" runat="server" visible="false" class="row vAlign">
-        <div class="col-md-4">
-          <span>FECHA TRANSACCIÓN:
-            <asp:Label ID="lblFechtransaccion" runat="server"></asp:Label></span>
+        <div class="col-md-3">
+          <span>RAZÓN SOCIAL:
+            <asp:Label ID="lblRazonSocialPago" runat="server"></asp:Label></span>
         </div>
-        <div class="col-md-4" id="idColBanco" runat="server" visible="false">
+        <div class="col-md-3">
+          <span>CUENTA CORRIENTE:
+            <asp:Label ID="lblcuentacorriente" runat="server"></asp:Label></span>
+        </div>
+        <div class="col-md-3">
+          <span>NUMERO CHEQUE / OPERACION:
+            <asp:Label ID="lblNumOperacion" runat="server"></asp:Label></span>
+        </div>
+        <div class="col-md-3" id="idColBanco" runat="server" visible="false">
           <span>BANCO:
             <asp:Label ID="lblBanco" runat="server"></asp:Label></span>
         </div>
-        <div class="col-md-4">
-          <span>NUMERO CHEQUE / OPERACION:
-            <asp:Label ID="lblNumOperacion" runat="server"></asp:Label></span>
+        <div class="col-md-3">
+          <span>FECHA TRANSACCIÓN:
+            <asp:Label ID="lblFechtransaccion" runat="server"></asp:Label></span>
         </div>
       </div>
       <!--ROW 2 -->
@@ -153,13 +161,15 @@
               </ItemTemplate>
             </asp:TemplateField>
             <asp:BoundField HeaderText="# DOCUMENTO" DataField="num_documento" />
+            <asp:BoundField HeaderText="RAZÓN SOCIAL" DataField="nom_deudor" />
+            <asp:BoundField HeaderText="CUENTA CORRIENTE" DataField="cuenta_corriente" />
             <asp:BoundField HeaderText="FECHA DOCUMENTO" DataField="fch_documento" />
             <asp:BoundField HeaderText="BANCO" DataField="cod_banco" />
             <asp:BoundField HeaderText="# GUIA DESPACHO" DataField="num_guia_despacho" />
             <asp:BoundField HeaderText="# FACTURA" DataField="num_factura" />
-            <asp:BoundField HeaderText="IMPORTE" DataField="importe" />
-            <asp:BoundField HeaderText="IMPORTE RECIBIDO" DataField="importe_recibido" />
-            <asp:BoundField HeaderText="DISCREPANCIA" DataField="discrepancia" />
+            <asp:BoundField HeaderText="IMPORTE" DataField="importe" DataFormatString="{0:N0}" />
+            <asp:BoundField HeaderText="IMPORTE RECIBIDO" DataField="importe_recibido" DataFormatString="{0:N0}" />
+            <asp:BoundField HeaderText="DISCREPANCIA" DataField="discrepancia" DataFormatString="{0:N0}" />
           </Columns>
         </asp:GridView>
       </div>

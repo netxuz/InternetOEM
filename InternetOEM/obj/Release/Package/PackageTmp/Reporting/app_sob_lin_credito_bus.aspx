@@ -54,14 +54,17 @@
               <a class="dropdown-toggle" data-toggle="dropdown" href="#">Clasificación de Riesgo<span class="caret"></span></a>
               <ul id="IndClasificacionRiesgo" runat="server" class="dropdown-menu"></ul>
             </li>
-            <li><a href="#">Panel de Control</a></li>
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#">Gestión de Pago<span class="caret"></span></a>
+              <ul id="indAntalis" runat="server" class="dropdown-menu"></ul>
+            </li>
           </ul>
         </div>
       </div>
     </nav>
     <div class="container">
       <div class="blq_tile">
-        <asp:Label ID="lblTitle" runat="server" CssClass="lblTitle" Text="SOBREGIROS LÍNEA DE CREDITO"></asp:Label>
+        <asp:Label ID="lblTitle" runat="server" CssClass="lblTitle" Text="SOBREGIROS LÍNEA DE CRÉDITO"></asp:Label>
       </div>
       <div style="height:30px;">
         <br /><br />

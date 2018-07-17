@@ -23,6 +23,7 @@
     <asp:HiddenField ID="hddnkey_cliente" runat="server" />
     <asp:HiddenField ID="hdd_cod_pago" runat="server" />
     <asp:HiddenField ID="hdd_cod_documento" runat="server" />
+    <asp:HiddenField ID="hdd_nod_documento" runat="server" />
     <asp:HiddenField ID="hdd_cod_factura" runat="server" />
     <nav class="navbar-inverse">
       <div class="container-fluid">
@@ -80,7 +81,7 @@
       </div>
       <div class="row vAlign">
         <div class="col-md-3">
-          <span>RAZÓN SOCIAL:
+          <span>CLIENTE:
             <asp:Label ID="lblRazonSocial" runat="server"></asp:Label></span>
         </div>
         <div class="col-md-3">
@@ -114,12 +115,18 @@
             <label for="txt_codigosap">CODIGO SAP</label>
           </div>
         </div>
-        <!--<div class="col-md-3">
+        <div class="col-md-3">
           <div class="md-form" style="width: 20rem;">
-            <asp:TextBox ID="txt_razon_social" runat="server" CssClass="form-control"></asp:TextBox>
-            <label for="txt_razon_social">RAZON SOCIAL</label>
+            <asp:TextBox ID="lblNomDeudor" runat="server" CssClass="form-control"></asp:TextBox>
+            <label for="txt_num_documento">RAZÓN SOCIAL</label>
           </div>
-        </div>-->
+        </div>
+        <div class="col-md-3">
+          <div class="md-form" style="width: 20rem;">
+            <asp:TextBox ID="txt_cta_cte" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
+            <label for="txt_cta_cte">CUENTA CORRIENTE</label>
+          </div>
+        </div>
         <div class="col-md-3">
           <div class="md-form" style="width: 20rem;">
             <asp:TextBox ID="txt_num_documento" runat="server" CssClass="form-control"></asp:TextBox>
@@ -136,7 +143,9 @@
           <span for="cmb_bancos">BANCO:</span>
           <asp:DropDownList ID="cmb_bancos" CssClass="form-control" runat="server"></asp:DropDownList>
         </div>
-        <div class="col-md-3">
+      </div>
+      <div id="idRow2" runat="server" class="row vAlign">
+        <div class="col-md-2">
           <span for="fch_documento">FECHA DOCUMENTO</span>
           <div class="input-append date" id="dp4" data-date-format="dd-mm-yyyy">
             <asp:TextBox ID="fch_documento" runat="server" CssClass="form-control" ReadOnly></asp:TextBox>
@@ -144,8 +153,6 @@
             <asp:HiddenField ID="hdd_fchdocument" runat="server" />
           </div>
         </div>
-      </div>
-      <div id="idRow2" runat="server" class="row vAlign">
         <div class="col-md-2">
           <span for="cmb_guiadespacho">GUIA DESPACHO:</span>
           <asp:DropDownList ID="cmb_guiadespacho" CssClass="form-control" runat="server">
@@ -179,21 +186,29 @@
       </div>
       <div class="row">
         <asp:GridView ID="gdPagos" runat="server" CssClass="table table-hover"
-          DataKeyNames="cod_documento" BorderStyle="Solid"
+          DataKeyNames="cod_documento, nod_cod_documento" BorderStyle="Solid"
           BorderWidth="0" GridLines="Horizontal"
           AutoGenerateColumns="false"
           OnRowDeleting="gdPagos_RowDeleting"
-          OnSelectedIndexChanged="gdPagos_SelectedIndexChanged"
+          OnSelectedIndexChanged="gdPagos_SelectedIndexChanged" OnRowCommand="gdPagos_RowCommand"
           OnPageIndexChanging="gdPagos_PageIndexChanging" OnRowDataBound="gdPagos_RowDataBound">
           <Columns>
+            <asp:TemplateField>
+              <ItemTemplate>
+                  <asp:LinkButton runat="server" ID="BtnSameData" CssClass="" CommandName="SameData"><span class="glyphicon glyphicon-edit"></span>  UTILIZAR MISMO PAGO</asp:LinkButton>
+              </ItemTemplate>
+              <ItemStyle Width="150px" />
+            </asp:TemplateField>
             <asp:CommandField ButtonType="Link" ShowDeleteButton="true" DeleteText="Dele" ItemStyle-CssClass="BtnColEliminar" ItemStyle-Width="1px" />
             <asp:CommandField ButtonType="Link" ShowSelectButton="true" SelectText="Sele" ItemStyle-CssClass="BtnColEditar" ItemStyle-Width="1px" />
             <asp:BoundField HeaderText="# DOCUMENTO" DataField="num_documento" />
+            <asp:BoundField HeaderText="RAZÓN SOCIAL" DataField="nom_deudor" />
+            <asp:BoundField HeaderText="CUENTA CORRIENTE" DataField="cuenta_corriente" />
             <asp:BoundField HeaderText="CODIGO BANCO" DataField="cod_banco" />
             <asp:BoundField HeaderText="FECHA DOCUMENTO" DataField="fch_documento" />
             <asp:BoundField HeaderText="# GUIA DESPACHO" DataField="num_guia_despacho" />
             <asp:BoundField HeaderText="# FACTURA" DataField="num_factura" />
-            <asp:BoundField HeaderText="IMPORTE" DataField="importe" />
+            <asp:BoundField HeaderText="IMPORTE" DataField="importe" DataFormatString="{0:N0}" />
           </Columns>
         </asp:GridView>
       </div>
@@ -287,7 +302,7 @@
             return false;
           }
 
-          if (($("#cmb_documento").val() == "2") && (parseInt(sFchDia) > parseInt(sFchDoc))) {
+          if (($("#cmb_documento").val() == "2") && (parseInt(sFchDia) >= parseInt(sFchDoc))) {
             alert('La fecha del documento no puede ser con fecha menor o igual a la fecha actual');
             return false;
           }
@@ -310,6 +325,10 @@
       if (($("#txt_importe").val() == "")) {
         alert('Debe ingresar el importe a pagar');
         return false;
+      }
+
+      if ($("#hdd_cod_documento").val() != "") {
+        allowSubmit = false;
       }
 
       var btn = $(this);
@@ -348,6 +367,11 @@
     $("#cmb_documento").focusout(function () {
       $("#txt_num_documento").removeAttr('disabled');
       $("#cmb_bancos").removeAttr('disabled');
+      $("#txt_cta_cte").removeAttr('disabled');
+
+      if ($("#cmb_documento").val() != "2") {
+        $("#txt_cta_cte").attr('disabled', 'disabled');
+      }
 
       if ($("#cmb_documento").val() == "3") {
         $("#txt_num_documento").attr('disabled', 'disabled');
@@ -395,9 +419,34 @@
             alert(textStatus + ": " + XMLHttpRequest.responseText);
           }
         });
+
+
+        var cUrl = "ingreso_pagos.aspx/getDeudor";
+        var datos = "{nKeyCliente:" + $("#hddnkey_cliente").val() + ",nCodigoDeudor:" + $("#txt_codigosap").val() + "}";
+        $.ajax({
+          type: "POST",
+          url: cUrl,
+          data: datos,
+          contentType: "application/json; charset=utf-8",
+          dataType: "json",
+
+          success: function (data) {
+            $("#lblNomDeudor").empty();
+            $("#lblNomDeudor").val(data.d);
+            $("#lblNomDeudor").focus();
+          },
+
+          error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(textStatus + ": " + XMLHttpRequest.responseText);
+          }
+        });
+
+
       } else {
         $("#cmb_guiadespacho").empty();
       }
+
+
 
     });
 
@@ -441,7 +490,6 @@
         $("#cmb_facturas").empty();
       }
     });
-
   </script>
 </body>
 </html>

@@ -65,6 +65,13 @@ namespace ICommunity.Reporting
 
 
             dExito = true;
+            Log oLog = new Log();
+            oLog.IdUsuario = oRow[0]["cod_user"].ToString(); ;
+            oLog.ObsLog = "USUARIO LOGEADO CORRECTAMENTE";
+            oLog.CodEvtLog = "0";
+            oLog.AppLog = "LOGIN";
+            oLog.putLog();
+
           }
         oRow = null;
       }

@@ -36,38 +36,44 @@
   <div class="container">
     <div class="row">&nbsp;</div>
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-4 text-center">
         <div class="row">
-          <span id="lblTitle" class="lblTitle">RESUMEN POR TIPO DE PAGO [#TIPOPAGO]</span>
-        </div>
-        <div class="row">
-          <br />
-        </div>
-        <div class="row">
-          <span id="lblValija" class="lblTitle"><strog># Valija [#NUMPAGO]</strog></span>
-        </div>
-        <div class="row">
-          <span>
-            Total de Documentos :
-            <span id="lblCantidad">[#CANTTOTAL]</span>
-          </span>
-        </div>
-        <div class="row">
-          <span>
-            Monto Total :
-            <span id="lblMonto">[#MONTOTOTAL]</span>
-          </span>
+          <img src="../logoantalis.jpg" border="0" />
         </div>
       </div>
-      <div class="col-md-6 text-right">
-        <!--<div id="piechart_3d" style="width: 500px; height: 240px;"></div>-->
+        <div class="col-md-4 text-center">
+          <div class="row">
+            <span id="lblTitle" class="lblTitle">RESUMEN POR TIPO DE PAGO [#TIPOPAGO]</span>
+          </div>
+        </div>
+        <div class="col-md-4 text-right">
+          <div class="row">
+            <br />
+          </div>
+          <div class="row">
+            <span id="lblValija" class="lblTitle"><strog># Valija [#NUMPAGO]</strog></span>
+          </div>
+          <div class="row">
+            <br />
+          </div>
+          <div class="row">
+            <span>
+              Total de Documentos :
+              <span id="lblCantidad">[#CANTTOTAL]</span>
+            </span>
+          </div>
+          <div class="row">
+            <span>
+              Monto Total :
+              <span id="lblMonto">[#MONTOTOTAL]</span>
+            </span>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="row"><br /></div>
     <div class="row vAlign">
       <div class="col-md-4">
         <span>
-          RAZÓN SOCIAL:
+          CLIENTE:
           <span id="lblRazonSocial">[#RAZONSOCIAL]</span>
         </span>
       </div>
@@ -92,6 +98,8 @@
         <table class="table table-hover" cellspacing="0" rules="rows" id="gdPagos" style="border-width:0px;border-style:Solid;border-collapse:collapse;">
           <tr>
             <th scope="col"># DOCUMENTO</th>
+            <th scope="col">RAZON SOCIAL</th>
+            <th scope="col">CUENTA CORRIENTE</th>
             <th scope="col">CODIGO BANCO</th>
             <th scope="col">FECHA DOCUMENTO</th>
             <th scope="col"># GUIA DESPACHO</th>

@@ -63,6 +63,13 @@ namespace ICommunity.Antalis
           }
           dtCntDst = null;
 
+          Log oLog = new Log();
+          oLog.IdUsuario = oIsUsuario.CodUsuario;
+          oLog.ObsLog = "REPORTE DE PAGOS ANTALIS ESTADO ABIERTO / CERRADO";
+          oLog.CodEvtLog = "2";
+          oLog.AppLog = "ANTALIS";
+          oLog.putLog();
+
         }
         oConn.Close();
         onLoadGrid();
@@ -218,16 +225,34 @@ namespace ICommunity.Antalis
             oFactura.SaldoFactura = (int.Parse(nImporte) + int.Parse(nSaldo)).ToString();
             oFactura.Accion = "EDITAR";
             oFactura.Put();
+
+            if (!string.IsNullOrEmpty(oFactura.Error))
+            {
+              Response.Write("[Eliminar / Factura Editar] Se ha encontrado el siguiente error : " + oFactura.Error);
+              Response.End();
+            }
           }
         }
         dtDocPago = null;
         oDocumentosPago.Accion = "ELIMINAR";
         oDocumentosPago.Put();
 
+        if (!string.IsNullOrEmpty(oDocumentosPago.Error))
+        {
+          Response.Write("[Eliminar / Pago] Se ha encontrado el siguiente error : " + oDocumentosPago.Error);
+          Response.End();
+        }
+
         cAntPagos oPagos = new cAntPagos(ref oConn);
         oPagos.CodPagos = pCodPago;
         oPagos.Accion = "ELIMINAR";
         oPagos.Put();
+
+        if (!string.IsNullOrEmpty(oPagos.Error))
+        {
+          Response.Write("[Eliminar / Pagos] Se ha encontrado el siguiente error : " + oPagos.Error);
+          Response.End();
+        }
 
       }
       oConn.Close();

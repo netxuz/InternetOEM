@@ -58,6 +58,15 @@ namespace ICommunity.Antalis {
         protected global::System.Web.UI.WebControls.HiddenField hdd_cod_documento;
         
         /// <summary>
+        /// hdd_nod_documento control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdd_nod_documento;
+        
+        /// <summary>
         /// hdd_cod_factura control.
         /// </summary>
         /// <remarks>
@@ -211,13 +220,22 @@ namespace ICommunity.Antalis {
         protected global::System.Web.UI.WebControls.TextBox txt_codigosap;
         
         /// <summary>
-        /// txt_razon_social control.
+        /// lblNomDeudor control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txt_razon_social;
+        protected global::System.Web.UI.WebControls.TextBox lblNomDeudor;
+        
+        /// <summary>
+        /// txt_cta_cte control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txt_cta_cte;
         
         /// <summary>
         /// txt_num_documento control.
@@ -247,6 +265,15 @@ namespace ICommunity.Antalis {
         protected global::System.Web.UI.WebControls.DropDownList cmb_bancos;
         
         /// <summary>
+        /// idRow2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl idRow2;
+        
+        /// <summary>
         /// fch_documento control.
         /// </summary>
         /// <remarks>
@@ -263,15 +290,6 @@ namespace ICommunity.Antalis {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hdd_fchdocument;
-        
-        /// <summary>
-        /// idRow2 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl idRow2;
         
         /// <summary>
         /// cmb_guiadespacho control.

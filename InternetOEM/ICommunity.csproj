@@ -186,6 +186,7 @@
     <Content Include="Antalis\detallevalija.aspx" />
     <Content Include="Antalis\grafico.html" />
     <Content Include="Antalis\ingreso_pagos.aspx" />
+    <Content Include="Antalis\logoantalis.jpg" />
     <Content Include="Antalis\pagos_antalis.aspx" />
     <Content Include="Antalis\redirection.htm" />
     <Content Include="Antalis\reportepago.html" />
@@ -195,6 +196,7 @@
     <Content Include="AppRuta\applistactividad.aspx" />
     <Content Include="AppRuta\appshowmap.aspx" />
     <Content Include="AppRuta\ShowMap.html" />
+    <Content Include="consulta_logs.aspx" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
@@ -429,6 +431,13 @@
     </Compile>
     <Compile Include="changefolder.aspx.designer.cs">
       <DependentUpon>changefolder.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="consulta_logs.aspx.cs">
+      <DependentUpon>consulta_logs.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="consulta_logs.aspx.designer.cs">
+      <DependentUpon>consulta_logs.aspx</DependentUpon>
     </Compile>
     <Compile Include="Contenido.aspx.cs">
       <DependentUpon>Contenido.aspx</DependentUpon>

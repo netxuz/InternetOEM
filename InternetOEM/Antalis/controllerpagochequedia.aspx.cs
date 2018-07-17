@@ -103,6 +103,13 @@ namespace ICommunity.Antalis
 
         }
         oConn.Close();
+
+        Log oLog = new Log();
+        oLog.IdUsuario = oIsUsuario.CodUsuario;
+        oLog.ObsLog = "VALIDACION VALIJA #" + hdd_cod_pago.Value;
+        oLog.CodEvtLog = "2";
+        oLog.AppLog = "ANTALIS";
+        oLog.putLog();
       }
 
       onLoadGrid();
@@ -186,17 +193,17 @@ namespace ICommunity.Antalis
         {
           if (dt.Rows.Count > 0)
           {
-            lblCantidad.Text = dt.Rows.Count.ToString();
+            lblCantidad.Text = string.Format("{0:N0}", dt.Compute("COUNT(cod_documento)", " nod_cod_documento is null "));
 
             string iImporteTotal = dt.Compute("SUM(importe)", string.Empty).ToString();
-            lblMonto.Text = iImporteTotal;
+            lblMonto.Text = string.Format("{0:N0}",int.Parse(iImporteTotal));
 
             string iImporteTotalRecibido = (!string.IsNullOrEmpty(dt.Compute("SUM(importe_recibido)", string.Empty).ToString()) ? dt.Compute("SUM(importe_recibido)", string.Empty).ToString() : "0");
-            lblImporteTotalRecibido.Text = iImporteTotalRecibido;
+            lblImporteTotalRecibido.Text = string.Format("{0:N0}", int.Parse(iImporteTotalRecibido));
             hdd_importetotal_recibido.Value = iImporteTotalRecibido;
 
             string iDiscrepancia = (!string.IsNullOrEmpty(dt.Compute("SUM(discrepancia)", string.Empty).ToString()) ? dt.Compute("SUM(discrepancia)", string.Empty).ToString() : "0");
-            lblDiscrepanciaTotal.Text = iDiscrepancia;
+            lblDiscrepanciaTotal.Text = string.Format("{0:N0}", int.Parse(iDiscrepancia));
             hdd_total_discrepancia.Value = iDiscrepancia;
 
             if ((iImporteTotal == iImporteTotalRecibido) && (int.Parse(iDiscrepancia) == 0))
@@ -233,19 +240,19 @@ namespace ICommunity.Antalis
           case "2":
           case "4":
 
-            if (e.Row.Cells[4].Text.ToString() != "&nbsp;")
+            if (e.Row.Cells[6].Text.ToString() != "&nbsp;")
             {
               DBConn oConn = new DBConn();
               if (oConn.Open())
               {
                 cAntBancos oBancos = new cAntBancos(ref oConn);
-                oBancos.NKeyBanco = e.Row.Cells[4].Text.ToString();
+                oBancos.NKeyBanco = e.Row.Cells[6].Text.ToString();
                 DataTable dt = oBancos.Get();
                 if (dt != null)
                 {
                   if (dt.Rows.Count > 0)
                   {
-                    e.Row.Cells[4].Text = e.Row.Cells[4].Text.ToString() + " - " + dt.Rows[0]["snombre"].ToString();
+                    e.Row.Cells[6].Text = e.Row.Cells[6].Text.ToString() + " - " + dt.Rows[0]["snombre"].ToString();
                   }
                 }
                 dt = null;
@@ -276,6 +283,8 @@ namespace ICommunity.Antalis
       hdd_cod_documento.Value = string.Empty;
       txt_importe_recibido.Text = string.Empty;
       txt_discrepancia.Text = string.Empty;
+      lblRazonSocialPago.Text = string.Empty;
+      lblcuentacorriente.Text = string.Empty;
       lblFechtransaccion.Text = string.Empty;
       lblNumOperacion.Text = string.Empty;
       lblimporte.Text = string.Empty;
@@ -294,6 +303,8 @@ namespace ICommunity.Antalis
       hdd_cod_documento.Value = string.Empty;
       txt_importe_recibido.Text = string.Empty;
       txt_discrepancia.Text = string.Empty;
+      lblRazonSocialPago.Text = string.Empty;
+      lblcuentacorriente.Text = string.Empty;
       lblFechtransaccion.Text = string.Empty;
       lblNumOperacion.Text = string.Empty;
       lblimporte.Text = string.Empty;
@@ -335,6 +346,13 @@ namespace ICommunity.Antalis
       oEmailing.Body = sHmtl;
       oEmailing.EmailSend();
 
+      Log oLog = new Log();
+      oLog.IdUsuario = oIsUsuario.CodUsuario;
+      oLog.ObsLog = "RECHAZO VALIJA #" + hdd_cod_pago.Value;
+      oLog.CodEvtLog = "2";
+      oLog.AppLog = "ANTALIS";
+      oLog.putLog();
+
       Response.Redirect("controllerpagos.aspx");
     }
 
@@ -353,8 +371,28 @@ namespace ICommunity.Antalis
         oConn.Close();
       }
 
+      string lblTitulo = string.Empty;
+      switch (hdd_tipo_documento.Value)
+      {
+        case "1":
+          lblTitulo = "CHEQUES AL DÍA";
+          break;
+        case "2":
+          lblTitulo = "CHEQUES AL FECHA";
+          break;
+        case "4":
+          lblTitulo = "LETRA";
+          break;
+        case "5":
+          lblTitulo = "TARJETA";
+          break;
+        case "6":
+          lblTitulo = "TRANSFERENCIA";
+          break;
+      }
+
       StringBuilder sHmtl = new StringBuilder();
-      sHmtl.Append("Se informa que la valija # ").Append(lblValija.Text).Append(" a sido validada.");
+      sHmtl.Append("Se informa que la valija # ").Append(lblValija.Text).Append(", de tipo de pago ").Append(lblTitulo).Append("  a sido validada.");
 
       AppSettingsReader appReader = new System.Configuration.AppSettingsReader();
       string sEmlAddr = appReader.GetValue("AntalisMail", typeof(string)).ToString();
@@ -365,6 +403,13 @@ namespace ICommunity.Antalis
       oEmailing.Subject = "Valija # " + lblValija.Text + ", VALIDADA";
       oEmailing.Body = sHmtl;
       oEmailing.EmailSend();
+
+      Log oLog = new Log();
+      oLog.IdUsuario = oIsUsuario.CodUsuario;
+      oLog.ObsLog = "VALIDADO VALIJA #" + hdd_cod_pago.Value;
+      oLog.CodEvtLog = "2";
+      oLog.AppLog = "ANTALIS";
+      oLog.putLog();
 
       Response.Redirect("controllerpagos.aspx");
     }
@@ -394,6 +439,8 @@ namespace ICommunity.Antalis
               idRow3.Visible = true;
 
               hdd_cod_documento.Value = dt.Rows[0]["cod_documento"].ToString();
+              lblRazonSocialPago.Text = dt.Rows[0]["nom_deudor"].ToString();
+              lblcuentacorriente.Text = dt.Rows[0]["cuenta_corriente"].ToString();
               lblFechtransaccion.Text = dt.Rows[0]["fch_documento"].ToString();
               lblNumOperacion.Text = dt.Rows[0]["num_documento"].ToString();
 
@@ -409,7 +456,7 @@ namespace ICommunity.Antalis
               }
               dtBanco = null;
 
-              lblimporte.Text = dt.Rows[0]["importe"].ToString();
+              lblimporte.Text = string.Format("{0:N0}",int.Parse(dt.Rows[0]["importe"].ToString()));
               hdd_importe.Value = dt.Rows[0]["importe"].ToString();
 
             }

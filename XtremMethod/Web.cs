@@ -708,6 +708,9 @@ namespace OnlineServices.Method
     private string pObsLog;
     public string ObsLog { get { return pObsLog; } set { pObsLog = value; } }
 
+    private string pAppLog;
+    public string AppLog { get { return pAppLog; } set { pAppLog = value; } }
+
     public void putLog()
     {
       DBConn oConn = new DBConn();
@@ -724,6 +727,7 @@ namespace OnlineServices.Method
           oLog.PagLog = HttpContext.Current.Request.ServerVariables["SCRIPT_NAME"].ToString();
           oLog.CodEvtLog = CodEvtLog;
           oLog.ObsLog = ObsLog;
+          oLog.AppLog = AppLog;
           oLog.Accion = "CREAR";
           oLog.Put();
 

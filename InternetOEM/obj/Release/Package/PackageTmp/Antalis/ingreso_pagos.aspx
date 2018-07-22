@@ -206,9 +206,10 @@
             <asp:BoundField HeaderText="CUENTA CORRIENTE" DataField="cuenta_corriente" />
             <asp:BoundField HeaderText="CODIGO BANCO" DataField="cod_banco" />
             <asp:BoundField HeaderText="FECHA DOCUMENTO" DataField="fch_documento" />
+            <asp:BoundField HeaderText="IMPORTE" DataField="importe" DataFormatString="{0:N0}" />
             <asp:BoundField HeaderText="# GUIA DESPACHO" DataField="num_guia_despacho" />
             <asp:BoundField HeaderText="# FACTURA" DataField="num_factura" />
-            <asp:BoundField HeaderText="IMPORTE" DataField="importe" DataFormatString="{0:N0}" />
+            <asp:BoundField HeaderText="VALOR FACTURA" DataField="importe_factura" DataFormatString="{0:N0}" />
           </Columns>
         </asp:GridView>
       </div>
@@ -327,7 +328,7 @@
         return false;
       }
 
-      if ($("#hdd_cod_documento").val() != "") {
+      if (($("#hdd_cod_documento").val() != "")||($("#hdd_nod_documento").val() != "")) {
         allowSubmit = false;
       }
 

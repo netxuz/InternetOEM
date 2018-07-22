@@ -104,9 +104,10 @@
             <asp:BoundField HeaderText="CUENTA CORRIENTE" DataField="cuenta_corriente" />
             <asp:BoundField HeaderText="FECHA DOCUMENTO" DataField="fch_documento" />
             <asp:BoundField HeaderText="BANCO" DataField="cod_banco" />
+            <asp:BoundField HeaderText="IMPORTE" DataField="importe" DataFormatString="{0:N0}" />
             <asp:BoundField HeaderText="# GUIA DESPACHO" DataField="num_guia_despacho" />
             <asp:BoundField HeaderText="# FACTURA" DataField="num_factura" />
-            <asp:BoundField HeaderText="IMPORTE" DataField="importe" DataFormatString="{0:N0}" />
+            <asp:BoundField HeaderText="VALOR FACTURA" DataField="importe_factura" DataFormatString="{0:N0}" />
             <asp:BoundField HeaderText="IMPORTE RECIBIDO" DataField="importe_recibido" DataFormatString="{0:N0}" />
             <asp:BoundField HeaderText="DISCREPANCIA" DataField="discrepancia" DataFormatString="{0:N0}" />
           </Columns>

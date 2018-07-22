@@ -234,6 +234,23 @@ namespace ICommunity.Antalis
     {
       if (e.Row.RowType == DataControlRowType.DataRow)
       {
+        string sNodCodDocumento = gdPagos.DataKeys[e.Row.RowIndex].Values["nod_cod_documento"].ToString();
+        foreach (DataControlFieldCell cell in e.Row.Cells)
+        {
+          foreach (Control control in cell.Controls)
+          {
+            LinkButton BtnlnkSI = control as LinkButton;
+            if ((BtnlnkSI != null) && (BtnlnkSI.CommandName == "SI") && (!string.IsNullOrEmpty(sNodCodDocumento)))
+            {
+              BtnlnkSI.Visible = false;
+            }else if ((BtnlnkSI != null) && (BtnlnkSI.CommandName == "NO") && (!string.IsNullOrEmpty(sNodCodDocumento)))
+            {
+              BtnlnkSI.Visible = false;
+            }
+          }
+        }
+
+
         switch (hdd_tipo_documento.Value)
         {
           case "1":

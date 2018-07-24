@@ -1041,6 +1041,8 @@ namespace ICommunity.Antalis
           e.Row.Cells[0].Visible = false;
           gdPagos.HeaderRow.Cells[1].Visible = false;
           e.Row.Cells[1].Visible = false;
+          gdPagos.HeaderRow.Cells[2].Visible = false;
+          e.Row.Cells[2].Visible = false;
         }
         if (e.Row.Cells[6].Text.ToString() != "&nbsp;")
         {

@@ -151,7 +151,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/01/2012 01:24:26</publishTime>
     </File>
     <File Include="bin/ICommunity.dll">
-      <publishTime>07/22/2018 00:40:33</publishTime>
+      <publishTime>07/24/2018 00:54:23</publishTime>
     </File>
     <File Include="bin/Ionic.Zip.dll">
       <publishTime>02/25/2010 23:29:50</publishTime>

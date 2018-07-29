@@ -310,31 +310,22 @@ namespace ICommunity.Antalis {
         protected global::System.Web.UI.WebControls.HiddenField hddGuiasDespacho;
         
         /// <summary>
-        /// cmb_facturas control.
+        /// hdd_num_factura control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label cmb_facturas;
+        protected global::System.Web.UI.WebControls.TextBox hdd_num_factura;
         
         /// <summary>
-        /// lbl_valor_factura control.
+        /// txt_valor_factura control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbl_valor_factura;
-        
-        /// <summary>
-        /// hdd_facturas control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hdd_facturas;
+        protected global::System.Web.UI.WebControls.TextBox txt_valor_factura;
         
         /// <summary>
         /// idRow3 control.

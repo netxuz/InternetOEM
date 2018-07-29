@@ -81,98 +81,111 @@
       </div>
       <div class="row vAlign">
         <div class="col-md-3">
-          <span>CLIENTE:
-            <asp:Label ID="lblRazonSocial" runat="server"></asp:Label></span>
+          <div class="md-form" style="width: 20rem;">
+            <label>
+              CLIENTE:
+            <asp:Label ID="lblRazonSocial" runat="server"></asp:Label></label>
+          </div>
         </div>
         <div class="col-md-3">
-          <span for="cmb_centrodistribucion">CENTRO DE DISTRIBUCION:</span>
-          <asp:DropDownList ID="cmb_centrodistribucion" CssClass="form-control" runat="server">
-          </asp:DropDownList>
+          <div class="md-form" style="width: 20rem;">
+            <span for="cmb_centrodistribucion">CENTRO DE DISTRIBUCION:</span>
+            <asp:DropDownList ID="cmb_centrodistribucion" CssClass="form-control" runat="server">
+            </asp:DropDownList>
+          </div>
         </div>
         <div class="col-md-3">
-          <span for="cmb_documento">METODO DE PAGO: </span>
-          <asp:DropDownList ID="cmb_documento" CssClass="form-control" runat="server">
-            <asp:ListItem Text="<< Seleccione Método de Pago >>" Value=""></asp:ListItem>
-            <asp:ListItem Text="Cheque al día" Value="1"></asp:ListItem>
-            <asp:ListItem Text="Cheque a fecha" Value="2"></asp:ListItem>
-            <asp:ListItem Text="Efectivo" Value="3"></asp:ListItem>
-            <asp:ListItem Text="Letra" Value="4"></asp:ListItem>
-            <asp:ListItem Text="Tarjeta" Value="5"></asp:ListItem>
-            <asp:ListItem Text="Transferencia" Value="6"></asp:ListItem>
-          </asp:DropDownList>
+          <div class="md-form" style="width: 20rem;">
+            <span for="cmb_documento">METODO DE PAGO: </span>
+            <asp:DropDownList ID="cmb_documento" CssClass="form-control" runat="server">
+              <asp:ListItem Text="<< Seleccione Método de Pago >>" Value=""></asp:ListItem>
+              <asp:ListItem Text="Cheque al día" Value="1"></asp:ListItem>
+              <asp:ListItem Text="Cheque a fecha" Value="2"></asp:ListItem>
+              <asp:ListItem Text="Efectivo" Value="3"></asp:ListItem>
+              <asp:ListItem Text="Letra" Value="4"></asp:ListItem>
+              <asp:ListItem Text="Tarjeta" Value="5"></asp:ListItem>
+              <asp:ListItem Text="Transferencia" Value="6"></asp:ListItem>
+            </asp:DropDownList>
+          </div>
         </div>
         <div class="col-md-3">
-          <span>FECHA RECEPCION:
-            <asp:Label ID="lbl_fecha_recepcion" runat="server"></asp:Label></span>
-          <asp:HiddenField ID="txt_fecha_recepcion" runat="server"></asp:HiddenField>
+          <div class="md-form" style="width: 20rem;">
+            <label>
+              FECHA RECEPCION:
+            <asp:Label ID="lbl_fecha_recepcion" runat="server"></asp:Label></label>
+            <asp:HiddenField ID="txt_fecha_recepcion" runat="server"></asp:HiddenField>
+          </div>
         </div>
       </div>
       <div id="idRow1" runat="server" class="row vAlign">
         <!-- Material input -->
-        <div class="col-md-3">
-          <div class="md-form">
+        <div class="col-md-2">
+          <div class="md-form" style="width: 20rem;">
             <asp:TextBox ID="txt_codigosap" runat="server" CssClass="form-control"></asp:TextBox>
             <label for="txt_codigosap">CODIGO SAP</label>
           </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
           <div class="md-form" style="width: 20rem;">
             <asp:TextBox ID="lblNomDeudor" runat="server" CssClass="form-control"></asp:TextBox>
             <label for="txt_num_documento">RAZÓN SOCIAL</label>
           </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
           <div class="md-form" style="width: 20rem;">
             <asp:TextBox ID="txt_cta_cte" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
             <label for="txt_cta_cte">CUENTA CORRIENTE</label>
           </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
           <div class="md-form" style="width: 20rem;">
             <asp:TextBox ID="txt_num_documento" runat="server" CssClass="form-control"></asp:TextBox>
             <label for="txt_num_documento">NUMERO CHEQUE / OPERACION</label>
           </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
           <div class="md-form" style="width: 20rem;">
             <asp:TextBox ID="txt_importe" runat="server" CssClass="form-control"></asp:TextBox>
             <label for="txt_importe">IMPORTE</label>
           </div>
         </div>
-        <div class="col-md-3">
-          <span for="cmb_bancos">BANCO:</span>
-          <asp:DropDownList ID="cmb_bancos" CssClass="form-control" runat="server"></asp:DropDownList>
+        <div class="col-md-2">
+          <div class="md-form" style="width: 20rem;">
+            <span for="cmb_bancos">BANCO:</span>
+            <asp:DropDownList ID="cmb_bancos" CssClass="form-control" runat="server"></asp:DropDownList>
+          </div>
         </div>
       </div>
       <div id="idRow2" runat="server" class="row vAlign">
         <div class="col-md-2">
-          <span for="fch_documento">FECHA DOCUMENTO</span>
-          <div class="input-append date" id="dp4" data-date-format="dd-mm-yyyy">
-            <asp:TextBox ID="fch_documento" runat="server" CssClass="form-control" ReadOnly></asp:TextBox>
-            <span class="add-on"><i class="icon-th"></i></span>
-            <asp:HiddenField ID="hdd_fchdocument" runat="server" />
+          <div class="md-form" style="width: 20rem;">
+            <span for="fch_documento">FECHA DOCUMENTO</span>
+            <div class="input-append date" id="dp4" data-date-format="dd-mm-yyyy">
+              <asp:TextBox ID="fch_documento" runat="server" CssClass="form-control" ReadOnly></asp:TextBox>
+              <span class="add-on"><i class="icon-th"></i></span>
+              <asp:HiddenField ID="hdd_fchdocument" runat="server" />
+            </div>
           </div>
         </div>
         <div class="col-md-2">
-          <span for="cmb_guiadespacho">GUIA DESPACHO:</span>
-          <asp:DropDownList ID="cmb_guiadespacho" CssClass="form-control" runat="server">
-          </asp:DropDownList>
-          <asp:HiddenField ID="hddGuiasDespacho" runat="server" />
+          <div class="md-form" style="width: 20rem;">
+            <span for="cmb_guiadespacho">GUIA DESPACHO:</span>
+            <asp:DropDownList ID="cmb_guiadespacho" CssClass="form-control" runat="server">
+            </asp:DropDownList>
+            <asp:HiddenField ID="hddGuiasDespacho" runat="server" />
+          </div>
         </div>
-        <div class="col-md-4">
-          <div class="row">
-            <div class="col-md-12">
-              <span for="cmb_facturas"># FACTURA:</span>
-              <asp:Label ID="cmb_facturas" runat="server"></asp:Label>
-            </div>
+        <div class="col-md-2">
+          <div class="md-form" style="width: 20rem;">
+            <asp:TextBox ID="hdd_num_factura" runat="server" CssClass="form-control"></asp:TextBox>
+            <label for="hdd_num_factura"># FACTURA</label>
           </div>
-          <div class="row">
-            <div class="col-md-12">
-              <span for="lbl_valor_factura">VALOR FACTURA:</span>
-              <asp:Label ID="lbl_valor_factura" runat="server"></asp:Label>
-            </div>
+        </div>
+        <div class="col-md-2">
+          <div class="md-form" style="width: 20rem;">
+            <asp:TextBox ID="txt_valor_factura" runat="server" CssClass="form-control"></asp:TextBox>
+            <label for="txt_valor_factura">VALOR FACTURA</label>
           </div>
-          <asp:HiddenField ID="hdd_facturas" runat="server" />
         </div>
       </div>
       <div id="idRow3" runat="server" class="row vAlign">
@@ -195,7 +208,7 @@
           <Columns>
             <asp:TemplateField>
               <ItemTemplate>
-                  <asp:LinkButton runat="server" ID="BtnSameData" CssClass="" CommandName="SameData"><span class="glyphicon glyphicon-edit"></span>  UTILIZAR MISMO PAGO</asp:LinkButton>
+                <asp:LinkButton runat="server" ID="BtnSameData" CssClass="" CommandName="SameData"><span class="glyphicon glyphicon-edit"></span>  UTILIZAR MISMO PAGO</asp:LinkButton>
               </ItemTemplate>
               <ItemStyle Width="150px" />
             </asp:TemplateField>
@@ -267,13 +280,15 @@
         return false;
       }
 
-      //if ($("#txt_razon_social").val() == "") {
-      //  alert('Debe ingresar razón social del cliente');
-      //  return false;
-      //}
+      if (($("#cmb_documento").val() == "2") && ($("#txt_cta_cte").val() == "")) {
+        alert('Debe ingresar el número de cuenta corriente');
+        $("#txt_cta_cte").focus();
+        return false;
+      }
 
       if (($("#cmb_documento").val() != "3") && ($("#txt_num_documento").val() == "")) {
         alert('Debe ingresar código / número del documento');
+        $("#txt_num_documento").focus();
         return false;
       }
 
@@ -325,10 +340,31 @@
 
       if (($("#txt_importe").val() == "")) {
         alert('Debe ingresar el importe a pagar');
+        $("#txt_importe").focus();
         return false;
       }
 
-      if (($("#hdd_cod_documento").val() != "")||($("#hdd_nod_documento").val() != "")) {
+      var ImporteTotal = $("#txt_importe").val();
+      if (ImporteTotal.indexOf(',')!= -1) {
+        alert('El importe total no puede tener decimales');
+        $("#txt_importe").focus();
+        return false;
+      }
+
+      if (($("#txt_valor_factura").val() == "")) {
+        alert('Debe ingresar el importe de la factura a pagar');
+        $("#txt_valor_factura").focus();
+        return false;
+      }
+
+      var ImporteFactura = $("#txt_valor_factura").val();
+      if (ImporteFactura.indexOf(',')!= -1) {
+        alert('El importe de la factura no puede tener decimales');
+        $("#txt_valor_factura").focus();
+        return false;
+      }
+
+      if (($("#hdd_cod_documento").val() != "") || ($("#hdd_nod_documento").val() != "")) {
         allowSubmit = false;
       }
 
@@ -360,6 +396,8 @@
           }
         });
       }
+
+      $("#hdd_num_factura").removeAttr('disabled');
 
     });
 
@@ -468,17 +506,19 @@
 
           success: function (data) {
             $.each(data.d, function (key, value) {
-              $("#cmb_facturas").empty();
-              $("#cmb_facturas").append(value.nNumeroFactura);
+              $("#hdd_num_factura").removeAttr('disabled');
+              $("#hdd_num_factura").empty();
+              $("#hdd_num_factura").val(value.nNumeroFactura);
+              $("#hdd_num_factura").focus();
+              $("#hdd_num_factura").attr('disabled', 'disabled');
 
-              $("#lbl_valor_factura").empty();
+              $("#txt_valor_factura").empty();
               if (value.nSaldo == "0") {
-                $("#lbl_valor_factura").append(value.nMontoFactura);
-                document.getElementById("<%=hdd_facturas.ClientID%>").value = value.nNumeroFactura + '|' + value.nMontoFactura;
+                $("#txt_valor_factura").val(value.nMontoFactura);
               } else {
-                $("#lbl_valor_factura").append(value.nSaldo);
-                document.getElementById("<%=hdd_facturas.ClientID%>").value = value.nNumeroFactura + '|' + value.nSaldo;
+                $("#txt_valor_factura").val(value.nSaldo);
               }
+              $("#txt_valor_factura").focus();
 
             });
           },

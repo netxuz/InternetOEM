@@ -100,6 +100,14 @@ namespace OnlineServices.Antalis
           oParam.AddParameters("@cod_documento", pCodDocumento, TypeSQL.Numeric);
         }
 
+        if (!string.IsNullOrEmpty(pNodCodDocumento))
+        {
+          cSQL.Append(Condicion);
+          Condicion = " and ";
+          cSQL.Append(" nod_cod_documento = @nod_cod_documento  ");
+          oParam.AddParameters("@nod_cod_documento", pNodCodDocumento, TypeSQL.Numeric);
+        }
+
         if (!string.IsNullOrEmpty(pCodPagos))
         {
           cSQL.Append(Condicion);

@@ -78,9 +78,11 @@ namespace ICommunity.Antalis
 
     protected void getMenuAntalis(System.Web.UI.HtmlControls.HtmlGenericControl oHtmControl, string pCoduser)
     {
+
       DBConn oConn = new DBConn();
       if (oConn.Open())
       {
+
         SyrPerfilesUsuarios oSysPerfilesUsuarios = new SyrPerfilesUsuarios(ref oConn);
         oSysPerfilesUsuarios.CodUsuario = pCoduser;
         oSysPerfilesUsuarios.CodPerfil = "7";
@@ -96,6 +98,7 @@ namespace ICommunity.Antalis
             {
               foreach (DataRow oRow in dtAntRoles.Rows)
               {
+
                 if (oRow["cod_rol"].ToString() == "1")
                   oHtmControl.Controls.Add(new LiteralControl("<li><a href='../antalis/pagos_antalis.aspx'>Ingreso de Pago</a></li>"));
                 if (oRow["cod_rol"].ToString() == "2")
@@ -103,13 +106,13 @@ namespace ICommunity.Antalis
               }
             }
             dtAntRoles = null;
+            oHtmControl.Controls.Add(new LiteralControl("<li><a href='../antalis/reportevalijas.aspx'>Valijas Validadas</a></li>"));
           }
         }
         dtPerfil = null;
       }
       oConn.Close();
 
-      oHtmControl.Controls.Add(new LiteralControl("<li><a href='../antalis/reportevalijas.aspx'>Valijas Validadas</a></li>"));
     }
 
     protected void getMenu(System.Web.UI.HtmlControls.HtmlGenericControl oHtmControl, string pCodUser, string oOrdConsulta)

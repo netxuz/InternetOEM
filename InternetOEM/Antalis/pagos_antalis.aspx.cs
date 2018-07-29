@@ -106,13 +106,13 @@ namespace ICommunity.Antalis
               }
             }
             dtAntRoles = null;
+            oHtmControl.Controls.Add(new LiteralControl("<li><a href='../antalis/reportevalijas.aspx'>Valijas Validadas</a></li>"));
           }
         }
         dtPerfil = null;
       }
       oConn.Close();
 
-      oHtmControl.Controls.Add(new LiteralControl("<li><a href='../antalis/reportevalijas.aspx'>Valijas Validadas</a></li>"));
     }
 
     protected void getMenu(System.Web.UI.HtmlControls.HtmlGenericControl oHtmControl, string pCodUser, string oOrdConsulta)
@@ -198,6 +198,10 @@ namespace ICommunity.Antalis
       DBConn oConn = new DBConn();
       if (oConn.Open())
       {
+        int nImporteFactura;
+        int nSaldo;
+        DataTable dt;
+        cAntFactura oFactura;
         cAntDocumentosPago oDocumentosPago = new cAntDocumentosPago(ref oConn);
         oDocumentosPago.CodPagos = pCodPago;
         DataTable dtDocPago = oDocumentosPago.Get();
@@ -205,24 +209,21 @@ namespace ICommunity.Antalis
         {
           foreach (DataRow oRow in dtDocPago.Rows)
           {
-
-
-            string nCodFactura = oRow["cod_factura"].ToString();
-            string nImporte = oRow["importe"].ToString();
-            string nSaldo = string.Empty;
-            cAntFactura oFactura = new cAntFactura(ref oConn);
-            oFactura.CodFactura = nCodFactura;
-            DataTable dt = oFactura.Get();
+            nSaldo = 0;
+            nImporteFactura = int.Parse(oRow["importe_factura"].ToString());
+            oFactura = new cAntFactura(ref oConn);
+            oFactura.CodFactura = oRow["cod_factura"].ToString();
+            dt = oFactura.Get();
             if (dt != null)
             {
               if (dt.Rows.Count > 0)
               {
-                nSaldo = dt.Rows[0]["saldo_factura"].ToString();
+                nSaldo = int.Parse(dt.Rows[0]["saldo_factura"].ToString());
               }
             }
             dt = null;
 
-            oFactura.SaldoFactura = (int.Parse(nImporte) + int.Parse(nSaldo)).ToString();
+            oFactura.SaldoFactura = (nImporteFactura + nSaldo).ToString();
             oFactura.Accion = "EDITAR";
             oFactura.Put();
 
@@ -231,17 +232,21 @@ namespace ICommunity.Antalis
               Response.Write("[Eliminar / Factura Editar] Se ha encontrado el siguiente error : " + oFactura.Error);
               Response.End();
             }
+            
+            oDocumentosPago.CodDocumento = oRow["cod_documento"].ToString();
+            oDocumentosPago.Accion = "ELIMINAR";
+            oDocumentosPago.Put();
+
+            if (!string.IsNullOrEmpty(oDocumentosPago.Error))
+            {
+              Response.Write("[Eliminar / Documento Pago] Se ha encontrado el siguiente error : " + oDocumentosPago.Error);
+              Response.End();
+            }            
+            
           }
         }
         dtDocPago = null;
-        oDocumentosPago.Accion = "ELIMINAR";
-        oDocumentosPago.Put();
-
-        if (!string.IsNullOrEmpty(oDocumentosPago.Error))
-        {
-          Response.Write("[Eliminar / Pago] Se ha encontrado el siguiente error : " + oDocumentosPago.Error);
-          Response.End();
-        }
+        
 
         cAntPagos oPagos = new cAntPagos(ref oConn);
         oPagos.CodPagos = pCodPago;

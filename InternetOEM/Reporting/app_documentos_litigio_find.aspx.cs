@@ -21,6 +21,11 @@ namespace ICommunity.Reporting
   {
     private OnlineServices.Method.Web oWeb = new OnlineServices.Method.Web();
     private OnlineServices.Method.Usuario oIsUsuario;
+    string Signomoneda = string.Empty;
+    string Decimales = string.Empty;
+    bool bCliente = false;
+    bool bDeudor;
+    bool bHolding;
     protected void Page_Load(object sender, EventArgs e)
     {
       oIsUsuario = oWeb.ValidaUserAppReport();
@@ -35,6 +40,7 @@ namespace ICommunity.Reporting
       getMenu(IndClasificacionRiesgo, oIsUsuario.CodUsuario, "6");
       getMenuAntalis(indAntalis, oIsUsuario.CodUsuario);
 
+      DBConn oConn = new DBConn();
       if (!IsPostBack)
       {
         RadDatePicker1.DateInput.DateFormat = "dd-MM-yyyy";
@@ -42,12 +48,115 @@ namespace ICommunity.Reporting
         RadDatePicker1.SelectedDate = dTimeNow.AddMonths(-1);
         RadDatePicker2.SelectedDate = dTimeNow;
 
+        if (oConn.Open())
+        {
+          string arrNkeyCliente = string.Empty;
+          SysClienteUsuario oClienteUsuario = new SysClienteUsuario(ref oConn);
+          oClienteUsuario.CodUsuario = oIsUsuario.CodUsuario;
+          DataTable dt = oClienteUsuario.Get();
+          if (dt != null)
+          {
+            foreach (DataRow dRow in dt.Rows)
+            {
+              arrNkeyCliente = (string.IsNullOrEmpty(arrNkeyCliente) ? dRow["nkey_user"].ToString() : arrNkeyCliente + "," + dRow["nkey_user"].ToString());
+            }
+
+            hdd_arrNkeyCliente.Value = arrNkeyCliente;
+          }
+          dt = null;
+
+          if (arrNkeyCliente.Split(',').Count() > 0)
+          {
+            hdd_cli_show.Value = "V";
+            bCliente = true;
+            cCliente oCliente = new cCliente(ref oConn);
+            oCliente.ArrNkeyCliente = arrNkeyCliente;
+            dt = oCliente.GetClientes();
+
+            if (dt != null)
+            {
+              cmbCliente.Items.Add(new ListItem("<< Seleccione Cliente >>", string.Empty));
+              foreach (DataRow oRow in dt.Rows)
+              {
+                cmbCliente.Items.Add(new ListItem(oRow["snombre"].ToString(), oRow["nkey_cliente"].ToString()));
+              }
+            }
+            dt = null;
+
+            colClientes.Visible = true;
+          }
+
+          cDebtUsrAsignados oDebtUsrAsignados = new cDebtUsrAsignados(ref oConn);
+          oDebtUsrAsignados.CodUsuario = oIsUsuario.CodUsuario;
+          oDebtUsrAsignados.CodConsulta = "1";
+          dt = oDebtUsrAsignados.Get();
+          if (dt != null)
+          {
+            if (dt.Rows.Count > 0)
+            {
+              bDeudor = ((dt.Rows[0]["filtro_deudor"].ToString() == "V") ? true : false);
+              bHolding = ((dt.Rows[0]["filtro_holding"].ToString() == "V") ? true : false);
+            }
+          }
+          dt = null;
+
+          if (bDeudor)
+            colDeudor.Visible = true;
+
+          if (bHolding)
+          {
+            colHolding.Visible = true;
+            cCliente oCliente = new cCliente(ref oConn);
+            oCliente.ArrNkeyCliente = arrNkeyCliente;
+            dt = oCliente.GetHolding();
+            if (dt != null)
+            {
+              if (dt.Rows.Count > 0)
+              {
+                cmbHolding.Visible = true;
+                cmbHolding.Items.Add(new ListItem("<< Seleccione Holding >>", string.Empty));
+                foreach (DataRow oRow in dt.Rows)
+                {
+                  cmbHolding.Items.Add(new ListItem(oRow["holding"].ToString(), oRow["ncodholding"].ToString()));
+                }
+              }
+            }
+          }
+
+          oConn.Close();
+        }
+
         Log oLog = new Log();
         oLog.IdUsuario = oIsUsuario.CodUsuario;
         oLog.ObsLog = "REPORTE DE DOCUMENTOS LITIGIO";
         oLog.CodEvtLog = "1";
         oLog.AppLog = "REPORTES DEBTCONTROL";
         oLog.putLog();
+      }
+
+      if (oConn.Open())
+      {
+        if (!string.IsNullOrEmpty(cmbCliente.SelectedValue))
+        {
+          cCliente oCliente = new cCliente(ref oConn);
+          oCliente.CodNkey = cmbCliente.SelectedValue;
+          DataTable dt = oCliente.GeCliente();
+          if (dt != null)
+          {
+            if (dt.Rows.Count > 0)
+            {
+              Signomoneda = dt.Rows[0]["signomoneda"].ToString().Trim();
+              Decimales = dt.Rows[0]["decimales"].ToString();
+            }
+          }
+          dt = null;
+
+          if (!string.IsNullOrEmpty(Signomoneda))
+            lblmoneda.Text = "Montos expresados en " + Signomoneda;
+
+        }
+
+        oConn.Close();
       }
 
     }
@@ -152,7 +261,49 @@ namespace ICommunity.Reporting
 
     protected void rdGridDocLitigio_ItemDataBound(object sender, GridItemEventArgs e)
     {
+      if (e.Item is GridDataItem)
+      {
+        GridDataItem item = (GridDataItem)e.Item;
+        DataRowView row = (DataRowView)e.Item.DataItem;
 
+        if (!string.IsNullOrEmpty(Decimales))
+        {
+          if (int.Parse(Decimales) > 0)
+          {
+            if ((!string.IsNullOrEmpty(item["Saldo"].Text)) && (item["Saldo"].Text != "&nbsp;"))
+              item["Saldo"].Text = double.Parse(row["Saldo"].ToString()).ToString("N" + Decimales);
+
+            if ((!string.IsNullOrEmpty(item["MontoLitigio"].Text)) && (item["MontoLitigio"].Text != "&nbsp;"))
+              item["MontoLitigio"].Text = double.Parse(row["MontoLitigio"].ToString()).ToString("N" + Decimales);
+
+            if ((!string.IsNullOrEmpty(item["montoNC"].Text)) && (item["montoNC"].Text != "&nbsp;"))
+              item["montoNC"].Text = double.Parse(row["montoNC"].ToString()).ToString("N" + Decimales);
+
+          }
+          else
+          {
+            if ((!string.IsNullOrEmpty(item["Saldo"].Text)) && (item["Saldo"].Text != "&nbsp;"))
+              item["Saldo"].Text = double.Parse(row["Saldo"].ToString()).ToString("N0");
+
+            if ((!string.IsNullOrEmpty(item["MontoLitigio"].Text)) && (item["MontoLitigio"].Text != "&nbsp;"))
+              item["MontoLitigio"].Text = double.Parse(row["MontoLitigio"].ToString()).ToString("N0");
+
+            if ((!string.IsNullOrEmpty(item["montoNC"].Text)) && (item["montoNC"].Text != "&nbsp;"))
+              item["montoNC"].Text = double.Parse(row["montoNC"].ToString()).ToString("N0");
+          }
+        }
+        else
+        {
+          if ((!string.IsNullOrEmpty(item["Saldo"].Text)) && (item["Saldo"].Text != "&nbsp;"))
+            item["Saldo"].Text = double.Parse(row["Saldo"].ToString()).ToString("N0");
+
+          if ((!string.IsNullOrEmpty(item["MontoLitigio"].Text)) && (item["MontoLitigio"].Text != "&nbsp;"))
+            item["MontoLitigio"].Text = double.Parse(row["MontoLitigio"].ToString()).ToString("N0");
+
+          if ((!string.IsNullOrEmpty(item["montoNC"].Text)) && (item["montoNC"].Text != "&nbsp;"))
+            item["montoNC"].Text = double.Parse(row["montoNC"].ToString()).ToString("N0");
+        }
+      }
     }
 
     public DataTable getDatatble()
@@ -166,7 +317,8 @@ namespace ICommunity.Reporting
         oDocumentosLitigio.CodDeudor = hddCodDeudor.Value;
         oDocumentosLitigio.NumFactura = rdTxtNumFactura.Text;
         oDocumentosLitigio.IndAccion = bool.Parse(rdRdBtnTypeQuery.SelectedValue);
-        oDocumentosLitigio.CodNkey = oIsUsuario.CodNkey;
+        oDocumentosLitigio.CodNkey = ((!string.IsNullOrEmpty(cmbCliente.SelectedValue) ? cmbCliente.SelectedValue : hdd_arrNkeyCliente.Value));
+        oDocumentosLitigio.NcodHolding = cmbHolding.SelectedValue;
         oDocumentosLitigio.NkeyUsuario = oIsUsuario.NKeyUsuario;
         oDocumentosLitigio.TipoUsuario = oIsUsuario.TipoUsuario;
         oDocumentosLitigio.DtFchIni = DateTime.Parse(RadDatePicker1.SelectedDate.ToString()).ToString("yyyyMMdd");
@@ -179,5 +331,26 @@ namespace ICommunity.Reporting
       return dt;
     }
 
+    protected void Page_PreRender(object o, EventArgs e)
+    {
+
+      rdGridDocLitigio.MasterTableView.GetColumn("ncodholding").Display = true;
+      rdGridDocLitigio.MasterTableView.GetColumn("CodCliente").Display = true;
+
+      if (string.IsNullOrEmpty(cmbHolding.SelectedValue))
+      {
+
+        if (!string.IsNullOrEmpty(hddCodDeudor.Value))
+        {
+          rdGridDocLitigio.MasterTableView.GetColumn("ncodholding").Display = false;
+          rdGridDocLitigio.MasterTableView.GetColumn("CodCliente").Display = false;
+        }
+        else
+        {
+          rdGridDocLitigio.MasterTableView.GetColumn("ncodholding").Display = false;
+        }
+      }
+
+    }
   }
 }

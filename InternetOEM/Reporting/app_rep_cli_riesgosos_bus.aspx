@@ -18,6 +18,8 @@
 <body>
   <form id="form1" runat="server">
     <asp:ScriptManager ID="ScriptManager" runat="server"></asp:ScriptManager>
+    <asp:HiddenField ID="hdd_arrNkeyCliente" runat="server" />
+    <asp:HiddenField ID="hdd_cli_show" runat="server" />
     <nav class="navbar-inverse">
       <div class="container-fluid">
         <div class="navbar-header">
@@ -66,12 +68,32 @@
       <div class="blq_tile">
         <asp:Label ID="lblTitle" runat="server" CssClass="lblTitle" Text="REPORTE CLIENTES RIESGOSOS"></asp:Label>
       </div>
+      <div class="row">
+        <div id="colClientes" class="col-md-4" runat="server" visible="false">
+          <div><span>Clientes</span></div>
+          <div></div>
+          <asp:DropDownList ID="cmbCliente" CssClass="inputCmbBox" runat="server">
+          </asp:DropDownList>
+        </div>
+        <div id="colHolding" class="col-md-4" runat="server" visible="false">
+          <div><span>Holding</span></div>
+          <div></div>
+          <asp:DropDownList ID="cmbHolding" CssClass="inputCmbBox" runat="server">
+          </asp:DropDownList>
+        </div>
+      </div>
+      <div class="blq_btn_search">
+        <div>
+          <asp:Button ID="idBuscar" runat="server" Text="Buscar" CssClass="btn btn-lg btn-primary btn-block" Width="100px" OnClick="idBuscar_Click" />
+        </div>
+      </div>
+
       <div style="height:30px;">
         <br /><br />
       </div>
-      <div id="idGrilla" runat="server">
-
-        <telerik:RadGrid ID="rdGridRepMotNoPago" runat="server" OnNeedDataSource="rdGridRepMotNoPago_NeedDataSource" OnItemCommand="rdGridRepMotNoPago_ItemCommand"
+      <div id="idGrilla" runat="server" visible="false">
+        <asp:Label ID="lblmoneda" runat="server" CssClass="lblmoneda"></asp:Label>
+        <telerik:RadGrid ID="rdGridRepMotNoPago" runat="server" OnNeedDataSource="rdGridRepMotNoPago_NeedDataSource" OnItemCommand="rdGridRepMotNoPago_ItemCommand" OnItemDataBound="rdGridRepMotNoPago_ItemDataBound"
           AllowPaging="true" AllowSorting="true" ShowStatusBar="true" PageSize="10" GridLines="None" AllowAutomaticUpdates="true" AllowAutomaticInserts="true" AllowAutomaticDeletes="true" Skin="Sitefinity">
           <ExportSettings HideStructureColumns="true"></ExportSettings>
           <PagerStyle Mode="NextPrevAndNumeric" />
@@ -90,15 +112,15 @@
                 <HeaderStyle Font-Size="Smaller" HorizontalAlign="Center" />
                 <ItemStyle HorizontalAlign="Left" />
               </telerik:GridBoundColumn>
-
+              <%-- DataFormatString="{0:N0}" FooterAggregateFormatString="{0:N0}" --%>
               <telerik:GridBoundColumn DataField="DeudaTotal" HeaderText="Deuda Total"
-                UniqueName="DeudaTotal" Aggregate="Sum" DataFormatString="{0:N0}" FooterAggregateFormatString="{0:N0}">
+                UniqueName="DeudaTotal" Aggregate="Sum" >
                 <HeaderStyle Font-Size="Smaller" HorizontalAlign="Center" />
                 <ItemStyle HorizontalAlign="Right" />
               </telerik:GridBoundColumn>
-
+              <%-- DataFormatString="{0:N0}" FooterAggregateFormatString="{0:N0}" --%>
               <telerik:GridBoundColumn DataField="DeudaVencida" HeaderText="Deuda Vencida"
-                UniqueName="DeudaVencida" Aggregate="Sum" DataFormatString="{0:N0}" FooterAggregateFormatString="{0:N0}">
+                UniqueName="DeudaVencida" Aggregate="Sum" >
                 <HeaderStyle Font-Size="Smaller" HorizontalAlign="Center" />
                 <ItemStyle HorizontalAlign="Right" />
               </telerik:GridBoundColumn>
@@ -113,5 +135,15 @@
     </div>
 
   </form>
+  <script>
+    $(document).ready(function () {
+      $("#idBuscar").click(function () {
+        if ($("#cmbCliente").val() == "") {
+          alert("Debe seleccionar cliente");
+          return false;
+        }
+      });
+    });
+  </script>
 </body>
 </html>

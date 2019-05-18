@@ -93,6 +93,19 @@ namespace ICommunity.Antalis
           }
           dtBancos = null;
 
+          cmb_cliente.Items.Add(new ListItem("<< Seleccione Cliente >>", string.Empty));
+          SysClienteUsuario oClienteUsuario = new SysClienteUsuario(ref oConn);
+          oClienteUsuario.CodUsuario = oIsUsuario.CodUsuario;
+          DataTable dt = oClienteUsuario.Get();
+          if (dt != null)
+          {
+            foreach (DataRow dRow in dt.Rows)
+            {
+              cmb_cliente.Items.Add(new ListItem(dRow["snombre"].ToString(), dRow["nkey_user"].ToString()));
+            }
+          }
+          dt = null;
+
           if (!string.IsNullOrEmpty(hdd_cod_pago.Value))
           {
             lblValija.Text = "# Valija " + hdd_cod_pago.Value;
@@ -103,14 +116,16 @@ namespace ICommunity.Antalis
             {
               if (dtPagos.Rows.Count > 0)
               {
-                cmb_centrodistribucion.Items.FindByValue(dtPagos.Rows[0]["cod_centrodist"].ToString()).Selected = true; ;
+                cmb_cliente.Items.FindByValue(dtPagos.Rows[0]["nkey_cliente"].ToString()).Selected = true;
+                cmb_cliente.Enabled = false;
+                cmb_centrodistribucion.Items.FindByValue(dtPagos.Rows[0]["cod_centrodist"].ToString()).Selected = true;
                 cmb_centrodistribucion.Enabled = false;
                 cmb_documento.Items.FindByValue(dtPagos.Rows[0]["cod_tipo_pago"].ToString()).Selected = true;
                 cmb_documento.Enabled = false;
 
                 string pCodTipoPago = dtPagos.Rows[0]["cod_tipo_pago"].ToString();
 
-                if (pCodTipoPago == "2")
+                if ((pCodTipoPago == "1") || (pCodTipoPago == "2"))
                   txt_cta_cte.Enabled = true;
                 else
                   txt_cta_cte.Enabled = false;
@@ -147,18 +162,20 @@ namespace ICommunity.Antalis
             onLoadGrid();
           }
 
-          cCliente oCliente = new cCliente(ref oConn);
-          oCliente.CodNkey = oIsUsuario.CodNkey;
-          DataTable dt = oCliente.GeCliente();
-          if (dt != null)
-          {
-            if (dt.Rows.Count > 0)
-            {
-              lblRazonSocial.Text = dt.Rows[0]["cliente"].ToString();
-            }
-          }
-          dt = null;
+          //cCliente oCliente = new cCliente(ref oConn);
+          //oCliente.CodNkey = oIsUsuario.CodNkey;
+          //DataTable dt = oCliente.GeCliente();
+          //if (dt != null)
+          //{
+          //  if (dt.Rows.Count > 0)
+          //  {
+          //    lblRazonSocial.Text = dt.Rows[0]["cliente"].ToString();
+          //  }
+          //}
+          //dt = null;
 
+          
+          
           oConn.Close();
         }
         hddnkey_cliente.Value = oIsUsuario.CodNkey;
@@ -245,7 +262,7 @@ namespace ICommunity.Antalis
           foreach (DataRow oRow in dtGuias.Rows)
           {
             cGuiasDespacho oGuiasDespacho = new cGuiasDespacho();
-            oGuiasDespacho.guiasdespacho = oRow["guidespacho"].ToString();
+            oGuiasDespacho.guiasdespacho = oRow["guiadespacho"].ToString();
             details.Add(oGuiasDespacho);
           }
         }
@@ -264,7 +281,7 @@ namespace ICommunity.Antalis
     }
 
     [WebMethod()]
-    public static cFacturas[] getFacturas(string sGuiaDespacho)
+    public static cFacturas[] getFacturas(string sGuiaDespacho, string nkeycliente)
     {
       List<cFacturas> details = new List<cFacturas>();
 
@@ -272,6 +289,7 @@ namespace ICommunity.Antalis
       if (oConn.Open())
       {
         cGuiasFacturas oGuiasFacturas = new cGuiasFacturas(ref oConn);
+        oGuiasFacturas.NKeyCliente = nkeycliente;
         oGuiasFacturas.GuiaDespacho = sGuiaDespacho;
         DataTable dtFacturas = oGuiasFacturas.GetFacturas();
         if (dtFacturas != null)
@@ -279,7 +297,8 @@ namespace ICommunity.Antalis
           foreach (DataRow oRow in dtFacturas.Rows)
           {
             cFacturas oFacturas = new cFacturas();
-            oFacturas.nKeyFactura = oRow["nkey_factura"].ToString();
+            //oFacturas.nKeyFactura = oRow["nkey_factura"].ToString();
+            oFacturas.nKeyCliente = oRow["nkey_cliente"].ToString();
             oFacturas.nNumeroFactura = oRow["nnumerofactura"].ToString();
             oFacturas.nMontoFactura = string.Format("{0:N0}", int.Parse(oRow["nmontofactura"].ToString()));
             oFacturas.nSaldo = string.Format("{0:N0}", int.Parse(oRow["saldo"].ToString()));
@@ -294,7 +313,7 @@ namespace ICommunity.Antalis
     }
 
     [WebMethod]
-    public static cExiste[] getValida(string sCodNumDocumento, string sCodBanco)
+    public static cExiste[] getValida(string sCodNumDocumento, string sCodBanco, string sCtacte)
     {
       List<cExiste> details = new List<cExiste>();
 
@@ -307,6 +326,7 @@ namespace ICommunity.Antalis
         cAntDocumentosPago oDocumentosPago = new cAntDocumentosPago(ref oConn);
         oDocumentosPago.CodBanco = sCodBanco;
         oDocumentosPago.NumDocumento = sCodNumDocumento;
+        oDocumentosPago.CuentaCorriente = sCtacte;
         DataTable dt = oDocumentosPago.Get();
         if (dt != null)
           if (dt.Rows.Count > 0)
@@ -375,7 +395,7 @@ namespace ICommunity.Antalis
         {
           cAntPagos oPagos = new cAntPagos(ref oConn);
           oPagos.CodUsuario = oIsUsuario.CodUsuario;
-          oPagos.NKeyCliente = oIsUsuario.CodNkey;
+          oPagos.NKeyCliente = cmb_cliente.SelectedValue;
           oPagos.CodCentroDist = pCodCentroDist;
           oPagos.CodTipoPago = pCodTipoPago;
           oPagos.FechRecepcion = pFchRecepcion;
@@ -460,11 +480,13 @@ namespace ICommunity.Antalis
           {
             cGuiasFacturas oFacturaDbt = new cGuiasFacturas(ref oConn);
             oFacturaDbt.NumeroFactura = pNumFactura;
+            oFacturaDbt.NKeyCliente = cmb_cliente.SelectedValue;
+            oFacturaDbt.GuiaDespacho = pGuiaDespacho;
             DataTable dtDacturaDbt = oFacturaDbt.getFactura();
             if (dtDacturaDbt != null) {
               if (dtDacturaDbt.Rows.Count > 0) {
-                oFactura.ValorFactura = dtDacturaDbt.Rows[0]["nMontoFactura"].ToString();
-                oFactura.SaldoFactura = (int.Parse(dtDacturaDbt.Rows[0]["nMontoFactura"].ToString()) - int.Parse(pValor)).ToString();
+                oFactura.ValorFactura = dtDacturaDbt.Rows[0]["saldo"].ToString();
+                oFactura.SaldoFactura = (int.Parse(dtDacturaDbt.Rows[0]["saldo"].ToString()) - int.Parse(pValor)).ToString();
                 oFactura.Accion = "CREAR";
                 oFactura.Put();
 
@@ -552,10 +574,10 @@ namespace ICommunity.Antalis
         lblNomDeudor.Enabled = true;
 
         txt_cta_cte.Text = string.Empty;
-        if (pCodTipoPago != "2")
-          txt_cta_cte.Enabled = false;
-        else
+        if ((pCodTipoPago == "1")||(pCodTipoPago == "2"))
           txt_cta_cte.Enabled = true;
+        else
+          txt_cta_cte.Enabled = false;
 
         txt_num_documento.Text = string.Empty;
         if (pCodTipoPago == "3")
@@ -650,7 +672,7 @@ namespace ICommunity.Antalis
             lblNomDeudor.Enabled = false;
             txt_cta_cte.Text = dtDocPago.Rows[0]["cuenta_corriente"].ToString();
 
-            if (cmb_documento.SelectedValue == "2")
+            if ((cmb_documento.SelectedValue == "1") || (cmb_documento.SelectedValue == "2"))
               txt_cta_cte.Enabled = true;
             else
               txt_cta_cte.Enabled = false;
@@ -690,7 +712,7 @@ namespace ICommunity.Antalis
               cmb_guiadespacho.Items.Add(new ListItem("<< Seleccione Guia Despacho >>", string.Empty));
               foreach (DataRow oRow in dtGuias.Rows)
               {
-                cmb_guiadespacho.Items.Add(new ListItem(oRow["guidespacho"].ToString(), oRow["guidespacho"].ToString()));
+                cmb_guiadespacho.Items.Add(new ListItem(oRow["guiadespacho"].ToString(), oRow["guiadespacho"].ToString()));
               }
             }
             dtGuias = null;
@@ -849,10 +871,10 @@ namespace ICommunity.Antalis
       lblNomDeudor.Enabled = true;
 
       txt_cta_cte.Text = string.Empty;
-      if (cmb_documento.SelectedValue != "2")
-        txt_cta_cte.Enabled = false;
-      else
+      if ((cmb_documento.SelectedValue == "1") || (cmb_documento.SelectedValue == "2"))
         txt_cta_cte.Enabled = true;
+      else
+        txt_cta_cte.Enabled = false;
 
       txt_num_documento.Text = string.Empty;
       if (cmb_documento.SelectedValue == "3")
@@ -977,7 +999,7 @@ namespace ICommunity.Antalis
         sHtml.Replace("[#NUMPAGO]", hdd_cod_pago.Value);
         sHtml.Replace("[#CANTTOTAL]", hdd_cantidad_doc.Value);
         sHtml.Replace("[#MONTOTOTAL]", string.Format("{0:N0}", int.Parse(hdd_importe_total.Value)));
-        sHtml.Replace("[#RAZONSOCIAL]", lblRazonSocial.Text);
+        sHtml.Replace("[#RAZONSOCIAL]", cmb_cliente.SelectedItem.Text);
 
         cAntCentrosDistribucion oCentrosDistribucion = new cAntCentrosDistribucion(ref oConn);
         oCentrosDistribucion.CodCentroDist = cmb_centrodistribucion.SelectedValue;
@@ -1290,7 +1312,7 @@ namespace ICommunity.Antalis
                 cmb_guiadespacho.Items.Add(new ListItem("<< Seleccione Guia Despacho >>", string.Empty));
                 foreach (DataRow oRow in dtGuias.Rows)
                 {
-                  cmb_guiadespacho.Items.Add(new ListItem(oRow["guidespacho"].ToString(), oRow["guidespacho"].ToString()));
+                  cmb_guiadespacho.Items.Add(new ListItem(oRow["guiadespacho"].ToString(), oRow["guiadespacho"].ToString()));
                 }
               }
               dtGuias = null;
@@ -1330,7 +1352,8 @@ namespace ICommunity.Antalis
 
   public class cFacturas
   {
-    public string nKeyFactura { get; set; }
+    //public string nKeyFactura { get; set; }
+    public string nKeyCliente { get; set; }
     public string nNumeroFactura { get; set; }
     public string nMontoFactura { get; set; }
     public string nSaldo { get; set; }

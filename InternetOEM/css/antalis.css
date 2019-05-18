@@ -95,7 +95,7 @@ span {
   border-top: 1px dotted #BDBDBD;
 }
 
-#cmb_centrodistribucion, #cmb_documento, #cmb_bancos, #cmb_guiadespacho, #cmb_facturas {
+#cmb_centrodistribucion, #cmb_documento, #cmb_bancos, #cmb_guiadespacho, #cmb_facturas, #cmd_tipo_documento {
   width: 200px !important;
 }
 

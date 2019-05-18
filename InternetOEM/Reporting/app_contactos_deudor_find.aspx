@@ -23,6 +23,8 @@
 <body>
   <form id="form1" runat="server">
     <asp:ScriptManager ID="ScriptManager" runat="server"></asp:ScriptManager>
+    <asp:HiddenField ID="hdd_arrNkeyCliente" runat="server" />
+    <asp:HiddenField ID="hdd_cli_show" runat="server" />
     <nav class="navbar-inverse">
       <div class="container-fluid">
         <div class="navbar-header">
@@ -72,6 +74,20 @@
       <div class="blq_tile">
         <asp:Label ID="lblTitle" runat="server" CssClass="lblTitle" Text="CONTACTOS DEUDOR"></asp:Label>
       </div>
+      <div class="row">
+        <div id="colClientes" class="col-md-4" runat="server" visible="false">
+          <div><span>Clientes</span></div>
+          <div></div>
+          <asp:DropDownList ID="cmbCliente" CssClass="inputCmbBox" runat="server">
+          </asp:DropDownList>
+        </div>
+        <div id="colHolding" class="col-md-4" runat="server" visible="false">
+          <div><span>Holding</span></div>
+          <div></div>
+          <asp:DropDownList ID="cmbHolding" CssClass="inputCmbBox" runat="server">
+          </asp:DropDownList>
+        </div>
+      </div>
       <%--<div class="blq_search">
         <div><span>Analista</span></div>
         <div></div>
@@ -79,7 +95,7 @@
         <a id="btnAnalista" href="app_show_analistas.aspx" class="btnsearch"></a>
         <asp:HiddenField ID="hhdCodAnalista" runat="server" />
       </div>--%>
-      <div class="blq_search">
+      <div id="colDeudor" runat="server" class="blq_search" visible="false">
         <div><span>Deudor</span></div>
         <div></div>
         <telerik:RadTextBox ID="rdTxtDeudor" runat="server" CssClass="control-text-search" Enabled="false" Text=""></telerik:RadTextBox>
@@ -101,6 +117,12 @@
             TableLayout="Fixed" ShowHeadersWhenNoRecords="true" CommandItemDisplay="Top">
             <CommandItemSettings ShowExportToExcelButton="true" ShowRefreshButton="false" ShowAddNewRecordButton="false" />
             <Columns>
+              <telerik:GridBoundColumn DataField="ncodholding" HeaderText="Cod Holding"
+                UniqueName="ncodholding">
+                <HeaderStyle Font-Size="Smaller" HorizontalAlign="Center" />
+                <ItemStyle HorizontalAlign="Center" />
+              </telerik:GridBoundColumn>
+
               <telerik:GridBoundColumn DataField="ncodigo" HeaderText="Código"
                 UniqueName="ncodigo">
                 <HeaderStyle Font-Size="Smaller" HorizontalAlign="Center" />
@@ -143,49 +165,58 @@
       </div>
     </div>
     <script>
-      var x, y, a, b;
+      var x, y;
       $(document).ready(function () {
 
         /* Apply fancybox to multiple items */
 
-        $("#btnDeudores").fancybox({
-          'width': 600,
-          'height': 700,
-          'transitionIn': 'elastic',
-          'transitionOut': 'elastic',
-          'speedIn': 600,
-          'speedOut': 200,
-          'overlayShow': false,
-          'type': 'iframe',
-          'onCleanup': function () {
-            x = $("#fancybox-frame").contents().find("#hdd_razonsocial").val();
-            y = $("#fancybox-frame").contents().find("#hdd_coddeudor").val();
-          },
-          'onClosed': function () {
-            var text = $find("<%= rdTxtDeudor.ClientID %>");
-            text.set_value(x);
-            hddCodDeudor.value = y;
+        $("#idBuscar").click(function () {
+          if (($("#cmbCliente").val() == "") && ($("#cmbHolding").val() == "") && ($("#hddCodDeudor").val() == "")) {
+            alert("Debe seleccionar deudor, cliente o holding");
+            return false;
+          } else {
+            if (($("#cmbHolding").val() == "") && ($("#hddCodDeudor").val() == "")) {
+              alert("Debe seleccionar deudor para realizar la consulta.");
+              return false;
+            }
           }
         });
 
-        $("#btnAnalista").fancybox({
-          'width': 600,
-          'height': 700,
-          'transitionIn': 'elastic',
-          'transitionOut': 'elastic',
-          'speedIn': 600,
-          'speedOut': 200,
-          'overlayShow': false,
-          'type': 'iframe',
-          'onCleanup': function () {
-            a = $("#fancybox-frame").contents().find("#hdd_analista").val();
-            b = $("#fancybox-frame").contents().find("#hdd_codanalista").val();
-          },
-          'onClosed': function () {
-            var text = $find("rdTextAnalista.ClientID");
-            text.set_value(a);
-            hhdCodAnalista.value = b;
+        $("#btnDeudores").click(function () {
+          CodCliente = "";
+          if ($("#hdd_cli_show").val() == "V") {
+            if ($("#<%= cmbCliente.ClientID %>").val() != "")
+              CodCliente = $("#<%= cmbCliente.ClientID %>").val();
+            else
+            {
+              alert("Debe seleccionar cliente");
+              return false;
+            }
+              
           }
+
+          $.fancybox({
+            'width': 600,
+            'height': 700,
+            'transitionIn': 'elastic',
+            'transitionOut': 'elastic',
+            'speedIn': 600,
+            'speedOut': 200,
+            'overlayShow': false,
+            'href': 'app_show_deudores.aspx?ArrCodCliente=' + CodCliente,
+            'type': 'iframe',
+            'onCleanup': function () {
+              x = $("#fancybox-frame").contents().find("#hdd_razonsocial").val();
+              y = $("#fancybox-frame").contents().find("#hdd_coddeudor").val();
+            },
+            'onClosed': function () {
+              var text = $find("<%= rdTxtDeudor.ClientID %>");
+            text.set_value(x);
+            hddCodDeudor.value = y;
+            }
+          });
+          return false;
+
         });
 
       });

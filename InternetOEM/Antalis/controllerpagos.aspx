@@ -73,7 +73,7 @@
         </div>
       </div>
       <div class="row vAlign">
-        <div class="col-md-1">
+        <div class="col-md-3">
           <div class="md-form">
             <asp:TextBox ID="txt_num_valija" runat="server" CssClass="form-control"></asp:TextBox>
             <label for="txt_num_valija"># VALIJA</label>
@@ -85,16 +85,33 @@
             <label for="txt_cliente">CLIENTE</label>
           </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-3">
           <div class="md-form">
             <span for="cmb_centrodistribucion">CENTRO DE DISTRIBUCION:</span>
             <asp:DropDownList ID="cmb_centrodistribucion" CssClass="form-control" runat="server">
             </asp:DropDownList>
           </div>
         </div>
+        <div class="col-md-3">
+          <div class="md-form">
+            <span for="cmd_tipo_documento">TIPO DE DOCUMENTO:</span>
+            <asp:DropDownList ID="cmd_tipo_documento" CssClass="form-control" runat="server">
+              <asp:ListItem Text="<< Seleccione un opción >>"></asp:ListItem>
+              <asp:ListItem Text="Guia de despacho"></asp:ListItem>
+              <asp:ListItem Text="Factura"></asp:ListItem>
+              <asp:ListItem Text="Nota de crédito"></asp:ListItem>
+            </asp:DropDownList>
+          </div>
+        </div>
       </div>
       <div class="row vAlign">
-        <div class="col-md-2">
+        <div class="col-md-3">
+          <div class="md-form">
+            <asp:TextBox ID="txt_num_documento" runat="server" CssClass="form-control"></asp:TextBox>
+            <label for="txt_num_documento"># Documento</label>
+          </div>
+        </div>
+        <div class="col-md-3">
           <span for="fch_inicio">FECHA INICIO</span>
           <div class="input-append date" id="dp3" data-date="<%= DateTime.Now.ToString("dd-MM-yyyy")  %>" data-date-format="dd-mm-yyyy">
             <asp:TextBox ID="fch_inicio" runat="server" CssClass="form-control"></asp:TextBox>
@@ -102,7 +119,7 @@
             <asp:HiddenField ID="hdd_fch_inicio" runat="server" />
           </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-3">
           <span for="fch_hasta">FECHA FINAL</span>
           <div class="input-append date" id="dp4" data-date="<%= DateTime.Now.ToString("dd-MM-yyyy")  %>" data-date-format="dd-mm-yyyy">
             <asp:TextBox ID="fch_hasta" runat="server" CssClass="form-control"></asp:TextBox>
@@ -110,8 +127,8 @@
             <asp:HiddenField ID="hdd_fch_hasta" runat="server" />
           </div>
         </div>
-        <div class="col-md-6">
-          <span for="cmb_documento">MOTIVO DE PAGO: </span>
+        <div class="col-md-3">
+          <span for="cmb_documento">METODO DE PAGO: </span>
           <asp:DropDownList ID="cmb_documento" CssClass="form-control" runat="server">
             <asp:ListItem Text="<< Seleccione tipo de documento >>" Value=""></asp:ListItem>
           </asp:DropDownList>
@@ -136,7 +153,7 @@
               <asp:CommandField ButtonType="Link" ShowSelectButton="true" SelectText="Sele" ItemStyle-CssClass="BtnColEditar" ItemStyle-Width="1px" />
               <asp:BoundField HeaderText="# Valija" DataField="cod_pago" />
               <asp:BoundField HeaderText="Centro Distribución" DataField="cod_centrodist" />
-              <asp:BoundField HeaderText="Documento" DataField="cod_tipo_pago" />
+              <asp:BoundField HeaderText="Metodo de pago" DataField="cod_tipo_pago" />
               <asp:BoundField HeaderText="Fecha Recepción" DataField="fech_recepcion" />
             </Columns>
           </asp:GridView>

@@ -23,6 +23,7 @@
 <body>
   <form id="form1" runat="server">
     <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+    <asp:HiddenField ID="hdd_arrNkeyCliente" runat="server" />
     <div class="container">
       <div class="blq_tile">
         <asp:label ID="lblTitle" runat="server" CssClass="lblTitle" Text="DEUDORES"></asp:label>

@@ -16,16 +16,21 @@ namespace OnlineServices.Reporting
     private string lngCodDeudor;
     public string CodDeudor { get { return lngCodDeudor; } set { lngCodDeudor = value; } }
 
+    private string pNcodHolding;
+    public string NcodHolding { get { return pNcodHolding; } set { pNcodHolding = value; } }
+
     private string pError;
     public string Error { get { return pError; } set { pError = value; } }
 
     private DBConn oConn;
 
-    public cContactosDeudor() {
+    public cContactosDeudor()
+    {
 
     }
 
-    public cContactosDeudor(ref DBConn oConn) {
+    public cContactosDeudor(ref DBConn oConn)
+    {
       this.oConn = oConn;
     }
 
@@ -37,18 +42,40 @@ namespace OnlineServices.Reporting
       if (oConn.bIsOpen)
       {
         StringBuilder cSQL = new StringBuilder();
-        cSQL.Append("Select ltrim(rtrim(contactosdeudor.ncodigo)) as 'ncodigo', ltrim(rtrim(contactosdeudor.snombre)) as 'snombre', ltrim(rtrim(contactosdeudor.scargo)) as 'scargo', ltrim(rtrim(contactosdeudor.stelefono)) as 'stelefono', ltrim(rtrim(contactosdeudor.semail)) as 'semail', ltrim(rtrim(contactosdeudor.funcion)) as 'funcion'   ");
-        cSQL.Append(" from contactosdeudor ");
+        cSQL.Append("select ");
 
-        if (!string.IsNullOrEmpty(lngCodDeudor))
+        if (!string.IsNullOrEmpty(pNcodHolding))
         {
-          cSQL.Append(Condicion);
-          Condicion = " and ";
-          cSQL.Append(" contactosdeudor.nKey_Deudor=").Append(lngCodDeudor);
+          cSQL.Append(" cliente.ncodholding, ltrim(rtrim(contactosdeudor.ncodigo)) as 'ncodigo',  ");
+        }
+        else
+        {
+          if (string.IsNullOrEmpty(lngCodDeudor))
+          {
+            cSQL.Append(" ltrim(rtrim(contactosdeudor.ncodigo)) as 'ncodigo', ");
+          }
         }
 
-        cSQL.Append(Condicion);
-        cSQL.Append("  contactosdeudor.nKey_cliente = ").Append(lngCodNkey);
+        cSQL.Append(" ltrim(rtrim(contactosdeudor.snombre)) as 'snombre', ltrim(rtrim(contactosdeudor.scargo)) as 'scargo', ltrim(rtrim(contactosdeudor.stelefono)) as 'stelefono', ltrim(rtrim(contactosdeudor.semail)) as 'semail', ltrim(rtrim(contactosdeudor.funcion)) as 'funcion'   ");
+        cSQL.Append(" from contactosdeudor ");
+
+        if (!string.IsNullOrEmpty(pNcodHolding))
+        {
+          cSQL.Append(" join cliente on (cliente.nkey_cliente = contactosdeudor.nKey_Cliente ) ");
+          cSQL.Append(" where cliente.ncodholding = ").Append(pNcodHolding);
+          cSQL.Append(" and cliente.bCuentaCorriente <> 0 ");
+        }
+        else
+        {
+          if (!string.IsNullOrEmpty(lngCodDeudor))
+          {
+            cSQL.Append(" where contactosdeudor.nkey_deudor = ").Append(lngCodDeudor);
+          }
+          else
+          {
+            cSQL.Append(" where contactosdeudor.nkey_cliente in (").Append(lngCodNkey).Append(") ");
+          }
+        }
         cSQL.Append("  and activo = 'S' order by  contactosdeudor.ncodigo ");
 
         dtData = oConn.Select(cSQL.ToString());

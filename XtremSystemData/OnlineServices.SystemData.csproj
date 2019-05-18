@@ -65,6 +65,7 @@
     <Compile Include="SyrPerfilesUsuarios.cs" />
     <Compile Include="SysArchivosUsuarios.cs" />
     <Compile Include="SysCampoUsuarios.cs" />
+    <Compile Include="SysClienteUsuario.cs" />
     <Compile Include="SysComentarioUsuario.cs" />
     <Compile Include="SysEmailToUser.cs" />
     <Compile Include="SysGrupos.cs" />

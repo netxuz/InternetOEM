@@ -31,6 +31,9 @@ namespace OnlineServices.Reporting
     private string pMesIni;
     public string MesIni { get { return pMesIni; } set { pMesIni = value; } }
 
+    private string pNcodHolding;
+    public string NcodHolding { get { return pNcodHolding; } set { pNcodHolding = value; } }
+
     private string pError;
     public string Error { get { return pError; } set { pError = value; } }
 
@@ -68,7 +71,27 @@ namespace OnlineServices.Reporting
           cSQL.Append(" sum(tablafinalindicadorweb.dso) as 'DSO', ");
           cSQL.Append(" sum(tablafinalindicadorweb.deuda_mas_30) as 'deuda_mas_30'  ");
           cSQL.Append(" From tablafinalindicadorweb ");
-          cSQL.Append(" where tablafinalindicadorweb.nkey_cliente =").Append(lngCodNkey);
+          cSQL.Append(" where tablafinalindicadorweb.nkey_cliente in(").Append(lngCodNkey).Append(") ");
+          cSQL.Append(" and  tablafinalindicadorweb.tipoConsulta = 'Cliente' ");
+          cSQL.Append(" group by tablafinalindicadorweb.periodo ");
+          cSQL.Append(" order by tablafinalindicadorweb.periodo desc ");
+        }
+        else if (pEstado == "11")
+        {
+          cSQL.Append("Select  tablafinalindicadorweb.periodo as 'periodo', ");
+          cSQL.Append(" sum(tablafinalindicadorweb.deuda) as 'Deuda', ");
+          cSQL.Append(" sum(tablafinalindicadorweb.Vencido) as 'Vencido', ");
+          cSQL.Append(" sum(tablafinalindicadorweb.facturado) as 'Facturado', ");
+          cSQL.Append(" sum(tablafinalindicadorweb.cobrado) as 'Cobrado', ");
+          cSQL.Append(" sum(tablafinalindicadorweb.atraso) as 'Atraso', ");
+          cSQL.Append(" sum(isnull(tablafinalindicadorweb.NC,0)) as 'NC', ");
+          cSQL.Append(" sum(tablafinalindicadorweb.FP) as 'FP', ");
+          cSQL.Append(" sum(tablafinalindicadorweb.Ficticio) as 'Ficticio', ");
+          cSQL.Append(" sum(tablafinalindicadorweb.dso) as 'DSO', ");
+          cSQL.Append(" sum(tablafinalindicadorweb.deuda_mas_30) as 'deuda_mas_30'  ");
+          cSQL.Append(" From tablafinalindicadorweb ");
+          cSQL.Append(" join cliente on (cliente.nkey_cliente = tablafinalindicadorweb.nKey_Cliente ) ");
+          cSQL.Append(" where cliente.ncodholding  = ").Append(pNcodHolding);
           cSQL.Append(" and  tablafinalindicadorweb.tipoConsulta = 'Cliente' ");
           cSQL.Append(" group by tablafinalindicadorweb.periodo ");
           cSQL.Append(" order by tablafinalindicadorweb.periodo desc ");
@@ -90,7 +113,7 @@ namespace OnlineServices.Reporting
           cSQL.Append(" From tablafinalindicadorweb ");
           cSQL.Append(" JOIN Vendedor ");
           cSQL.Append(" On (Vendedor.nkey_vendedor=").Append(lngCodDeudor).Append(") ");
-          cSQL.Append(" where tablafinalindicadorweb.nkey_cliente =").Append(lngCodNkey);
+          cSQL.Append(" where tablafinalindicadorweb.nkey_cliente in(").Append(lngCodNkey).Append(") ");
           cSQL.Append(" and tablafinalindicadorweb.nkey_vendedor =").Append(lngCodDeudor);
           cSQL.Append(" and tablafinalindicadorweb.tipoConsulta = 'Vendedor' ");
           cSQL.Append(" group by tablafinalindicadorweb.periodo, Vendedor.snombre ");
@@ -112,7 +135,7 @@ namespace OnlineServices.Reporting
           cSQL.Append(" analista.snombre as 'NomAnalista' ");
           cSQL.Append(" From tablafinalindicadorweb ");
           cSQL.Append(" JOIN Analista On (Analista.nkey_analista = ").Append(lngCodDeudor).Append(") ");
-          cSQL.Append(" where tablafinalindicadorweb.nkey_cliente = ").Append(lngCodNkey);
+          cSQL.Append(" where tablafinalindicadorweb.nkey_cliente in(").Append(lngCodNkey).Append(") ");
           cSQL.Append(" and tablafinalindicadorweb.nkey_analista = ").Append(lngCodDeudor);
           cSQL.Append(" and  tablafinalindicadorweb.tipoConsulta = 'Analista' ");
           cSQL.Append(" group by tablafinalindicadorweb.periodo, analista.snombre ");
@@ -135,7 +158,7 @@ namespace OnlineServices.Reporting
           cSQL.Append(" From tablafinalindicadorweb ");
           cSQL.Append(" Join deudor ");
           cSQL.Append(" On (deudor.nkey_deudor =").Append(lngCodDeudor).Append(") ");
-          cSQL.Append(" where tablafinalindicadorweb.nkey_cliente = ").Append(lngCodNkey);
+          cSQL.Append(" where tablafinalindicadorweb.nkey_cliente in(").Append(lngCodNkey).Append(") ");
           cSQL.Append(" and tablafinalindicadorweb.nkey_deudor = ").Append(lngCodDeudor);
           cSQL.Append(" and tablafinalindicadorweb.tipoConsulta = 'Deudor' ");
           cSQL.Append(" group by tablafinalindicadorweb.periodo, Deudor.snombre ");
@@ -157,7 +180,7 @@ namespace OnlineServices.Reporting
           cSQL.Append(" isnull(rubros.srubro,'Sin Rubro') as 'Rubro' ");
           cSQL.Append(" From tablafinalindicadorweb ");
           cSQL.Append(" left JOIN rubros On (rubros.nKey_Rubros = ").Append(lngCodDeudor).Append(") ");
-          cSQL.Append(" where tablafinalindicadorweb.nkey_cliente = ").Append(lngCodNkey);
+          cSQL.Append(" where tablafinalindicadorweb.nkey_cliente in(").Append(lngCodNkey).Append(") ");
           cSQL.Append(" and rubros.nkey_rubros = tablafinalindicadorweb.nkey_vendedor ");
           cSQL.Append(" and  tablafinalindicadorweb.tipoConsulta = 'Rubros' ");
           cSQL.Append(" group by tablafinalindicadorweb.periodo, rubros.srubro ");
@@ -179,7 +202,7 @@ namespace OnlineServices.Reporting
           cSQL.Append(" isnull(rubros.srubro,'Sin Canal')  as 'Rubro' ");
           cSQL.Append(" From tablafinalindicadorweb ");
           cSQL.Append(" left JOIN rubros On (rubros.nkey_rubros = ").Append(lngCodDeudor).Append(") ");
-          cSQL.Append(" where tablafinalindicadorweb.nkey_cliente = ").Append(lngCodNkey);
+          cSQL.Append(" where tablafinalindicadorweb.nkey_cliente in(").Append(lngCodNkey).Append(") ");
           cSQL.Append(" and rubros.nkey_rubros = tablafinalindicadorweb.nkey_vendedor ");
           cSQL.Append(" and  tablafinalindicadorweb.tipoConsulta = 'Canal' ");
           cSQL.Append(" group by tablafinalindicadorweb.periodo, rubros.srubro ");
@@ -215,7 +238,7 @@ namespace OnlineServices.Reporting
           cSQL.Append(" On (deudor.nkey_deudor = tablafinalindicadorweb.nkey_deudor) ");
           cSQL.Append(" Join Codigodeudor ");
           cSQL.Append(" On (Codigodeudor.nkey_deudor = deudor.nkey_deudor and codigodeudor.nkey_cliente = tablafinalindicadorweb.nkey_cliente) ");
-          cSQL.Append(" where tablafinalindicadorweb.nkey_cliente = ").Append(lngCodNkey);
+          cSQL.Append(" where tablafinalindicadorweb.nkey_cliente in(").Append(lngCodNkey).Append(") ");
           cSQL.Append(" and  tablafinalindicadorweb.tipoConsulta = 'Deudor' ");
           cSQL.Append(" and tablafinalindicadorweb.ano =").Append(pAnoIni);
           cSQL.Append(" and tablafinalindicadorweb.mes =").Append(pMesIni);
@@ -268,7 +291,7 @@ namespace OnlineServices.Reporting
           cSQL.Append(" isnull(rubros.srubro, 'Sin Rubro') as 'Rubro' ");
           cSQL.Append(" From tablafinalindicadorweb ");
           cSQL.Append(" left JOIN rubros On (rubros.nkey_rubros = tablafinalindicadorweb.nkey_vendedor ) ");
-          cSQL.Append(" where tablafinalindicadorweb.nkey_cliente = ").Append(lngCodNkey);
+          cSQL.Append(" where tablafinalindicadorweb.nkey_cliente in(").Append(lngCodNkey).Append(") ");
           cSQL.Append(" and  tablafinalindicadorweb.tipoConsulta = 'Rubros' ");
           cSQL.Append(" and tablafinalindicadorweb.ano = ").Append(pAnoIni);
           cSQL.Append(" and tablafinalindicadorweb.mes = ").Append(pMesIni);
@@ -320,7 +343,7 @@ namespace OnlineServices.Reporting
           cSQL.Append(" From tablafinalindicadorweb ");
           cSQL.Append(" JOIN Vendedor ");
           cSQL.Append(" On (Vendedor.nkey_vendedor= tablafinalindicadorweb.nkey_vendedor ) ");
-          cSQL.Append(" where tablafinalindicadorweb.nkey_cliente = ").Append(lngCodNkey);
+          cSQL.Append(" where tablafinalindicadorweb.nkey_cliente in(").Append(lngCodNkey).Append(") ");
           cSQL.Append(" and tablafinalindicadorweb.tipoConsulta = 'Vendedor' ");
           cSQL.Append(" and tablafinalindicadorweb.ano = ").Append(pAnoIni);
           cSQL.Append(" and tablafinalindicadorweb.mes = ").Append(pMesIni);
@@ -371,7 +394,7 @@ namespace OnlineServices.Reporting
           cSQL.Append(" analista.snombre as 'NomAnalista' ");
           cSQL.Append(" From tablafinalindicadorweb ");
           cSQL.Append(" JOIN Analista On (Analista.nkey_analista = tablafinalindicadorweb.nkey_analista ) ");
-          cSQL.Append(" where tablafinalindicadorweb.nkey_cliente = ").Append(lngCodNkey);
+          cSQL.Append(" where tablafinalindicadorweb.nkey_cliente in (").Append(lngCodNkey).Append(") ");
           cSQL.Append(" and  tablafinalindicadorweb.tipoConsulta = 'Analista' ");
           cSQL.Append(" and tablafinalindicadorweb.ano = ").Append(pAnoIni);
           cSQL.Append(" and tablafinalindicadorweb.mes = ").Append(pMesIni);
@@ -423,7 +446,7 @@ namespace OnlineServices.Reporting
           cSQL.Append(" isnull(rubros.srubro,'Sin Canal') as 'Rubro' ");
           cSQL.Append(" From tablafinalindicadorweb ");
           cSQL.Append(" left JOIN rubros On (rubros.nkey_rubros = tablafinalindicadorweb.nkey_vendedor ) ");
-          cSQL.Append(" where tablafinalindicadorweb.nkey_cliente =").Append(lngCodNkey);
+          cSQL.Append(" where tablafinalindicadorweb.nkey_cliente in(").Append(lngCodNkey).Append(") ");
           cSQL.Append(" and  tablafinalindicadorweb.tipoConsulta = 'Canal' ");
           cSQL.Append(" and tablafinalindicadorweb.ano = ").Append(pAnoIni);
           cSQL.Append(" and tablafinalindicadorweb.mes = ").Append(pMesIni);

@@ -18,6 +18,9 @@
 <body>
   <form id="form1" runat="server">
     <asp:ScriptManager ID="ScriptManager" runat="server"></asp:ScriptManager>
+    <asp:HiddenField ID="hdd_arrNkeyCliente" runat="server" />
+    <asp:HiddenField ID="hdd_cli_show" runat="server" />
+    <asp:HiddenField ID="hdd_show_holding" runat="server" />
     <nav class="navbar-inverse">
       <div class="container-fluid">
         <div class="navbar-header">
@@ -67,7 +70,21 @@
       <div class="blq_tile">
         <asp:Label ID="lblTitle" runat="server" CssClass="lblTitle" Text="DETALLE ENTREGA DOCUMENTOS"></asp:Label>
       </div>
-      <div class="blq_date">
+      <div class="row">
+        <div id="colClientes" class="col-md-4" runat="server" visible="false">
+          <div><span>Clientes</span></div>
+          <div></div>
+          <asp:DropDownList ID="cmbCliente" CssClass="inputCmbBox" runat="server">
+          </asp:DropDownList>
+        </div>
+        <div id="colHolding" class="col-md-4" runat="server" visible="false">
+          <div><span>Holding</span></div>
+          <div></div>
+          <asp:DropDownList ID="cmbHolding" CssClass="inputCmbBox" runat="server">
+          </asp:DropDownList>
+        </div>
+      </div>
+      <%--<div class="blq_date">
         <div><span>Fecha Inicio</span></div>
         <div>
           <telerik:RadDatePicker ID="RadDatePicker1" runat="server" AutoPostBack="true"
@@ -92,13 +109,14 @@
             </Calendar>
           </telerik:RadDatePicker>
         </div>
-      </div>
+      </div>--%>
       <div class="blq_btn_search">
         <div>
           <asp:Button ID="idBuscar" runat="server" Text="Buscar" CssClass="btn btn-lg btn-primary btn-block" Width="100px" OnClick="idBuscar_Click" />
         </div>
       </div>
       <div id="idGrilla" runat="server" visible="false">
+        <asp:Label ID="lblmoneda" runat="server" CssClass="lblmoneda"></asp:Label>
         <telerik:RadGrid ID="rdGridDetEntreDoc" runat="server" OnNeedDataSource="rdGridDetEntreDoc_NeedDataSource" OnItemDataBound="rdGridDetEntreDoc_ItemDataBound" OnItemCommand="rdGridDetEntreDoc_ItemCommand"
           AllowPaging="true" AllowSorting="true" ShowStatusBar="true" PageSize="10" GridLines="None" AllowAutomaticUpdates="true" AllowAutomaticInserts="true" AllowAutomaticDeletes="true" Skin="Sitefinity">
           <ExportSettings HideStructureColumns="true"></ExportSettings>
@@ -107,14 +125,20 @@
             TableLayout="Fixed" ShowHeadersWhenNoRecords="true" CommandItemDisplay="Top">
             <CommandItemSettings ShowExportToExcelButton="true" ShowRefreshButton="false" ShowAddNewRecordButton="false" />
             <Columns>
-              <telerik:GridBoundColumn DataField="RUT" HeaderText="RUT"
-                UniqueName="RUT">
+              <telerik:GridBoundColumn DataField="ncodholding" HeaderText="Cod. Sociedad"
+                UniqueName="ncodholding">
                 <HeaderStyle Font-Size="Smaller" HorizontalAlign="Center" />
                 <ItemStyle HorizontalAlign="Center" />
               </telerik:GridBoundColumn>
 
-              <telerik:GridBoundColumn DataField="Deudor" HeaderText="Deudor"
+              <telerik:GridBoundColumn DataField="NomDeu" HeaderText="Deudor"
                 UniqueName="NomDeu">
+                <HeaderStyle Font-Size="Smaller" HorizontalAlign="Center" />
+                <ItemStyle HorizontalAlign="Left" />
+              </telerik:GridBoundColumn>
+
+              <telerik:GridBoundColumn DataField="snombre" HeaderText="Razón Social"
+                UniqueName="snombre">
                 <HeaderStyle Font-Size="Smaller" HorizontalAlign="Center" />
                 <ItemStyle HorizontalAlign="Left" />
               </telerik:GridBoundColumn>
@@ -130,7 +154,7 @@
                 <HeaderStyle Font-Size="Smaller" HorizontalAlign="Center" />
                 <ItemStyle HorizontalAlign="Center" />
               </telerik:GridBoundColumn>
-
+              <%-- Monto --%>
               <telerik:GridBoundColumn DataField="Monto" HeaderText="Monto"
                 UniqueName="Monto">
                 <HeaderStyle Font-Size="Smaller" HorizontalAlign="Center" />
@@ -195,5 +219,27 @@
       </div>
     </div>
   </form>
+  <script>
+      var x, y;
+      $(document).ready(function () {
+
+        /* Apply fancybox to multiple items */
+
+        $("#idBuscar").click(function () {
+          if ($("#<%= hdd_show_holding.ClientID %>").val() == "T") {
+            if (($("#cmbCliente").val() == "") && ($("#cmbHolding").val() == "")) {
+              alert("Debe seleccionar cliente o holding");
+              return false;
+            }
+          } else {
+            if ($("#cmbCliente").val() == ""){
+              alert("Debe seleccionar cliente");
+              return false;
+            }
+          }
+        });
+
+      });
+    </script>
 </body>
 </html>

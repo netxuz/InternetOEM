@@ -281,16 +281,16 @@ namespace OnlineServices.Web.UI
           if (string.IsNullOrEmpty(sCodContenido))
           {
             if (!bIsMobil)
-              oRow = oNodos.Select(" ini_nodo = 'V' ");
+              oRow = oNodos.Select(" ini_nodo <> 'N' ");
             else
-              oRow = oNodos.Select(" ini_nodo_phone = 'V' ");
+              oRow = oNodos.Select(" ini_nodo_phone <> 'N' ");
             if (oRow != null)
               if (oRow.Count() > 0)
                 iCodNodo = oRow[0]["cod_nodo"].ToString();
           }
           else
           {
-            oRow = oNodos.Select(" cont_nodo = 'V' ");
+            oRow = oNodos.Select(" cod_nodo =" + sCodContenido);
             if (oRow != null)
               if (oRow.Count() > 0)
                 iCodNodo = oRow[0]["cod_nodo"].ToString();
@@ -634,7 +634,7 @@ namespace OnlineServices.Web.UI
       ClientScriptManager cs = Page.ClientScript;
 
       StringBuilder cUrl = new StringBuilder();
-      cUrl.Append("<script src=\"https://maps.google.com/maps/api/js?key=AIzaSyAgheP_tj8dJD0-VwX_nGca0-9L-I10HxA\"></script>");
+      cUrl.Append("<script src=\"https://maps.google.com/maps/api/js?key=AIzaSyD09fCWb7NoSRcK7-nLnrTYQvLl5_JS7X4\"></script>");
       Page.Form.Controls.Add(new LiteralControl(cUrl.ToString()));
 
       cUrl = new StringBuilder();
@@ -648,6 +648,20 @@ namespace OnlineServices.Web.UI
       cUrl = new StringBuilder();
       cUrl.Append("<script src=\"js/tm-scripts.js\"></script>");
       Page.Form.Controls.Add(new LiteralControl(cUrl.ToString()));
+
+      if ((Application["CampanaLinkeind"] != null) && (!string.IsNullOrEmpty(Application["CampanaLinkeind"].ToString()))) {
+        cUrl = new StringBuilder();
+        cUrl.Append("<script src=\"").Append(Application["CampanaLinkeind"].ToString()).Append("\"></script>");
+        Page.Form.Controls.Add(new LiteralControl(cUrl.ToString()));
+      }
+
+      if ((Application["CampanaGoogle"] != null) && (!string.IsNullOrEmpty(Application["CampanaGoogle"].ToString())))
+      {
+        cUrl = new StringBuilder();
+        cUrl.Append("<script src=\"").Append(Application["CampanaGoogle"].ToString()).Append("\"></script>");
+        Page.Form.Controls.Add(new LiteralControl(cUrl.ToString()));
+      }
+
 
     }
 

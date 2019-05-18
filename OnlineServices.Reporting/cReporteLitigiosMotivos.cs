@@ -22,6 +22,9 @@ namespace OnlineServices.Reporting
     private string lngNkeyUsuario;
     public string NkeyUsuario { get { return lngNkeyUsuario; } set { lngNkeyUsuario = value; } }
 
+    private string pNcodHolding;
+    public string NcodHolding { get { return pNcodHolding; } set { pNcodHolding = value; } }
+
     private string pDtFchIni;
     public string DtFchIni { get { return pDtFchIni; } set { pDtFchIni = value; } }
 
@@ -48,19 +51,25 @@ namespace OnlineServices.Reporting
       if (oConn.bIsOpen)
       {
         StringBuilder cSQL = new StringBuilder();
-        cSQL.Append("select count(nmontolitigio) as cantidad, sum(nmontolitigio) as monto, sdescripcion  from litigio ");
-        cSQL.Append(" where nkey_cliente = ").Append(lngCodNkey);
+        cSQL.Append("select count(litigio.nmontolitigio) as cantidad, sum(litigio.nmontolitigio) as monto, sdescripcion  from litigio, cliente ");
+        cSQL.Append(" where cliente.nkey_cliente = litigio.nkey_cliente");
+
+        if (string.IsNullOrEmpty(pNcodHolding))
+          cSQL.Append(" and cliente.nkey_cliente in(").Append(lngCodNkey).Append(") ");
+        else
+          cSQL.Append(" and cliente.ncodholding = ").Append(pNcodHolding);
+
         if (!string.IsNullOrEmpty(lngCodDeudor))
-          cSQL.Append(" and nkey_deudor =").Append(lngCodDeudor);
+          cSQL.Append(" and litigio.nkey_deudor =").Append(lngCodDeudor);
 
         if ((!string.IsNullOrEmpty(sTipoUsuario)) && (sTipoUsuario == "D"))
-          cSQL.Append("  and nkey_deudor = ").Append(lngNkeyUsuario);
+          cSQL.Append("  and litigio.nkey_deudor = ").Append(lngNkeyUsuario);
 
         if ((!string.IsNullOrEmpty(sTipoUsuario)) && (sTipoUsuario == "V"))
-          cSQL.Append("  and nkey_deudor  in (select nkey_deudor from codigodeudor where nkey_cliente = ").Append(lngCodNkey).Append(" and nkey_vendedor = ").Append(lngNkeyUsuario).Append(") ");
+          cSQL.Append("  and litigio.nkey_deudor  in (select nkey_deudor from codigodeudor where nkey_cliente in(").Append(lngCodNkey).Append(") and nkey_vendedor = ").Append(lngNkeyUsuario).Append(") ");
 
-        cSQL.Append(" and dfechaingreso between convert(datetime,'").Append(pDtFchIni).Append("') and convert(datetime,'").Append(pDtFchFin).Append("') ");
-        cSQL.Append(" group by sdescripcion ");
+        cSQL.Append(" and litigio.dFechaIngreso between convert(datetime,'").Append(pDtFchIni).Append("') and convert(datetime,'").Append(pDtFchFin).Append("') ");
+        cSQL.Append(" group by litigio.sdescripcion ");
 
         dtData = oConn.Select(cSQL.ToString());
         pError = oConn.Error;

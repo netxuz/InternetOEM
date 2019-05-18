@@ -55,6 +55,9 @@ namespace OnlineServices.Method
     private string pNKeyUsuario = string.Empty;
     public string NKeyUsuario { get { return pNKeyUsuario; } set { pNKeyUsuario = value; } }
 
+    private string pArrCodNkey = string.Empty;
+    public string ArrCodNkey { get { return pArrCodNkey; } set { pArrCodNkey = value; } }
+
     public Usuario()
     {
 

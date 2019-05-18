@@ -31,6 +31,15 @@ namespace ICommunity.Reporting {
         protected global::System.Web.UI.ScriptManager ScriptManager1;
         
         /// <summary>
+        /// hdd_arrNkeyCliente control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdd_arrNkeyCliente;
+        
+        /// <summary>
         /// lblTitle control.
         /// </summary>
         /// <remarks>

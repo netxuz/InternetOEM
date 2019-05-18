@@ -23,6 +23,8 @@
 <body>
   <form id="form1" runat="server">
     <asp:ScriptManager ID="ScriptManager" runat="server"></asp:ScriptManager>
+    <asp:HiddenField ID="hdd_arrNkeyCliente" runat="server" />
+    <asp:HiddenField ID="hdd_cli_show" runat="server" />
     <nav class="navbar-inverse">
       <div class="container-fluid">
         <div class="navbar-header">
@@ -72,6 +74,23 @@
       <div class="blq_tile">
         <asp:Label ID="lblTitle" runat="server" CssClass="lblTitle" Text="CONTROL METAS vs REAL"></asp:Label>
       </div>
+      <div class="row">
+        <div id="colClientes" class="col-md-4" runat="server" visible="false">
+          <div><span>Clientes</span></div>
+          <div></div>
+          <asp:DropDownList ID="cmbCliente" CssClass="inputCmbBox" runat="server">
+          </asp:DropDownList>
+        </div>
+        <div id="colHolding" class="col-md-4" runat="server" visible="false">
+          <div><span>Holding</span></div>
+          <div></div>
+          <asp:DropDownList ID="cmbHolding" CssClass="inputCmbBox" runat="server">
+          </asp:DropDownList>
+          <div class="lblerror">
+            <asp:Label ID="lblError2" runat="server" Text=""></asp:Label>
+          </div>
+        </div>
+      </div>
       <div class="blq_search">
         <div><span>Seleccione Analista</span></div>
         <div></div>
@@ -102,6 +121,7 @@
           <asp:ListItem Text="Cliente" Value="0" Selected="True"></asp:ListItem>
           <asp:ListItem Text="Analista" Value="1"></asp:ListItem>
           <asp:ListItem Text="Resumen cliente" Value="2"></asp:ListItem>
+          <asp:ListItem Text="Holding" Value="3"></asp:ListItem>
         </asp:RadioButtonList>
       </div>
       <div class="blq_btn_search">
@@ -333,15 +353,24 @@
         </telerik:RadGrid>
 
       </div>
-      <div style="height:30px;">
-        <br /><br />
+      <div style="height: 30px;">
+        <br />
+        <br />
       </div>
     </div>
     <script>
       var x, y;
       var objLbl = document.getElementById('<%= lblError.ClientID %>');
+      var objLb2 = document.getElementById('<%= lblError2.ClientID %>');
       $(document).ready(function () {
-        lblError.innerHTML = "";
+        objLbl.innerHTML = "";
+
+        $("#idBuscar").click(function () {
+          if ($("#cmbCliente").val() == "") {
+            alert("Debe seleccionar cliente");
+            return false;
+          }
+        });
 
         /* Apply fancybox to multiple items */
         $("#btnDeudores").fancybox({
@@ -356,13 +385,13 @@
           'onCleanup': function () {
             x = $("#fancybox-frame").contents().find("#hdd_razonsocial").val();
             y = $("#fancybox-frame").contents().find("#hdd_coddeudor").val();
-            lblError.innerHTML = "";
+            objLbl.innerHTML = "";
           },
           'onClosed': function () {
             var text = $find("<%= rdTxtDeudor.ClientID %>");
             text.set_value(x);
             hddCodDeudor.value = y;
-            lblError.innerHTML = "";
+            objLbl.innerHTML = "";
           }
         });
 
@@ -381,15 +410,19 @@
         var rdBtnValor = $('#<%=rdBtnTypeQuery.ClientID %> input[type=radio]:checked').val();
         var objTxtDeudor = $find("<%= rdTxtDeudor.ClientID %>");
 
-        if ((rdBtnValor != "0")&&(rdBtnValor != "2")) {
+        if ((rdBtnValor != "0") && (rdBtnValor != "2") && (rdBtnValor != "3")) {
           if (objTxtDeudor.get_value() == "") {
             objLbl.innerHTML = "* Debe seleccionar un analista para la consulta.";
             breturn = false;
           }
         } else {
-          objTxtDeudor.set_value('');
-          hddCodDeudor.value = "";
-
+          if ((rdBtnValor == "3") && ($("#cmbHolding").val() == "")) {
+            objLb2.innerHTML = "* Debe seleccionar holding para la consulta.";
+            breturn = false;
+          } else {
+            objTxtDeudor.set_value('');
+            hddCodDeudor.value = "";
+          }
         }
 
         return breturn;

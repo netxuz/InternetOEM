@@ -26,6 +26,8 @@
     <asp:ScriptManager ID="ScriptManager" runat="server"></asp:ScriptManager>
     <asp:HiddenField ID="hddCodRubro" runat="server" />
     <asp:HiddenField ID="hddCodDeudor" runat="server" />
+    <asp:HiddenField ID="hdd_arrNkeyCliente" runat="server" />
+    <asp:HiddenField ID="hdd_cli_show" runat="server" />
     <nav class="navbar-inverse">
       <div class="container-fluid">
         <div class="navbar-header">
@@ -75,7 +77,23 @@
       <div class="blq_tile">
         <asp:Label ID="lblTitle" runat="server" CssClass="lblTitle" Text="INDICADORES DE EFECTIVIDAD"></asp:Label>
       </div>
-
+      <div class="row">
+        <div id="colClientes" class="col-md-4" runat="server" visible="false">
+          <div><span>Clientes</span></div>
+          <div></div>
+          <asp:DropDownList ID="cmbCliente" CssClass="inputCmbBox" runat="server">
+          </asp:DropDownList>
+        </div>
+        <div id="colHolding" class="col-md-4" runat="server" visible="false">
+          <div><span>Holding</span></div>
+          <div></div>
+          <asp:DropDownList ID="cmbHolding" CssClass="inputCmbBox" runat="server">
+          </asp:DropDownList>
+          <div class="lblerror">
+            <asp:Label ID="lblError2" runat="server" Text=""></asp:Label>
+          </div>
+        </div>
+      </div>
       <div id="blqDeudor" runat="server">
         <div><span>Deudor</span></div>
         <div></div>
@@ -96,6 +114,7 @@
           <asp:ListItem Text="Deudor" Value="3"></asp:ListItem>
           <asp:ListItem Text="Rubro" Value="4"></asp:ListItem>
           <asp:ListItem Text="Canal" Value="5"></asp:ListItem>
+          <asp:ListItem Text="Holding" Value="11"></asp:ListItem>
         </asp:RadioButtonList>
       </div>
       <div>
@@ -158,7 +177,8 @@
         </div>
       </div>
       <div id="idGrilla" runat="server" visible="false">
-        <telerik:RadGrid ID="rdGridIndicadoresEfectividad" runat="server" OnNeedDataSource="rdGridIndicadoresEfectividad_NeedDataSource" OnItemCommand="rdGridIndicadoresEfectividad_ItemCommand" OnPreRender="rdGridIndicadoresEfectividad_PreRender"
+        <asp:Label ID="lblmoneda" runat="server" CssClass="lblmoneda"></asp:Label>
+        <telerik:RadGrid ID="rdGridIndicadoresEfectividad" runat="server" OnNeedDataSource="rdGridIndicadoresEfectividad_NeedDataSource" OnItemCommand="rdGridIndicadoresEfectividad_ItemCommand" OnPreRender="rdGridIndicadoresEfectividad_PreRender" OnItemDataBound="rdGridIndicadoresEfectividad_ItemDataBound"
           AllowPaging="true" AllowSorting="true" ShowStatusBar="true" PageSize="10" GridLines="None" AllowAutomaticUpdates="true" AllowAutomaticInserts="true" AllowAutomaticDeletes="true" Skin="Sitefinity">
           <ExportSettings HideStructureColumns="true"></ExportSettings>
           <PagerStyle Mode="NextPrevAndNumeric" />
@@ -207,68 +227,68 @@
                 <HeaderStyle Font-Size="Smaller" HorizontalAlign="Center" />
                 <ItemStyle HorizontalAlign="Center" />
               </telerik:GridBoundColumn>
-
-              <telerik:GridBoundColumn DataField="DSO" HeaderText="DSO días" DataFormatString="{0:N0}"
+              <%-- DataFormatString="{0:N0}" --%>
+              <telerik:GridBoundColumn DataField="DSO" HeaderText="DSO días" 
                 UniqueName="DSO">
                 <HeaderStyle Font-Size="Smaller" HorizontalAlign="Center" />
                 <ItemStyle HorizontalAlign="Right" />
               </telerik:GridBoundColumn>
-
+              <%--  --%>
               <telerik:GridBoundColumn DataField="Overdue" HeaderText="Overdue %" DataFormatString="{0:N0}"
                 UniqueName="Overdue">
                 <HeaderStyle Font-Size="Smaller" HorizontalAlign="Center" />
                 <ItemStyle HorizontalAlign="Right" />
               </telerik:GridBoundColumn>
-
+              <%--  --%>
               <telerik:GridBoundColumn DataField="OverdueCritico" HeaderText="Overdue Critico %" DataFormatString="{0:N0}"
                 UniqueName="OverdueCritico">
                 <HeaderStyle Font-Size="Smaller" HorizontalAlign="Center" />
                 <ItemStyle HorizontalAlign="Right" />
               </telerik:GridBoundColumn>
-
+              <%--  --%>
               <telerik:GridBoundColumn DataField="VencidoFacturado" HeaderText="Vencido / Facturado %" DataFormatString="{0:N0}"
                 UniqueName="VencidoFacturado">
                 <HeaderStyle Font-Size="Smaller" HorizontalAlign="Center" />
                 <ItemStyle HorizontalAlign="Right" />
               </telerik:GridBoundColumn>
-
-              <telerik:GridBoundColumn DataField="Cobrado" HeaderText="Recaudado $" DataFormatString="{0:N0}"
+              <%-- DataFormatString="{0:N0}" --%>
+              <telerik:GridBoundColumn DataField="Cobrado" HeaderText="Recaudado $" 
                 UniqueName="Cobrado">
                 <HeaderStyle Font-Size="Smaller" HorizontalAlign="Center" />
                 <ItemStyle HorizontalAlign="Right" />
               </telerik:GridBoundColumn>
-
-              <telerik:GridBoundColumn DataField="Deuda" HeaderText="Cuentas por Cobrar $" DataFormatString="{0:N0}"
+              <%-- DataFormatString="{0:N0}" --%>
+              <telerik:GridBoundColumn DataField="Deuda" HeaderText="Cuentas por Cobrar $" 
                 UniqueName="Deuda">
                 <HeaderStyle Font-Size="Smaller" HorizontalAlign="Center" />
                 <ItemStyle HorizontalAlign="Right" />
               </telerik:GridBoundColumn>
-
-              <telerik:GridBoundColumn DataField="Vencido" HeaderText="Vencido $" DataFormatString="{0:N0}"
+              <%-- DataFormatString="{0:N0}" --%>
+              <telerik:GridBoundColumn DataField="Vencido" HeaderText="Vencido $" 
                 UniqueName="Vencido">
                 <HeaderStyle Font-Size="Smaller" HorizontalAlign="Center" />
                 <ItemStyle HorizontalAlign="Right" />
               </telerik:GridBoundColumn>
-
-              <telerik:GridBoundColumn DataField="Facturado" HeaderText="Facturado $" DataFormatString="{0:N0}"
+              <%-- DataFormatString="{0:N0}" --%>
+              <telerik:GridBoundColumn DataField="Facturado" HeaderText="Facturado $" 
                 UniqueName="Facturado">
                 <HeaderStyle Font-Size="Smaller" HorizontalAlign="Center" />
                 <ItemStyle HorizontalAlign="Right" />
               </telerik:GridBoundColumn>
-
-              <telerik:GridBoundColumn DataField="NC" HeaderText="NC $" DataFormatString="{0:N0}"
+              <%-- DataFormatString="{0:N0}" --%>
+              <telerik:GridBoundColumn DataField="NC" HeaderText="NC $" 
                 UniqueName="NC">
                 <HeaderStyle Font-Size="Smaller" HorizontalAlign="Center" />
                 <ItemStyle HorizontalAlign="Right" />
               </telerik:GridBoundColumn>
-
-              <telerik:GridBoundColumn DataField="FP" HeaderText="Factura Publicidad $" DataFormatString="{0:N0}"
+              <%-- DataFormatString="{0:N0}" --%>
+              <telerik:GridBoundColumn DataField="FP" HeaderText="Factura Publicidad $" 
                 UniqueName="FP">
                 <HeaderStyle Font-Size="Smaller" HorizontalAlign="Center" />
                 <ItemStyle HorizontalAlign="Right" />
               </telerik:GridBoundColumn>
-
-              <telerik:GridBoundColumn DataField="Ficticio" HeaderText="Ajustes $" DataFormatString="{0:N0}"
+              <%-- DataFormatString="{0:N0}" --%>
+              <telerik:GridBoundColumn DataField="Ficticio" HeaderText="Ajustes $" 
                 UniqueName="Ficticio">
                 <HeaderStyle Font-Size="Smaller" HorizontalAlign="Center" />
                 <ItemStyle HorizontalAlign="Right" />
@@ -281,16 +301,25 @@
     <script>
       var x, y;
       var objLbl = document.getElementById('<%= lblError.ClientID %>');
+
       $(document).ready(function () {
+
+        $("#idBuscar").click(function () {
+          if ($("#cmbCliente").val() == "") {
+            alert("Debe seleccionar cliente");
+            return false;
+          }
+        });
 
         /* Apply fancybox to multiple items */
         $("#btnSearch").click(function () {
-
-          lblError.innerHTML = "";
           var rdBtnValor = $('#<%=rdBtnTypeQuery.ClientID %> input[type=radio]:checked').val();
           var objHref = document.getElementById("objShowSearch");
 
-          if (rdBtnValor == "1") {
+          if (rdBtnValor == "0") {
+            alert("Seleccione otra opción");
+
+          } else if (rdBtnValor == "1") {
             objHref.href = "app_show_vendedores.aspx";
             $("#objShowSearch").trigger("click");
 
@@ -299,7 +328,17 @@
             $("#objShowSearch").trigger("click");
 
           } else if (rdBtnValor == "3") {
-            objHref.href = "app_show_rubrosintermobi.aspx";
+            CodCliente = "";
+            if ($("#hdd_cli_show").val() == "V") {
+              if ($("#<%= cmbCliente.ClientID %>").val() != "")
+                CodCliente = $("#<%= cmbCliente.ClientID %>").val();
+              else {
+                alert("Debe seleccionar cliente");
+                return false;
+              }
+            }
+
+            objHref.href = "app_show_rubrosintermobi.aspx?ArrCodCliente=" + CodCliente;
             $("#objShowSearch").trigger("click");
 
           } else if (rdBtnValor == "4") {
@@ -310,7 +349,6 @@
             objHref.href = "app_show_rubros.aspx?hdd_canal=C";
             $("#objShowSearch").trigger("click");
           }
-
         });
 
         /* Apply fancybox to multiple items */
@@ -357,46 +395,53 @@
         var rdBtnValor = $('#<%=rdBtnTypeQuery.ClientID %> input[type=radio]:checked').val();
         var objTxtDeudor = $find("<%= rdTxtDeudor.ClientID %>");
 
-        if ((rdBtnValor != "0") && (rdBtnValor != "6") && (rdBtnValor != "7") && (rdBtnValor != "8") && (rdBtnValor != "9") && (rdBtnValor != "10")) {
+        if ((rdBtnValor != "0") && (rdBtnValor != "6") && (rdBtnValor != "7") && (rdBtnValor != "8") && (rdBtnValor != "9") && (rdBtnValor != "10") && (rdBtnValor != "11")) {
           if (objTxtDeudor.get_value() == "") {
             objLbl.innerHTML = "* Debe seleccionar datos para la consulta.";
             breturn = false;
           }
         } else {
-          objTxtDeudor.set_value('');
-          hddCodDeudor.value = "";
 
+          if ((rdBtnValor == "11") && ($("#cmbHolding").val() == "")) {
+            var objLb2 = document.getElementById('<%= lblError2.ClientID %>');
+              objLb2.innerHTML = "* Debe seleccionar holding para la consulta.";
+              breturn = false;
+            }
+
+            objTxtDeudor.set_value('');
+            hddCodDeudor.value = "";
+
+          }
+
+          return breturn;
         }
 
-        return breturn;
-      }
+        function loadDetalleMes() {
+          if ($("#chkDetalleMes").is(':checked')) {
+            $("#blqDeudor").css("display", "none");
+            $("#blqOpcReporte1").css("display", "none");
 
-      function loadDetalleMes() {
-        if ($("#chkDetalleMes").is(':checked')) {
-          $("#blqDeudor").css("display", "none");
-          $("#blqOpcReporte1").css("display", "none");
+            $("#blqFecha").css("display", "block");
+            $("#blqOpcReporte2").css("display", "block");
+            $("#blqOpcIndTop").css("display", "block");
+          } else {
+            $("#blqFecha").css("display", "none");
+            $("#blqOpcReporte2").css("display", "none");
+            $("#blqOpcIndTop").css("display", "none");
+            $("#blqCriterio").css("display", "none");
 
-          $("#blqFecha").css("display", "block");
-          $("#blqOpcReporte2").css("display", "block");
-          $("#blqOpcIndTop").css("display", "block");
-        } else {
-          $("#blqFecha").css("display", "none");
-          $("#blqOpcReporte2").css("display", "none");
-          $("#blqOpcIndTop").css("display", "none");
-          $("#blqCriterio").css("display", "none");
-
-          $("#blqDeudor").css("display", "block");
-          $("#blqOpcReporte1").css("display", "block");
+            $("#blqDeudor").css("display", "block");
+            $("#blqOpcReporte1").css("display", "block");
+          }
         }
-      }
 
-      function loadIndicadores() {
-        if ($("#chkIndicadoresTop").is(':checked')) {
-          $("#blqCriterio").css("display", "block");
-        } else {
-          $("#blqCriterio").css("display", "none");
+        function loadIndicadores() {
+          if ($("#chkIndicadoresTop").is(':checked')) {
+            $("#blqCriterio").css("display", "block");
+          } else {
+            $("#blqCriterio").css("display", "none");
+          }
         }
-      }
     </script>
   </form>
 </body>

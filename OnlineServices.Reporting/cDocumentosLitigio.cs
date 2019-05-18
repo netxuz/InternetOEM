@@ -25,6 +25,9 @@ namespace OnlineServices.Reporting
     private string lngNkeyUsuario;
     public string NkeyUsuario { get { return lngNkeyUsuario; } set { lngNkeyUsuario = value; } }
 
+    private string pNcodHolding;
+    public string NcodHolding { get { return pNcodHolding; } set { pNcodHolding = value; } }
+
     private string pDtFchIni;
     public string DtFchIni { get { return pDtFchIni; } set { pDtFchIni = value; } }
 
@@ -57,67 +60,72 @@ namespace OnlineServices.Reporting
 
         if (bIndAccion)
         {
-          if (string.IsNullOrEmpty(lngCodDeudor))
+          cSQL.Append("select ");
+
+          if (!string.IsNullOrEmpty(pNcodHolding))
           {
-            cSQL.Append(" select Código, Razón_Social, Número_Factura, Vencimiento, Saldo, Monto_Litigio, ");
-            cSQL.Append(" Fecha_Ingreso, Número_Solicitud, Fecha_Solicitud, (select sum(Saldo) from documentos_en_litigio where nkey_cliente =").Append(lngCodNkey);
-            cSQL.Append(" and nkey_deudor = DL.nkey_deudor and Fecha_Ingreso between convert(datetime,'").Append(pDtFchIni).Append("') and convert(datetime,'").Append(pDtFchFin).Append("')) as tot_saldo, ");
-            cSQL.Append(" (select sum(Monto_Litigio) from documentos_en_litigio where nkey_cliente = ").Append(lngCodNkey);
-            cSQL.Append(" and nkey_deudor = DL.nkey_deudor and Fecha_Ingreso between convert(datetime,'").Append(pDtFchIni).Append("') and convert(datetime,'").Append(pDtFchFin).Append("')) as tot_litigio, ");
-            if ((!string.IsNullOrEmpty(sTipoUsuario)) && (sTipoUsuario == "D"))
-            {
-              cSQL.Append(" (select sum(Saldo) from documentos_en_litigio where nkey_cliente = ").Append(lngCodNkey).Append(" and nkey_deudor = ").Append(lngNkeyUsuario).Append(" and Fecha_Ingreso between convert(datetime,'").Append(pDtFchIni).Append("') and convert(datetime,'").Append(pDtFchFin).Append("')) as total_saldo, ");
-            }
-            else
-            {
-              if ((!string.IsNullOrEmpty(sTipoUsuario)) && (sTipoUsuario == "V"))
-              {
-                cSQL.Append(" (select sum(Saldo) from documentos_en_litigio where nkey_cliente = ").Append(lngCodNkey).Append(" and nkey_deudor in (select nkey_deudor from codigodeudor  where nkey_vendedor = ").Append(lngNkeyUsuario).Append(" and nkey_cliente = ").Append(lngCodNkey).Append(" ) and Fecha_Ingreso between convert(datetime,'").Append(pDtFchIni).Append("') and convert(datetime,'").Append(pDtFchFin).Append("')) as total_saldo, ");
-              }
-              else
-              {
-                cSQL.Append(" (select sum(Saldo) from documentos_en_litigio where nkey_cliente = ").Append(lngCodNkey).Append(" and Fecha_Ingreso between convert(datetime,'").Append(pDtFchIni).Append("') and convert(datetime,'").Append(pDtFchFin).Append("')) as total_saldo, ");
-              }
-            }
-
-            cSQL.Append(" (select sum(Monto_Litigio) from documentos_en_litigio where nkey_cliente = ").Append(lngCodNkey).Append(" and Fecha_Ingreso between convert(datetime,'").Append(pDtFchIni).Append("') and convert(datetime,'").Append(pDtFchFin).Append("') ");
-
-            if ((!string.IsNullOrEmpty(sTipoUsuario)) && (sTipoUsuario == "D"))
-            {
-              cSQL.Append(" and nkey_deudor = ").Append(lngNkeyUsuario);
-            }
-            else
-            {
-              if ((!string.IsNullOrEmpty(sTipoUsuario)) && (sTipoUsuario == "V"))
-                cSQL.Append(" and nkey_deudor in (select nkey_deudor from codigodeudor where nkey_cliente = ").Append(lngCodNkey).Append(" and nkey_vendedor = ").Append(lngNkeyUsuario).Append(" ) ");
-            }
-
-            cSQL.Append(") as total_litigio, Sobservacion ");
-            cSQL.Append(" from documentos_en_litigio DL where nkey_cliente = ").Append(lngCodNkey).Append(" and Fecha_Ingreso between convert(datetime,'").Append(pDtFchIni).Append("') and convert(datetime,'").Append(pDtFchFin).Append("') ");
-
-            if ((!string.IsNullOrEmpty(sTipoUsuario)) && (sTipoUsuario == "D"))
-              cSQL.Append("  and DL.nkey_deudor = ").Append(lngNkeyUsuario);
-
-            if ((!string.IsNullOrEmpty(sTipoUsuario)) && (sTipoUsuario == "V"))
-              cSQL.Append("  and DL.nkey_deudor in (select codigodeudor.nkey_deudor from codigodeudor where codigodeudor.nkey_vendedor = ").Append(lngNkeyUsuario).Append(" and codigodeudor.nkey_cliente = DL.nkey_cliente) ");
-
-            cSQL.Append(" order by Código, Número_Factura ");
+            cSQL.Append(" ncodholding, Código,  ");
           }
           else
           {
-            cSQL.Append("select Código, Razón_Social, Número_Factura, Vencimiento, Saldo, Monto_Litigio, ");
-            cSQL.Append(" Fecha_Ingreso, Número_Solicitud, Fecha_Solicitud, ");
-            cSQL.Append(" (select sum(Saldo) from documentos_en_litigio where nkey_cliente = ").Append(lngCodNkey).Append(" and nkey_deudor = ").Append(lngCodDeudor).Append(" and Fecha_Ingreso between convert(datetime,'").Append(pDtFchIni).Append("') and convert(datetime,'").Append(pDtFchFin).Append("')) as total_saldo, ");
-            cSQL.Append("	(select sum(Monto_Litigio) from documentos_en_litigio where nkey_cliente = ").Append(lngCodNkey).Append(" and nkey_deudor = ").Append(lngCodDeudor).Append(" and Fecha_Ingreso between convert(datetime,'").Append(pDtFchIni).Append("') and convert(datetime,'").Append(pDtFchFin).Append("')) as total_litigio , Sobservacion");
-            cSQL.Append("	from documentos_en_litigio where nkey_cliente = ").Append(lngCodNkey).Append(" and nkey_deudor = ").Append(lngCodDeudor).Append(" and Fecha_Ingreso between convert(datetime,'").Append(pDtFchIni).Append("') and convert(datetime,'").Append(pDtFchFin).Append("') ");
-            cSQL.Append(" order by Número_Factura ");
+            if (string.IsNullOrEmpty(lngCodDeudor))
+            {
+              cSQL.Append(" Código, ");
+            }
           }
+
+          cSQL.Append(" [Razón Social], [Número Factura], Vencimiento, Saldo, MontoLitigio, [Número Solicitud], [Fecha Solicitud], numNC, montoNC, Observacion, SubMotivo, SDescripcion, NomContacto ");
+          cSQL.Append(" from vista_documentos_litigio  ");
+          cSQL.Append(" where FechaIngreso between convert(datetime,'").Append(pDtFchIni).Append("') and convert(datetime,'").Append(pDtFchFin).Append("') ");
+
+          if (!string.IsNullOrEmpty(pNcodHolding))
+          {
+            cSQL.Append(" and ncodholding = ").Append(pNcodHolding);
+          }
+          else
+          {
+            if (!string.IsNullOrEmpty(lngCodDeudor))
+            {
+              cSQL.Append(" and nkey_deudor = ").Append(lngCodDeudor);
+            }
+            else
+            {
+              cSQL.Append(" and nkey_cliente in (").Append(lngCodNkey).Append(") ");
+            }
+          }
+
+          cSQL.Append(" Order by [Razón Social], nkey_deudor, [Fecha Solicitud], Cliente, [Número Factura] ");
         }
         else {
-          cSQL.Append("select Código, Razón_Social, Número_Factura, Vencimiento, Saldo, Monto_Litigio, Fecha_Ingreso, Número_Solicitud, Fecha_Solicitud, ");
-          cSQL.Append(" (select sum(Saldo) from documentos_en_litigio where nkey_cliente = ").Append(lngCodNkey).Append(" and Número_Factura = ").Append(lngNumFactura).Append(") as total_saldo, ");
-          cSQL.Append(" (select sum(Monto_Litigio) from documentos_en_litigio where nkey_cliente = ").Append(lngCodNkey).Append(" and Número_Factura = ").Append(lngNumFactura).Append(") as total_litigio, Sobservacion  ");
-          cSQL.Append(" from documentos_en_litigio where nkey_cliente = ").Append(lngCodNkey).Append(" and Número_Factura = ").Append(lngNumFactura);
+
+          cSQL.Append("select ");
+
+          if (!string.IsNullOrEmpty(pNcodHolding))
+          {
+            cSQL.Append(" ncodholding, Código,  ");
+          }
+          else
+          {
+            cSQL.Append(" Código, ");
+          }
+
+          cSQL.Append(" [Razón Social], [Número Factura], Vencimiento, Saldo, MontoLitigio, [Número Solicitud], [Fecha Solicitud], numNC, montoNC, Observacion, SubMotivo, SDescripcion, NomContacto ");
+          cSQL.Append(" from vista_documentos_litigio  ");
+          cSQL.Append(" where FechaIngreso between convert(datetime,'").Append(pDtFchIni).Append("') and convert(datetime,'").Append(pDtFchFin).Append("') ");
+
+          if (!string.IsNullOrEmpty(lngNumFactura)) {
+            cSQL.Append(" and [Número Factura]  = ").Append(lngNumFactura);
+          }
+
+          if (!string.IsNullOrEmpty(pNcodHolding))
+          {
+            cSQL.Append(" and ncodholding = ").Append(pNcodHolding);
+          }
+          else {
+            cSQL.Append(" and nkey_cliente in (").Append(lngCodNkey).Append(") ");
+          }        
+
+          cSQL.Append(" Order by [Razón Social], CodCliente, [Fecha Solicitud], Cliente, [Número Factura] ");
         }
 
 

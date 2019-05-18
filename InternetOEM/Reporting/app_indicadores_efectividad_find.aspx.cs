@@ -21,6 +21,11 @@ namespace ICommunity.Reporting
   {
     private OnlineServices.Method.Web oWeb = new OnlineServices.Method.Web();
     private OnlineServices.Method.Usuario oIsUsuario;
+    string Signomoneda = string.Empty;
+    string Decimales = string.Empty;
+    bool bCliente = false;
+    bool bDeudor;
+    bool bHolding;
     protected void Page_Load(object sender, EventArgs e)
     {
       oIsUsuario = oWeb.ValidaUserAppReport();
@@ -35,8 +40,85 @@ namespace ICommunity.Reporting
       getMenu(IndClasificacionRiesgo, oIsUsuario.CodUsuario, "6");
       getMenuAntalis(indAntalis, oIsUsuario.CodUsuario);
 
-      if (!IsPostBack) {
+      DBConn oConn = new DBConn();
+      if (!IsPostBack)
+      {
         txt_ano.Text = DateTime.Now.Year.ToString();
+
+        if (oConn.Open())
+        {
+          string arrNkeyCliente = string.Empty;
+          SysClienteUsuario oClienteUsuario = new SysClienteUsuario(ref oConn);
+          oClienteUsuario.CodUsuario = oIsUsuario.CodUsuario;
+          DataTable dt = oClienteUsuario.Get();
+          if (dt != null)
+          {
+            foreach (DataRow dRow in dt.Rows)
+            {
+              arrNkeyCliente = (string.IsNullOrEmpty(arrNkeyCliente) ? dRow["nkey_user"].ToString() : arrNkeyCliente + "," + dRow["nkey_user"].ToString());
+            }
+
+            hdd_arrNkeyCliente.Value = arrNkeyCliente;
+          }
+          dt = null;
+
+          if (arrNkeyCliente.Split(',').Count() > 0)
+          {
+            hdd_cli_show.Value = "V";
+            bCliente = true;
+            cCliente oCliente = new cCliente(ref oConn);
+            oCliente.ArrNkeyCliente = arrNkeyCliente;
+            dt = oCliente.GetClientes();
+
+            if (dt != null)
+            {
+              cmbCliente.Items.Add(new ListItem("<< Todos los Cliente >>", string.Empty));
+              foreach (DataRow oRow in dt.Rows)
+              {
+                cmbCliente.Items.Add(new ListItem(oRow["snombre"].ToString(), oRow["nkey_cliente"].ToString()));
+              }
+            }
+            dt = null;
+
+            colClientes.Visible = true;
+          }
+
+          cDebtUsrAsignados oDebtUsrAsignados = new cDebtUsrAsignados(ref oConn);
+          oDebtUsrAsignados.CodUsuario = oIsUsuario.CodUsuario;
+          oDebtUsrAsignados.CodConsulta = "12";
+          dt = oDebtUsrAsignados.Get();
+          if (dt != null)
+          {
+            if (dt.Rows.Count > 0)
+            {
+              bDeudor = ((dt.Rows[0]["filtro_deudor"].ToString() == "V") ? true : false);
+              bHolding = ((dt.Rows[0]["filtro_holding"].ToString() == "V") ? true : false);
+            }
+          }
+          dt = null;
+
+          if (bHolding)
+          {
+            colHolding.Visible = true;
+            cCliente oCliente = new cCliente(ref oConn);
+            oCliente.ArrNkeyCliente = arrNkeyCliente;
+            dt = oCliente.GetHolding();
+            if (dt != null)
+            {
+              if (dt.Rows.Count > 0)
+              {
+                cmbHolding.Visible = true;
+                cmbHolding.Items.Add(new ListItem("<< Seleccione Holding >>", string.Empty));
+                foreach (DataRow oRow in dt.Rows)
+                {
+                  cmbHolding.Items.Add(new ListItem(oRow["holding"].ToString(), oRow["ncodholding"].ToString()));
+                }
+              }
+            }
+          }
+          oConn.Close();
+        }
+
 
         Log oLog = new Log();
         oLog.IdUsuario = oIsUsuario.CodUsuario;
@@ -46,11 +128,38 @@ namespace ICommunity.Reporting
         oLog.putLog();
       }
 
-      if (chkDetalleMes.Checked) {
+      if (oConn.Open())
+      {
+        if (!string.IsNullOrEmpty(cmbCliente.SelectedValue))
+        {
+          cCliente oCliente = new cCliente(ref oConn);
+          oCliente.CodNkey = cmbCliente.SelectedValue;
+          DataTable dt = oCliente.GeCliente();
+          if (dt != null)
+          {
+            if (dt.Rows.Count > 0)
+            {
+              Signomoneda = dt.Rows[0]["signomoneda"].ToString().Trim();
+              Decimales = dt.Rows[0]["decimales"].ToString();
+            }
+          }
+          dt = null;
+
+          if (!string.IsNullOrEmpty(Signomoneda))
+            lblmoneda.Text = "Montos expresados en " + Signomoneda;
+
+        }
+
+        oConn.Close();
+      }
+
+      if (chkDetalleMes.Checked)
+      {
         Page.ClientScript.RegisterStartupScript(this.GetType(), "onLoadDetalle", "loadDetalleMes();", true);
       }
 
-      if (chkIndicadoresTop.Checked) {
+      if (chkIndicadoresTop.Checked)
+      {
         Page.ClientScript.RegisterStartupScript(this.GetType(), "onLoadIndicadores", "loadIndicadores();", true);
       }
 
@@ -167,7 +276,8 @@ namespace ICommunity.Reporting
 
         cIndicadoresEfectividad oIndicadoresEfectividad = new cIndicadoresEfectividad(ref oConn);
         oIndicadoresEfectividad.CodDeudor = hddCodDeudor.Value;
-        oIndicadoresEfectividad.CodNkey = oIsUsuario.CodNkey;
+        oIndicadoresEfectividad.CodNkey = ((!string.IsNullOrEmpty(cmbCliente.SelectedValue) ? cmbCliente.SelectedValue : hdd_arrNkeyCliente.Value));
+        oIndicadoresEfectividad.NcodHolding = cmbHolding.SelectedValue;
         oIndicadoresEfectividad.Estado = (!chkDetalleMes.Checked ? rdBtnTypeQuery.SelectedValue : rdBtnTypeQuery2.SelectedValue);
         oIndicadoresEfectividad.MesIni = rdCmbMes.SelectedValue;
         oIndicadoresEfectividad.AnoIni = txt_ano.Text;
@@ -201,21 +311,24 @@ namespace ICommunity.Reporting
               VencidoFacturado = 0;
             else
             {
-              if ((double.Parse(oRow["Facturado"].ToString()) - double.Parse(oRow["NC"].ToString())) == 0)
-              {
+              if (!string.IsNullOrEmpty(oRow["Vencido"].ToString()) && !string.IsNullOrEmpty(oRow["NC"].ToString())) { 
+                if ((double.Parse(oRow["Facturado"].ToString()) - double.Parse(oRow["NC"].ToString())) == 0)
+                {
+                  VencidoFacturado = 0;
+                }
+                else
+                {
+                  VencidoFacturado = (double.Parse(oRow["Vencido"].ToString()) / (double.Parse(oRow["Facturado"].ToString()) - double.Parse(oRow["NC"].ToString())) * 100);
+                }
+              }else
                 VencidoFacturado = 0;
-              }
-              else
-              {
-                VencidoFacturado = (double.Parse(oRow["Vencido"].ToString()) / (double.Parse(oRow["Facturado"].ToString()) - double.Parse(oRow["NC"].ToString())) * 100);
-              }
             }
             ocIndicadorDeEfectividad.VencidoFacturado = VencidoFacturado.ToString("#,##0.00");
             ocIndicadorDeEfectividad.Cobrado = (!string.IsNullOrEmpty(oRow["Vencido"].ToString()) ? double.Parse(oRow["Vencido"].ToString()).ToString("#,##0.00") : "0");
-            ocIndicadorDeEfectividad.Deuda = double.Parse(oRow["Deuda"].ToString()).ToString("#,##0.00");
-            ocIndicadorDeEfectividad.Facturado = double.Parse(oRow["Facturado"].ToString()).ToString("#,##0.00");
-            ocIndicadorDeEfectividad.NC = double.Parse(oRow["NC"].ToString()).ToString("#,##0.00");
-            ocIndicadorDeEfectividad.FP = double.Parse(oRow["FP"].ToString()).ToString("#,##0.00");
+            ocIndicadorDeEfectividad.Deuda = (!string.IsNullOrEmpty(oRow["Deuda"].ToString()) ? double.Parse(oRow["Deuda"].ToString()).ToString("#,##0.00") : "0") ;
+            ocIndicadorDeEfectividad.Facturado = (!string.IsNullOrEmpty(oRow["Facturado"].ToString()) ? double.Parse(oRow["Facturado"].ToString()).ToString("#,##0.00") : "0");
+            ocIndicadorDeEfectividad.NC = (!string.IsNullOrEmpty(oRow["NC"].ToString()) ? double.Parse(oRow["NC"].ToString()).ToString("#,##0.00") : "0") ;
+            ocIndicadorDeEfectividad.FP = (!string.IsNullOrEmpty(oRow["FP"].ToString()) ? double.Parse(oRow["FP"].ToString()).ToString("#,##0.00") : "0") ;
             ocIndicadorDeEfectividad.Ficticio = ((!string.IsNullOrEmpty(oRow["Ficticio"].ToString()) && double.Parse(oRow["Ficticio"].ToString()) != 0) ? double.Parse(oRow["Ficticio"].ToString()).ToString("#,##0.00") : "0");
 
             ocIndicadorDeEfectividad.AddRow();
@@ -261,6 +374,97 @@ namespace ICommunity.Reporting
         rdGridIndicadoresEfectividad.MasterTableView.GetColumn("Canal").Visible = true;
       else
         rdGridIndicadoresEfectividad.MasterTableView.GetColumn("Canal").Visible = false;
+    }
+
+    protected void rdGridIndicadoresEfectividad_ItemDataBound(object sender, GridItemEventArgs e)
+    {
+      if (e.Item is GridDataItem)
+      {
+        GridDataItem item = (GridDataItem)e.Item;
+        DataRowView row = (DataRowView)e.Item.DataItem;
+
+        if (!string.IsNullOrEmpty(Decimales))
+        {
+          if (int.Parse(Decimales) > 0)
+          {
+            if ((!string.IsNullOrEmpty(item["DSO"].Text)) && (item["DSO"].Text != "&nbsp;"))
+              item["DSO"].Text = double.Parse(row["DSO"].ToString()).ToString("N" + Decimales);
+
+            if ((!string.IsNullOrEmpty(item["Cobrado"].Text)) && (item["Cobrado"].Text != "&nbsp;"))
+              item["Cobrado"].Text = double.Parse(row["Cobrado"].ToString()).ToString("N" + Decimales);
+
+            if ((!string.IsNullOrEmpty(item["Deuda"].Text)) && (item["Deuda"].Text != "&nbsp;"))
+              item["Deuda"].Text = double.Parse(row["Deuda"].ToString()).ToString("N" + Decimales);
+
+            if ((!string.IsNullOrEmpty(item["Vencido"].Text)) && (item["Vencido"].Text != "&nbsp;"))
+              item["Vencido"].Text = double.Parse(row["Vencido"].ToString()).ToString("N" + Decimales);
+
+            if ((!string.IsNullOrEmpty(item["Facturado"].Text)) && (item["Facturado"].Text != "&nbsp;"))
+              item["Facturado"].Text = double.Parse(row["Facturado"].ToString()).ToString("N" + Decimales);
+
+            if ((!string.IsNullOrEmpty(item["NC"].Text)) && (item["NC"].Text != "&nbsp;"))
+              item["NC"].Text = double.Parse(row["NC"].ToString()).ToString("N" + Decimales);
+
+            if ((!string.IsNullOrEmpty(item["FP"].Text)) && (item["FP"].Text != "&nbsp;"))
+              item["FP"].Text = double.Parse(row["FP"].ToString()).ToString("N" + Decimales);
+
+            if ((!string.IsNullOrEmpty(item["Ficticio"].Text)) && (item["Ficticio"].Text != "&nbsp;"))
+              item["Ficticio"].Text = double.Parse(row["Ficticio"].ToString()).ToString("N" + Decimales);
+          }
+          else
+          {
+            if ((!string.IsNullOrEmpty(item["DSO"].Text)) && (item["DSO"].Text != "&nbsp;"))
+              item["DSO"].Text = double.Parse(row["DSO"].ToString()).ToString("N0");
+
+            if ((!string.IsNullOrEmpty(item["Cobrado"].Text)) && (item["Cobrado"].Text != "&nbsp;"))
+              item["Cobrado"].Text = double.Parse(row["Cobrado"].ToString()).ToString("N0");
+
+            if ((!string.IsNullOrEmpty(item["Deuda"].Text)) && (item["Deuda"].Text != "&nbsp;"))
+              item["Deuda"].Text = double.Parse(row["Deuda"].ToString()).ToString("N0");
+
+            if ((!string.IsNullOrEmpty(item["Vencido"].Text)) && (item["Vencido"].Text != "&nbsp;"))
+              item["Vencido"].Text = double.Parse(row["Vencido"].ToString()).ToString("N0");
+
+            if ((!string.IsNullOrEmpty(item["Facturado"].Text)) && (item["Facturado"].Text != "&nbsp;"))
+              item["Facturado"].Text = double.Parse(row["Facturado"].ToString()).ToString("N0");
+
+            if ((!string.IsNullOrEmpty(item["NC"].Text)) && (item["NC"].Text != "&nbsp;"))
+              item["NC"].Text = double.Parse(row["NC"].ToString()).ToString("N0");
+
+            if ((!string.IsNullOrEmpty(item["FP"].Text)) && (item["FP"].Text != "&nbsp;"))
+              item["FP"].Text = double.Parse(row["FP"].ToString()).ToString("N0");
+
+            if ((!string.IsNullOrEmpty(item["Ficticio"].Text)) && (item["Ficticio"].Text != "&nbsp;"))
+              item["Ficticio"].Text = double.Parse(row["Ficticio"].ToString()).ToString("N0");
+          }
+        }
+        else
+        {
+          if ((!string.IsNullOrEmpty(item["DSO"].Text)) && (item["DSO"].Text != "&nbsp;"))
+            item["DSO"].Text = double.Parse(row["DSO"].ToString()).ToString("N0");
+
+          if ((!string.IsNullOrEmpty(item["Cobrado"].Text)) && (item["Cobrado"].Text != "&nbsp;"))
+            item["Cobrado"].Text = double.Parse(row["Cobrado"].ToString()).ToString("N0");
+
+          if ((!string.IsNullOrEmpty(item["Deuda"].Text)) && (item["Deuda"].Text != "&nbsp;"))
+            item["Deuda"].Text = double.Parse(row["Deuda"].ToString()).ToString("N0");
+
+          if ((!string.IsNullOrEmpty(item["Vencido"].Text)) && (item["Vencido"].Text != "&nbsp;"))
+            item["Vencido"].Text = double.Parse(row["Vencido"].ToString()).ToString("N0");
+
+          if ((!string.IsNullOrEmpty(item["Facturado"].Text)) && (item["Facturado"].Text != "&nbsp;"))
+            item["Facturado"].Text = double.Parse(row["Facturado"].ToString()).ToString("N0");
+
+          if ((!string.IsNullOrEmpty(item["NC"].Text)) && (item["NC"].Text != "&nbsp;"))
+            item["NC"].Text = double.Parse(row["NC"].ToString()).ToString("N0");
+
+          if ((!string.IsNullOrEmpty(item["FP"].Text)) && (item["FP"].Text != "&nbsp;"))
+            item["FP"].Text = double.Parse(row["FP"].ToString()).ToString("N0");
+
+          if ((!string.IsNullOrEmpty(item["Ficticio"].Text)) && (item["Ficticio"].Text != "&nbsp;"))
+            item["Ficticio"].Text = double.Parse(row["Ficticio"].ToString()).ToString("N0");
+        }
+      }
     }
   }
 

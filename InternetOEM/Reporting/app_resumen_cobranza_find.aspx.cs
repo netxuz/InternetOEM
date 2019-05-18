@@ -21,6 +21,11 @@ namespace ICommunity.Reporting
   {
     private OnlineServices.Method.Web oWeb = new OnlineServices.Method.Web();
     private OnlineServices.Method.Usuario oIsUsuario;
+    string Signomoneda = string.Empty;
+    string Decimales = string.Empty;
+    bool bCliente = false;
+    bool bDeudor;
+    bool bHolding;
     protected void Page_Load(object sender, EventArgs e)
     {
       oIsUsuario = oWeb.ValidaUserAppReport();
@@ -35,19 +40,118 @@ namespace ICommunity.Reporting
       getMenu(IndClasificacionRiesgo, oIsUsuario.CodUsuario, "6");
       getMenuAntalis(indAntalis, oIsUsuario.CodUsuario);
 
-      if (!IsPostBack)
+      DBConn oConn = new DBConn();
+      if (oConn.Open())
       {
-        RadDatePicker3.DateInput.DateFormat = "dd-MM-yyyy";
-        RadDatePicker4.DateInput.DateFormat = "dd-MM-yyyy";
-        RadDatePicker3.SelectedDate = dTimeNow.AddMonths(-1);
-        RadDatePicker4.SelectedDate = dTimeNow;
+        if (!IsPostBack)
+        {
+          string arrNkeyCliente = string.Empty;
+          SysClienteUsuario oClienteUsuario = new SysClienteUsuario(ref oConn);
+          oClienteUsuario.CodUsuario = oIsUsuario.CodUsuario;
+          DataTable dt = oClienteUsuario.Get();
+          if (dt != null)
+          {
+            foreach (DataRow dRow in dt.Rows)
+            {
+              arrNkeyCliente = (string.IsNullOrEmpty(arrNkeyCliente) ? dRow["nkey_user"].ToString() : arrNkeyCliente + "," + dRow["nkey_user"].ToString());
+            }
 
-        Log oLog = new Log();
-        oLog.IdUsuario = oIsUsuario.CodUsuario;
-        oLog.ObsLog = "REPORTE DE RESUMEN DE COBRANZA";
-        oLog.CodEvtLog = "1";
-        oLog.AppLog = "REPORTES DEBTCONTROL";
-        oLog.putLog();
+            hdd_arrNkeyCliente.Value = arrNkeyCliente;
+          }
+          dt = null;
+
+          if (arrNkeyCliente.Split(',').Count() > 0)
+          {
+            hdd_cli_show.Value = "V";
+            bCliente = true;
+            cCliente oCliente = new cCliente(ref oConn);
+            oCliente.ArrNkeyCliente = arrNkeyCliente;
+            dt = oCliente.GetClientes();
+
+            if (dt != null)
+            {
+              cmbCliente.Items.Add(new ListItem("<< Seleccione Cliente >>", string.Empty));
+              foreach (DataRow oRow in dt.Rows)
+              {
+                cmbCliente.Items.Add(new ListItem(oRow["snombre"].ToString(), oRow["nkey_cliente"].ToString()));
+              }
+            }
+            dt = null;
+
+            colClientes.Visible = true;
+          }
+
+          cDebtUsrAsignados oDebtUsrAsignados = new cDebtUsrAsignados(ref oConn);
+          oDebtUsrAsignados.CodUsuario = oIsUsuario.CodUsuario;
+          oDebtUsrAsignados.CodConsulta = "1";
+          dt = oDebtUsrAsignados.Get();
+          if (dt != null)
+          {
+            if (dt.Rows.Count > 0)
+            {
+              bDeudor = ((dt.Rows[0]["filtro_deudor"].ToString() == "V") ? true : false);
+              bHolding = ((dt.Rows[0]["filtro_holding"].ToString() == "V") ? true : false);
+            }
+          }
+          dt = null;
+
+          if (bDeudor)
+            colDeudor.Visible = true;
+
+          if (bHolding)
+          {
+            colHolding.Visible = true;
+            cCliente oCliente = new cCliente(ref oConn);
+            oCliente.ArrNkeyCliente = arrNkeyCliente;
+            dt = oCliente.GetHolding();
+            if (dt != null)
+            {
+              if (dt.Rows.Count > 0)
+              {
+                cmbHolding.Visible = true;
+                cmbHolding.Items.Add(new ListItem("<< Seleccione Holding >>", string.Empty));
+                foreach (DataRow oRow in dt.Rows)
+                {
+                  cmbHolding.Items.Add(new ListItem(oRow["holding"].ToString(), oRow["ncodholding"].ToString()));
+                }
+              }
+            }
+
+          }
+
+          RadDatePicker3.DateInput.DateFormat = "dd-MM-yyyy";
+          RadDatePicker4.DateInput.DateFormat = "dd-MM-yyyy";
+          RadDatePicker3.SelectedDate = dTimeNow.AddMonths(-1);
+          RadDatePicker4.SelectedDate = dTimeNow;
+
+          Log oLog = new Log();
+          oLog.IdUsuario = oIsUsuario.CodUsuario;
+          oLog.ObsLog = "REPORTE DE RESUMEN DE COBRANZA";
+          oLog.CodEvtLog = "1";
+          oLog.AppLog = "REPORTES DEBTCONTROL";
+          oLog.putLog();
+        }
+
+        if (!string.IsNullOrEmpty(cmbCliente.SelectedValue))
+        {
+          cCliente oCliente = new cCliente(ref oConn);
+          oCliente.CodNkey = cmbCliente.SelectedValue;
+          DataTable dt = oCliente.GeCliente();
+          if (dt != null)
+          {
+            if (dt.Rows.Count > 0)
+            {
+              Signomoneda = dt.Rows[0]["signomoneda"].ToString().Trim();
+              Decimales = dt.Rows[0]["decimales"].ToString();
+            }
+          }
+          dt = null;
+
+          if (!string.IsNullOrEmpty(Signomoneda))
+            lblmoneda.Text = "Montos expresados en " + Signomoneda;
+
+        }
+        oConn.Close();
       }
 
     }
@@ -152,7 +256,33 @@ namespace ICommunity.Reporting
 
     protected void rdGridResumenCobranza_ItemDataBound(object sender, GridItemEventArgs e)
     {
+      if (e.Item is GridDataItem)
+      {
+        GridDataItem item = (GridDataItem)e.Item;
+        DataRowView row = (DataRowView)e.Item.DataItem;
 
+        if (!string.IsNullOrEmpty(Decimales))
+        {
+          if (int.Parse(Decimales) > 0)
+          {
+            item["Monto_Pago"].Text = double.Parse(row["Monto_Pago"].ToString()).ToString("N" + Decimales);
+            item["Abono"].Text = double.Parse(row["Abono"].ToString()).ToString("N" + Decimales);
+            item["Saldo"].Text = double.Parse(row["Saldo"].ToString()).ToString("N" + Decimales);
+          }
+          else
+          {
+            item["Monto_Pago"].Text = double.Parse(row["Monto_Pago"].ToString()).ToString("N0");
+            item["Abono"].Text = double.Parse(row["Abono"].ToString()).ToString("N0");
+            item["Saldo"].Text = double.Parse(row["Saldo"].ToString()).ToString("N0");
+          }
+        }
+        else
+        {
+          item["Monto_Pago"].Text = double.Parse(row["Monto_Pago"].ToString()).ToString("N0");
+          item["Abono"].Text = double.Parse(row["Abono"].ToString()).ToString("N0");
+          item["Saldo"].Text = double.Parse(row["Saldo"].ToString()).ToString("N0");
+        }
+      }
     }
 
     public DataTable getDatatble()
@@ -164,7 +294,8 @@ namespace ICommunity.Reporting
       {
         cResumenCobranza oResumenCobranza = new cResumenCobranza(ref oConn);
         oResumenCobranza.CodDeudor = hddCodDeudor.Value;
-        oResumenCobranza.CodNkey = oIsUsuario.CodNkey;
+        oResumenCobranza.CodNkey = ((!string.IsNullOrEmpty(cmbCliente.SelectedValue) ? cmbCliente.SelectedValue : hdd_arrNkeyCliente.Value));
+        oResumenCobranza.NcodHolding = cmbHolding.SelectedValue;
         oResumenCobranza.NkeyUsuario = oIsUsuario.NKeyUsuario;
         oResumenCobranza.TipoUsuario = oIsUsuario.TipoUsuario;
         oResumenCobranza.NumPago = rdTxtNumPago.Text;
@@ -178,5 +309,25 @@ namespace ICommunity.Reporting
       return dt;
     }
 
+    protected void Page_PreRender(object o, EventArgs e)
+    {
+
+      rdGridResumenCobranza.MasterTableView.GetColumn("ncodholding").Display = true;
+      rdGridResumenCobranza.MasterTableView.GetColumn("nkey_deudor").Display = true;
+      rdGridResumenCobranza.MasterTableView.GetColumn("RazónSocial").Display = true;
+
+      if (!string.IsNullOrEmpty(hddCodDeudor.Value))
+      {
+        rdGridResumenCobranza.MasterTableView.GetColumn("ncodholding").Display = false;
+        rdGridResumenCobranza.MasterTableView.GetColumn("nkey_deudor").Display = false;
+        rdGridResumenCobranza.MasterTableView.GetColumn("RazónSocial").Display = false;
+      }
+
+      if ((string.IsNullOrEmpty(hddCodDeudor.Value)) && (string.IsNullOrEmpty(cmbCliente.SelectedValue)) && (string.IsNullOrEmpty(cmbHolding.SelectedValue)))
+      {
+        rdGridResumenCobranza.MasterTableView.GetColumn("ncodholding").Display = false;
+      }
+
+    }
   }
 }

@@ -23,6 +23,8 @@
 <body>
   <form id="form1" runat="server">
     <asp:ScriptManager ID="ScriptManager" runat="server"></asp:ScriptManager>
+    <asp:HiddenField ID="hdd_arrNkeyCliente" runat="server" />
+    <asp:HiddenField ID="hdd_cli_show" runat="server" />
     <nav class="navbar-inverse">
       <div class="container-fluid">
         <div class="navbar-header">
@@ -72,6 +74,23 @@
       <div class="blq_tile">
         <asp:Label ID="lblTitle" runat="server" CssClass="lblTitle" Text="COMPORTAMIENTO DE PAGO"></asp:Label>
       </div>
+      <div class="row">
+        <div id="colClientes" class="col-md-4" runat="server" visible="false">
+          <div><span>Clientes</span></div>
+          <div></div>
+          <asp:DropDownList ID="cmbCliente" CssClass="inputCmbBox" runat="server">
+          </asp:DropDownList>
+        </div>
+        <div id="colHolding" class="col-md-4" runat="server" visible="false">
+          <div><span>Holding</span></div>
+          <div></div>
+          <asp:DropDownList ID="cmbHolding" CssClass="inputCmbBox" runat="server">
+          </asp:DropDownList>
+          <div class="lblerror">
+            <asp:Label ID="lblError2" runat="server" Text=""></asp:Label>
+          </div>
+        </div>
+      </div>
       <div class="blq_search">
         <div><span>Analista</span></div>
         <div></div>
@@ -82,7 +101,7 @@
           <asp:Label ID="lblErrorAnalista" runat="server" Text=""></asp:Label>
         </div>
       </div>
-      <div class="blq_search">
+      <div id="colDeudor" runat="server" class="blq_search" visible="false">
         <div><span>Deudor</span></div>
         <div></div>
         <telerik:RadTextBox ID="rdTxtDeudor" runat="server" CssClass="control-text-search" Enabled="false" Text=""></telerik:RadTextBox>
@@ -99,6 +118,7 @@
           <asp:ListItem Text="Cliente" Value="0" Selected="True"></asp:ListItem>
           <asp:ListItem Text="Analista" Value="2"></asp:ListItem>
           <asp:ListItem Text="Deudor" Value="3"></asp:ListItem>
+          <asp:ListItem Text="Holding" Value="4"></asp:ListItem>
         </asp:RadioButtonList>
       </div>
       <div class="blq_btn_search">
@@ -129,24 +149,46 @@
 
         /* Apply fancybox to multiple items */
 
-        $("#btnDeudores").fancybox({
-          'width': 600,
-          'height': 700,
-          'transitionIn': 'elastic',
-          'transitionOut': 'elastic',
-          'speedIn': 600,
-          'speedOut': 200,
-          'overlayShow': false,
-          'type': 'iframe',
-          'onCleanup': function () {
-            x = $("#fancybox-frame").contents().find("#hdd_razonsocial").val();
-            y = $("#fancybox-frame").contents().find("#hdd_coddeudor").val();
-          },
-          'onClosed': function () {
-            var text = $find("<%= rdTxtDeudor.ClientID %>");
+        $("#idBuscar").click(function () {
+          if ($("#cmbCliente").val() == "") {
+            alert("Debe seleccionar cliente");
+            return false;
+          }
+        });
+
+        $("#btnDeudores").click(function () {
+          CodCliente = "";
+          if ($("#hdd_cli_show").val() == "V") {
+            if ($("#<%= cmbCliente.ClientID %>").val() != "")
+              CodCliente = $("#<%= cmbCliente.ClientID %>").val();
+            else {
+              alert("Debe seleccionar cliente");
+              return false;
+            }
+          }
+
+          $.fancybox({
+            'width': 600,
+            'height': 700,
+            'transitionIn': 'elastic',
+            'transitionOut': 'elastic',
+            'speedIn': 600,
+            'speedOut': 200,
+            'overlayShow': false,
+            'href': 'app_show_deudores.aspx?ArrCodCliente=' + CodCliente,
+            'type': 'iframe',
+            'onCleanup': function () {
+              x = $("#fancybox-frame").contents().find("#hdd_razonsocial").val();
+              y = $("#fancybox-frame").contents().find("#hdd_coddeudor").val();
+            },
+            'onClosed': function () {
+              var text = $find("<%= rdTxtDeudor.ClientID %>");
             text.set_value(x);
             hddCodDeudor.value = y;
-          }
+            }
+          });
+          return false;
+
         });
 
         $("#btnAnalista").fancybox({
@@ -191,6 +233,8 @@
         breturn = true;
         var objTxtDeudor = $find("<%= rdTxtDeudor.ClientID %>");
         var objTxtAnalista = $find("<%= rdTxtAnalista.ClientID %>");
+        var objLblHolding = document.getElementById('<%= lblError2.ClientID %>');
+        
         var rbvalue = $("input[@name=<%=rdBtnTypeQuery.ClientID%>]:radio:checked").val();
 
         if ((rbvalue == "3") && (objTxtDeudor.get_value() == "")) {
@@ -200,6 +244,11 @@
 
         if ((rbvalue == "2") && objTxtAnalista.get_value() == "") {
           objLblAnalista.innerHTML = "* Debe seleccionar analista.";
+          breturn = false;
+        }
+
+        if ((rbvalue == "4") && ($("#cmbHolding").val() == "")) {
+          objLblHolding.innerHTML = "* Debe seleccionar holding.";
           breturn = false;
         }
         return breturn;

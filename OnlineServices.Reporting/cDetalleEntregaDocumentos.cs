@@ -16,6 +16,9 @@ namespace OnlineServices.Reporting
     private string lngCodNkey;
     public string CodNkey { get { return lngCodNkey; } set { lngCodNkey = value; } }
 
+    private string pNcodHolding;
+    public string NcodHolding { get { return pNcodHolding; } set { pNcodHolding = value; } }
+
     private string pDtFchIni;
     public string DtFchIni { get { return pDtFchIni; } set { pDtFchIni = value; } }
 
@@ -42,7 +45,22 @@ namespace OnlineServices.Reporting
       if (oConn.bIsOpen)
       {
         StringBuilder cSQL = new StringBuilder();
-        cSQL.Append("exec DetalleEntregaDoctos  '").Append(pDtFchIni).Append("', '").Append(pDtFchIni).Append("', '").Append(lngCodNkey).Append("', 'rgonzalez'");
+        //cSQL.Append("exec DetalleEntregaDoctos  '").Append(pDtFchIni).Append("', '").Append(pDtFchIni).Append("', '").Append(lngCodNkey).Append("', 'rgonzalez'");
+        cSQL.Append("select * from VistaDetalleEntregaDoctos where rol = 'rgonzalez' ");
+
+        if (!string.IsNullOrEmpty(lngCodNkey))
+        {
+          cSQL.Append(" and nkey_cliente in (").Append(lngCodNkey).Append(")");
+        }
+
+        if (!string.IsNullOrEmpty(pNcodHolding))
+        {
+          cSQL.Append(" and ncodholding = ").Append(pNcodHolding);
+        }
+
+        //cSQL.Append(" and Recepcion between convert(datetime, '").Append(pDtFchIni).Append("') and convert(datetime, '").Append(pDtFchFin).Append("') ");
+
+        cSQL.Append(" order by ncodholding, snombre, NomDeu, FIngreso, tipo_docto ");
 
         dtData = oConn.Select(cSQL.ToString());
         pError = oConn.Error;

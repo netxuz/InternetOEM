@@ -49,8 +49,10 @@
     <Compile Include="cAntDocPago.cs" />
     <Compile Include="cAntDocumentosPago.cs" />
     <Compile Include="cAntFactura.cs" />
+    <Compile Include="cAntNotaCredito.cs" />
     <Compile Include="cAntPagos.cs" />
     <Compile Include="cAntsUsuarios.cs" />
+    <Compile Include="cAntUsrTiposPago.cs" />
     <Compile Include="cDeudor.cs" />
     <Compile Include="cGuiasFacturas.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

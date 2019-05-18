@@ -23,6 +23,8 @@
 <body>
   <form id="form1" runat="server">
     <asp:ScriptManager ID="ScriptManager" runat="server"></asp:ScriptManager>
+    <asp:HiddenField ID="hdd_arrNkeyCliente" runat="server" />
+    <asp:HiddenField ID="hdd_cli_show" runat="server" />
     <nav class="navbar-inverse">
       <div class="container-fluid">
         <div class="navbar-header">
@@ -72,6 +74,14 @@
       <div class="blq_tile">
         <asp:Label ID="lblTitle" runat="server" CssClass="lblTitle" Text="COPIA CEDIBLE EN DEBTCONTROL"></asp:Label>
       </div>
+      <div class="row">
+        <div id="colClientes" class="col-md-4" runat="server" visible="false">
+          <div><span>Clientes</span></div>
+          <div></div>
+          <asp:DropDownList ID="cmbCliente" CssClass="inputCmbBox" runat="server">
+          </asp:DropDownList>
+        </div>
+      </div>
       <div class="blq_date">
         <div><span>Fecha Inicio</span></div>
         <div>
@@ -104,7 +114,8 @@
         </div>
       </div>
       <div id="idGrilla" runat="server" visible="false">
-        <telerik:RadGrid ID="rdGridCopCedibleDebt" runat="server" OnNeedDataSource="rdGridCopCedibleDebt_NeedDataSource" OnItemCommand="rdGridCopCedibleDebt_ItemCommand"
+        <asp:Label ID="lblmoneda" runat="server" CssClass="lblmoneda"></asp:Label>
+        <telerik:RadGrid ID="rdGridCopCedibleDebt" runat="server" OnNeedDataSource="rdGridCopCedibleDebt_NeedDataSource" OnItemCommand="rdGridCopCedibleDebt_ItemCommand" OnItemDataBound="rdGridCopCedibleDebt_ItemDataBound"
           AllowPaging="true" AllowSorting="true" ShowStatusBar="true" PageSize="10" GridLines="None" AllowAutomaticUpdates="true" AllowAutomaticInserts="true" AllowAutomaticDeletes="true" Skin="Sitefinity">
           <ExportSettings HideStructureColumns="true"></ExportSettings>
           <PagerStyle Mode="NextPrevAndNumeric" />
@@ -141,9 +152,9 @@
                 <HeaderStyle Font-Size="Smaller" HorizontalAlign="Center" />
                 <ItemStyle HorizontalAlign="Center" />
               </telerik:GridBoundColumn>
-
+              <%-- DataFormatString="{0:N0}" --%>
               <telerik:GridBoundColumn DataField="Monto" HeaderText="Monto"
-                UniqueName="Monto" DataFormatString="{0:N0}">
+                UniqueName="Monto">
                 <HeaderStyle Font-Size="Smaller" HorizontalAlign="Center" />
                 <ItemStyle HorizontalAlign="Right" />
               </telerik:GridBoundColumn>
@@ -154,5 +165,20 @@
       </div>
     </div>
   </form>
+  <script>
+      var x, y;
+      $(document).ready(function () {
+
+        /* Apply fancybox to multiple items */
+
+        $("#idBuscar").click(function () {
+          if ($("#cmbCliente").val() == "") {
+            alert("Debe seleccionar cliente.");
+            return false;
+          }
+        });          
+
+      });
+    </script>
 </body>
 </html>

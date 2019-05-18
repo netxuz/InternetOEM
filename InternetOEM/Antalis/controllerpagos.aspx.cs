@@ -69,29 +69,55 @@ namespace ICommunity.Antalis
           }
           dtCntDst = null;
 
-          cAntsUsuarios oUsuarios = new cAntsUsuarios(ref oConn);
-          oUsuarios.CodUsuario = oIsUsuario.CodUsuario;
-          oUsuarios.CodRol = "2";
-          DataTable dt = oUsuarios.GetRoles();
-          if (dt != null) {
-            if (dt.Rows.Count > 0) {
-              hdd_tipo_controller.Value = dt.Rows[0]["tipo"].ToString();
-              switch (hdd_tipo_controller.Value) {
-                case "E":
-                  cmb_documento.Items.Add(new ListItem("Efectivo", "3"));
-                  cmb_documento.Items.Add(new ListItem("Tarjeta", "5"));
-                  cmb_documento.Items.Add(new ListItem("Transferencia", "6"));
-                  break;
-
-                case "C":
+          cAntUsrTiposPago oAntUsrTiposPago = new cAntUsrTiposPago(ref oConn);
+          oAntUsrTiposPago.CodUsuario = oIsUsuario.CodUsuario;
+          DataTable dtUsrTiposPago = oAntUsrTiposPago.Get();
+          if (dtUsrTiposPago != null) {
+            if (dtUsrTiposPago.Rows.Count > 0) {
+              foreach (DataRow oRow in dtUsrTiposPago.Rows) {
+                if (oRow["tipo_pago"].ToString() == "1")
                   cmb_documento.Items.Add(new ListItem("Cheque al día", "1"));
+                if (oRow["tipo_pago"].ToString() == "2")
                   cmb_documento.Items.Add(new ListItem("Cheque al fecha", "2"));
+                if (oRow["tipo_pago"].ToString() == "3")
+                  cmb_documento.Items.Add(new ListItem("Efectivo", "3"));
+                if (oRow["tipo_pago"].ToString() == "4")
                   cmb_documento.Items.Add(new ListItem("Letra", "4"));
-                  break;
+                if (oRow["tipo_pago"].ToString() == "5")
+                  cmb_documento.Items.Add(new ListItem("Tarjeta", "5"));
+                if (oRow["tipo_pago"].ToString() == "6")
+                  cmb_documento.Items.Add(new ListItem("Transferencia", "6"));
               }
             }
           }
-          dt = null;
+          dtUsrTiposPago = null;
+
+          //cAntsUsuarios oUsuarios = new cAntsUsuarios(ref oConn);
+          //oUsuarios.CodUsuario = oIsUsuario.CodUsuario;
+          //oUsuarios.CodRol = "2";
+          //DataTable dt = oUsuarios.GetRoles();
+          //if (dt != null)
+          //{
+          //  if (dt.Rows.Count > 0)
+          //  {
+          //    hdd_tipo_controller.Value = dt.Rows[0]["tipo"].ToString();
+          //    switch (hdd_tipo_controller.Value)
+          //    {
+          //      case "E":
+          //        cmb_documento.Items.Add(new ListItem("Efectivo", "3"));
+          //        cmb_documento.Items.Add(new ListItem("Tarjeta", "5"));
+          //        cmb_documento.Items.Add(new ListItem("Transferencia", "6"));
+          //        break;
+
+          //      case "C":
+          //        cmb_documento.Items.Add(new ListItem("Cheque al día", "1"));
+          //        cmb_documento.Items.Add(new ListItem("Cheque al fecha", "2"));
+          //        cmb_documento.Items.Add(new ListItem("Letra", "4"));
+          //        break;
+          //    }
+          //  }
+          //}
+          //dt = null;
 
         }
         oConn.Close();
@@ -169,7 +195,7 @@ namespace ICommunity.Antalis
       if (oConn.Open())
       {
         cAntPagos oPagos = new cAntPagos(ref oConn);
-        oPagos.TipoPago = hdd_tipo_controller.Value;
+        oPagos.CodUsuario = oIsUsuario.CodUsuario;
         oPagos.Estado = "C";
 
         if (!string.IsNullOrEmpty(txt_num_valija.Text))
@@ -198,7 +224,7 @@ namespace ICommunity.Antalis
           oPagos.FechaFinal = DateTime.Parse(hdd_fch_hasta.Value).ToString("yyyyMMdd");
         }
 
-        gdPagos.DataSource = oPagos.Get();
+        gdPagos.DataSource = oPagos.GetPagosValidar();
         gdPagos.DataBind();
         oConn.Close();
       }

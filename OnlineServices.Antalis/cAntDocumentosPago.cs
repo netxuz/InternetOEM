@@ -26,6 +26,9 @@ namespace OnlineServices.Antalis
     private string pCodFactura;
     public string CodFactura { get { return pCodFactura; } set { pCodFactura = value; } }
 
+    private string pCodNotaCredito;
+    public string CodNotaCredito { get { return pCodNotaCredito; } set { pCodNotaCredito = value; } }
+
     private string pCodSAP;
     public string CodSAP { get { return pCodSAP; } set { pCodSAP = value; } }
 
@@ -62,6 +65,9 @@ namespace OnlineServices.Antalis
     private string pImporteFactura;
     public string ImporteFactura { get { return pImporteFactura; } set { pImporteFactura = value; } }
 
+    private string pImporteNotaCredito;
+    public string ImporteNotaCredito { get { return pImporteNotaCredito; } set { pImporteNotaCredito = value; } }
+
     private string pAccion;
     public string Accion { get { return pAccion; } set { pAccion = value; } }
 
@@ -89,7 +95,7 @@ namespace OnlineServices.Antalis
       if (oConn.bIsOpen)
       {
         cSQL = new StringBuilder();
-        cSQL.Append("select cod_documento, nod_cod_documento, cod_pago, cod_factura, cod_sap, nom_deudor, num_documento, cod_banco, nom_banco, convert(varchar, fch_documento, 103) fch_documento, num_guia_despacho, importe, importe_recibido, discrepancia, cuenta_corriente, importe_factura  ");
+        cSQL.Append("select cod_documento, nod_cod_documento, cod_pago, cod_factura, cod_nota_credito cod_sap, nom_deudor, num_documento, cod_banco, nom_banco, convert(varchar, fch_documento, 103) fch_documento, num_guia_despacho, importe, importe_recibido, discrepancia, cuenta_corriente, importe_factura, importe_nota_credito  ");
         cSQL.Append(" from ant_documentos_pago ");
 
         if (!string.IsNullOrEmpty(pCodDocumento))
@@ -122,6 +128,14 @@ namespace OnlineServices.Antalis
           Condicion = " and ";
           cSQL.Append(" cod_factura = @cod_factura  ");
           oParam.AddParameters("@cod_factura", pCodFactura, TypeSQL.Numeric);
+        }
+
+        if (!string.IsNullOrEmpty(pCodNotaCredito))
+        {
+          cSQL.Append(Condicion);
+          Condicion = " and ";
+          cSQL.Append(" cod_nota_credito = @cod_nota_credito  ");
+          oParam.AddParameters("@cod_nota_credito", pCodNotaCredito, TypeSQL.Numeric);
         }
 
         if (!string.IsNullOrEmpty(pNumDocumento))
@@ -169,7 +183,7 @@ namespace OnlineServices.Antalis
       if (oConn.bIsOpen)
       {
         cSQL = new StringBuilder();
-        cSQL.Append("select a.cod_documento, a.nod_cod_documento, a.cod_pago, a.cod_factura,(select num_factura from ant_factura where cod_factura = a.cod_factura) num_factura, a.cod_sap, a.nom_deudor, a.num_documento, a.cod_banco, a.nom_banco, convert(varchar, a.fch_documento, 103) fch_documento, a.num_guia_despacho, a.importe, (select valor_factura from ant_factura where cod_factura = a.cod_factura) valor_factura,  (select saldo_factura from ant_factura where cod_factura = a.cod_factura) saldo_factura, a.importe_recibido, a.discrepancia, a.cuenta_corriente, a.importe_factura ");
+        cSQL.Append("select a.cod_documento, a.nod_cod_documento, a.cod_pago, a.cod_factura, a.cod_nota_credito, (select num_factura from ant_factura where cod_factura = a.cod_factura) num_factura, a.cod_sap, a.nom_deudor, a.num_documento, a.cod_banco, a.nom_banco, convert(varchar, a.fch_documento, 103) fch_documento, a.num_guia_despacho, a.importe, (select valor_factura from ant_factura where cod_factura = a.cod_factura) valor_factura,  (select saldo_factura from ant_factura where cod_factura = a.cod_factura) saldo_factura, a.importe_recibido, a.discrepancia, a.cuenta_corriente, a.importe_factura, a.importe_nota_credito ");
         cSQL.Append(" from ant_documentos_pago a ");
 
         if (!string.IsNullOrEmpty(pCodDocumento))
@@ -223,12 +237,13 @@ namespace OnlineServices.Antalis
               cSQL = new StringBuilder();
 
               pCodDocumento = oConn.getTableCod("ant_documentos_pago", "cod_documento", oConn);
-              cSQL.Append("insert into ant_documentos_pago(cod_documento, nod_cod_documento, cod_pago, cod_factura, cod_sap, nom_deudor, num_documento, cod_banco, nom_banco, fch_documento, num_guia_despacho, importe, importe_recibido, discrepancia, cuenta_corriente, importe_factura) values( ");
-              cSQL.Append("@cod_documento, @nod_cod_documento, @cod_pago, @cod_factura, @cod_sap, @nom_deudor, @num_documento, @cod_banco, @nom_banco, @fch_documento, @num_guia_despacho, @importe, @importe_recibido, @discrepancia, @cuenta_corriente, @importe_factura) ");
+              cSQL.Append("insert into ant_documentos_pago(cod_documento, nod_cod_documento, cod_pago, cod_factura, cod_nota_credito, cod_sap, nom_deudor, num_documento, cod_banco, nom_banco, fch_documento, num_guia_despacho, importe, importe_recibido, discrepancia, cuenta_corriente, importe_factura, importe_nota_credito) values( ");
+              cSQL.Append("@cod_documento, @nod_cod_documento, @cod_pago, @cod_factura, @cod_nota_credito, @cod_sap, @nom_deudor, @num_documento, @cod_banco, @nom_banco, @fch_documento, @num_guia_despacho, @importe, @importe_recibido, @discrepancia, @cuenta_corriente, @importe_factura, @importe_nota_credito) ");
               oParam.AddParameters("@cod_documento", pCodDocumento, TypeSQL.Numeric);
               oParam.AddParameters("@nod_cod_documento", pNodCodDocumento, TypeSQL.Numeric);
               oParam.AddParameters("@cod_pago", pCodPagos, TypeSQL.Numeric);
               oParam.AddParameters("@cod_factura", pCodFactura, TypeSQL.Numeric);
+              oParam.AddParameters("@cod_nota_credito", pCodNotaCredito, TypeSQL.Numeric);
               oParam.AddParameters("@cod_sap", pCodSAP, TypeSQL.Numeric);
               oParam.AddParameters("@nom_deudor", pNombreDeudor, TypeSQL.Varchar);
               oParam.AddParameters("@num_documento", pNumDocumento, TypeSQL.Varchar);
@@ -241,6 +256,7 @@ namespace OnlineServices.Antalis
               oParam.AddParameters("@discrepancia", pDiscrepancia, TypeSQL.Numeric);
               oParam.AddParameters("@cuenta_corriente", pCuentaCorriente, TypeSQL.Varchar);
               oParam.AddParameters("@importe_factura", pImporteFactura, TypeSQL.Numeric);
+              oParam.AddParameters("@importe_nota_credito", pImporteNotaCredito, TypeSQL.Numeric);
               oConn.Insert(cSQL.ToString(), oParam);
 
               if (!string.IsNullOrEmpty(oConn.Error)) {
@@ -255,6 +271,12 @@ namespace OnlineServices.Antalis
               {
                 cSQL.Append(" cod_factura = @cod_factura");
                 oParam.AddParameters("@cod_factura", pCodFactura, TypeSQL.Numeric);
+                sComa = ", ";
+              }
+              if (!string.IsNullOrEmpty(pCodNotaCredito))
+              {
+                cSQL.Append(" cod_nota_credito = @cod_nota_credito");
+                oParam.AddParameters("@cod_nota_credito", pCodNotaCredito, TypeSQL.Numeric);
                 sComa = ", ";
               }
               if (!string.IsNullOrEmpty(pNombreDeudor))
@@ -327,6 +349,13 @@ namespace OnlineServices.Antalis
                 cSQL.Append(sComa);
                 cSQL.Append(" importe_factura = @importe_factura");
                 oParam.AddParameters("@importe_factura", pImporteFactura, TypeSQL.Numeric);
+                sComa = ", ";
+              }
+              if (!string.IsNullOrEmpty(pImporteNotaCredito))
+              {
+                cSQL.Append(sComa);
+                cSQL.Append(" importe_nota_credito = @importe_nota_credito");
+                oParam.AddParameters("@importe_nota_credito", pImporteNotaCredito, TypeSQL.Numeric);
                 sComa = ", ";
               }
               cSQL.Append(" where cod_documento = @cod_documento ");

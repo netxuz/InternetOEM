@@ -22,6 +22,9 @@ namespace OnlineServices.Reporting
     private string lngNkeyUsuario;
     public string NkeyUsuario { get { return lngNkeyUsuario; } set { lngNkeyUsuario = value; } }
 
+    private string pNcodHolding;
+    public string NcodHolding { get { return pNcodHolding; } set { pNcodHolding = value; } }
+
     private string pDtFchIni;
     public string DtFchIni { get { return pDtFchIni; } set { pDtFchIni = value; } }
 
@@ -48,9 +51,17 @@ namespace OnlineServices.Reporting
       if (oConn.bIsOpen)
       {
         StringBuilder cSQL = new StringBuilder();
-        cSQL.Append("select distinct Código, Razón_Social, Tipo_de_Documento, Número_Documento, Fecha_Entrega,   Región, Observaciones ");
-        cSQL.Append(" from despacho_retiro_doctos ");
-        cSQL.Append(" where nKey_Cliente = ").Append(lngCodNkey);
+        cSQL.Append("select * from despacho_retiro_doctos ");
+
+        if (string.IsNullOrEmpty(pNcodHolding))
+        {
+          cSQL.Append(" where nKey_Cliente in(").Append(lngCodNkey).Append(") ");
+        }
+        else
+        {
+          cSQL.Append(" where despacho_retiro_doctos.ncodholding = ").Append(pNcodHolding);
+        }
+
         if (!string.IsNullOrEmpty(lngCodDeudor))
           cSQL.Append(" and nkey_deudor = ").Append(lngCodDeudor);
 
@@ -58,7 +69,7 @@ namespace OnlineServices.Reporting
           cSQL.Append("  and despacho_retiro_doctos.nkey_deudor = ").Append(lngNkeyUsuario);
 
         if ((!string.IsNullOrEmpty(sTipoUsuario)) && (sTipoUsuario == "V"))
-          cSQL.Append("  and despacho_retiro_doctos.nkey_deudor in (select codigodeudor.nkey_deudor from codigodeudor where codigodeudor.nkey_vendedor = ").Append(lngNkeyUsuario).Append(" and codigodeudor.nkey_cliente = ").Append(lngCodNkey).Append(" )  ");
+          cSQL.Append("  and despacho_retiro_doctos.nkey_deudor in (select codigodeudor.nkey_deudor from codigodeudor where codigodeudor.nkey_vendedor = ").Append(lngNkeyUsuario).Append(" and codigodeudor.nkey_cliente in(").Append(lngCodNkey).Append(") )  ");
 
         cSQL.Append(" and Fecha_Entrega between convert(datetime,'").Append(pDtFchIni).Append("') and convert(datetime,'").Append(pDtFchFin).Append("') ");
         cSQL.Append(" and  Tipo_de_Documento <> 'Copia Cedible' ");

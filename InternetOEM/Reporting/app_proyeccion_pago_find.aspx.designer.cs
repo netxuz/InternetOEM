@@ -31,13 +31,22 @@ namespace ICommunity.Reporting {
         protected global::System.Web.UI.ScriptManager ScriptManager1;
         
         /// <summary>
-        /// RadGrid1 control.
+        /// hdd_arrNkeyCliente control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Telerik.Web.UI.RadGrid RadGrid1;
+        protected global::System.Web.UI.WebControls.HiddenField hdd_arrNkeyCliente;
+        
+        /// <summary>
+        /// hdd_cli_show control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdd_cli_show;
         
         /// <summary>
         /// idReportePago control.
@@ -112,6 +121,51 @@ namespace ICommunity.Reporting {
         protected global::System.Web.UI.WebControls.Label lblTitle;
         
         /// <summary>
+        /// colClientes control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl colClientes;
+        
+        /// <summary>
+        /// cmbCliente control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList cmbCliente;
+        
+        /// <summary>
+        /// colHolding control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl colHolding;
+        
+        /// <summary>
+        /// cmbHolding control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList cmbHolding;
+        
+        /// <summary>
+        /// colDeudor control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl colDeudor;
+        
+        /// <summary>
         /// rdTxtDeudor control.
         /// </summary>
         /// <remarks>
@@ -119,15 +173,6 @@ namespace ICommunity.Reporting {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Telerik.Web.UI.RadTextBox rdTxtDeudor;
-        
-        /// <summary>
-        /// RequiredFieldValidator1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
         
         /// <summary>
         /// hddCodDeudor control.
@@ -173,6 +218,15 @@ namespace ICommunity.Reporting {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl idGrilla;
+        
+        /// <summary>
+        /// lblmoneda control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblmoneda;
         
         /// <summary>
         /// rdGridProyeccionPagos control.

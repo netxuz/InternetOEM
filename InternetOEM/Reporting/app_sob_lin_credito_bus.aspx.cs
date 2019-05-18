@@ -21,6 +21,11 @@ namespace ICommunity.Reporting
   {
     private OnlineServices.Method.Web oWeb = new OnlineServices.Method.Web();
     private OnlineServices.Method.Usuario oIsUsuario;
+    string Signomoneda = string.Empty;
+    string Decimales = string.Empty;
+    bool bCliente = false;
+    bool bDeudor;
+    bool bHolding;
     protected void Page_Load(object sender, EventArgs e)
     {
       oIsUsuario = oWeb.ValidaUserAppReport();
@@ -34,13 +39,118 @@ namespace ICommunity.Reporting
       getMenu(IndClasificacionRiesgo, oIsUsuario.CodUsuario, "6");
       getMenuAntalis(indAntalis, oIsUsuario.CodUsuario);
 
+      DBConn oConn = new DBConn();
       if (!IsPostBack) {
+        
+        if (oConn.Open())
+        {
+          string arrNkeyCliente = string.Empty;
+          SysClienteUsuario oClienteUsuario = new SysClienteUsuario(ref oConn);
+          oClienteUsuario.CodUsuario = oIsUsuario.CodUsuario;
+          DataTable dt = oClienteUsuario.Get();
+          if (dt != null)
+          {
+            foreach (DataRow dRow in dt.Rows)
+            {
+              arrNkeyCliente = (string.IsNullOrEmpty(arrNkeyCliente) ? dRow["nkey_user"].ToString() : arrNkeyCliente + "," + dRow["nkey_user"].ToString());
+            }
+
+            hdd_arrNkeyCliente.Value = arrNkeyCliente;
+          }
+          dt = null;
+
+          if (arrNkeyCliente.Split(',').Count() > 0)
+          {
+            hdd_cli_show.Value = "V";
+            bCliente = true;
+            cCliente oCliente = new cCliente(ref oConn);
+            oCliente.ArrNkeyCliente = arrNkeyCliente;
+            dt = oCliente.GetClientes();
+
+            if (dt != null)
+            {
+              cmbCliente.Items.Add(new ListItem("<< Seleccione Cliente >>", string.Empty));
+              foreach (DataRow oRow in dt.Rows)
+              {
+                cmbCliente.Items.Add(new ListItem(oRow["snombre"].ToString(), oRow["nkey_cliente"].ToString()));
+              }
+            }
+            dt = null;
+
+            colClientes.Visible = true;
+          }
+
+          cDebtUsrAsignados oDebtUsrAsignados = new cDebtUsrAsignados(ref oConn);
+          oDebtUsrAsignados.CodUsuario = oIsUsuario.CodUsuario;
+          oDebtUsrAsignados.CodConsulta = "24";
+          dt = oDebtUsrAsignados.Get();
+          if (dt != null)
+          {
+            if (dt.Rows.Count > 0)
+            {
+              bDeudor = ((dt.Rows[0]["filtro_deudor"].ToString() == "V") ? true : false);
+              bHolding = ((dt.Rows[0]["filtro_holding"].ToString() == "V") ? true : false);
+            }
+          }
+          dt = null;
+
+          //if (bDeudor)
+          //  colDeudor.Visible = true;
+
+          if (bHolding)
+          {
+            colHolding.Visible = true;
+            cCliente oCliente = new cCliente(ref oConn);
+            oCliente.ArrNkeyCliente = arrNkeyCliente;
+            dt = oCliente.GetHolding();
+            if (dt != null)
+            {
+              if (dt.Rows.Count > 0)
+              {
+                cmbHolding.Visible = true;
+                cmbHolding.Items.Add(new ListItem("<< Seleccione Holding >>", string.Empty));
+                foreach (DataRow oRow in dt.Rows)
+                {
+                  cmbHolding.Items.Add(new ListItem(oRow["holding"].ToString(), oRow["ncodholding"].ToString()));
+                }
+              }
+            }
+          }
+
+          oConn.Close();
+        }
+
         Log oLog = new Log();
         oLog.IdUsuario = oIsUsuario.CodUsuario;
         oLog.ObsLog = "REPORTE DE SOBREGIROS LÍNEA DE CRÉDITO";
         oLog.CodEvtLog = "1";
         oLog.AppLog = "REPORTES DEBTCONTROL";
         oLog.putLog();
+      }
+
+      if (oConn.Open())
+      {
+        if (!string.IsNullOrEmpty(cmbCliente.SelectedValue))
+        {
+          cCliente oCliente = new cCliente(ref oConn);
+          oCliente.CodNkey = cmbCliente.SelectedValue;
+          DataTable dt = oCliente.GeCliente();
+          if (dt != null)
+          {
+            if (dt.Rows.Count > 0)
+            {
+              Signomoneda = dt.Rows[0]["signomoneda"].ToString().Trim();
+              Decimales = dt.Rows[0]["decimales"].ToString();
+            }
+          }
+          dt = null;
+
+          if (!string.IsNullOrEmpty(Signomoneda))
+            lblmoneda.Text = "Montos expresados en " + Signomoneda;
+
+        }
+
+        oConn.Close();
       }
 
     }
@@ -145,7 +255,8 @@ namespace ICommunity.Reporting
       if (oConn.Open())
       {
         cSobreGirosLineaCredito oSobreGirosLineaCredito = new cSobreGirosLineaCredito(ref oConn);
-        oSobreGirosLineaCredito.CodNkey = oIsUsuario.CodNkey;
+        oSobreGirosLineaCredito.CodNkey = ((!string.IsNullOrEmpty(cmbCliente.SelectedValue) ? cmbCliente.SelectedValue : hdd_arrNkeyCliente.Value));
+        oSobreGirosLineaCredito.NcodHolding = cmbHolding.SelectedValue;
         oSobreGirosLineaCredito.NkeyUsuario = oIsUsuario.NKeyUsuario;
         oSobreGirosLineaCredito.TipoUsuario = oIsUsuario.TipoUsuario;
         dt = oSobreGirosLineaCredito.Get();
@@ -156,5 +267,56 @@ namespace ICommunity.Reporting
       return dt;
     }
 
+    protected void idBuscar_Click(object sender, EventArgs e)
+    {
+      idGrilla.Visible = true;
+      rdGridSobLinCredito.Rebind();
+    }
+
+    protected void rdGridSobLinCredito_ItemDataBound(object sender, GridItemEventArgs e)
+    {
+      if (e.Item is GridDataItem)
+      {
+        GridDataItem item = (GridDataItem)e.Item;
+        DataRowView row = (DataRowView)e.Item.DataItem;
+
+        if (!string.IsNullOrEmpty(Decimales))
+        {
+          if (int.Parse(Decimales) > 0)
+          {
+            if ((!string.IsNullOrEmpty(item["lineactual"].Text)) && (item["lineactual"].Text != "&nbsp;"))
+              item["lineactual"].Text = double.Parse(row["lineactual"].ToString()).ToString("N" + Decimales);
+
+            if ((!string.IsNullOrEmpty(item["saldo"].Text)) && (item["saldo"].Text != "&nbsp;"))
+              item["saldo"].Text = double.Parse(row["saldo"].ToString()).ToString("N" + Decimales);
+
+            if ((!string.IsNullOrEmpty(item["Disponible"].Text)) && (item["Disponible"].Text != "&nbsp;"))
+              item["Disponible"].Text = double.Parse(row["Disponible"].ToString()).ToString("N" + Decimales);
+          }
+          else
+          {
+            if ((!string.IsNullOrEmpty(item["lineactual"].Text)) && (item["lineactual"].Text != "&nbsp;"))
+              item["lineactual"].Text = double.Parse(row["lineactual"].ToString()).ToString("N0");
+
+            if ((!string.IsNullOrEmpty(item["saldo"].Text)) && (item["saldo"].Text != "&nbsp;"))
+              item["saldo"].Text = double.Parse(row["saldo"].ToString()).ToString("N0");
+
+            if ((!string.IsNullOrEmpty(item["Disponible"].Text)) && (item["Disponible"].Text != "&nbsp;"))
+              item["Disponible"].Text = double.Parse(row["Disponible"].ToString()).ToString("N0");
+          }
+        }
+        else
+        {
+          if ((!string.IsNullOrEmpty(item["lineactual"].Text)) && (item["lineactual"].Text != "&nbsp;"))
+            item["lineactual"].Text = double.Parse(row["lineactual"].ToString()).ToString("N0");
+
+          if ((!string.IsNullOrEmpty(item["saldo"].Text)) && (item["saldo"].Text != "&nbsp;"))
+            item["saldo"].Text = double.Parse(row["saldo"].ToString()).ToString("N0");
+
+          if ((!string.IsNullOrEmpty(item["Disponible"].Text)) && (item["Disponible"].Text != "&nbsp;"))
+            item["Disponible"].Text = double.Parse(row["Disponible"].ToString()).ToString("N0");
+        }
+      }
+    }
   }
 }

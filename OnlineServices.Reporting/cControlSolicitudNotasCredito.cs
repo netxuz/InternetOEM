@@ -22,6 +22,9 @@ namespace OnlineServices.Reporting
     private string lngNkeyUsuario;
     public string NkeyUsuario { get { return lngNkeyUsuario; } set { lngNkeyUsuario = value; } }
 
+    private string pNcodHolding;
+    public string NcodHolding { get { return pNcodHolding; } set { pNcodHolding = value; } }
+
     private string pDtFchIni;
     public string DtFchIni { get { return pDtFchIni; } set { pDtFchIni = value; } }
 
@@ -53,7 +56,11 @@ namespace OnlineServices.Reporting
         StringBuilder cSQL = new StringBuilder();
         cSQL.Append("Select Código, Razón_Social, Número_Factura, Monto, Fecha_Solicitud, Atraso, ");
         cSQL.Append(" Número_Solicitud from control_notas_credito ");
-        cSQL.Append(" where nKey_Cliente = ").Append(lngCodNkey);
+
+        if (string.IsNullOrEmpty(pNcodHolding))
+          cSQL.Append(" where nKey_Cliente in(").Append(lngCodNkey).Append(") ");
+        else
+          cSQL.Append(" where ncodholding = ").Append(pNcodHolding);
 
         if (!string.IsNullOrEmpty(lngCodDeudor))
           cSQL.Append(" and nkey_deudor = ").Append(lngCodDeudor);
@@ -62,7 +69,7 @@ namespace OnlineServices.Reporting
           cSQL.Append("  and control_notas_credito.nkey_deudor = ").Append(lngNkeyUsuario);
 
         if ((!string.IsNullOrEmpty(sTipoUsuario)) && (sTipoUsuario == "V"))
-          cSQL.Append("  and control_notas_credito.nkey_deudor in (select codigodeudor.nkey_deudor from codigodeudor where codigodeudor.nkey_vendedor = ").Append(lngNkeyUsuario).Append(" and codigodeudor.nkey_cliente = ").Append(lngCodNkey).Append(" )  ");
+          cSQL.Append("  and control_notas_credito.nkey_deudor in (select codigodeudor.nkey_deudor from codigodeudor where codigodeudor.nkey_vendedor = ").Append(lngNkeyUsuario).Append(" and codigodeudor.nkey_cliente in(").Append(lngCodNkey).Append(") )  ");
 
         cSQL.Append(" and estado ='").Append(pEstado).Append("' and Fecha_Solicitud between convert(datetime,'").Append(pDtFchIni).Append("') and convert(datetime,'").Append(pDtFchFin).Append("') order by Fecha_Solicitud ");
         

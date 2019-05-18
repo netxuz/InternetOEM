@@ -22,6 +22,9 @@ namespace OnlineServices.Reporting
     private string lngNkeyUsuario;
     public string NkeyUsuario { get { return lngNkeyUsuario; } set { lngNkeyUsuario = value; } }
 
+    private string pNcodHolding;
+    public string NcodHolding { get { return pNcodHolding; } set { pNcodHolding = value; } }
+
     private string pDtFchIni;
     public string DtFchIni { get { return pDtFchIni; } set { pDtFchIni = value; } }
 
@@ -59,28 +62,99 @@ namespace OnlineServices.Reporting
 
         if (blnIndAccion)
         {
-          cSQL.Append("select distinct  Fecha_Gestión, Contacto, Compromiso_Pago, ");
-          cSQL.Append(" Monto_prometido, Deudor, Analista, Observación, Razón_Social from seguimiento_deudores_t  ");
-          cSQL.Append(" where nkey_cliente = ").Append(lngCodNkey);
-          if (!string.IsNullOrEmpty(lngCodDeudor))
-            cSQL.Append(" and nkey_deudor = ").Append(lngCodDeudor);
+          cSQL.Append("select ");
 
-          if ((!string.IsNullOrEmpty(sTipoUsuario)) && (sTipoUsuario == "D"))
-            cSQL.Append("  and nkey_deudor = ").Append(lngNkeyUsuario);
+          if (!string.IsNullOrEmpty(pNcodHolding))
+          {
+            cSQL.Append(" ncod as 'ncodholding', codigo,  ");
+          }
+          else
+          {
+            if (string.IsNullOrEmpty(lngCodDeudor))
+            {
+              cSQL.Append(" codigo, ");
+            }
+          }
 
-          if ((!string.IsNullOrEmpty(sTipoUsuario)) && (sTipoUsuario == "V"))
-            cSQL.Append("  and nkey_deudor in ( select nkey_deudor from codigodeudor where nkey_cliente = ").Append(lngCodNkey).Append(" and nkey_vendedor  = ").Append(lngNkeyUsuario).Append(" ) ");
+          cSQL.Append(" RazonSocial as 'Razón Social', Fecha as 'Fecha Gestión', TipoGestion as 'Tipo Gestión', Contacto, Para, Deudor, Analista, Observacion, CompromisoPago as 'Compromiso Pago', sum(montoprometido) as 'Monto Prometido' ");
+          cSQL.Append(" from Vista_reporte_ultimas_gestiones_2  ");
 
-          cSQL.Append(" and Fecha_Gestión between convert(datetime,'").Append(pDtFchIni).Append("') and convert(datetime,'").Append(pDtFchFin).Append("') ");
-          cSQL.Append(" order by Fecha_Gestión ");
+          if (!string.IsNullOrEmpty(pNcodHolding))
+          {
+            cSQL.Append(" where ncodholding = ").Append(pNcodHolding);
+          }
+          else {
+            if (!string.IsNullOrEmpty(lngCodDeudor))
+            {
+              cSQL.Append(" where nKey_Deudor = ").Append(lngCodDeudor);
+            }
+            else {
+              cSQL.Append(" where nkey_cliente in (").Append(lngCodNkey).Append(") ");
+            }
+          }
+
+          cSQL.Append(" and Fecha between convert(datetime,'").Append(pDtFchIni).Append("') and convert(datetime,'").Append(pDtFchFin).Append("') ");
+
+          cSQL.Append(" group by ");
+
+          if (!string.IsNullOrEmpty(pNcodHolding))
+          {
+            cSQL.Append(" ncod, codigo, ");
+          }
+          else {
+            if (string.IsNullOrEmpty(lngCodDeudor)) {
+              cSQL.Append(" codigo, ");
+            }
+          }
+          cSQL.Append(" RazonSocial, Fecha, TipoGestion, Contacto, Para, Deudor, Analista, Observacion, CompromisoPago, montoprometido");
+          cSQL.Append(" order by Fecha ");
 
         }
-        else {
-          cSQL.Append("select distinct  Fecha_Gestión, Contacto, Compromiso_Pago, ");
-          cSQL.Append(" Monto_prometido, Deudor, Analista, Observación, Razón_Social from seguimiento_deudores_t  ");
-          cSQL.Append(" where nkey_cliente =").Append(lngCodNkey);
-          cSQL.Append(" and Número_Factura = ").Append(lngNumFactura);
-          cSQL.Append(" order by Fecha_Gestión ");
+        else
+        {
+          cSQL.Append("select ");
+
+          if (!string.IsNullOrEmpty(pNcodHolding))
+          {
+            cSQL.Append(" ncod as 'ncodholding', codigo,  ");
+          }
+          else
+          {
+            if (string.IsNullOrEmpty(lngCodDeudor))
+            {
+              cSQL.Append(" codigo, ");
+            }
+          }
+          cSQL.Append(" RazonSocial as 'Razón Social', Fecha as 'Fecha Gestión', TipoGestion as 'Tipo Gestión', Contacto, Para, Deudor, Analista, Observacion, CompromisoPago as 'Compromiso Pago', sum(montoprometido) as 'Monto Prometido' ");
+          cSQL.Append(" from Vista_reporte_ultimas_gestiones_4  ");
+
+          if (!string.IsNullOrEmpty(pNcodHolding))
+          {
+            cSQL.Append(" where ncodholding = ").Append(pNcodHolding);
+          }
+          else {
+            cSQL.Append(" where nkey_cliente in(").Append(lngCodNkey).Append(") ");
+          }                    
+          
+          cSQL.Append(" and nnumerofactura = ").Append(lngNumFactura);
+
+
+          cSQL.Append(" group by ");
+
+          if (!string.IsNullOrEmpty(pNcodHolding))
+          {
+            cSQL.Append(" ncod, codigo, ");
+          }
+          else
+          {
+            if (string.IsNullOrEmpty(lngCodDeudor))
+            {
+              cSQL.Append(" codigo, ");
+            }
+          }
+
+          cSQL.Append(" RazonSocial, Fecha, TipoGestion, Contacto, Para, Deudor, Analista, Observacion, CompromisoPago, montoprometido ");
+          cSQL.Append(" order by Fecha ");
 
         }
 
@@ -94,5 +168,6 @@ namespace OnlineServices.Reporting
         return null;
       }
     }
+
   }
 }

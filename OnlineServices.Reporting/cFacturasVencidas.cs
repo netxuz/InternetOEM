@@ -22,6 +22,9 @@ namespace OnlineServices.Reporting
     private string lngNkeyUsuario;
     public string NkeyUsuario { get { return lngNkeyUsuario; } set { lngNkeyUsuario = value; } }
 
+    private string pNcodHolding;
+    public string NcodHolding { get { return pNcodHolding; } set { pNcodHolding = value; } }
+
     private string pDtFchIni;
     public string DtFchIni { get { return pDtFchIni; } set { pDtFchIni = value; } }
 
@@ -44,7 +47,7 @@ namespace OnlineServices.Reporting
       this.oConn = oConn;
     }
 
-    public DataTable Get()
+    public DataTable Get_old()
     {
       DataTable dtData;
 
@@ -77,5 +80,53 @@ namespace OnlineServices.Reporting
         return null;
       }
     }
+
+    public DataTable Get()
+    {
+      DataTable dtData;
+
+      if (oConn.bIsOpen)
+      {
+        StringBuilder cSQL = new StringBuilder();
+        cSQL.Append("select ");
+
+        if (!string.IsNullOrEmpty(pNcodHolding))
+        {
+          cSQL.Append(" ncod as 'ncodholding', ");
+        }
+
+        cSQL.Append(" nCodigoDeudor as 'CodigoDeudor', nRut, sDigitoVerificador, convert(varchar,convert(numeric(10),nRut)) + '-' + sDigitoVerificador as 'RUT Deudor', NombreDeudor as 'Deudor', [Tipo de Documento] as 'Tipo Documento', Numero_Docto as 'Número Documento', Fecha_Emisión as 'Fecha Emisión', Fecha_Vencimiento as 'Fecha Vencimiento', Monto, Saldo ");
+        cSQL.Append(" from Vista_reporte_ultimas_gestiones_3  ");
+
+        if (!string.IsNullOrEmpty(pNcodHolding))
+        {
+          cSQL.Append(" where ncodholding = ").Append(pNcodHolding);
+        }
+        else
+        {
+          if (!string.IsNullOrEmpty(lngCodDeudor))
+          {
+            cSQL.Append(" where nkey_deudor = ").Append(lngCodDeudor);
+          }
+          else
+          {
+            cSQL.Append(" where nkey_cliente in (").Append(lngCodNkey).Append(") ");
+          }
+        }
+
+        //cSQL.Append(" and Fecha_Vencimiento <= convert(datetime,'").Append(pDtFchIni).Append("') ");
+        cSQL.Append(" order by Fecha_Vencimiento asc ");
+
+        dtData = oConn.Select(cSQL.ToString());
+        pError = oConn.Error;
+        return dtData;
+      }
+      else
+      {
+        pError = "Conexion Cerrada";
+        return null;
+      }
+    }
+
   }
 }

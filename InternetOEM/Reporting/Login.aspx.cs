@@ -59,7 +59,7 @@ namespace ICommunity.Reporting
             oIsUsuario.Fono = oRow[0]["fono_usuario"].ToString();
             oIsUsuario.CodNkey = oRow[0]["nkey_user"].ToString();
             oIsUsuario.TipoUsuario = oRow[0]["tipo_usuario"].ToString();
-            oIsUsuario.NKeyUsuario = oRow[0]["nkey_usuario"].ToString();
+            oIsUsuario.NKeyUsuario = oRow[0]["nkey_usuario"].ToString();           
 
             Session["USUARIO"] = oIsUsuario;
 

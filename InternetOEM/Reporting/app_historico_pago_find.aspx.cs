@@ -21,6 +21,11 @@ namespace ICommunity.Reporting
   {
     private OnlineServices.Method.Web oWeb = new OnlineServices.Method.Web();
     private OnlineServices.Method.Usuario oIsUsuario;
+    string Signomoneda = string.Empty;
+    string Decimales = string.Empty;
+    bool bCliente = false;
+    bool bDeudor;
+    bool bHolding;
     protected void Page_Load(object sender, EventArgs e)
     {
       oIsUsuario = oWeb.ValidaUserAppReport();
@@ -35,19 +40,119 @@ namespace ICommunity.Reporting
       getMenu(IndClasificacionRiesgo, oIsUsuario.CodUsuario, "6");
       getMenuAntalis(indAntalis, oIsUsuario.CodUsuario);
 
-      if (!IsPostBack)
+      DBConn oConn = new DBConn();
+      if (oConn.Open())
       {
-        RadDatePicker1.DateInput.DateFormat = "dd-MM-yyyy";
-        RadDatePicker2.DateInput.DateFormat = "dd-MM-yyyy";
-        RadDatePicker1.SelectedDate = dTimeNow.AddMonths(-1);
-        RadDatePicker2.SelectedDate = dTimeNow;
 
-        Log oLog = new Log();
-        oLog.IdUsuario = oIsUsuario.CodUsuario;
-        oLog.ObsLog = "REPORTE DE HISTORICO DE PAGOS";
-        oLog.CodEvtLog = "1";
-        oLog.AppLog = "REPORTES DEBTCONTROL";
-        oLog.putLog();
+        if (!IsPostBack)
+        {
+
+          string arrNkeyCliente = string.Empty;
+          SysClienteUsuario oClienteUsuario = new SysClienteUsuario(ref oConn);
+          oClienteUsuario.CodUsuario = oIsUsuario.CodUsuario;
+          DataTable dt = oClienteUsuario.Get();
+          if (dt != null)
+          {
+            foreach (DataRow dRow in dt.Rows)
+            {
+              arrNkeyCliente = (string.IsNullOrEmpty(arrNkeyCliente) ? dRow["nkey_user"].ToString() : arrNkeyCliente + "," + dRow["nkey_user"].ToString());
+            }
+
+            hdd_arrNkeyCliente.Value = arrNkeyCliente;
+          }
+          dt = null;
+
+          if (arrNkeyCliente.Split(',').Count() > 0)
+          {
+            hdd_cli_show.Value = "V";
+            bCliente = true;
+            cCliente oCliente = new cCliente(ref oConn);
+            oCliente.ArrNkeyCliente = arrNkeyCliente;
+            dt = oCliente.GetClientes();
+
+            if (dt != null)
+            {
+              cmbCliente.Items.Add(new ListItem("<< Seleccione Cliente >>", string.Empty));
+              foreach (DataRow oRow in dt.Rows)
+              {
+                cmbCliente.Items.Add(new ListItem(oRow["snombre"].ToString(), oRow["nkey_cliente"].ToString()));
+              }
+            }
+            dt = null;
+
+            colClientes.Visible = true;
+          }
+
+          cDebtUsrAsignados oDebtUsrAsignados = new cDebtUsrAsignados(ref oConn);
+          oDebtUsrAsignados.CodUsuario = oIsUsuario.CodUsuario;
+          oDebtUsrAsignados.CodConsulta = "2";
+          dt = oDebtUsrAsignados.Get();
+          if (dt != null)
+          {
+            if (dt.Rows.Count > 0)
+            {
+              bDeudor = ((dt.Rows[0]["filtro_deudor"].ToString() == "V") ? true : false);
+              bHolding = ((dt.Rows[0]["filtro_holding"].ToString() == "V") ? true : false);
+            }
+          }
+          dt = null;
+
+          if (bDeudor)
+            colDeudor.Visible = true;
+
+          if (bHolding)
+          {
+            colHolding.Visible = true;
+            cCliente oCliente = new cCliente(ref oConn);
+            oCliente.ArrNkeyCliente = arrNkeyCliente;
+            dt = oCliente.GetHolding();
+            if (dt != null)
+            {
+              if (dt.Rows.Count > 0)
+              {
+                cmbHolding.Visible = true;
+                cmbHolding.Items.Add(new ListItem("<< Seleccione Holding >>", string.Empty));
+                foreach (DataRow oRow in dt.Rows)
+                {
+                  cmbHolding.Items.Add(new ListItem(oRow["holding"].ToString(), oRow["ncodholding"].ToString()));
+                }
+              }
+            }
+          }
+
+          RadDatePicker1.DateInput.DateFormat = "dd-MM-yyyy";
+          RadDatePicker2.DateInput.DateFormat = "dd-MM-yyyy";
+          RadDatePicker1.SelectedDate = dTimeNow.AddMonths(-1);
+          RadDatePicker2.SelectedDate = dTimeNow;
+
+          Log oLog = new Log();
+          oLog.IdUsuario = oIsUsuario.CodUsuario;
+          oLog.ObsLog = "REPORTE DE HISTORICO DE PAGOS";
+          oLog.CodEvtLog = "1";
+          oLog.AppLog = "REPORTES DEBTCONTROL";
+          oLog.putLog();
+        }
+
+        if (!string.IsNullOrEmpty(cmbCliente.SelectedValue))
+        {
+          cCliente oCliente = new cCliente(ref oConn);
+          oCliente.CodNkey = cmbCliente.SelectedValue;
+          DataTable dt = oCliente.GeCliente();
+          if (dt != null)
+          {
+            if (dt.Rows.Count > 0)
+            {
+              Signomoneda = dt.Rows[0]["signomoneda"].ToString().Trim();
+              Decimales = dt.Rows[0]["decimales"].ToString();
+            }
+          }
+          dt = null;
+
+          if (!string.IsNullOrEmpty(Signomoneda))
+            lblmoneda.Text = "Montos expresados en " + Signomoneda;
+
+        }
+        oConn.Close();
       }
 
     }
@@ -124,6 +229,8 @@ namespace ICommunity.Reporting
     {
       if (e.CommandName == RadGrid.ExportToExcelCommandName)
       {
+        string sNameFile = "historicopago_" + DateTime.Parse(RadDatePicker1.SelectedDate.ToString()).ToString("dd-MM-yyyy");
+        sNameFile = sNameFile + "_al_" + DateTime.Parse(RadDatePicker2.SelectedDate.ToString()).ToString("dd-MM-yyyy");
         DataTable dt = getDatatble();
 
         XLWorkbook wb = new XLWorkbook();
@@ -133,7 +240,7 @@ namespace ICommunity.Reporting
         Response.Buffer = true;
         Response.Charset = "";
         Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-        Response.AddHeader("content-disposition", "attachment;filename=historicopago_" + DateTime.Now.ToString("yyyyMMdd") + ".xlsx");
+        Response.AddHeader("content-disposition", "attachment;filename=" + sNameFile + ".xlsx");
         using (MemoryStream MyMemoryStream = new MemoryStream())
         {
           wb.SaveAs(MyMemoryStream);
@@ -153,7 +260,8 @@ namespace ICommunity.Reporting
       {
         cHistoricoPago oHistoricoPago = new cHistoricoPago(ref oConn);
         oHistoricoPago.CodDeudor = hddCodDeudor.Value;
-        oHistoricoPago.CodNkey = oIsUsuario.CodNkey;
+        oHistoricoPago.CodNkey = ((!string.IsNullOrEmpty(cmbCliente.SelectedValue) ? cmbCliente.SelectedValue : hdd_arrNkeyCliente.Value));
+        oHistoricoPago.NcodHolding = cmbHolding.SelectedValue;
         oHistoricoPago.NkeyUsuario = oIsUsuario.NKeyUsuario;
         oHistoricoPago.TipoUsuario = oIsUsuario.TipoUsuario;
         oHistoricoPago.DtFchIni = DateTime.Parse(RadDatePicker1.SelectedDate.ToString()).ToString("yyyyMMdd");
@@ -171,6 +279,55 @@ namespace ICommunity.Reporting
     {
       idGrilla.Visible = true;
       rdGridHistoricoPago.Rebind();
+    }
+
+    protected void Page_PreRender(object o, EventArgs e)
+    {
+
+      rdGridHistoricoPago.MasterTableView.GetColumn("ncodholding").Display = true;
+      rdGridHistoricoPago.MasterTableView.GetColumn("Código").Display = true;
+
+      if (string.IsNullOrEmpty(cmbHolding.SelectedValue))
+      {
+
+        if (!string.IsNullOrEmpty(hddCodDeudor.Value))
+        {
+          rdGridHistoricoPago.MasterTableView.GetColumn("ncodholding").Display = false;
+          rdGridHistoricoPago.MasterTableView.GetColumn("Código").Display = false;
+        }
+        else
+        {
+          rdGridHistoricoPago.MasterTableView.GetColumn("ncodholding").Display = false;
+        }
+      }
+    }
+
+    protected void rdGridHistoricoPago_ItemDataBound(object sender, GridItemEventArgs e)
+    {
+      if (e.Item is GridDataItem)
+      {
+        GridDataItem item = (GridDataItem)e.Item;
+        DataRowView row = (DataRowView)e.Item.DataItem;
+
+        if (!string.IsNullOrEmpty(Decimales))
+        {
+          if (int.Parse(Decimales) > 0)
+          {
+            item["Total Pago"].Text = double.Parse(row["Total Pago"].ToString()).ToString("N" + Decimales);
+            item["Aplic_Factura"].Text = double.Parse(row["Aplic_Factura"].ToString()).ToString("N" + Decimales);
+          }
+          else
+          {
+            item["Total Pago"].Text = double.Parse(row["Total Pago"].ToString()).ToString("N0");
+            item["Aplic_Factura"].Text = double.Parse(row["Aplic_Factura"].ToString()).ToString("N0");
+          }
+        }
+        else
+        {
+          item["Total Pago"].Text = double.Parse(row["Total Pago"].ToString()).ToString("N0");
+          item["Aplic_Factura"].Text = double.Parse(row["Aplic_Factura"].ToString()).ToString("N0");
+        }
+      }
     }
   }
 }

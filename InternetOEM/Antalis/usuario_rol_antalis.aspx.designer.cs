@@ -85,12 +85,57 @@ namespace ICommunity.Antalis {
         protected global::System.Web.UI.WebControls.CheckBox chk_controller;
         
         /// <summary>
-        /// cmb_tipo_pago control.
+        /// chk_cheque_dia control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList cmb_tipo_pago;
+        protected global::System.Web.UI.WebControls.CheckBox chk_cheque_dia;
+        
+        /// <summary>
+        /// chk_cheque_fecha control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chk_cheque_fecha;
+        
+        /// <summary>
+        /// chk_efectivo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chk_efectivo;
+        
+        /// <summary>
+        /// chk_letra control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chk_letra;
+        
+        /// <summary>
+        /// chk_tarjeta control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chk_tarjeta;
+        
+        /// <summary>
+        /// chk_transferencia control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chk_transferencia;
     }
 }

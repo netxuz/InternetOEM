@@ -157,13 +157,13 @@ namespace ICommunity.Antalis {
         protected global::System.Web.UI.WebControls.Label lblValija;
         
         /// <summary>
-        /// lblRazonSocial control.
+        /// cmb_cliente control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblRazonSocial;
+        protected global::System.Web.UI.WebControls.DropDownList cmb_cliente;
         
         /// <summary>
         /// cmb_centrodistribucion control.

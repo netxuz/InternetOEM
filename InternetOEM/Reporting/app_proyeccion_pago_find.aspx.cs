@@ -22,6 +22,11 @@ namespace ICommunity.Reporting
   {
     private OnlineServices.Method.Web oWeb = new OnlineServices.Method.Web();
     private OnlineServices.Method.Usuario oIsUsuario;
+    string Signomoneda = string.Empty;
+    string Decimales = string.Empty;
+    bool bCliente = false;
+    bool bDeudor;
+    bool bHolding;
     protected void Page_Load(object sender, EventArgs e)
     {
       oIsUsuario = oWeb.ValidaUserAppReport();
@@ -36,8 +41,87 @@ namespace ICommunity.Reporting
       getMenu(IndClasificacionRiesgo, oIsUsuario.CodUsuario, "6");
       getMenuAntalis(indAntalis, oIsUsuario.CodUsuario);
 
+      DBConn oConn = new DBConn();
       if (!IsPostBack)
       {
+        if (oConn.Open())
+        {
+          string arrNkeyCliente = string.Empty;
+          SysClienteUsuario oClienteUsuario = new SysClienteUsuario(ref oConn);
+          oClienteUsuario.CodUsuario = oIsUsuario.CodUsuario;
+          DataTable dt = oClienteUsuario.Get();
+          if (dt != null)
+          {
+            foreach (DataRow dRow in dt.Rows)
+            {
+              arrNkeyCliente = (string.IsNullOrEmpty(arrNkeyCliente) ? dRow["nkey_user"].ToString() : arrNkeyCliente + "," + dRow["nkey_user"].ToString());
+            }
+
+            hdd_arrNkeyCliente.Value = arrNkeyCliente;
+          }
+          dt = null;
+
+          if (arrNkeyCliente.Split(',').Count() > 0)
+          {
+            hdd_cli_show.Value = "V";
+            bCliente = true;
+            cCliente oCliente = new cCliente(ref oConn);
+            oCliente.ArrNkeyCliente = arrNkeyCliente;
+            dt = oCliente.GetClientes();
+
+            if (dt != null)
+            {
+              cmbCliente.Items.Add(new ListItem("<< Seleccione Cliente >>", string.Empty));
+              foreach (DataRow oRow in dt.Rows)
+              {
+                cmbCliente.Items.Add(new ListItem(oRow["snombre"].ToString(), oRow["nkey_cliente"].ToString()));
+              }
+            }
+            dt = null;
+
+            colClientes.Visible = true;
+          }
+
+          cDebtUsrAsignados oDebtUsrAsignados = new cDebtUsrAsignados(ref oConn);
+          oDebtUsrAsignados.CodUsuario = oIsUsuario.CodUsuario;
+          oDebtUsrAsignados.CodConsulta = "5";
+          dt = oDebtUsrAsignados.Get();
+          if (dt != null)
+          {
+            if (dt.Rows.Count > 0)
+            {
+              bDeudor = ((dt.Rows[0]["filtro_deudor"].ToString() == "V") ? true : false);
+              bHolding = ((dt.Rows[0]["filtro_holding"].ToString() == "V") ? true : false);
+            }
+          }
+          dt = null;
+
+          if (bDeudor)
+            colDeudor.Visible = true;
+
+          if (bHolding)
+          {
+            colHolding.Visible = true;
+            cCliente oCliente = new cCliente(ref oConn);
+            oCliente.ArrNkeyCliente = arrNkeyCliente;
+            dt = oCliente.GetHolding();
+            if (dt != null)
+            {
+              if (dt.Rows.Count > 0)
+              {
+                cmbHolding.Visible = true;
+                cmbHolding.Items.Add(new ListItem("<< Seleccione Holding >>", string.Empty));
+                foreach (DataRow oRow in dt.Rows)
+                {
+                  cmbHolding.Items.Add(new ListItem(oRow["holding"].ToString(), oRow["ncodholding"].ToString()));
+                }
+              }
+            }
+          }
+
+          oConn.Close();
+        }
+
         RadDatePicker1.DateInput.DateFormat = "dd-MM-yyyy";
         RadDatePicker2.DateInput.DateFormat = "dd-MM-yyyy";
         RadDatePicker1.SelectedDate = dTimeNow.AddMonths(-1);
@@ -49,6 +133,30 @@ namespace ICommunity.Reporting
         oLog.CodEvtLog = "1";
         oLog.AppLog = "REPORTES DEBTCONTROL";
         oLog.putLog();
+      }
+
+      if (oConn.Open()) {
+        if (!string.IsNullOrEmpty(cmbCliente.SelectedValue))
+        {
+          cCliente oCliente = new cCliente(ref oConn);
+          oCliente.CodNkey = cmbCliente.SelectedValue;
+          DataTable dt = oCliente.GeCliente();
+          if (dt != null)
+          {
+            if (dt.Rows.Count > 0)
+            {
+              Signomoneda = dt.Rows[0]["signomoneda"].ToString().Trim();
+              Decimales = dt.Rows[0]["decimales"].ToString();
+            }
+          }
+          dt = null;
+
+          if (!string.IsNullOrEmpty(Signomoneda))
+            lblmoneda.Text = "Montos expresados en " + Signomoneda;
+
+        }
+
+        oConn.Close();
       }
     }
 
@@ -146,7 +254,27 @@ namespace ICommunity.Reporting
 
     protected void rdGridProyeccionPagos_ItemDataBound(object sender, GridItemEventArgs e)
     {
-      
+      if (e.Item is GridDataItem)
+      {
+        GridDataItem item = (GridDataItem)e.Item;
+        DataRowView row = (DataRowView)e.Item.DataItem;
+
+        if (!string.IsNullOrEmpty(Decimales))
+        {
+          if (int.Parse(Decimales) > 0)
+          {
+            item["nMontoFactura"].Text = double.Parse(row["nMontoFactura"].ToString()).ToString("N" + Decimales);
+          }
+          else
+          {
+            item["nMontoFactura"].Text = double.Parse(row["nMontoFactura"].ToString()).ToString("N0");
+          }
+        }
+        else
+        {
+          item["nMontoFactura"].Text = double.Parse(row["nMontoFactura"].ToString()).ToString("N0");
+        }
+      }
     }
 
     protected void idBuscar_Click(object sender, EventArgs e)
@@ -164,7 +292,8 @@ namespace ICommunity.Reporting
       {
         cProyeccionPago oProyeccionPago = new cProyeccionPago(ref oConn);
         oProyeccionPago.CodDeudor = hddCodDeudor.Value;
-        oProyeccionPago.CodNkey = oIsUsuario.CodNkey;
+        oProyeccionPago.CodNkey = ((!string.IsNullOrEmpty(cmbCliente.SelectedValue) ? cmbCliente.SelectedValue : hdd_arrNkeyCliente.Value));
+        oProyeccionPago.NcodHolding = cmbHolding.SelectedValue;
         oProyeccionPago.NkeyUsuario = oIsUsuario.NKeyUsuario;
         oProyeccionPago.TipoUsuario = oIsUsuario.TipoUsuario;
         oProyeccionPago.DtFchIni = DateTime.Parse(RadDatePicker1.SelectedDate.ToString()).ToString("yyyyMMdd");
@@ -175,6 +304,18 @@ namespace ICommunity.Reporting
       oConn.Close();
 
       return dt;
+    }
+
+    protected void Page_PreRender(object o, EventArgs e)
+    {
+
+      rdGridProyeccionPagos.MasterTableView.GetColumn("ncodholding").Display = true;
+
+      if (string.IsNullOrEmpty(cmbHolding.SelectedValue))
+      {
+        rdGridProyeccionPagos.MasterTableView.GetColumn("ncodholding").Display = false;
+      }
+
     }
 
   }

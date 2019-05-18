@@ -19,6 +19,9 @@ namespace ICommunity.Reporting
     protected void Page_Load(object sender, EventArgs e)
     {
       oIsUsuario = oWeb.GetObjUsuario();
+      if (!IsPostBack) {
+        hdd_arrNkeyCliente.Value = oWeb.GetData("ArrCodCliente");
+      }
     }
 
     protected void rdGridDeudores_NeedDataSource(object source, GridNeedDataSourceEventArgs e)
@@ -27,10 +30,9 @@ namespace ICommunity.Reporting
       if (oConn.Open())
       {
         cDeudores oDeudores = new cDeudores(ref oConn);
-        oDeudores.CodNkey = oIsUsuario.CodNkey;
+        oDeudores.CodNkey = ((!string.IsNullOrEmpty(hdd_arrNkeyCliente.Value)? hdd_arrNkeyCliente.Value : oIsUsuario.CodNkey));
         oDeudores.TipoUsuario = oIsUsuario.TipoUsuario;
         oDeudores.NkeyUsuario = oIsUsuario.NKeyUsuario;
-        oDeudores.CodNkey = oIsUsuario.CodNkey;
         oDeudores.Nombre = rdTxtNombreDeudor.Text;
         oDeudores.RUT = rdTxtCodigo.Text;
         DataTable dtDeudores = oDeudores.Get();

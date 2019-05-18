@@ -55,8 +55,9 @@ namespace OnlineServices.Reporting
         StringBuilder cSQL = new StringBuilder();
         cSQL.Append("select deudor.snombre RazonSocial, codigodeudor.ncodigodeudor as RUT , deudor.nkey_deudor lngCodDeudor");
         cSQL.Append(" from deudor join codigodeudor ");
-        cSQL.Append(" on (codigodeudor.nkey_cliente = @cod_nkey ");
-        cSQL.Append(" and deudor.nkey_deudor = codigodeudor.nkey_deudor) ");
+        cSQL.Append(" on (codigodeudor.nkey_cliente in(");
+        cSQL.Append(lngCodNkey);
+        cSQL.Append(") and deudor.nkey_deudor = codigodeudor.nkey_deudor) ");
         oParam.AddParameters("@cod_nkey", lngCodNkey, TypeSQL.Numeric);
 
         if (!string.IsNullOrEmpty(pNombre))
@@ -123,8 +124,8 @@ namespace OnlineServices.Reporting
         StringBuilder cSQL = new StringBuilder();
         cSQL.Append("select deudor.snombre, codigodeudor.ncodigodeudor as ncod , deudor.nkey_deudor  ");
         cSQL.Append(" from deudor join codigodeudor ");
-        cSQL.Append(" on (codigodeudor.nkey_cliente = @cod_nkey ");
-        oParam.AddParameters("@cod_nkey", CodNkey, TypeSQL.Numeric);
+        cSQL.Append(" on (codigodeudor.nkey_cliente in(").Append(CodNkey).Append(") ");
+        //oParam.AddParameters("@cod_nkey", CodNkey, TypeSQL.Numeric);
 
         cSQL.Append(" and deudor.nkey_deudor = codigodeudor.nkey_deudor) ");
         

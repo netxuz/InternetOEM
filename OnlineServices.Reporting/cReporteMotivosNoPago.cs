@@ -22,6 +22,9 @@ namespace OnlineServices.Reporting
     private string lngNkeyUsuario;
     public string NkeyUsuario { get { return lngNkeyUsuario; } set { lngNkeyUsuario = value; } }
 
+    private string pNcodHolding;
+    public string NcodHolding { get { return pNcodHolding; } set { pNcodHolding = value; } }
+
     private string pDtFchIni;
     public string DtFchIni { get { return pDtFchIni; } set { pDtFchIni = value; } }
 
@@ -49,7 +52,13 @@ namespace OnlineServices.Reporting
       {
         StringBuilder cSQL = new StringBuilder();
         cSQL.Append("select smotivonopago, count(*) as cantidad, sum(monto) as monto from montosnopago ");
-        cSQL.Append(" where nkey_cliente = ").Append(lngCodNkey);
+        cSQL.Append(" join cliente on (cliente.nkey_cliente = montosnopago.nKey_Cliente )");
+
+        if (string.IsNullOrEmpty(pNcodHolding))
+          cSQL.Append(" where montosnopago.nkey_cliente in(").Append(lngCodNkey).Append(") ");
+        else
+          cSQL.Append(" where cliente.ncodholding = ").Append(pNcodHolding);
+
         if (!string.IsNullOrEmpty(lngCodDeudor))
           cSQL.Append(" and nkey_deudor = ").Append(lngCodDeudor);
 
@@ -57,7 +66,7 @@ namespace OnlineServices.Reporting
           cSQL.Append("  and nkey_deudor = ").Append(lngNkeyUsuario);
 
         if ((!string.IsNullOrEmpty(sTipoUsuario)) && (sTipoUsuario == "V"))
-          cSQL.Append("  and nkey_deudor  in (select nkey_deudor from codigodeudor where nkey_cliente = ").Append(lngCodNkey).Append(" and nkey_vendedor = ").Append(lngNkeyUsuario).Append(") ");
+          cSQL.Append("  and nkey_deudor  in (select nkey_deudor from codigodeudor where nkey_cliente in(").Append(lngCodNkey).Append(") and nkey_vendedor = ").Append(lngNkeyUsuario).Append(") ");
 
         cSQL.Append(" and dfecha between convert(datetime,'").Append(pDtFchIni).Append("') and convert(datetime,'").Append(pDtFchFin).Append("') ");
         cSQL.Append(" group by smotivonopago ");

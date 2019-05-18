@@ -82,9 +82,9 @@
       <div class="row vAlign">
         <div class="col-md-3">
           <div class="md-form" style="width: 20rem;">
-            <label>
-              CLIENTE:
-            <asp:Label ID="lblRazonSocial" runat="server"></asp:Label></label>
+            <span for="cmb_cliente">CLIENTE:</span>
+            <asp:DropDownList ID="cmb_cliente" CssClass="form-control" runat="server">
+            </asp:DropDownList>
           </div>
         </div>
         <div class="col-md-3">
@@ -265,6 +265,12 @@
 
     var allowSubmit = true;
     $("#btnIngresarImportes").click(function (e) {
+
+      if ($("#cmb_cliente").val() == "") {
+        alert('Debe seleccionar cliente');
+        return false;
+      }
+
       if ($("#cmb_centrodistribucion").val() == "") {
         alert('Debe seleccionar centro de distribución');
         return false;
@@ -280,7 +286,7 @@
         return false;
       }
 
-      if (($("#cmb_documento").val() == "2") && ($("#txt_cta_cte").val() == "")) {
+      if ((($("#cmb_documento").val() == "1") || ($("#cmb_documento").val() == "2")) && ($("#txt_cta_cte").val() == "")) {
         alert('Debe ingresar el número de cuenta corriente');
         $("#txt_cta_cte").focus();
         return false;
@@ -295,7 +301,7 @@
       if ((($("#cmb_documento").val() != "3") && ($("#cmb_documento").val() != "5") && ($("#cmb_documento").val() != "6")) && ($("#cmb_bancos").val() == "")) {
         alert('Debe ingresar el Banco del documento');
         return false;
-      }
+      }      
 
       if ($("#cmb_documento").val() != "3") {
         if (($("#fch_documento").val() == "")) {
@@ -312,12 +318,26 @@
 
           var sFchDoc = $("#fch_documento").val();
           sFchDoc = sFchDoc.substring(sFchDoc.length - 4, sFchDoc.length) + sFchDoc.substring(sFchDoc.length - 7, sFchDoc.length - 5) + sFchDoc.substring(0, 2);
-
+          
           if (($("#cmb_documento").val() == "1") && (parseInt(sFchDia) < parseInt(sFchDoc))) {
             alert('La fecha del documento no puede ser superior a la fecha actual');
             return false;
           }
 
+          var fechahoy = new Date();
+          fechahoy.setDate(fechahoy.getDate() - 90);
+
+          var sFechaDoc = $('#fch_documento').val()
+          var sDia = sFechaDoc.substring(0, 2);
+          var sMes = sFechaDoc.substring(3, 5);
+          var sAno = sFechaDoc.substring(6, 10);
+          var fechacheque = new Date(sAno, parseInt(sMes) - 1, sDia);
+
+          if (($("#cmb_documento").val() == "1") && (fechacheque < fechahoy)) {
+            alert('La fecha del documento no puede ser inferior a 90 días');
+            return false;
+          }
+          
           if (($("#cmb_documento").val() == "2") && (parseInt(sFchDia) >= parseInt(sFchDoc))) {
             alert('La fecha del documento no puede ser con fecha menor o igual a la fecha actual');
             return false;
@@ -372,7 +392,7 @@
       if ((allowSubmit) && (($("#cmb_documento").val() == "1") || ($("#cmb_documento").val() == "2"))) {
         e.preventDefault();
         var cUrl = "ingreso_pagos.aspx/getValida";
-        var datos = "{sCodNumDocumento:" + $("#txt_num_documento").val() + ",sCodBanco:" + $("#cmb_bancos").val() + "}";
+        var datos = "{sCodNumDocumento:" + $("#txt_num_documento").val() + ",sCodBanco:" + $("#cmb_bancos").val() + ",sCtacte:" + $("#txt_cta_cte").val() + "}";
         $.ajax({
           type: "POST",
           url: cUrl,
@@ -383,7 +403,7 @@
           success: function (data) {
             $.each(data.d, function (key, value) {
               if (value.bExiste == "EXISTE") {
-                alert('Número de cheque ya ocupado de la misma entidad bancaria ');
+                alert('Número de cheque ya ocupado. Misma cuenta corriente y entidad bancaria.');
               } else {
                 allowSubmit = false;
                 btn.trigger('click');
@@ -408,7 +428,9 @@
       $("#cmb_bancos").removeAttr('disabled');
       $("#txt_cta_cte").removeAttr('disabled');
 
-      if ($("#cmb_documento").val() != "2") {
+      
+
+      if (($("#cmb_documento").val() != "1") && ($("#cmb_documento").val() != "2")) {
         $("#txt_cta_cte").attr('disabled', 'disabled');
       }
 
@@ -434,8 +456,13 @@
       if ($("#txt_codigosap").val() != "") {
         var target = $("#cmb_guiadespacho");
 
+        if ($("#cmb_cliente").val() == "") {
+          alert('Debe seleccionar cliente');
+          return false;
+        }
+
         var cUrl = "ingreso_pagos.aspx/getGuiasDespacho";
-        var datos = "{nkeycliente:" + $("#hddnkey_cliente").val() + ",ncodigodeudor:" + $("#txt_codigosap").val() + "}";
+        var datos = "{nkeycliente:" + $("#cmb_cliente").val() + ",ncodigodeudor:" + $("#txt_codigosap").val() + "}";
         $.ajax({
           type: "POST",
           url: cUrl,
@@ -461,7 +488,7 @@
 
 
         var cUrl = "ingreso_pagos.aspx/getDeudor";
-        var datos = "{nKeyCliente:" + $("#hddnkey_cliente").val() + ",nCodigoDeudor:" + $("#txt_codigosap").val() + "}";
+        var datos = "{nKeyCliente:" + $("#cmb_cliente").val() + ",nCodigoDeudor:" + $("#txt_codigosap").val() + "}";
         $.ajax({
           type: "POST",
           url: cUrl,
@@ -496,7 +523,14 @@
       if (($("#cmb_guiadespacho").val() != null) && ($("#cmb_guiadespacho").val() != 0)) {
         var target = $("#cmb_facturas");
         var cUrl = "ingreso_pagos.aspx/getFacturas";
-        var datos = "{sGuiaDespacho:" + $("#cmb_guiadespacho").val() + "}";
+
+        if ($("#cmb_cliente").val() == "") {
+          alert('Debe seleccionar cliente');
+          return false;
+        }
+
+        //var datos = "{nKeyCliente:" + $("#hddnkey_cliente").val() + ",nCodigoDeudor:" + $("#txt_codigosap").val() + "}";
+        var datos = "{sGuiaDespacho:" + $("#cmb_guiadespacho").val() + ",nkeycliente:" + $("#cmb_cliente").val() + "}";
         $.ajax({
           type: "POST",
           url: cUrl,

@@ -39,14 +39,27 @@
           <div class="checkbox">
             <asp:CheckBox ID="chk_controller" runat="server" Text="CONTROLLER DE PAGOS" />
           </div>
-          <div id="idRowTipoPago" class="row" style="display:none;">
+          <div id="idRowTipoPago" class="row" style="display: none;">
             <div class="col-md-4">
               <span for="cmb_tipo_pago">METODO DE PAGO: </span>
-              <asp:DropDownList ID="cmb_tipo_pago" CssClass="form-control" runat="server">
-                <asp:ListItem Text="<< Seleccione tipo de pago >>" Value=""></asp:ListItem>
-                <asp:ListItem Text="Efectivo / Transferencia / Tarjeta" Value="E"></asp:ListItem>
-                <asp:ListItem Text="Cheque al día / Cheque a fecha / Letras" Value="C"></asp:ListItem>
-              </asp:DropDownList>
+              <div class="checkbox">
+                <asp:CheckBox ID="chk_cheque_dia" runat="server" Text="CHEQUE AL DIA" />
+              </div>
+              <div class="checkbox">
+                <asp:CheckBox ID="chk_cheque_fecha" runat="server" Text="CHEQUE A FECHA" />
+              </div>
+              <div class="checkbox">
+                <asp:CheckBox ID="chk_efectivo" runat="server" Text="EFECTIVO" />
+              </div>
+              <div class="checkbox">
+                <asp:CheckBox ID="chk_letra" runat="server" Text="LETRA" />
+              </div>
+              <div class="checkbox">
+                <asp:CheckBox ID="chk_tarjeta" runat="server" Text="TARJETA" />
+              </div>
+              <div class="checkbox">
+                <asp:CheckBox ID="chk_transferencia" runat="server" Text="TRANSFERENCIA" />
+              </div>
             </div>
           </div>
         </div>
@@ -58,7 +71,12 @@
       var obj = document.getElementById("idRowTipoPago");
       if ($("#chk_controller").is(':checked')) {
         obj.style.display = "block";
-        $("#cmb_tipo_pago").val('');
+        $("#chk_cheque_dia").attr('checked', false);
+        $("#chk_cheque_fecha").attr('checked', false);
+        $("#chk_efectivo").attr('checked', false);
+        $("#chk_letra").attr('checked', false);
+        $("#chk_tarjeta").attr('checked', false);
+        $("#chk_transferencia").attr('checked', false);
       } else {
         obj.style.display = "none";
       }
@@ -66,8 +84,8 @@
 
     $("#btnGrabar").click(function () {
       if ($("#chk_controller").is(':checked')) {
-        if ($("#cmb_tipo_pago").val() == '') {
-          alert("Debe seleccionar Metodo de Pago");
+        if ((!$("#chk_cheque_dia").is(':checked')) && (!$("#chk_cheque_fecha").is(':checked')) && (!$("#chk_efectivo").is(':checked')) && (!$("#chk_letra").is(':checked')) && (!$("#chk_tarjeta").is(':checked')) && (!$("#chk_transferencia").is(':checked'))) {
+          alert("Debe seleccionar el metodo de pago a controlar");
           return false;
         }
       }

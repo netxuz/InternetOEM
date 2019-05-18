@@ -22,6 +22,9 @@ namespace OnlineServices.Reporting
     private string lngNkeyUsuario;
     public string NkeyUsuario { get { return lngNkeyUsuario; } set { lngNkeyUsuario = value; } }
 
+    private string pNcodHolding;
+    public string NcodHolding { get { return pNcodHolding; } set { pNcodHolding = value; } }
+
     private string pDtFchIni;
     public string DtFchIni { get { return pDtFchIni; } set { pDtFchIni = value; } }
 
@@ -54,17 +57,35 @@ namespace OnlineServices.Reporting
         cSQL.Append(" ,aplicacion.nAbonoFactura as 'MontoPago' ,pago.dfecharecepcion as 'FechaPago' ,factura.nNumeroFactura as 'NumFactura' ");
         cSQL.Append(" ,factura.nMontoFactura as 'MontoFactura' ,factura.dfechavencimiento as 'FechaVencFac' ,datediff(DAY,factura.dfechavencimiento,pago.dfechavencimiento) as 'DiasExceso' ");
         cSQL.Append(" ,pago.dfechavencimiento as 'VencCheque' ");
-        cSQL.Append(" ,vendedor.snombre as 'NomVendedor', pago.nnumeropago as 'Numpago', pago.nmontopago as 'Monpago' ");
-        cSQL.Append(" from pago join cliente on (cliente.nkey_cliente = ").Append(lngCodNkey).Append(") ");
-
-        if (!string.IsNullOrEmpty(lngCodDeudor))
-          cSQL.Append(" and pago.nkey_deudor = ").Append(lngCodDeudor);
+        cSQL.Append(" ,vendedor.snombre as 'NomVendedor', pago.nnumeropago as 'Numpago', pago.nmontopago as 'Monpago', ");
+        cSQL.Append(" isnull(pago.snumerocuentabancariacliente,' ' ) as 'ctabancaria',");
+        cSQL.Append(" isnull(CuentaBancariaCliente.snumerocuentacontable,' ') as 'ctacontable', ");
+        cSQL.Append(" cliente.ncod, cliente.ncodholding , cliente.holding ");
+        //cSQL.Append(" from pago join cliente on (cliente.nkey_cliente = ").Append(lngCodNkey).Append(") ");
+        cSQL.Append(" from pago ");
+        cSQL.Append(" join cliente on (cliente.nkey_cliente = pago.nkey_cliente ) ");
 
         cSQL.Append(" join aplicacion on (aplicacion.nkey_pago = pago.nkey_pago) join factura on (factura.nkey_factura = aplicacion.nkey_factura) ");
         cSQL.Append(" join deudor on (deudor.nkey_deudor = pago.nkey_deudor) join codigodeudor on (codigodeudor.nkey_cliente = pago.nkey_cliente and codigodeudor.nkey_deudor = pago.nkey_deudor) ");
         cSQL.Append(" join servicio on (servicio.nkey_cliente = pago.nkey_cliente and servicio.nkey_deudor = pago.nkey_deudor and servicio.nkey_analista <> 4) ");
         cSQL.Append(" left join vendedor on (vendedor.nkey_cliente = pago.nkey_cliente  and vendedor.nkey_vendedor = codigodeudor.nkey_vendedor) ");
-        cSQL.Append(" where pago.nkey_cliente =").Append(lngCodNkey);
+
+        cSQL.Append(" left join CuentaBancariaCliente on (CuentaBancariaCliente.nKey_Cliente = pago.nKey_Cliente and CuentaBancariaCliente.nKey_Banco = pago.nKey_Banco and CuentaBancariaCliente.sNumeroCuentaBancaria = pago.sNumeroCuentaBancariaCliente)  ");
+
+        //cSQL.Append(" where pago.nkey_cliente in(").Append(lngCodNkey).Append(") ");
+
+        if (string.IsNullOrEmpty(pNcodHolding))
+        {
+          cSQL.Append(" where cliente.nkey_cliente in(").Append(lngCodNkey).Append(")");
+        }
+        else
+        {
+          cSQL.Append("	where cliente.ncodholding = ").Append(pNcodHolding);
+        }
+
+        if (!string.IsNullOrEmpty(lngCodDeudor))
+          cSQL.Append(" and pago.nkey_deudor = ").Append(lngCodDeudor);
+
         cSQL.Append(" and stipopago = 'Cheque'  ");
         cSQL.Append(" and pago.dfechavencimiento > factura.dfechavencimiento and pago.dfecharecepcion between convert(datetime,'").Append(pDtFchIni).Append("') and convert(datetime,'").Append(pDtFchFin).Append("') ");
         cSQL.Append(" and pago.dfechavencimiento > pago.dfecharecepcion ");

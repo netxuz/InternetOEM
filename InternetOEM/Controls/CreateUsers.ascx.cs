@@ -155,6 +155,8 @@ namespace ICommunity.Controls
                 rdCmbTipoUsuario.Items.FindByValue(dUsuario.Rows[0]["cod_tipo"].ToString()).Selected = true;
               txtFonoUsuario.Text = dUsuario.Rows[0]["fono_usuario"].ToString();
               txtNumeroCliente.Text = dUsuario.Rows[0]["nkey_user"].ToString();
+
+              btnNKeyCliente.Visible = true;
             }
           }
         }
@@ -846,6 +848,11 @@ namespace ICommunity.Controls
       StringBuilder strFileHtml = new StringBuilder();
 
 
+    }
+
+    protected void btnNKeyCliente_Click(object sender, EventArgs e)
+    {
+      Response.Redirect("AsociaCliente.aspx?CodUsuario=" + CodUsuario.Value);
     }
   }
 

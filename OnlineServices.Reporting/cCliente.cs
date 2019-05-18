@@ -16,6 +16,9 @@ namespace OnlineServices.Reporting
     private string lngCodNkey;
     public string CodNkey { get { return lngCodNkey; } set { lngCodNkey = value; } }
 
+    private string sArrNkeyCliente;
+    public string ArrNkeyCliente { get { return sArrNkeyCliente; } set { sArrNkeyCliente = value; } }
+
     private string pError;
     public string Error { get { return pError; } set { pError = value; } }
 
@@ -38,11 +41,54 @@ namespace OnlineServices.Reporting
       {
         StringBuilder cSQL = new StringBuilder();
 
-        cSQL.Append("select Cliente.nRut AS 'Rut', Cliente.sDigitoVerificador AS 'DV', Cliente.sNombre AS 'Cliente', Cliente.sDireccion AS 'Direccion', Cliente.sComuna AS 'Comuna' ");
+        cSQL.Append("select Cliente.nRut AS 'Rut', Cliente.sDigitoVerificador AS 'DV', Cliente.sNombre AS 'Cliente', Cliente.sDireccion AS 'Direccion', Cliente.sComuna AS 'Comuna', signomoneda, decimales ");
         cSQL.Append(" from Cliente where nKey_Cliente = @nKeyCliente ");
         oParam.AddParameters("@nKeyCliente", lngCodNkey, TypeSQL.Numeric);
 
         dtData = oConn.Select(cSQL.ToString(), oParam);
+        pError = oConn.Error;
+        return dtData;
+      }
+      else
+      {
+        return null;
+      }
+    }
+
+    public DataTable GetClientes()
+    {
+      DataTable dtData;
+
+      if (oConn.bIsOpen)
+      {
+        StringBuilder cSQL = new StringBuilder();
+        cSQL.Append("select nkey_cliente, nRut, sDigitoVerificador, sNombre, sDireccion, sComuna, signomoneda, decimales ");
+        cSQL.Append(" from Cliente where nKey_Cliente in(");
+        cSQL.Append(sArrNkeyCliente);
+        cSQL.Append(") ");
+
+        dtData = oConn.Select(cSQL.ToString());
+        pError = oConn.Error;
+        return dtData;
+      }
+      else
+      {
+        return null;
+      }
+    }
+
+    public DataTable GetHolding() {
+      DataTable dtData;
+
+      if (oConn.bIsOpen)
+      {
+        StringBuilder cSQL = new StringBuilder();
+        cSQL.Append("select distinct(ncodholding), holding ");
+        cSQL.Append(" from Cliente where nKey_Cliente in(");
+        cSQL.Append(sArrNkeyCliente);
+        cSQL.Append(") ");
+
+        dtData = oConn.Select(cSQL.ToString());
         pError = oConn.Error;
         return dtData;
       }

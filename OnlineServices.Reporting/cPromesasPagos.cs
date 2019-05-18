@@ -22,6 +22,9 @@ namespace OnlineServices.Reporting
     private string lngNkeyUsuario;
     public string NkeyUsuario { get { return lngNkeyUsuario; } set { lngNkeyUsuario = value; } }
 
+    private string pNcodHolding;
+    public string NcodHolding { get { return pNcodHolding; } set { pNcodHolding = value; } }
+
     private string pDtFchIni;
     public string DtFchIni { get { return pDtFchIni; } set { pDtFchIni = value; } }
 
@@ -56,12 +59,17 @@ namespace OnlineServices.Reporting
         {
           cSQL.Append("select CodigoDeudor.nCodigoDeudor AS 'CódigoDeudor', ");
           cSQL.Append(" Última_Gestión, Monto_Prometido, ");
-          cSQL.Append(" sum(total_pagado) as 'Total_Pagado', sum(Saldo) as 'Saldo', avg(Atraso) as 'Atraso' , Observaciones, Razón_Social ");
+          cSQL.Append(" sum(total_pagado) as 'Total_Pagado', sum(Saldo) as 'Saldo', avg(Atraso) as 'Atraso' , Observaciones, Razón_Social, FechaCompromiso, ComerntarioDeudor, ComerntarioAnalista   ");
           cSQL.Append(" from promesa_pago ");
           cSQL.Append(" LEFT JOIN CodigoDeudor ");
           cSQL.Append("  ON(promesa_pago.nKey_Cliente = CodigoDeudor.nKey_Cliente ");
           cSQL.Append("  AND promesa_pago.nKey_Deudor = CodigoDeudor.nKey_Deudor) ");
-          cSQL.Append(" where promesa_pago.nkey_cliente = ").Append(lngCodNkey);
+          cSQL.Append(" JOIN cliente ON(promesa_pago.nKey_Cliente = cliente.nKey_Cliente)");
+
+          if (string.IsNullOrEmpty(pNcodHolding))
+            cSQL.Append(" where promesa_pago.nkey_cliente in (").Append(lngCodNkey).Append(") ");
+          else
+            cSQL.Append(" cliente.ncodholding = ").Append(pNcodHolding);
 
           if ((!string.IsNullOrEmpty(sTipoUsuario)) && (sTipoUsuario == "D"))
             cSQL.Append("  and promesa_pago.nkey_deudor = ").Append(lngNkeyUsuario);
@@ -70,14 +78,14 @@ namespace OnlineServices.Reporting
             cSQL.Append("  and codigodeudor.nkey_vendedor = ").Append(lngNkeyUsuario);
 
           cSQL.Append(" and promesa_pago.Fecha_Pago between convert(datetime,'").Append(pDtFchIni).Append("') and convert(datetime,'").Append(pDtFchFin).Append("') ");
-          cSQL.Append("  group by CodigoDeudor.nCodigoDeudor , 	 Última_Gestión, Monto_Prometido,  Observaciones, Razón_Social ");
+          cSQL.Append("  group by CodigoDeudor.nCodigoDeudor , 	 Última_Gestión, Monto_Prometido,  Observaciones, Razón_Social, FechaCompromiso, ComerntarioDeudor, ComerntarioAnalista   ");
 
         }
         else {
 
           cSQL.Append("select CodigoDeudor.nCodigoDeudor AS 'CódigoDeudor', ");
           cSQL.Append(" Última_Gestión, Monto_Prometido, ");
-          cSQL.Append(" sum(total_pagado) as 'Total_Pagado', sum(Saldo) as 'Saldo', avg(Atraso) as 'Atraso' , Observaciones, Razón_Social ");
+          cSQL.Append(" sum(total_pagado) as 'Total_Pagado', sum(Saldo) as 'Saldo', avg(Atraso) as 'Atraso' , Observaciones, Razón_Social, FechaCompromiso, ComerntarioDeudor, ComerntarioAnalista   ");
           cSQL.Append(" from promesa_pago ");
           cSQL.Append(" LEFT JOIN CodigoDeudor ");
           cSQL.Append(" ON(promesa_pago.nKey_Cliente = CodigoDeudor.nKey_Cliente ");
@@ -85,7 +93,7 @@ namespace OnlineServices.Reporting
           cSQL.Append(" JOIN servicio ON (servicio.nkey_cliente = promesa_pago.nkey_cliente and ");
           cSQL.Append(" servicio.nkey_deudor = promesa_pago.nkey_deudor and servicio.nkey_analista = ").Append(lngCodDeudor).Append(" ) ");
           cSQL.Append(" JOIN Analista ON (analista.nkey_analista = servicio.nkey_analista) ");
-          cSQL.Append(" where promesa_pago.nkey_cliente = ").Append(lngCodNkey).Append(" and promesa_pago.Fecha_Pago between convert(datetime,'").Append(pDtFchIni).Append("') and convert(datetime,'").Append(pDtFchFin).Append("') ");
+          cSQL.Append(" where promesa_pago.nkey_cliente in (").Append(lngCodNkey).Append(") and promesa_pago.Fecha_Pago between convert(datetime,'").Append(pDtFchIni).Append("') and convert(datetime,'").Append(pDtFchFin).Append("') ");
 
           if ((!string.IsNullOrEmpty(sTipoUsuario)) && (sTipoUsuario == "D"))
             cSQL.Append("  and promesa_pago.nkey_deudor = ").Append(lngNkeyUsuario);
@@ -93,7 +101,7 @@ namespace OnlineServices.Reporting
           if ((!string.IsNullOrEmpty(sTipoUsuario)) && (sTipoUsuario == "V"))
             cSQL.Append("  and codigodeudor.nkey_vendedor = ").Append(lngNkeyUsuario);
 
-          cSQL.Append("  group by CodigoDeudor.nCodigoDeudor , 	 Última_Gestión, Monto_Prometido,  Observaciones, Razón_Social ");
+          cSQL.Append("  group by CodigoDeudor.nCodigoDeudor , 	 Última_Gestión, Monto_Prometido,  Observaciones, Razón_Social, FechaCompromiso, ComerntarioDeudor, ComerntarioAnalista   ");
 
         }
 

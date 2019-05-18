@@ -23,6 +23,8 @@
 <body>
   <form id="form1" runat="server">
     <asp:ScriptManager ID="ScriptManager" runat="server"></asp:ScriptManager>
+    <asp:HiddenField ID="hdd_arrNkeyCliente" runat="server" />
+    <asp:HiddenField ID="hdd_cli_show" runat="server" />
     <nav class="navbar-inverse">
       <div class="container-fluid">
         <div class="navbar-header">
@@ -72,11 +74,25 @@
       <div class="blq_tile">
         <asp:Label ID="lblTitle" runat="server" CssClass="lblTitle" Text="DOCUMENTOS EN LITIGIO"></asp:Label>
       </div>
-      <div class="blq_search">
+      <div class="row">
+        <div id="colClientes" class="col-md-4" runat="server" visible="false">
+          <div><span>Clientes</span></div>
+          <div></div>
+          <asp:DropDownList ID="cmbCliente" CssClass="inputCmbBox" runat="server">
+          </asp:DropDownList>
+        </div>
+        <div id="colHolding" class="col-md-4" runat="server" visible="false">
+          <div><span>Holding</span></div>
+          <div></div>
+          <asp:DropDownList ID="cmbHolding" CssClass="inputCmbBox" runat="server">
+          </asp:DropDownList>
+        </div>
+      </div>
+      <div id="colDeudor" runat="server" class="blq_search" visible="false">
         <div><span>Deudor</span></div>
         <div></div>
         <telerik:RadTextBox ID="rdTxtDeudor" runat="server" CssClass="control-text-search" Enabled="false" Text=""></telerik:RadTextBox>
-        <a id="btnDeudores" href="app_show_deudores.aspx" class="btnsearch"></a>
+        <a id="btnDeudores" href="" class="btnsearch"></a>
         <asp:HiddenField ID="hddCodDeudor" runat="server" />
       </div>
       <div class="blq_search">
@@ -127,7 +143,7 @@
         </div>
       </div>
       <div id="idGrilla" runat="server" visible="false">
-
+        <asp:Label ID="lblmoneda" runat="server" CssClass="lblmoneda"></asp:Label>
         <telerik:RadGrid ID="rdGridDocLitigio" runat="server" OnNeedDataSource="rdGridDocLitigio_NeedDataSource" OnItemCommand="rdGridDocLitigio_ItemCommand" OnItemDataBound="rdGridDocLitigio_ItemDataBound"
           AllowPaging="true" AllowSorting="true" ShowStatusBar="true" PageSize="10" GridLines="None" AllowAutomaticUpdates="true" AllowAutomaticInserts="true" AllowAutomaticDeletes="true" Skin="Sitefinity">
           <ExportSettings HideStructureColumns="true"></ExportSettings>
@@ -136,19 +152,26 @@
             TableLayout="Fixed" ShowHeadersWhenNoRecords="true" CommandItemDisplay="Top">
             <CommandItemSettings ShowExportToExcelButton="true" ShowRefreshButton="false" ShowAddNewRecordButton="false" />
             <Columns>
-              <telerik:GridBoundColumn DataField="código" HeaderText="Código"
-                UniqueName="código">
+              <%-- codigo sociedad --%>
+              <telerik:GridBoundColumn DataField="ncodholding" HeaderText="Código Sociedad"
+                UniqueName="ncodholding">
+                <HeaderStyle Font-Size="Smaller" HorizontalAlign="Center" />
+                <ItemStyle HorizontalAlign="Center" />
+              </telerik:GridBoundColumn>
+              <%-- Cod Deudor --%>
+              <telerik:GridBoundColumn DataField="Código" HeaderText="Cod Deudor"
+                UniqueName="CodCliente">
                 <HeaderStyle Font-Size="Smaller" HorizontalAlign="Center" />
                 <ItemStyle HorizontalAlign="Center" />
               </telerik:GridBoundColumn>
 
-              <telerik:GridBoundColumn DataField="Razón_Social" HeaderText="Razón social"
-                UniqueName="Razón_Social">
+              <telerik:GridBoundColumn DataField="Razón Social" HeaderText="Razón social"
+                UniqueName="Razón Social">
                 <HeaderStyle Font-Size="Smaller" HorizontalAlign="Center" />
                 <ItemStyle HorizontalAlign="Left" />
               </telerik:GridBoundColumn>
 
-              <telerik:GridBoundColumn DataField="Número_Factura" HeaderText="Número Factura"
+              <telerik:GridBoundColumn DataField="Número Factura" HeaderText="Número Factura"
                 UniqueName="Número_Factura">
                 <HeaderStyle Font-Size="Smaller" HorizontalAlign="Center" />
                 <ItemStyle HorizontalAlign="Center" />
@@ -159,41 +182,66 @@
                 <HeaderStyle Font-Size="Smaller" HorizontalAlign="Center" />
                 <ItemStyle HorizontalAlign="Center" />
               </telerik:GridBoundColumn>
-
-              <telerik:GridBoundColumn DataField="Saldo" HeaderText="Saldo"
-                UniqueName="Saldo" Aggregate="Sum" DataFormatString="{0:N0}" FooterAggregateFormatString="{0:N0}">
+              <%-- DataFormatString="{0:N0}" FooterAggregateFormatString="{0:N0}" --%>
+              <telerik:GridBoundColumn DataField="Saldo" HeaderText="Saldo Fac"
+                UniqueName="Saldo" Aggregate="Sum">
+                <HeaderStyle Font-Size="Smaller" HorizontalAlign="Center" />
+                <ItemStyle HorizontalAlign="Right" />
+                <FooterStyle HorizontalAlign="Right" />
+              </telerik:GridBoundColumn>
+              <%--  DataFormatString="{0:N0}" FooterAggregateFormatString="{0:N0}" --%>
+              <telerik:GridBoundColumn DataField="MontoLitigio" HeaderText="Monto Litigio"
+                UniqueName="MontoLitigio" Aggregate="Sum">
                 <HeaderStyle Font-Size="Smaller" HorizontalAlign="Center" />
                 <ItemStyle HorizontalAlign="Right" />
                 <FooterStyle HorizontalAlign="Right" />
               </telerik:GridBoundColumn>
 
-              <telerik:GridBoundColumn DataField="Fecha_ingreso" HeaderText="Fecha Ingreso"
-                UniqueName="Fecha_ingreso" DataType="System.DateTime" DataFormatString="{0:d/M/yyyy}">
-                <HeaderStyle Font-Size="Smaller" HorizontalAlign="Center" />
-                <ItemStyle HorizontalAlign="Center" />
-              </telerik:GridBoundColumn>
-
-              <telerik:GridBoundColumn DataField="Monto_litigio" HeaderText="Monto Litigio"
-                UniqueName="Monto_litigio" Aggregate="Sum" DataFormatString="{0:N0}" FooterAggregateFormatString="{0:N0}">
-                <HeaderStyle Font-Size="Smaller" HorizontalAlign="Center" />
-                <ItemStyle HorizontalAlign="Right" />
-                <FooterStyle HorizontalAlign="Right" />
-              </telerik:GridBoundColumn>
-
-              <telerik:GridBoundColumn DataField="número_solicitud" HeaderText="Número Solicitud"
+              <telerik:GridBoundColumn DataField="Número Solicitud" HeaderText="Solicitud"
                 UniqueName="número_solicitud">
                 <HeaderStyle Font-Size="Smaller" HorizontalAlign="Center" />
                 <ItemStyle HorizontalAlign="Center" />
               </telerik:GridBoundColumn>
-
-              <telerik:GridBoundColumn DataField="Fecha_solicitud" HeaderText="Fecha Solicitud"
+              
+              <telerik:GridBoundColumn DataField="Fecha Solicitud" HeaderText="Fecha Solicitud"
                 UniqueName="Fecha_solicitud" DataType="System.DateTime" DataFormatString="{0:d/M/yyyy}">
                 <HeaderStyle Font-Size="Smaller" HorizontalAlign="Center" />
                 <ItemStyle HorizontalAlign="Center" />
               </telerik:GridBoundColumn>
 
-              <telerik:GridBoundColumn DataField="Sobservacion" HeaderText="Observación"
-                UniqueName="Sobservacion">
+              <telerik:GridBoundColumn DataField="numNC" HeaderText="Num NC"
+                UniqueName="numNC">
+                <HeaderStyle Font-Size="Smaller" HorizontalAlign="Center" />
+                <ItemStyle HorizontalAlign="Center" />
+              </telerik:GridBoundColumn>
+              <%-- DataFormatString="{0:N0}" FooterAggregateFormatString="{0:N0}" --%>
+              <telerik:GridBoundColumn DataField="montoNC" HeaderText="Monto NC"
+                UniqueName="montoNC" Aggregate="Sum">
+                <HeaderStyle Font-Size="Smaller" HorizontalAlign="Center" />
+                <ItemStyle HorizontalAlign="Right" />
+                <FooterStyle HorizontalAlign="Right" />
+              </telerik:GridBoundColumn>
+
+              <telerik:GridBoundColumn DataField="SDescripcion" HeaderText="Motivo"
+                UniqueName="SDescripcion">
+                <HeaderStyle Font-Size="Smaller" HorizontalAlign="Center" />
+                <ItemStyle HorizontalAlign="Left" />
+              </telerik:GridBoundColumn>
+
+              <telerik:GridBoundColumn DataField="SubMotivo" HeaderText="SubMotivo"
+                UniqueName="SubMotivo">
+                <HeaderStyle Font-Size="Smaller" HorizontalAlign="Center" />
+                <ItemStyle HorizontalAlign="Left" />
+              </telerik:GridBoundColumn>
+
+              <telerik:GridBoundColumn DataField="Observacion" HeaderText="Comentario"
+                UniqueName="Observacion">
+                <HeaderStyle Font-Size="Smaller" HorizontalAlign="Center" />
+                <ItemStyle HorizontalAlign="Left" />
+              </telerik:GridBoundColumn>
+
+              <telerik:GridBoundColumn DataField="NomContacto" HeaderText="Contacto"
+                UniqueName="NomContacto">
                 <HeaderStyle Font-Size="Smaller" HorizontalAlign="Center" />
                 <ItemStyle HorizontalAlign="Left" />
               </telerik:GridBoundColumn>
@@ -213,24 +261,48 @@
 
         /* Apply fancybox to multiple items */
 
-        $("#btnDeudores").fancybox({
-          'width': 500,
-          'height': 400,
-          'transitionIn': 'elastic',
-          'transitionOut': 'elastic',
-          'speedIn': 600,
-          'speedOut': 200,
-          'overlayShow': false,
-          'type': 'iframe',
-          'onCleanup': function () {
-            x = $("#fancybox-frame").contents().find("#hdd_razonsocial").val();
-            y = $("#fancybox-frame").contents().find("#hdd_coddeudor").val();
-          },
-          'onClosed': function () {
-            var text = $find("<%= rdTxtDeudor.ClientID %>");
+        $("#idBuscar").click(function () {
+          if (($("#cmbCliente").val() == "") && ($("#hddCodDeudor").val() == "") && ($("#cmbHolding").val() == "")) {
+            alert("Debe seleccionar cliente, o cliente - deudor, o holding");
+            return false;
+          }
+        });
+
+        $("#btnDeudores").click(function () {
+          CodCliente = "";
+          if ($("#hdd_cli_show").val() == "V") {
+            if ($("#<%= cmbCliente.ClientID %>").val() != "")
+              CodCliente = $("#<%= cmbCliente.ClientID %>").val();
+            else
+            {
+              alert("Debe seleccionar cliente");
+              return false;
+            }
+              
+          }
+
+          $.fancybox({
+            'width': 600,
+            'height': 700,
+            'transitionIn': 'elastic',
+            'transitionOut': 'elastic',
+            'speedIn': 600,
+            'speedOut': 200,
+            'overlayShow': false,
+            'href': 'app_show_deudores.aspx?ArrCodCliente=' + CodCliente,
+            'type': 'iframe',
+            'onCleanup': function () {
+              x = $("#fancybox-frame").contents().find("#hdd_razonsocial").val();
+              y = $("#fancybox-frame").contents().find("#hdd_coddeudor").val();
+            },
+            'onClosed': function () {
+              var text = $find("<%= rdTxtDeudor.ClientID %>");
             text.set_value(x);
             hddCodDeudor.value = y;
-          }
+            }
+          });
+          return false;
+
         });
 
         $('#<%=rdRdBtnTypeQuery.ClientID %>').change(function () {

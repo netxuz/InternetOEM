@@ -23,6 +23,8 @@
 <body>
   <form id="form1" runat="server">
     <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+    <asp:HiddenField ID="hdd_arrNkeyCliente" runat="server" />
+    <asp:HiddenField ID="hdd_cli_show" runat="server" />
     <nav class="navbar-inverse">
       <div class="container-fluid">
         <div class="navbar-header">
@@ -72,6 +74,20 @@
       <div class="blq_tile">
         <asp:Label ID="lblTitle" runat="server" CssClass="lblTitle" Text="PROMESAS DE PAGO"></asp:Label>
       </div>
+      <div class="row">
+        <div id="colClientes" class="col-md-4" runat="server" visible="false">
+          <div><span>Clientes</span></div>
+          <div></div>
+          <asp:DropDownList ID="cmbCliente" CssClass="inputCmbBox" runat="server">
+          </asp:DropDownList>
+        </div>
+        <div id="colHolding" class="col-md-4" runat="server" visible="false">
+          <div><span>Holding</span></div>
+          <div></div>
+          <asp:DropDownList ID="cmbHolding" CssClass="inputCmbBox" runat="server">
+          </asp:DropDownList>
+        </div>
+      </div>
       <div class="blq_search">
         <div><span>Analista</span></div>
         <div></div>
@@ -120,6 +136,7 @@
         </div>
       </div>
       <div id="idGrilla" runat="server" visible="false">
+        <asp:Label ID="lblmoneda" runat="server" CssClass="lblmoneda"></asp:Label>
         <telerik:RadGrid ID="rdGridPromesaPagos" runat="server" OnNeedDataSource="rdGridPromesaPagos_NeedDataSource" OnItemCommand="rdGridPromesaPagos_ItemCommand" OnItemDataBound="rdGridPromesaPagos_ItemDataBound" AllowPaging="true" AllowSorting="true" ShowStatusBar="true" PageSize="10" GridLines="None" AllowAutomaticUpdates="true" AllowAutomaticInserts="true" AllowAutomaticDeletes="true" Skin="Sitefinity">
           <ExportSettings HideStructureColumns="true"></ExportSettings>
           <PagerStyle Mode="NextPrevAndNumeric" />
@@ -144,19 +161,19 @@
                 <HeaderStyle Font-Size="Smaller" Width="100px" HorizontalAlign="Center" />
                 <ItemStyle HorizontalAlign="Center" />
               </telerik:GridBoundColumn>
-
+              <%-- Monto_Prometido --%>
               <telerik:GridBoundColumn DataField="Monto_Prometido" HeaderText="Monto Prometido"
                 UniqueName="Monto_Prometido">
                 <HeaderStyle Font-Size="Smaller" Width="100px" HorizontalAlign="Center" />
                 <ItemStyle HorizontalAlign="Right" />
               </telerik:GridBoundColumn>
-
+              <%-- Total_Pagado --%>
               <telerik:GridBoundColumn DataField="Total_Pagado" HeaderText="Total Pagado"
                 UniqueName="Total_Pagado">
                 <HeaderStyle Font-Size="Smaller" Width="100px" HorizontalAlign="Center" />
                 <ItemStyle HorizontalAlign="Right" />
               </telerik:GridBoundColumn>
-
+              <%-- Saldo --%>
               <telerik:GridBoundColumn DataField="Saldo" HeaderText="Saldo"
                 UniqueName="Saldo">
                 <HeaderStyle Font-Size="Smaller" Width="100px" HorizontalAlign="Center" />
@@ -174,6 +191,19 @@
                 <HeaderStyle Font-Size="Smaller" HorizontalAlign="Center" />
                 <ItemStyle HorizontalAlign="Left" />
               </telerik:GridBoundColumn>
+
+              <telerik:GridBoundColumn DataField="ComerntarioDeudor" HeaderText="Comentario Deudor"
+                UniqueName="ComerntarioDeudor">
+                <HeaderStyle Font-Size="Smaller" HorizontalAlign="Center" />
+                <ItemStyle HorizontalAlign="Left" />
+              </telerik:GridBoundColumn>
+
+              <telerik:GridBoundColumn DataField="ComerntarioAnalista" HeaderText="Comerntario Analista"
+                UniqueName="ComerntarioAnalista">
+                <HeaderStyle Font-Size="Smaller" HorizontalAlign="Center" />
+                <ItemStyle HorizontalAlign="Left" />
+              </telerik:GridBoundColumn>
+
             </Columns>
           </MasterTableView>
         </telerik:RadGrid>
@@ -183,7 +213,12 @@
       var x, y;
       $(document).ready(function () {
 
-        /* Apply fancybox to multiple items */
+        $("#idBuscar").click(function () {
+          if ($("#cmbCliente").val() == "") {
+            alert("Debe seleccionar cliente");
+            return false;
+          }
+        });
 
         $("#btnDeudores").fancybox({
           'width': 600,

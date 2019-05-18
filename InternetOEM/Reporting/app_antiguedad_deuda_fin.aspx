@@ -23,6 +23,8 @@
 <body>
   <form id="form1" runat="server">
     <asp:ScriptManager ID="ScriptManager" runat="server"></asp:ScriptManager>
+    <asp:HiddenField ID="hdd_arrNkeyCliente" runat="server" />
+    <asp:HiddenField ID="hdd_cli_show" runat="server" />
     <nav class="navbar-inverse">
       <div class="container-fluid">
         <div class="navbar-header">
@@ -72,6 +74,23 @@
       <div class="blq_tile">
         <asp:Label ID="lblTitle" runat="server" CssClass="lblTitle" Text="ANTIGUEDAD DE DEUDA"></asp:Label>
       </div>
+      <div class="row">
+        <div id="colClientes" class="col-md-4" runat="server" visible="false">
+          <div><span>Clientes</span></div>
+          <div></div>
+          <asp:DropDownList ID="cmbCliente" CssClass="inputCmbBox" runat="server">
+          </asp:DropDownList>
+        </div>
+        <div id="colHolding" class="col-md-4" runat="server" visible="false">
+          <div><span>Holding</span></div>
+          <div></div>
+          <asp:DropDownList ID="cmbHolding" CssClass="inputCmbBox" runat="server">
+          </asp:DropDownList>
+          <div class="lblerror">
+            <asp:Label ID="lblError2" runat="server" Text=""></asp:Label>
+          </div>
+        </div>
+      </div>
       <div class="blq_search">
         <div><span>Seleccione tipo de consulta</span></div>
         <div></div>
@@ -91,6 +110,7 @@
             <asp:ListItem Text="Cliente" Value="1"></asp:ListItem>
             <asp:ListItem Text="Analista" Value="2"></asp:ListItem>
             <asp:ListItem Text="Vendedor" Value="3"></asp:ListItem>
+            <asp:ListItem Text="Holding" Value="4"></asp:ListItem>
           </asp:RadioButtonList>
         </div>
       </div>
@@ -100,7 +120,8 @@
         </div>
       </div>
       <div id="idGrilla" runat="server" visible="false">
-        <telerik:RadGrid ID="rdGridAntiguedadDeuda" runat="server" OnNeedDataSource="rdGridAntiguedadDeuda_NeedDataSource" OnItemCommand="rdGridAntiguedadDeuda_ItemCommand" OnPreRender="rdGridAntiguedadDeuda_PreRender"
+        <asp:Label ID="lblmoneda" runat="server" CssClass="lblmoneda"></asp:Label>
+        <telerik:RadGrid ID="rdGridAntiguedadDeuda" runat="server" OnNeedDataSource="rdGridAntiguedadDeuda_NeedDataSource" OnItemCommand="rdGridAntiguedadDeuda_ItemCommand" OnPreRender="rdGridAntiguedadDeuda_PreRender" OnItemDataBound="rdGridAntiguedadDeuda_ItemDataBound"
           AllowPaging="true" AllowSorting="true" ShowStatusBar="true" PageSize="10" GridLines="None" AllowAutomaticUpdates="true" AllowAutomaticInserts="true" AllowAutomaticDeletes="true" Skin="Sitefinity">
           <ExportSettings HideStructureColumns="true"></ExportSettings>
           <PagerStyle Mode="NextPrevAndNumeric" />
@@ -202,14 +223,31 @@
       var lblError = document.getElementById('<%= lblError.ClientID %>');
       $(document).ready(function () {
 
-        /* Apply fancybox to multiple items */
+        $("#idBuscar").click(function () {
+          if ($("#cmbCliente").val() == "") {
+            alert("Debe seleccionar cliente");
+            return false;
+          }
+        });
+        
         $("#btnSearch").click(function () {
           lblError.innerHTML = "";
           var rdBtnValor = $('#<%=RdBtnTypeQuery.ClientID %> input[type=radio]:checked').val();
           var objHref = document.getElementById("objShowSearch");
 
           if (rdBtnValor == "0") {
-            objHref.href = "app_show_deudores.aspx";
+            CodCliente = "";
+            if ($("#hdd_cli_show").val() == "V") {
+              if ($("#<%= cmbCliente.ClientID %>").val() != "")
+                CodCliente = $("#<%= cmbCliente.ClientID %>").val();
+              else {
+                alert("Debe seleccionar cliente");
+                return false;
+              }
+                
+            }
+
+            objHref.href = "app_show_deudores.aspx?ArrCodCliente=" + CodCliente;
             $("#objShowSearch").trigger("click");
 
           } else if (rdBtnValor == "1") {
@@ -249,21 +287,26 @@
         $('#<%=RdBtnTypeQuery.ClientID %>').change(function () {
           var objTxtDeudor = $find("<%= rdTxtDeudor.ClientID %>");
 
-           lblError.innerHTML = "";
-           objTxtDeudor.set_value('');
-           hddCodDeudor.value = "";
+          lblError.innerHTML = "";
+          objTxtDeudor.set_value('');
+          hddCodDeudor.value = "";
 
-         });
+        });
 
       });
 
-       function onValidateAnalista() {
-         breturn = true;
-         var objTxtDeudor = $find("<%= rdTxtDeudor.ClientID %>");
+      function onValidateAnalista() {
+        breturn = true;
+        var objTxtDeudor = $find("<%= rdTxtDeudor.ClientID %>");
         var rbvalue = $("input[@name=<%=RdBtnTypeQuery.ClientID%>]:radio:checked").val();
 
-        if ((rbvalue != "1") && (objTxtDeudor.get_value() == "")) {
+        if ((rbvalue != "1") && (rbvalue != "4") && (objTxtDeudor.get_value() == "")) {
           lblError.innerHTML = "* Debe seleccionar el dato para la consulta.";
+          breturn = false;
+        }
+
+        if ((rbvalue == "4") && ($("#cmbHolding").val() == "")) {
+          lblError2.innerHTML = "* Debe seleccionar un holding para la consulta.";
           breturn = false;
         }
 

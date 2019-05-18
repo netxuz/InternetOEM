@@ -23,7 +23,8 @@
 <body>
   <form id="form1" runat="server">
     <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
-    <telerik:RadGrid ID="RadGrid1" runat="server"></telerik:RadGrid>
+    <asp:HiddenField ID="hdd_arrNkeyCliente" runat="server" />
+    <asp:HiddenField ID="hdd_cli_show" runat="server" />
     <nav class="navbar-inverse">
       <div class="container-fluid">
         <div class="navbar-header">
@@ -73,12 +74,25 @@
       <div class="blq_tile">
         <asp:Label ID="lblTitle" runat="server" CssClass="lblTitle" Text="PROYECCIÓN DE PAGOS"></asp:Label>
       </div>
-      <div class="blq_search">
+      <div class="row">
+        <div id="colClientes" class="col-md-4" runat="server" visible="false">
+          <div><span>Clientes</span></div>
+          <div></div>
+          <asp:DropDownList ID="cmbCliente" CssClass="inputCmbBox" runat="server">
+          </asp:DropDownList>
+        </div>
+        <div id="colHolding" class="col-md-4" runat="server" visible="false">
+          <div><span>Holding</span></div>
+          <div></div>
+          <asp:DropDownList ID="cmbHolding" CssClass="inputCmbBox" runat="server">
+          </asp:DropDownList>
+        </div>
+      </div>
+      <div id="colDeudor" runat="server" class="blq_search" visible="false">
         <div><span>Deudor</span></div>
         <div></div>
         <telerik:RadTextBox ID="rdTxtDeudor" runat="server"  CssClass="control-text-search" Enabled="True" Text=""></telerik:RadTextBox>
-        <a id="btnDeudores" href="app_show_deudores.aspx" class="btnsearch"></a>
-        <div><asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="rdTxtDeudor" ForeColor="Red" ErrorMessage="* Debe seleccionar el deudor." ValidationGroup="ValidPage"></asp:RequiredFieldValidator></div>
+        <a id="btnDeudores" href="" class="btnsearch"></a>
         <asp:HiddenField ID="hddCodDeudor" runat="server" />
       </div>
       <div class="blq_date">
@@ -113,7 +127,7 @@
         </div>
       </div>
       <div id="idGrilla" runat="server" visible="false">
-
+        <asp:Label ID="lblmoneda" runat="server" CssClass="lblmoneda"></asp:Label>
         <telerik:RadGrid ID="rdGridProyeccionPagos" runat="server" OnNeedDataSource="rdGridProyeccionPagos_NeedDataSource" OnItemCommand="rdGridProyeccionPagos_ItemCommand" OnItemDataBound="rdGridProyeccionPagos_ItemDataBound"
           AllowPaging="true" AllowSorting="true" ShowStatusBar="true" PageSize="10" GridLines="None" AllowAutomaticUpdates="true" AllowAutomaticInserts="true" AllowAutomaticDeletes="true" Skin="Sitefinity">
           <ExportSettings HideStructureColumns="true"></ExportSettings>
@@ -122,6 +136,13 @@
             TableLayout="Fixed" ShowHeadersWhenNoRecords="true" CommandItemDisplay="Top">
             <CommandItemSettings ShowExportToExcelButton="true" ShowRefreshButton="false" ShowAddNewRecordButton="false" />
             <Columns>
+              <telerik:GridBoundColumn DataField="ncodholding" HeaderText="Cod Sociedad"
+                UniqueName="ncodholding">
+                <HeaderStyle Font-Size="Smaller" Width="100px" HorizontalAlign="Center" />
+                <ItemStyle HorizontalAlign="Center" />
+                <FooterStyle HorizontalAlign="Center" />
+              </telerik:GridBoundColumn>
+
               <telerik:GridBoundColumn DataField="nNumeroFactura" HeaderText="Nº Factura"
                 UniqueName="nNumeroFactura">
                 <HeaderStyle Font-Size="Smaller" Width="100px" HorizontalAlign="Center" />
@@ -142,9 +163,9 @@
                 <ItemStyle HorizontalAlign="Center" />
                 <FooterStyle HorizontalAlign="Center" />
               </telerik:GridBoundColumn>
-
+              <%-- DataFormatString="{0:N0}" FooterAggregateFormatString="{0:N0}" --%>
               <telerik:GridBoundColumn DataField="nMontoFactura" HeaderText="Monto Factura"
-                UniqueName="nMontoFactura" Aggregate="Sum" DataFormatString="{0:N0}" FooterAggregateFormatString="{0:N0}">
+                UniqueName="nMontoFactura" Aggregate="Sum" >
                 <HeaderStyle Font-Size="Smaller" Width="100px" HorizontalAlign="Center" />
                 <ItemStyle HorizontalAlign="Right" />
                 <FooterStyle HorizontalAlign="Right" />
@@ -167,26 +188,49 @@
       $(document).ready(function () {
 
         /* Apply fancybox to multiple items */
-
-        $("#btnDeudores").fancybox({
-          'width': 600,
-          'height': 700,
-          'transitionIn': 'elastic',
-          'transitionOut': 'elastic',
-          'speedIn': 600,
-          'speedOut': 200,
-          'overlayShow': false,
-          'type': 'iframe',
-          'onCleanup': function () {
-            x = $("#fancybox-frame").contents().find("#hdd_razonsocial").val();
-            y = $("#fancybox-frame").contents().find("#hdd_coddeudor").val();
-          },
-          'onClosed': function () {
-            var text = $find("<%= rdTxtDeudor.ClientID %>");
-            text.set_value(x);
-            hddCodDeudor.value = y;
+        $("#idBuscar").click(function () {
+          if ($("#cmbCliente").val() == "") {
+            alert("Debe seleccionar cliente");
+            return false;
           }
         });
+
+        $("#btnDeudores").click(function () {
+          CodCliente = "";
+          if ($("#hdd_cli_show").val() == "V") {
+            if ($("#<%= cmbCliente.ClientID %>").val() != "")
+              CodCliente = $("#<%= cmbCliente.ClientID %>").val();
+            else {
+              alert("Debe seleccionar cliente");
+              return false;
+            }
+          }
+
+          $.fancybox({
+            'width': 600,
+            'height': 700,
+            'transitionIn': 'elastic',
+            'transitionOut': 'elastic',
+            'speedIn': 600,
+            'speedOut': 200,
+            'overlayShow': false,
+            'href': 'app_show_deudores.aspx?ArrCodCliente=' + CodCliente,
+            'type': 'iframe',
+            'onCleanup': function () {
+              x = $("#fancybox-frame").contents().find("#hdd_razonsocial").val();
+              y = $("#fancybox-frame").contents().find("#hdd_coddeudor").val();
+            },
+            'onClosed': function () {
+              var text = $find("<%= rdTxtDeudor.ClientID %>");
+            text.set_value(x);
+            hddCodDeudor.value = y;
+            }
+          });
+          return false;
+
+        });
+
+        
 
       });
     </script>

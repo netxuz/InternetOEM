@@ -22,6 +22,15 @@ namespace OnlineServices.Reporting
     private string pNomConsulta;
     public string NomConsulta { get { return pNomConsulta; } set { pNomConsulta = value; } }
 
+    private string pFiltroDeudor;
+    public string FiltroDeudor { get { return pFiltroDeudor; } set { pFiltroDeudor = value; } }
+
+    private string pEstConsulta;
+    public string EstConsulta { get { return pEstConsulta; } set { pEstConsulta = value; } }
+
+    private string pFiltroHolding;
+    public string FiltroHolding { get { return pFiltroHolding; } set { pFiltroHolding = value; } }
+
     private bool pNOTIn;
     public bool NOTIn { get { return pNOTIn; } set { pNOTIn = value; } }
 
@@ -43,6 +52,7 @@ namespace OnlineServices.Reporting
       oParam = new DBConn.SQLParameters(10);
       StringBuilder cSQL;
       string Condicion = " where ";
+      string sComa = string.Empty;
 
       if (oConn.bIsOpen)
       {
@@ -51,13 +61,44 @@ namespace OnlineServices.Reporting
           switch (pAccion)
           {
             case "CREAR":
-              cSQL = new StringBuilder();
+              pFiltroDeudor = "V";
+              pFiltroHolding = "V";
 
-              cSQL.Append("insert into debt_usr_asignados(cod_user, cod_consulta) values(");
-              cSQL.Append("@cod_user, @cod_consulta)");
+              cSQL = new StringBuilder();
+              cSQL.Append("insert into debt_usr_asignados(cod_user, cod_consulta, filtro_deudor, filtro_holding) values(");
+              cSQL.Append("@cod_user, @cod_consulta, @filtro_deudor, @filtro_holding)");
               oParam.AddParameters("@cod_user", pCodUsuario, TypeSQL.Numeric);
               oParam.AddParameters("@cod_consulta", pCodConsulta, TypeSQL.Numeric);
+              oParam.AddParameters("@filtro_deudor", pFiltroDeudor, TypeSQL.Varchar);
+              oParam.AddParameters("@filtro_holding", pFiltroHolding, TypeSQL.Varchar);
               oConn.Insert(cSQL.ToString(), oParam);
+
+              break;
+            case "EDITAR":
+              cSQL = new StringBuilder();
+              cSQL.Append("update debt_usr_asignados set ");
+
+              if (!string.IsNullOrEmpty(pFiltroDeudor))
+              {
+                cSQL.Append(sComa);
+                cSQL.Append(" filtro_deudor = @filtro_deudor");
+                oParam.AddParameters("@filtro_deudor", pFiltroDeudor, TypeSQL.Varchar);
+                sComa = ", ";
+              }
+
+              if (!string.IsNullOrEmpty(pFiltroHolding))
+              {
+                cSQL.Append(sComa);
+                cSQL.Append(" filtro_holding = @filtro_holding");
+                oParam.AddParameters("@filtro_holding", pFiltroHolding, TypeSQL.Varchar);
+                sComa = ", ";
+              }
+
+              cSQL.Append(" where cod_user = @cod_usuario and cod_consulta = @cod_consulta ");
+              oParam.AddParameters("@cod_usuario", pCodUsuario, TypeSQL.Numeric);
+              oParam.AddParameters("@cod_consulta", pCodConsulta, TypeSQL.Numeric);
+
+              oConn.Update(cSQL.ToString(), oParam);
 
               break;
             case "ELIMINAR":
@@ -125,6 +166,52 @@ namespace OnlineServices.Reporting
           Condicion = " and ";
           cSQL.Append(" nom_consulta like '%' + @nombre + '%'  ");
           oParam.AddParameters("@nombre", pNomConsulta, TypeSQL.Varchar);
+        }
+
+        if (!string.IsNullOrEmpty(pEstConsulta)) {
+          cSQL.Append(Condicion);
+          Condicion = " and ";
+          cSQL.Append(" est_consulta = @est_consulta  ");
+          oParam.AddParameters("@est_consulta", pEstConsulta, TypeSQL.Char);
+        }
+
+        dtData = oConn.Select(cSQL.ToString(), oParam);
+        pError = oConn.Error;
+        return dtData;
+      }
+      else
+      {
+        pError = "Conexion Cerrada";
+        return null;
+      }
+    }
+
+    public DataTable Get()
+    {
+      oParam = new DBConn.SQLParameters(10);
+      DataTable dtData;
+      StringBuilder cSQL;
+      string Condicion = " where ";
+
+      if (oConn.bIsOpen)
+      {
+        cSQL = new StringBuilder();
+        cSQL.Append("select cod_user, cod_consulta, filtro_deudor, filtro_holding from debt_usr_asignados ");
+
+        if (!string.IsNullOrEmpty(pCodUsuario))
+        {
+          cSQL.Append(Condicion);
+          Condicion = " and ";
+          cSQL.Append(" cod_user = @cod_user ");
+          oParam.AddParameters("@cod_user", pCodUsuario, TypeSQL.Numeric);
+        }
+
+        if (!string.IsNullOrEmpty(pCodConsulta))
+        {
+          cSQL.Append(Condicion);
+          Condicion = " and ";
+          cSQL.Append(" cod_consulta = @cod_consulta ");
+          oParam.AddParameters("@cod_consulta", pCodConsulta, TypeSQL.Numeric);
         }
 
         dtData = oConn.Select(cSQL.ToString(), oParam);

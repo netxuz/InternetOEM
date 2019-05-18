@@ -72,7 +72,7 @@
         </div>
       </div>
       <div class="row vAlign">
-        <div class="col-md-1">
+        <div class="col-md-3">
           <div class="md-form">
             <asp:TextBox ID="txt_num_valija" runat="server" CssClass="form-control"></asp:TextBox>
             <label for="txt_num_valija"># VALIJA</label>
@@ -84,16 +84,33 @@
             <label for="txt_cliente">CLIENTE</label>
           </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-3">
           <div class="md-form">
             <span for="cmb_centrodistribucion">CENTRO DE DISTRIBUCION:</span>
             <asp:DropDownList ID="cmb_centrodistribucion" CssClass="form-control" runat="server">
             </asp:DropDownList>
           </div>
         </div>
+        <div class="col-md-3">
+          <div class="md-form">
+            <span for="cmd_tipo_documento">TIPO DE DOCUMENTO: </span>
+            <asp:DropDownList ID="cmd_tipo_documento" CssClass="form-control" runat="server">
+              <asp:ListItem Text="<< Seleccione una opción >>" Value=""></asp:ListItem>
+              <asp:ListItem Text="Guia de despacho"></asp:ListItem>
+              <asp:ListItem Text="Factura"></asp:ListItem>
+              <asp:ListItem Text="Nota de crédito"></asp:ListItem>
+            </asp:DropDownList>
+          </div>
+        </div>
       </div>
       <div class="row vAlign">
-        <div class="col-md-2">
+        <div class="col-md-3">
+          <div class="md-form">
+            <asp:TextBox ID="txt_num_documento" runat="server" CssClass="form-control"></asp:TextBox>
+            <label for="txt_num_documento"># Documento</label>
+          </div>
+        </div>
+        <div class="col-md-3">
           <span for="fch_inicio">FECHA INICIO</span>
           <div class="input-append date" id="dp3" data-date="<%= DateTime.Now.ToString("dd-MM-yyyy")  %>" data-date-format="dd-mm-yyyy">
             <asp:TextBox ID="fch_inicio" runat="server" CssClass="form-control"></asp:TextBox>
@@ -101,7 +118,7 @@
             <asp:HiddenField ID="hdd_fch_inicio" runat="server" />
           </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-3">
           <span for="fch_hasta">FECHA FINAL</span>
           <div class="input-append date" id="dp4" data-date="<%= DateTime.Now.ToString("dd-MM-yyyy")  %>" data-date-format="dd-mm-yyyy">
             <asp:TextBox ID="fch_hasta" runat="server" CssClass="form-control"></asp:TextBox>
@@ -109,8 +126,8 @@
             <asp:HiddenField ID="hdd_fch_hasta" runat="server" />
           </div>
         </div>
-        <div class="col-md-6">
-          <span for="cmb_documento">TIPO DE DOCUMENTO: </span>
+        <div class="col-md-3">
+          <span for="cmb_documento">METODO DE PAGO: </span>
           <asp:DropDownList ID="cmb_documento" CssClass="form-control" runat="server">
             <asp:ListItem Text="<< Seleccione tipo de documento >>" Value=""></asp:ListItem>
             <asp:ListItem Text="Cheque al día" Value="1"></asp:ListItem>
@@ -127,15 +144,17 @@
           <asp:Button ID="idBuscar" runat="server" Text="Buscar" CssClass="btn btn-primary" Width="100px" OnClick="idBuscar_Click" />
         </div>
       </div>
-      <div class="row"><br /></div>
+      <div class="row">
+        <br />
+      </div>
       <div class="row">
         <div class="container">
           <asp:GridView ID="gdPagos" runat="server" CssClass="table table-hover"
             DataKeyNames="cod_pago, cod_tipo_pago" BorderStyle="Solid"
             BorderWidth="0" GridLines="Horizontal"
-            AutoGenerateColumns="false" 
-            OnSelectedIndexChanging="gdPagos_SelectedIndexChanging" 
-            OnPageIndexChanging="gdPagos_PageIndexChanging" 
+            AutoGenerateColumns="false"
+            OnSelectedIndexChanging="gdPagos_SelectedIndexChanging"
+            OnPageIndexChanging="gdPagos_PageIndexChanging"
             OnRowDataBound="gdPagos_RowDataBound">
             <Columns>
               <asp:CommandField ButtonType="Link" ShowSelectButton="true" SelectText="Sele" ItemStyle-CssClass="BtnColEditar" ItemStyle-Width="1px" />
@@ -174,7 +193,7 @@
       if (($("#fch_inicio").val() != "") && ($("#fch_hasta").val() != "")) {
         document.getElementById("<%=hdd_fch_inicio.ClientID%>").value = $("#fch_inicio").val();
         document.getElementById("<%=hdd_fch_hasta.ClientID%>").value = $("#fch_hasta").val();
-        
+
       } else {
         document.getElementById("<%=hdd_fch_inicio.ClientID%>").value = "";
         document.getElementById("<%=hdd_fch_hasta.ClientID%>").value = "";

@@ -77,6 +77,10 @@ namespace ICommunity
               Application["setDomainName"] = oRow["valor_parametro"].ToString();
             if (oRow["cod_codigo"].ToString() == "20")
               Application["trackPageview"] = oRow["valor_parametro"].ToString();
+            if (oRow["cod_codigo"].ToString() == "21")
+              Application["CampanaLinkeind"] = oRow["valor_parametro"].ToString();
+            if (oRow["cod_codigo"].ToString() == "22")
+              Application["CampanaGoogle"] = oRow["valor_parametro"].ToString();
           }
         }
       dParame = null;

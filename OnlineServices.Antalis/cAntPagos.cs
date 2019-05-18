@@ -64,6 +64,9 @@ namespace OnlineServices.Antalis
     private bool pEstadoNoValidada;
     public bool EstadoNoValidada { get { return pEstadoNoValidada; } set { pEstadoNoValidada = value; } }
 
+    private string pNumDocumento;
+    public string NumDocumento { get { return pNumDocumento; } set { pNumDocumento = value; } }
+
     private string pAccion;
     public string Accion { get { return pAccion; } set { pAccion = value; } }
 
@@ -166,6 +169,113 @@ namespace OnlineServices.Antalis
               break;
           }
         }
+
+        cSQL.Append(" order by fech_recepcion desc ");
+
+        dtData = oConn.Select(cSQL.ToString(), oParam);
+        pError = oConn.Error;
+        return dtData;
+      }
+      else
+      {
+        pError = "Conexion Cerrada";
+        return null;
+      }
+    }
+
+    public DataTable GetPagosValidar()
+    {
+      oParam = new DBConn.SQLParameters(8);
+      DataTable dtData;
+      StringBuilder cSQL;
+      string Condicion = " and  ";
+
+      if (oConn.bIsOpen)
+      {
+        cSQL = new StringBuilder();
+        cSQL.Append("select cod_pago,cod_user,nkey_cliente,cod_centrodist,cod_tipo_pago,convert(varchar, fech_recepcion, 103) fech_recepcion,horario,cant_documentos,importe_total,estado ");
+        cSQL.Append(" from ant_pagos where cod_tipo_pago in(select tipo_pago from ant_usr_tipos_de_pago where cod_user = @cod_usuario )  ");
+        oParam.AddParameters("@cod_usuario", pCodUsuario, TypeSQL.Numeric);
+
+        if (!string.IsNullOrEmpty(pCodPagos))
+        {
+          cSQL.Append(Condicion);
+          Condicion = " and ";
+          cSQL.Append(" cod_pago = @cod_pago  ");
+          oParam.AddParameters("@cod_pago", pCodPagos, TypeSQL.Numeric);
+        }
+
+        if (!string.IsNullOrEmpty(pCodCentroDist))
+        {
+          cSQL.Append(Condicion);
+          Condicion = " and ";
+          cSQL.Append(" cod_centrodist = @cod_centrodist  ");
+          oParam.AddParameters("@cod_centrodist", pCodCentroDist, TypeSQL.Numeric);
+        }
+
+        if (!string.IsNullOrEmpty(pCodTipoPago))
+        {
+          cSQL.Append(Condicion);
+          Condicion = " and ";
+          cSQL.Append(" cod_tipo_pago = @cod_tipo_pago  ");
+          oParam.AddParameters("@cod_tipo_pago", pCodTipoPago, TypeSQL.Numeric);
+        }
+
+        if (!string.IsNullOrEmpty(sRazonSocial))
+        {
+          cSQL.Append(Condicion);
+          Condicion = " and ";
+          cSQL.Append(" nkey_cliente in(select nkey_cliente from cliente where snombre like '%' + @snombre + '%')  ");
+          oParam.AddParameters("@snombre", sRazonSocial, TypeSQL.Varchar);
+        }
+
+        if ((!string.IsNullOrEmpty(sFechaInicial)) && (!string.IsNullOrEmpty(sFechaFinal)))
+        {
+          cSQL.Append(Condicion);
+          Condicion = " and ";
+          cSQL.Append(" fech_recepcion between @fechainicial and @fechafinal ");
+          oParam.AddParameters("@fechainicial", sFechaInicial, TypeSQL.Varchar);
+          oParam.AddParameters("@fechafinal", sFechaFinal, TypeSQL.Varchar);
+        }
+
+        if (!string.IsNullOrEmpty(pEstado))
+        {
+          cSQL.Append(Condicion);
+          Condicion = " and ";
+          cSQL.Append(" estado = @estado  ");
+          oParam.AddParameters("@estado", pEstado, TypeSQL.Char);
+        }
+
+        if (!string.IsNullOrEmpty(pNumDocumento))
+        {
+          cSQL.Append(Condicion);
+          Condicion = " and ";
+          cSQL.Append(" cod_pago in(select cod_pago from ant_documentos_pago where num_documento = @num_documento)  ");
+          oParam.AddParameters("@num_documento", pNumDocumento, TypeSQL.Numeric);
+        }
+
+        if (pEstadoNoValidada)
+        {
+          cSQL.Append(Condicion);
+          Condicion = " and ";
+          cSQL.Append(" estado in ('A','C') ");
+        }
+
+        //if ((!string.IsNullOrEmpty(pTipoPago)) && (string.IsNullOrEmpty(pCodTipoPago)))
+        //{
+        //  cSQL.Append(Condicion);
+        //  Condicion = " and ";
+
+        //  switch (pTipoPago)
+        //  {
+        //    case "E":
+        //      cSQL.Append(" cod_tipo_pago in(3, 5, 6)  ");
+        //      break;
+        //    case "C":
+        //      cSQL.Append(" cod_tipo_pago in(1, 2, 4)  ");
+        //      break;
+        //  }
+        //}
 
         cSQL.Append(" order by fech_recepcion desc ");
 

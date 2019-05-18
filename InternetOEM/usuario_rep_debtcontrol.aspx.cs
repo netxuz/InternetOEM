@@ -11,6 +11,7 @@ using OnlineServices.Conn;
 using OnlineServices.SystemData;
 using OnlineServices.Reporting;
 using OnlineServices.Method;
+using System.Web.Services;
 
 namespace ICommunity
 {
@@ -136,6 +137,7 @@ namespace ICommunity
         cDebtUsrAsignados oDebtUsrAsignados = new cDebtUsrAsignados(ref oConn);
         oDebtUsrAsignados.CodUsuario = CodUsuario.Value;
         oDebtUsrAsignados.NOTIn = false;
+        oDebtUsrAsignados.EstConsulta = "V";
         if (!string.IsNullOrEmpty(txtBuscarReportes.Text))
           oDebtUsrAsignados.NomConsulta = txtBuscarReportes.Text;
         rdReportesNotIn.DataSource = oDebtUsrAsignados.GetConsultaByUsuario();
@@ -196,5 +198,72 @@ namespace ICommunity
       rdReportesNotIn.Rebind();
       UpdatePanel1.Update();
     }
+
+    [WebMethod]
+    public static cFiltro[] getFiltros(string CodUsuario, string CodConsulta)
+    {
+      List<cFiltro> details = new List<cFiltro>();
+
+      cFiltro oFiltro = new cFiltro();
+      oFiltro.Deudor = string.Empty;
+      oFiltro.Holding = string.Empty;
+
+      DBConn oConn = new DBConn();
+      if (oConn.Open())
+      {
+        cDebtUsrAsignados oDebtUsrAsignados = new cDebtUsrAsignados(ref oConn);
+        oDebtUsrAsignados.CodUsuario = CodUsuario;
+        oDebtUsrAsignados.CodConsulta = CodConsulta;
+        DataTable dt = oDebtUsrAsignados.Get();
+        if (dt != null)
+          if (dt.Rows.Count > 0)
+          {
+            oFiltro.Deudor = dt.Rows[0]["filtro_deudor"].ToString();
+            oFiltro.Holding = dt.Rows[0]["filtro_holding"].ToString();
+          }
+        dt = null;
+        oConn.Close();
+      }
+      details.Add(oFiltro);
+      return details.ToArray();
+    }
+
+    [WebMethod]
+    public static cExito[] setFiltros(string CodUsuario, string CodConsulta, string sDeudor, string sHolding)
+    {
+      List<cExito> details = new List<cExito>();
+
+      cExito oExito = new cExito();
+      oExito.Exito = string.Empty;
+
+      DBConn oConn = new DBConn();
+      if (oConn.Open())
+      {
+        cDebtUsrAsignados oDebtUsrAsignados = new cDebtUsrAsignados(ref oConn);
+        oDebtUsrAsignados.CodUsuario = CodUsuario;
+        oDebtUsrAsignados.CodConsulta = CodConsulta;
+        oDebtUsrAsignados.FiltroDeudor = sDeudor;
+        oDebtUsrAsignados.FiltroHolding = sHolding;
+        oDebtUsrAsignados.Accion = "EDITAR";
+        oDebtUsrAsignados.Put();
+        oConn.Close();
+
+        oExito.Exito = "V";
+      }
+      details.Add(oExito);
+      return details.ToArray();
+    }  
+
+  }
+
+  public class cFiltro
+  {
+    public string Deudor { get; set; }
+    public string Holding { get; set; }
+  }
+
+  public class cExito
+  {
+    public string Exito { get; set; }
   }
 }

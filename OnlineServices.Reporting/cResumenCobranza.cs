@@ -25,6 +25,9 @@ namespace OnlineServices.Reporting
     private string lngNkeyUsuario;
     public string NkeyUsuario { get { return lngNkeyUsuario; } set { lngNkeyUsuario = value; } }
 
+    private string pNcodHolding;
+    public string NcodHolding { get { return pNcodHolding; } set { pNcodHolding = value; } }
+
     private string pDtFchIni;
     public string DtFchIni { get { return pDtFchIni; } set { pDtFchIni = value; } }
 
@@ -57,9 +60,12 @@ namespace OnlineServices.Reporting
       if (oConn.bIsOpen)
       {
         StringBuilder cSQL = new StringBuilder();
-        cSQL.Append("select Código,  RazónSocial, Zona_Cobranza, RazónSocial, Tipo_Pago, Número_Pago, isnull(Monto_Pago,0) as 'Monto_Pago', ");
+        cSQL.Append("select Código, resumen_cobranza.nKey_Deudor, RazónSocial, Zona_Cobranza, Tipo_Pago, Número_Pago, isnull(Monto_Pago,0) as 'Monto_Pago', ");
+        cSQL.Append(" resumen_cobranza.ctabancaria,resumen_cobranza.ctacontable, cliente.ncod, cliente.ncodholding , cliente.holding, ");
         cSQL.Append("Emisión_Pago, Banco, Plaza, Sala, Tipo_Documento_Aplicado, Nº_Documento_Aplicado, isnull(Monto, 0) as 'Monto', isnull(Abono,0) as 'Abono', isnull(Saldo,0) as 'Saldo', Observación, ");
-        cSQL.Append("(select sum(isnull(Monto_pago,0)) from resumen_cobranza where nkey_cliente = @cod_nkey ");
+        cSQL.Append("(select sum(isnull(Monto_pago,0)) from resumen_cobranza where nkey_cliente in (");
+        cSQL.Append(lngCodNkey);
+        cSQL.Append(") ");
 
         if (!string.IsNullOrEmpty(pNumPago)) {
           cSQL.Append("and Número_Pago = @numpago ");
@@ -77,11 +83,15 @@ namespace OnlineServices.Reporting
 
         if ((!string.IsNullOrEmpty(sTipoUsuario)) && (sTipoUsuario == "V"))
         {
-          cSQL.Append("  and resumen_cobranza.nkey_deudor in (select codigodeudor.nkey_deudor from codigodeudor where codigodeudor.nkey_vendedor = @nkey_usuario and codigodeudor.nkey_cliente = @cod_nkey )  ");
+          cSQL.Append("  and resumen_cobranza.nkey_deudor in (select codigodeudor.nkey_deudor from codigodeudor where codigodeudor.nkey_vendedor = @nkey_usuario and codigodeudor.nkey_cliente in(");
+          cSQL.Append(lngCodNkey);
+          cSQL.Append(") )  ");
         }
 
         cSQL.Append(" and Recepcion between convert(datetime, '").Append(pDtFchIni).Append("') and convert(datetime, '").Append(pDtFchFin).Append("')) as total_monto, ");
-        cSQL.Append(" (select sum(isnull(Abono,0)) from resumen_cobranza where nkey_cliente = @cod_nkey ");
+        cSQL.Append(" (select sum(isnull(Abono,0)) from resumen_cobranza where nkey_cliente in(");
+        cSQL.Append(lngCodNkey);
+        cSQL.Append(") ");
 
         if (!string.IsNullOrEmpty(lngCodDeudor)){
           cSQL.Append(" and nKey_Deudor = @lngCodDeudor ");
@@ -93,11 +103,15 @@ namespace OnlineServices.Reporting
         }
 
         if ((!string.IsNullOrEmpty(sTipoUsuario)) && (sTipoUsuario == "V")) {
-          cSQL.Append(" and resumen_cobranza.nkey_deudor in (select codigodeudor.nkey_deudor from codigodeudor where codigodeudor.nkey_vendedor = @nkey_usuario and codigodeudor.nkey_cliente = @cod_nkey )  ");
+          cSQL.Append(" and resumen_cobranza.nkey_deudor in (select codigodeudor.nkey_deudor from codigodeudor where codigodeudor.nkey_vendedor = @nkey_usuario and codigodeudor.nkey_cliente in(");
+          cSQL.Append(lngCodNkey);
+          cSQL.Append(") )  ");
         }
 
         cSQL.Append(" and Recepcion between convert(datetime, '").Append(pDtFchIni).Append("') and convert(datetime,'").Append(pDtFchFin).Append("')) as total_abono, ");
-        cSQL.Append(" (select sum(isnull(Saldo,0)) from resumen_cobranza where nkey_cliente = @cod_nkey ");
+        cSQL.Append(" (select sum(isnull(Saldo,0)) from resumen_cobranza where nkey_cliente in(");
+        cSQL.Append(lngCodNkey);
+        cSQL.Append(") ");
         
         if (!string.IsNullOrEmpty(lngCodDeudor)){
           cSQL.Append(" and nKey_Deudor = @lngCodDeudor ");
@@ -107,10 +121,14 @@ namespace OnlineServices.Reporting
         }
         if ((!string.IsNullOrEmpty(sTipoUsuario)) && (sTipoUsuario == "V"))
         {
-          cSQL.Append(" and resumen_cobranza.nkey_deudor in (select codigodeudor.nkey_deudor from codigodeudor where codigodeudor.nkey_vendedor = @nkey_usuario and codigodeudor.nkey_cliente = @cod_nkey ) ");
+          cSQL.Append(" and resumen_cobranza.nkey_deudor in (select codigodeudor.nkey_deudor from codigodeudor where codigodeudor.nkey_vendedor = @nkey_usuario and codigodeudor.nkey_cliente in(");
+          cSQL.Append(lngCodNkey);
+          cSQL.Append(") ) ");
         }
         cSQL.Append(" and Recepcion between convert(datetime, '").Append(pDtFchIni).Append("') and convert(datetime, '").Append(pDtFchFin).Append("')) as total_saldo, ");
-        cSQL.Append(" (select sum(isnull(Monto_Pago,0)) from resumen_cobranza where nkey_cliente = @cod_nkey ");
+        cSQL.Append(" (select sum(isnull(Monto_Pago,0)) from resumen_cobranza where nkey_cliente in(");
+        cSQL.Append(lngCodNkey);
+        cSQL.Append(") ");
         
         if (!string.IsNullOrEmpty(lngCodDeudor)){
           cSQL.Append(" and nKey_Deudor = @lngCodDeudor ");
@@ -121,13 +139,28 @@ namespace OnlineServices.Reporting
         }
         if ((!string.IsNullOrEmpty(sTipoUsuario)) && (sTipoUsuario == "V"))
         {
-          cSQL.Append(" and resumen_cobranza.nkey_deudor in (select codigodeudor.nkey_deudor from codigodeudor where codigodeudor.nkey_vendedor = @nkey_usuario and codigodeudor.nkey_cliente = @cod_nkey ) ");
+          cSQL.Append(" and resumen_cobranza.nkey_deudor in (select codigodeudor.nkey_deudor from codigodeudor where codigodeudor.nkey_vendedor = @nkey_usuario and codigodeudor.nkey_cliente in(");
+          cSQL.Append(lngCodNkey);
+          cSQL.Append(") ) ");
         }
         cSQL.Append(" and Recepcion between convert(datetime, '").Append(pDtFchIni).Append("') and convert(datetime, '").Append(pDtFchFin).Append("')) as total_pago ");
-        cSQL.Append(" from resumen_cobranza where nKey_Cliente = @cod_nkey ");
-        
+        cSQL.Append(" from resumen_cobranza ");
+
+        cSQL.Append(" join cliente on (cliente.nkey_cliente = resumen_cobranza.nKey_Cliente ) ");
+
+        if (string.IsNullOrEmpty(pNcodHolding))
+        {
+          cSQL.Append(" where resumen_cobranza.nKey_Cliente in (");
+          cSQL.Append(lngCodNkey);
+          cSQL.Append(")");
+        }
+        else {
+          cSQL.Append(" where cliente.ncodholding  = @ncodholding ");
+          oParam.AddParameters("@ncodholding", pNcodHolding, TypeSQL.Numeric);
+        }
+
         if (!string.IsNullOrEmpty(lngCodDeudor)){
-          cSQL.Append(" and nKey_Deudor = @lngCodDeudor ");
+          cSQL.Append(" and resumen_cobranza.nKey_Deudor = @lngCodDeudor ");
         }
 
         if ((!string.IsNullOrEmpty(sTipoUsuario)) && (sTipoUsuario == "D"))
@@ -136,13 +169,16 @@ namespace OnlineServices.Reporting
         }
         if ((!string.IsNullOrEmpty(sTipoUsuario)) && (sTipoUsuario == "V"))
         {
-          cSQL.Append(" and resumen_cobranza.nkey_deudor in (select codigodeudor.nkey_deudor from codigodeudor where codigodeudor.nkey_vendedor = @nkey_usuario and codigodeudor.nkey_cliente = @cod_nkey ) ");
+          cSQL.Append(" and resumen_cobranza.nkey_deudor in (select codigodeudor.nkey_deudor from codigodeudor where codigodeudor.nkey_vendedor = @nkey_usuario and codigodeudor.nkey_cliente in(");
+          cSQL.Append(lngCodNkey);
+          cSQL.Append(") ) ");
         }
 
         cSQL.Append(" and Recepcion between convert(datetime, '").Append(pDtFchIni).Append("') and convert(datetime, '").Append(pDtFchFin).Append("') ");
         cSQL.Append(" order by Código, Número_Pago, [ORDER], Numero_Factura, ORDER2 ");
 
-        oParam.AddParameters("@cod_nkey", lngCodNkey, TypeSQL.Numeric);
+        //oParam.AddParameters("@cod_nkey", lngCodNkey, TypeSQL.Numeric);
+
         if (!string.IsNullOrEmpty(sTipoUsuario))
           oParam.AddParameters("@nkey_usuario", lngNkeyUsuario, TypeSQL.Numeric);
 

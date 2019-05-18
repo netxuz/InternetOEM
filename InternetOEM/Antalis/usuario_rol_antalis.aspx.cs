@@ -37,6 +37,10 @@ namespace ICommunity.Antalis
             {
               lblUsuario.Text = dt.Rows[0]["nom_user"].ToString() + ' ' + dt.Rows[0]["ape_user"].ToString();
 
+              cAntUsrTiposPago oUsrTiposPago = new cAntUsrTiposPago(ref oConn);
+              oUsrTiposPago.CodUsuario = CodUsuario.Value;
+              DataTable tdTipoPago = oUsrTiposPago.Get();
+
               cAntsUsuarios oAntsUsuarios = new cAntsUsuarios(ref oConn);
               oAntsUsuarios.CodUsuario = CodUsuario.Value;
               DataTable dtRol = oAntsUsuarios.GetRoles();
@@ -51,7 +55,28 @@ namespace ICommunity.Antalis
 
                     if (oRow["cod_rol"].ToString() == "2") { 
                       chk_controller.Checked = true;
-                      cmb_tipo_pago.SelectedValue = oRow["tipo"].ToString();
+                      //cmb_tipo_pago.SelectedValue = oRow["tipo"].ToString();
+
+                      if (tdTipoPago != null) {
+                        if (tdTipoPago.Rows.Count > 0) {
+                          foreach (DataRow oRow2 in tdTipoPago.Rows) {
+                            if (oRow2["tipo_pago"].ToString() == "1")
+                              chk_cheque_dia.Checked = true;
+                            if (oRow2["tipo_pago"].ToString() == "2")
+                              chk_cheque_fecha.Checked = true;
+                            if (oRow2["tipo_pago"].ToString() == "3")
+                              chk_efectivo.Checked = true;
+                            if (oRow2["tipo_pago"].ToString() == "4")
+                              chk_letra.Checked = true;
+                            if (oRow2["tipo_pago"].ToString() == "5")
+                              chk_tarjeta.Checked = true;
+                            if (oRow2["tipo_pago"].ToString() == "6")
+                              chk_transferencia.Checked = true;
+
+                          }
+                        }
+
+                      }
 
                       Page.ClientScript.RegisterStartupScript(this.GetType(), "show", "$(function () { document.getElementById(\"idRowTipoPago\").style.display = 'block'; });", true);
                     }
@@ -84,11 +109,57 @@ namespace ICommunity.Antalis
           oAntsUsuarios.Put();
         }
 
+        cAntUsrTiposPago oUsrTiposPago = new cAntUsrTiposPago(ref oConn);
+        oUsrTiposPago.CodUsuario = CodUsuario.Value;
+        oUsrTiposPago.Accion = "ELIMINAR";
+        oUsrTiposPago.Put();
+
         if (chk_controller.Checked) {
           oAntsUsuarios.Accion = "CREAR";
           oAntsUsuarios.CodRol = "2";
-          oAntsUsuarios.Tipo = cmb_tipo_pago.SelectedValue;
+          //oAntsUsuarios.Tipo = cmb_tipo_pago.SelectedValue;
           oAntsUsuarios.Put();
+                   
+
+          if (chk_cheque_dia.Checked) {
+            oUsrTiposPago.TipoPago = "1";
+            oUsrTiposPago.Accion = "CREAR";
+            oUsrTiposPago.Put();
+          }
+
+          if (chk_cheque_fecha.Checked) {
+            oUsrTiposPago.TipoPago = "2";
+            oUsrTiposPago.Accion = "CREAR";
+            oUsrTiposPago.Put();
+          }
+
+          if (chk_efectivo.Checked)
+          {
+            oUsrTiposPago.TipoPago = "3";
+            oUsrTiposPago.Accion = "CREAR";
+            oUsrTiposPago.Put();
+          }
+
+          if (chk_letra.Checked)
+          {
+            oUsrTiposPago.TipoPago = "4";
+            oUsrTiposPago.Accion = "CREAR";
+            oUsrTiposPago.Put();
+          }
+
+          if (chk_tarjeta.Checked)
+          {
+            oUsrTiposPago.TipoPago = "5";
+            oUsrTiposPago.Accion = "CREAR";
+            oUsrTiposPago.Put();
+          }
+
+          if (chk_transferencia.Checked)
+          {
+            oUsrTiposPago.TipoPago = "6";
+            oUsrTiposPago.Accion = "CREAR";
+            oUsrTiposPago.Put();
+          }
 
           Page.ClientScript.RegisterStartupScript(this.GetType(), "show", "$(function () { document.getElementById(\"idRowTipoPago\").style.display = 'block'; });", true);
         }

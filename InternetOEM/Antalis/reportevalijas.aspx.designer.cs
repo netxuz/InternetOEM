@@ -130,6 +130,24 @@ namespace ICommunity.Antalis {
         protected global::System.Web.UI.WebControls.DropDownList cmb_centrodistribucion;
         
         /// <summary>
+        /// cmd_tipo_documento control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList cmd_tipo_documento;
+        
+        /// <summary>
+        /// txt_num_documento control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txt_num_documento;
+        
+        /// <summary>
         /// fch_inicio control.
         /// </summary>
         /// <remarks>

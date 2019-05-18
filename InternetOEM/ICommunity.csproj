@@ -196,6 +196,7 @@
     <Content Include="AppRuta\applistactividad.aspx" />
     <Content Include="AppRuta\appshowmap.aspx" />
     <Content Include="AppRuta\ShowMap.html" />
+    <Content Include="AsociaCliente.aspx" />
     <Content Include="consulta_logs.aspx" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
@@ -403,6 +404,13 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Zona.resx</DependentUpon>
+    </Compile>
+    <Compile Include="AsociaCliente.aspx.cs">
+      <DependentUpon>AsociaCliente.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AsociaCliente.aspx.designer.cs">
+      <DependentUpon>AsociaCliente.aspx</DependentUpon>
     </Compile>
     <Compile Include="Banner.aspx.cs">
       <DependentUpon>Banner.aspx</DependentUpon>
@@ -1283,6 +1291,7 @@
     <Content Include="js\cbpHorizontalMenu.js" />
     <Content Include="js\cbpHorizontalMenu.min.js" />
     <Content Include="js\jquery-3.2.1.min.js" />
+    <Content Include="js\knockout-3.4.2.js" />
     <Content Include="js\locales\bootstrap-datepicker.bg.js" />
     <Content Include="js\locales\bootstrap-datepicker.ca.js" />
     <Content Include="js\locales\bootstrap-datepicker.cs.js" />
@@ -1420,6 +1429,7 @@
     <Content Include="Reporting\app_sob_lin_credito_bus.aspx" />
     <Content Include="Reporting\default.aspx" />
     <Content Include="Reporting\Login.aspx" />
+    <Content Include="Reporting\redirection.htm" />
     <Content Include="Reporting\WebForm.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -1522,6 +1532,7 @@
     <Content Include="Resources\PageObject.xml" />
     <Content Include="Resources\uploader.swf" />
     <Content Include="Template.aspx" />
+    <Content Include="test.html" />
     <Content Include="Usuario.aspx" />
     <Content Include="Usuarios.aspx" />
     <Content Include="usuarios_rep_debtcontrol.aspx" />

@@ -6,6 +6,7 @@
 <div class="row">&nbsp;</div>
 <div id="row">
   <asp:Button ID="btnGrabar" runat="server" CssClass="btn btn-primary" OnClick="btnGrabar_Click" />
+  <asp:Button ID="btnNKeyCliente" runat="server" CssClass="btn btn-primary" Text="Asocia Clientes" OnClick="btnNKeyCliente_Click" Visible="false" />
   <hr />
 </div>
 <%--<div class="">

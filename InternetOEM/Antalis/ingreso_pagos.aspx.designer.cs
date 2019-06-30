@@ -310,6 +310,15 @@ namespace ICommunity.Antalis {
         protected global::System.Web.UI.WebControls.HiddenField hddGuiasDespacho;
         
         /// <summary>
+        /// txt_num_guia_despacho control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txt_num_guia_despacho;
+        
+        /// <summary>
         /// hdd_num_factura control.
         /// </summary>
         /// <remarks>
@@ -326,6 +335,78 @@ namespace ICommunity.Antalis {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txt_valor_factura;
+        
+        /// <summary>
+        /// txt_aplicacion_pago_factura control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txt_aplicacion_pago_factura;
+        
+        /// <summary>
+        /// idRow4 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl idRow4;
+        
+        /// <summary>
+        /// cmb_nota_credito control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList cmb_nota_credito;
+        
+        /// <summary>
+        /// hddNotaCredito control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hddNotaCredito;
+        
+        /// <summary>
+        /// txt_saldo_nota_credito control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txt_saldo_nota_credito;
+        
+        /// <summary>
+        /// txt_aplicacion_nota_credito control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txt_aplicacion_nota_credito;
+        
+        /// <summary>
+        /// txt_nuevo_saldo_factura control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txt_nuevo_saldo_factura;
+        
+        /// <summary>
+        /// hdd_nuevo_saldo_factura control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdd_nuevo_saldo_factura;
         
         /// <summary>
         /// idRow3 control.

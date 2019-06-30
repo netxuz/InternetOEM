@@ -1,0 +1,129 @@
+﻿.body {
+  color: #3D5374 !important;
+}
+
+.navbar-inverse {
+  background-color: #5998C9 !important;
+  border-color: #4A7EA6 !important;
+}
+
+.container-fluid {
+  padding-left: 0px !important;
+}
+
+.navbar-inverse .navbar-toggle {
+  border-color: #ffffff !important;
+}
+
+.navbar-inverse .navbar-brand {
+  color: #ffffff !important;
+}
+
+.navbar-brand {
+  background-color: #3D5374 !important;
+}
+
+.navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > a:focus, .navbar-inverse .navbar-nav > .open > a:hover {
+  background-color: #3D5374 !important;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+  color: #ffffff !important;
+}
+
+.dropdown-menu {
+  background-color: #5998C9 !important;
+}
+
+  .dropdown-menu > li > a {
+    color: #ffffff !important;
+  }
+
+    .dropdown-menu > li > a:focus, .dropdown-menu > li > a:hover {
+      background-color: #3D5374 !important;
+    }
+
+@media (min-width:768px) {
+  .container {
+    width: 750px;
+  }
+}
+
+@media (min-width:992px) {
+  .container {
+    width: 970px;
+  }
+}
+
+@media (min-width:1200px) {
+  .container {
+    width: auto;
+    margin-left: 30px;
+  }
+}
+
+
+.lblTitle {
+  font-weight: 300;
+  font-family: inherit;
+  line-height: 1.1;
+  font-size: 16px !important;
+}
+
+.data {
+  font-size: 12px !important;
+}
+
+.btn {
+  font-size: 12px !important;
+}
+
+span {
+  font-size: 12px !important;
+  /*color: #3D5374 !important;*/
+}
+
+.container {
+  margin-right: 30px !important;
+}
+
+.vAlign {
+  display: flex;
+  align-items: center;
+  padding-top: 5px;
+  margin-top: 10px;
+  border-top: 1px dotted #BDBDBD;
+}
+
+#cmb_centrodistribucion, #cmb_documento, #cmb_bancos, #cmb_guiadespacho, #cmb_facturas, #cmd_tipo_documento {
+  width: 200px !important;
+}
+
+.md-form label {
+  color: #3D5374 !important;
+}
+
+.BtnColEditar a {
+  color: transparent !important;
+  background: url(../images/icons/glyphicons-31-pencil.png) center center no-repeat !important;
+  background-size: 60% 100% !important;
+  border: 0px;
+}
+
+.BtnColEliminar a {
+  color: transparent !important;
+  background: url(../images/icons/glyphicons-17-bin.png) left no-repeat !important;
+  background-size: 60% 100% !important;
+  border: 0px;
+}
+
+.BtnColAgregar a {
+  color: transparent !important;
+  background: url(../images/icons/glyphicons-191-plus-sign.png) left no-repeat !important;
+  background-size: 60% 100% !important;
+  border: 0px;
+}
+
+.datepicker.datepicker-dropdown.dropdown-menu {
+  background-color: #fff !important;
+}

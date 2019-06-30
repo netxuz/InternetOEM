@@ -23,6 +23,7 @@ C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\ICommunity.dll
 C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\ICommunity.pdb
 C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\Antlr3.Runtime.dll
 C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\ClosedXML.dll
+C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\ColorCode.dll
 C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\dcControlPanel.Base.dll
 C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\dcControlPanel.Conn.dll
 C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\dcControlPanel.dll
@@ -38,6 +39,8 @@ C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\OnlineServices.Conn.dll
 C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\OnlineServices.Method.dll
 C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\OnlineServices.Reporting.dll
 C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\OnlineServices.SystemData.dll
+C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\OnlineServices.Web.UI.dll
+C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\Select.HtmlToPdf.dll
 C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\System.Web.Helpers.dll
 C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\System.Web.Mvc.dll
 C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\System.Web.Optimization.dll
@@ -62,6 +65,8 @@ C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\OnlineServices.Conn.pdb
 C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\OnlineServices.Method.pdb
 C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\OnlineServices.Reporting.pdb
 C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\OnlineServices.SystemData.pdb
+C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\OnlineServices.Web.UI.pdb
+C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\Select.HtmlToPdf.xml
 C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\System.Web.Helpers.xml
 C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\System.Web.Mvc.xml
 C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\System.Web.Optimization.xml
@@ -72,9 +77,4 @@ C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\System.Web.WebPages.Razor.x
 C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\Telerik.Web.UI.xml
 C:\Proyectos\DebtControl\InternetOEM\InternetOEM\obj\Release\ICommunity.dll
 C:\Proyectos\DebtControl\InternetOEM\InternetOEM\obj\Release\ICommunity.pdb
-C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\OnlineServices.Web.UI.dll
-C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\OnlineServices.Web.UI.pdb
-C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\ColorCode.dll
-C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\Select.HtmlToPdf.dll
-C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\Select.HtmlToPdf.xml
 C:\Proyectos\DebtControl\InternetOEM\InternetOEM\obj\Release\ICommunity.csprojResolveAssemblyReference.cache

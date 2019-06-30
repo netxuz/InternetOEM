@@ -73,7 +73,7 @@ namespace OnlineServices.Reporting
           }
         }
 
-        cSQL.Append(" Deudor.sNombre AS 'Razón Social', Tipo_Pago as 'Tipo Pago', Número_Pago as 'Número Pago', FechaCheque as 'Fecha Documento', TotalPago as 'Total Pago', Número_Factura as 'Número Factura', FecEmiFac as 'Emisión', Vencimiento, Monto_Factura as 'Aplic_Factura', datediff(dd,Vencimiento, FechaCheque) as 'DBT', NomVendedor as 'Vendedor' ");
+        cSQL.Append(" Deudor.sNombre AS 'Razón Social', Tipo_Pago as 'Tipo Pago', Número_Pago as 'Número Pago', Abono, FechaCheque as 'Fecha Documento', TotalPago as 'Total Pago', Número_Factura as 'Número Factura', FecEmiFac as 'Emisión', Vencimiento, Monto_Factura as 'Aplic_Factura', datediff(dd,Vencimiento, FechaCheque) as 'DBT', NomVendedor as 'Vendedor' ");
         
         cSQL.Append(" from historico_pagos ");
         cSQL.Append(" LEFT JOIN Deudor ");

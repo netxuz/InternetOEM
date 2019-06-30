@@ -173,6 +173,12 @@ namespace ICommunity.Antalis
           oPagos.FechaFinal = DateTime.Parse(hdd_fch_hasta.Value).ToString("yyyyMMdd");
         }
 
+        if ((!string.IsNullOrEmpty(txt_num_documento.Text)) && (!string.IsNullOrEmpty(cmd_tipo_documento.SelectedValue)))
+        {
+          oPagos.TipoDocumento = cmd_tipo_documento.SelectedValue;
+          oPagos.NumDocumento = txt_num_documento.Text;
+        }
+
         gdPagos.DataSource = oPagos.Get();
         gdPagos.DataBind();
         oConn.Close();

@@ -55,7 +55,7 @@ OnlineServices
 
 
 1084889673
-1558155724
+1561843987
 0
 0
 0
@@ -1461,7 +1461,7 @@ ant_nota_credito
 0
 0
 0
-
+ant_nota_credito
 
 
 
@@ -12745,7 +12745,7 @@ numeric(25)
 1
 0
 0
-
+cod_nota_credito
 
 5
 0
@@ -13288,6 +13288,170 @@ importe_factura
 0
 0
 3
+24299
+24299
+aplicacion_pago_factura
+aplicacion_pago_factura
+
+
+
+17701
+0
+numeric(10)
+10
+0
+0
+0
+
+
+
+
+
+0
+0
+0
+
+
+
+0
+0
+0
+1
+0
+0
+aplicacion_pago_factura
+
+19
+0
+-100
+0
+0
+0
+0
+3
+24300
+24300
+saldo_nota_credito
+saldo_nota_credito
+
+
+
+17701
+0
+numeric(10)
+10
+0
+0
+0
+
+
+
+
+
+0
+0
+0
+
+
+
+0
+0
+0
+1
+0
+0
+saldo_nota_credito
+
+20
+0
+-100
+0
+0
+0
+0
+3
+23755
+23755
+aplicacion_nota_credito
+aplicacion_nota_credito
+
+
+
+17701
+0
+numeric(10)
+10
+0
+0
+0
+
+
+
+
+
+0
+0
+0
+
+
+
+0
+0
+0
+1
+0
+0
+importe_nota_credito
+
+21
+0
+-100
+0
+0
+0
+0
+3
+24566
+24566
+ind_new_guia
+ind_new_guia
+
+
+
+17701
+0
+char(1)
+1
+0
+0
+0
+
+
+
+
+
+0
+0
+0
+
+
+
+0
+0
+0
+1
+0
+0
+
+
+22
+0
+-100
+0
+0
+0
+0
+3
 17719
 17719
 cod_factura
@@ -13811,7 +13975,7 @@ numeric(25)
 1
 0
 0
-
+cod_nota_credito
 
 1
 0
@@ -13852,7 +14016,7 @@ numeric(10)
 1
 0
 0
-
+num_nota_credito
 
 2
 0
@@ -13893,7 +14057,7 @@ numeric(10)
 1
 0
 0
-
+valor_nota_credito
 
 3
 0
@@ -13934,7 +14098,7 @@ numeric(10)
 1
 0
 0
-
+saldo_nota_credito
 
 4
 0
@@ -15167,7 +15331,7 @@ Ref_23751
 1
 0
 0
-
+Ref_23751
 
 0
 n
@@ -17638,7 +17802,7 @@ OnlineServices
 
 
 1528584043
-1538254357
+1558194247
 0
 0
 6
@@ -18236,11 +18400,11 @@ BHAT    N5
 0
 3
 0
-12632256
+0
 0
 4
 0
-0
+12632256
 0
 5
 0
@@ -18365,7 +18529,7 @@ yes
 0
 DataArchitect
 LineStyle
-2
+0
 3
 2
 0
@@ -24194,17 +24358,17 @@ c0c7ffff666c000042c7ffffd20e0000
 3
 220088
 289
-512
+514
 59
 0
 0
 0
 0
 0
--209
--4411
-14565
-14565
+-823
+-6911
+15301
+15965
 2
 1
 0
@@ -24447,7 +24611,7 @@ c0c7ffff666c000042c7ffffd20e0000
 0
 0
 2
-7ac8ffffa40a0000dc0d0000630a0000
+7ac8ffffa40a0000cd0c00004c060000
 0
 
 
@@ -24480,7 +24644,7 @@ c0c7ffff666c000042c7ffffd20e0000
 0
 0
 3
-c8e1ffff9ac3ffffbd0900009ac3ffffbd0900001cf4ffff
+c8e1ffff9ac3ffff4d0800009ac3ffff4d08000072ebffff
 1
 
 
@@ -24546,7 +24710,7 @@ e21d00001b5300007d4400001b530000
 0
 0
 3
-bf40000014d3ffffcf20000014d3ffffcf2000003bf1ffff
+bf40000014d3ffff7a21000014d3ffff7a210000f8e7ffff
 2
 
 

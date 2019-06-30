@@ -64,6 +64,9 @@ namespace OnlineServices.Antalis
     private bool pEstadoNoValidada;
     public bool EstadoNoValidada { get { return pEstadoNoValidada; } set { pEstadoNoValidada = value; } }
 
+    private string pTipoDocumento;
+    public string TipoDocumento { get { return pTipoDocumento; } set { pTipoDocumento = value; } }
+
     private string pNumDocumento;
     public string NumDocumento { get { return pNumDocumento; } set { pNumDocumento = value; } }
 
@@ -170,6 +173,27 @@ namespace OnlineServices.Antalis
           }
         }
 
+        if ((!string.IsNullOrEmpty(pNumDocumento)) && (!string.IsNullOrEmpty(pTipoDocumento)))
+        {
+          cSQL.Append(Condicion);
+          Condicion = " and ";
+
+          switch (pTipoDocumento)
+          {
+            case "1":
+              cSQL.Append(" cod_pago in(select cod_pago from ant_documentos_pago where num_guia_despacho = @num_documento)  ");
+              break;
+            case "2":
+              cSQL.Append(" cod_pago in(select cod_pago from ant_documentos_pago where cod_factura in(select cod_factura from ant_factura where num_factura = @num_documento) )  ");
+              break;
+            case "3":
+              cSQL.Append(" cod_pago in(select cod_pago from ant_documentos_pago where cod_nota_credito in(select cod_nota_credito from ant_nota_credito where num_nota_credito = @num_documento) )  ");
+              break;
+          }
+
+          oParam.AddParameters("@num_documento", pNumDocumento, TypeSQL.Numeric);
+        }
+
         cSQL.Append(" order by fech_recepcion desc ");
 
         dtData = oConn.Select(cSQL.ToString(), oParam);
@@ -246,11 +270,23 @@ namespace OnlineServices.Antalis
           oParam.AddParameters("@estado", pEstado, TypeSQL.Char);
         }
 
-        if (!string.IsNullOrEmpty(pNumDocumento))
+        if ((!string.IsNullOrEmpty(pNumDocumento)) && (!string.IsNullOrEmpty(pTipoDocumento)))
         {
           cSQL.Append(Condicion);
           Condicion = " and ";
-          cSQL.Append(" cod_pago in(select cod_pago from ant_documentos_pago where num_documento = @num_documento)  ");
+          
+          switch (pTipoDocumento) {
+            case "1":
+              cSQL.Append(" cod_pago in(select cod_pago from ant_documentos_pago where num_guia_despacho = @num_documento)  ");
+              break;
+            case "2":
+              cSQL.Append(" cod_pago in(select cod_pago from ant_documentos_pago where cod_factura in(select cod_factura from ant_factura where num_factura = @num_documento) )  ");
+              break;
+            case "3":
+              cSQL.Append(" cod_pago in(select cod_pago from ant_documentos_pago where cod_nota_credito in(select cod_nota_credito from ant_nota_credito where num_nota_credito = @num_documento) )  ");
+              break;
+          }
+
           oParam.AddParameters("@num_documento", pNumDocumento, TypeSQL.Numeric);
         }
 

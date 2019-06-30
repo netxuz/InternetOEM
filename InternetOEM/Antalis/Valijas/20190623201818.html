@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Home</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+  <!-- Bootstrap core CSS -->
+  <link href="../css/bootstrap.min.css" rel="stylesheet">
+  <!-- Material Design Bootstrap -->
+  <link href="../css/mdb.min.css" rel="stylesheet">
+  <!-- Antalis -->
+  <link rel="stylesheet" href="../css/antalis.css" />
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    //google.charts.load("current", { packages: ["corechart"] });
+    //google.charts.setOnLoadCallback(drawChart);
+    //function drawChart() {
+      //var data = google.visualization.arrayToDataTable([
+      //  ['Tipo de pagos', 'Cantidad'],
+      //  ['Transferencia',1],['Otros Pagos',0]
+      //]);
+
+      //var options = {
+      //  title: '',
+      //  is3D: false,
+      //};
+
+      //var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+      //chart.draw(data, options);
+    //}
+  </script>
+</head>
+<body>
+  <div class="container">
+    <div class="row">&nbsp;</div>
+    <div class="row">
+      <div class="col-md-4 text-center">
+        <div class="row">
+          <img src="../logoantalis.jpg" border="0" />
+        </div>
+      </div>
+        <div class="col-md-4 text-center">
+          <div class="row">
+            <span id="lblTitle" class="lblTitle">RESUMEN POR TIPO DE PAGO Transferencia</span>
+          </div>
+        </div>
+        <div class="col-md-4 text-right">
+          <div class="row">
+            <br />
+          </div>
+          <div class="row">
+            <span id="lblValija" class="lblTitle"><strog># Valija 20190623201818</strog></span>
+          </div>
+          <div class="row">
+            <br />
+          </div>
+          <div class="row">
+            <span>
+              Total de Documentos :
+              <span id="lblCantidad">1</span>
+            </span>
+          </div>
+          <div class="row">
+            <span>
+              Monto Total :
+              <span id="lblMonto">10.000.000</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    <div class="row vAlign">
+      <div class="col-md-4">
+        <span>
+          CLIENTE:
+          <span id="lblRazonSocial">ANTALIS CHILE LTDA.</span>
+        </span>
+      </div>
+      <div class="col-md-4">
+        <span>
+          CENTRO DE DISTRIBUCION:
+          <span id="lblRazonSocial">CD CONCEPCION</span>
+        </span>
+      </div>
+      <div class="col-md-4">
+        <span>
+          FECHA RECEPCION:
+          <span id="lbl_fecha_recepcion">23/06/2019</span>
+        </span>
+      </div>
+    </div>
+    <div class="row">
+      <br />
+    </div>
+    <div class="row">
+      <div>
+        <table class="table table-hover" cellspacing="0" rules="rows" id="gdPagos" style="border-width:0px;border-style:Solid;border-collapse:collapse;">
+          <tr>
+            <th scope="col"># DOCUMENTO</th>
+            <th scope="col">RAZON SOCIAL</th>
+            <th scope="col">CUENTA CORRIENTE</th>
+            <th scope="col">CODIGO BANCO</th>
+            <th scope="col">FECHA DOCUMENTO</th>
+            <th scope="col">IMPORTE</th>
+            <th scope="col"># GUIA DESPACHO</th>
+            <th scope="col"># FACTURA</th>
+            <th scope="col">VALOR FACTURA</th>
+          </tr>
+          <tr><td>432</td><td>Copesa S.A.</td><td></td><td></td><td>23/06/2019</td><td>10.000.000</td><td>324577</td><td>1234233</td><td>900.000</td></tr><tr><td>432</td><td>Copesa S.A.</td><td></td><td></td><td>23/06/2019</td><td></td><td>123456</td><td>123456</td><td>80.000</td></tr><tr><td>432</td><td>Copesa S.A.</td><td></td><td></td><td>23/06/2019</td><td></td><td>123456</td><td>32345</td><td>10.000</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="row"><br /><br /><br /><br /></div>
+    <div class="col-md-6">
+    </div>
+    <div class="col-md-6">
+      <div class="row">
+        <div class="col-md-4" style="border-top: 1px solid #3D5374;">
+          <div class="row">
+              <span>NOMBRE:</span>
+          </div>
+          <div class="row">
+              <span>RUT:</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <!-- Bootstrap tooltips -->
+  <script type="text/javascript" src="../js/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <!-- MDB core JavaScript -->
+  <script type="text/javascript" src="../js/mdb.min.js"></script>
+</body>
+</html>

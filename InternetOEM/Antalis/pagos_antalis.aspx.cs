@@ -200,8 +200,12 @@ namespace ICommunity.Antalis
       {
         int nImporteFactura;
         int nSaldo;
+        int nAplicacionPagoFactura;
+        int nSaldoNotaCredito;
+        int nAplicacionNotaCredito;
         DataTable dt;
         cAntFactura oFactura;
+        cAntNotaCredito oNotaCredito;
         cAntDocumentosPago oDocumentosPago = new cAntDocumentosPago(ref oConn);
         oDocumentosPago.CodPagos = pCodPago;
         DataTable dtDocPago = oDocumentosPago.Get();
@@ -211,19 +215,23 @@ namespace ICommunity.Antalis
           {
             nSaldo = 0;
             nImporteFactura = int.Parse(oRow["importe_factura"].ToString());
+            nAplicacionPagoFactura = int.Parse(oRow["aplicacion_pago_factura"].ToString());
+            nSaldoNotaCredito = int.Parse(oRow["saldo_nota_credito"].ToString());
+            nAplicacionNotaCredito = int.Parse(oRow["aplicacion_nota_credito"].ToString());
+
             oFactura = new cAntFactura(ref oConn);
             oFactura.CodFactura = oRow["cod_factura"].ToString();
-            dt = oFactura.Get();
-            if (dt != null)
-            {
-              if (dt.Rows.Count > 0)
-              {
-                nSaldo = int.Parse(dt.Rows[0]["saldo_factura"].ToString());
-              }
-            }
-            dt = null;
+            //dt = oFactura.Get();
+            //if (dt != null)
+            //{
+            //  if (dt.Rows.Count > 0)
+            //  {
+            //    nSaldo = int.Parse(dt.Rows[0]["saldo_factura"].ToString());
+            //  }
+            //}
+            //dt = null;
 
-            oFactura.SaldoFactura = (nImporteFactura + nSaldo).ToString();
+            oFactura.SaldoFactura = (nImporteFactura + nAplicacionPagoFactura + nAplicacionNotaCredito).ToString();
             oFactura.Accion = "EDITAR";
             oFactura.Put();
 
@@ -232,7 +240,29 @@ namespace ICommunity.Antalis
               Response.Write("[Eliminar / Factura Editar] Se ha encontrado el siguiente error : " + oFactura.Error);
               Response.End();
             }
-            
+
+            if (!string.IsNullOrEmpty(oRow["cod_nota_credito"].ToString())) {
+              oNotaCredito = new cAntNotaCredito(ref oConn);
+              oNotaCredito.CodNotaCredito = oRow["cod_nota_credito"].ToString();
+              dt = oNotaCredito.Get();
+              if (dt != null)
+              {
+                if (dt.Rows.Count > 0)
+                {
+                  oNotaCredito.SaldoNotaCredito = (int.Parse(dt.Rows[0]["saldo_nota_credito"].ToString()) + nAplicacionNotaCredito).ToString();
+                  oNotaCredito.Accion = "EDITAR";
+                  oNotaCredito.Put();
+
+                  if (!string.IsNullOrEmpty(oNotaCredito.Error))
+                  {
+                    Response.Write("[Eliminar / Nota Credito Editar] Se ha encontrado el siguiente error : " + oNotaCredito.Error);
+                    Response.End();
+                  }
+                }
+              }
+              dt = null;
+            }
+
             oDocumentosPago.CodDocumento = oRow["cod_documento"].ToString();
             oDocumentosPago.Accion = "ELIMINAR";
             oDocumentosPago.Put();

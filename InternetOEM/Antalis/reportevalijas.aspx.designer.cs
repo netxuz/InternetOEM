@@ -130,6 +130,15 @@ namespace ICommunity.Antalis {
         protected global::System.Web.UI.WebControls.DropDownList cmb_centrodistribucion;
         
         /// <summary>
+        /// cmb_documento control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList cmb_documento;
+        
+        /// <summary>
         /// cmd_tipo_documento control.
         /// </summary>
         /// <remarks>
@@ -182,15 +191,6 @@ namespace ICommunity.Antalis {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hdd_fch_hasta;
-        
-        /// <summary>
-        /// cmb_documento control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList cmb_documento;
         
         /// <summary>
         /// idBuscar control.

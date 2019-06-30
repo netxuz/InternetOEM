@@ -25,7 +25,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/11/2018 01:56:58</publishTime>
     </File>
     <File Include="Antalis/controllerpagos.aspx">
-      <publishTime>07/09/2018 00:51:34</publishTime>
+      <publishTime>05/28/2019 23:09:52</publishTime>
     </File>
     <File Include="Antalis/default.aspx">
       <publishTime>06/09/2018 22:03:16</publishTime>
@@ -37,7 +37,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/08/2018 20:29:27</publishTime>
     </File>
     <File Include="Antalis/ingreso_pagos.aspx">
-      <publishTime>12/05/2018 00:08:05</publishTime>
+      <publishTime>06/23/2019 20:13:43</publishTime>
     </File>
     <File Include="Antalis/logoantalis.jpg">
       <publishTime>07/11/2018 01:33:05</publishTime>
@@ -52,7 +52,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/21/2018 23:28:27</publishTime>
     </File>
     <File Include="Antalis/reportevalijas.aspx">
-      <publishTime>07/11/2018 02:55:44</publishTime>
+      <publishTime>05/28/2019 23:10:28</publishTime>
     </File>
     <File Include="Antalis/usuarios_centrosdistribucion.aspx">
       <publishTime>06/19/2018 01:18:14</publishTime>
@@ -154,7 +154,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/01/2012 01:24:26</publishTime>
     </File>
     <File Include="bin/ICommunity.dll">
-      <publishTime>01/28/2019 23:03:03</publishTime>
+      <publishTime>06/29/2019 19:18:21</publishTime>
     </File>
     <File Include="bin/Ionic.Zip.dll">
       <publishTime>02/25/2010 23:29:50</publishTime>
@@ -166,31 +166,31 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/03/2014 19:33:56</publishTime>
     </File>
     <File Include="bin/OnlineServices.Antalis.dll">
-      <publishTime>11/24/2018 12:15:52</publishTime>
+      <publishTime>06/29/2019 13:05:20</publishTime>
     </File>
     <File Include="bin/OnlineServices.AppData.dll">
-      <publishTime>11/24/2018 12:15:47</publishTime>
+      <publishTime>06/29/2019 13:04:47</publishTime>
     </File>
     <File Include="bin/OnlineServices.AppRuta.dll">
-      <publishTime>11/24/2018 12:15:43</publishTime>
+      <publishTime>06/29/2019 13:04:50</publishTime>
     </File>
     <File Include="bin/OnlineServices.CmsData.dll">
-      <publishTime>12/14/2018 00:55:04</publishTime>
+      <publishTime>06/29/2019 13:04:54</publishTime>
     </File>
     <File Include="bin/OnlineServices.Conn.dll">
-      <publishTime>11/24/2018 12:15:47</publishTime>
+      <publishTime>06/29/2019 13:04:46</publishTime>
     </File>
     <File Include="bin/OnlineServices.Method.dll">
-      <publishTime>12/14/2018 00:55:04</publishTime>
+      <publishTime>06/29/2019 13:04:37</publishTime>
     </File>
     <File Include="bin/OnlineServices.Reporting.dll">
-      <publishTime>01/28/2019 23:02:40</publishTime>
+      <publishTime>06/29/2019 19:17:27</publishTime>
     </File>
     <File Include="bin/OnlineServices.SystemData.dll">
-      <publishTime>11/24/2018 12:15:14</publishTime>
+      <publishTime>06/29/2019 13:04:23</publishTime>
     </File>
     <File Include="bin/OnlineServices.Web.UI.dll">
-      <publishTime>12/14/2018 00:55:05</publishTime>
+      <publishTime>06/29/2019 13:04:31</publishTime>
     </File>
     <File Include="bin/Select.HtmlToPdf.dll">
       <publishTime>05/29/2015 04:54:17</publishTime>
@@ -367,7 +367,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/13/2016 00:06:57</publishTime>
     </File>
     <File Include="css/antalis.css">
-      <publishTime>07/03/2018 00:35:48</publishTime>
+      <publishTime>05/17/2019 23:03:25</publishTime>
     </File>
     <File Include="css/bootstrap.css">
       <publishTime>12/29/2016 23:53:53</publishTime>
@@ -1099,7 +1099,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/26/2019 14:04:54</publishTime>
     </File>
     <File Include="Reporting/app_historico_pago_find.aspx">
-      <publishTime>01/21/2019 01:43:04</publishTime>
+      <publishTime>06/29/2019 19:18:03</publishTime>
     </File>
     <File Include="Reporting/app_indicadores_efectividad_find.aspx">
       <publishTime>11/24/2018 12:44:16</publishTime>

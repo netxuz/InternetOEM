@@ -24,7 +24,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -50,6 +50,7 @@
     <Compile Include="cAntDocumentosPago.cs" />
     <Compile Include="cAntFactura.cs" />
     <Compile Include="cAntNotaCredito.cs" />
+    <Compile Include="cAntNotaCreditoNoAplicada.cs" />
     <Compile Include="cAntPagos.cs" />
     <Compile Include="cAntsUsuarios.cs" />
     <Compile Include="cAntUsrTiposPago.cs" />

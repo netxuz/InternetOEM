@@ -19,7 +19,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/10/2018 13:16:08</publishTime>
     </File>
     <File Include="Antalis/controllerpagochequedia.aspx">
-      <publishTime>07/22/2018 00:18:44</publishTime>
+      <publishTime>07/07/2019 16:42:49</publishTime>
     </File>
     <File Include="Antalis/controllerpagoefectivo.aspx">
       <publishTime>07/11/2018 01:56:58</publishTime>
@@ -31,13 +31,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/09/2018 22:03:16</publishTime>
     </File>
     <File Include="Antalis/detallevalija.aspx">
-      <publishTime>07/22/2018 00:22:55</publishTime>
+      <publishTime>07/07/2019 16:48:44</publishTime>
     </File>
     <File Include="Antalis/grafico.html">
       <publishTime>07/08/2018 20:29:27</publishTime>
     </File>
     <File Include="Antalis/ingreso_pagos.aspx">
-      <publishTime>06/23/2019 20:13:43</publishTime>
+      <publishTime>08/18/2019 14:08:52</publishTime>
     </File>
     <File Include="Antalis/logoantalis.jpg">
       <publishTime>07/11/2018 01:33:05</publishTime>
@@ -49,7 +49,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/15/2018 00:35:10</publishTime>
     </File>
     <File Include="Antalis/reportepago.html">
-      <publishTime>07/21/2018 23:28:27</publishTime>
+      <publishTime>07/07/2019 16:02:21</publishTime>
     </File>
     <File Include="Antalis/reportevalijas.aspx">
       <publishTime>05/28/2019 23:10:28</publishTime>
@@ -154,7 +154,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/01/2012 01:24:26</publishTime>
     </File>
     <File Include="bin/ICommunity.dll">
-      <publishTime>06/29/2019 19:18:21</publishTime>
+      <publishTime>08/18/2019 17:22:01</publishTime>
     </File>
     <File Include="bin/Ionic.Zip.dll">
       <publishTime>02/25/2010 23:29:50</publishTime>
@@ -166,7 +166,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/03/2014 19:33:56</publishTime>
     </File>
     <File Include="bin/OnlineServices.Antalis.dll">
-      <publishTime>06/29/2019 13:05:20</publishTime>
+      <publishTime>08/07/2019 02:04:38</publishTime>
     </File>
     <File Include="bin/OnlineServices.AppData.dll">
       <publishTime>06/29/2019 13:04:47</publishTime>
@@ -184,7 +184,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/29/2019 13:04:37</publishTime>
     </File>
     <File Include="bin/OnlineServices.Reporting.dll">
-      <publishTime>06/29/2019 19:17:27</publishTime>
+      <publishTime>07/02/2019 00:12:32</publishTime>
     </File>
     <File Include="bin/OnlineServices.SystemData.dll">
       <publishTime>06/29/2019 13:04:23</publishTime>
@@ -367,7 +367,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/13/2016 00:06:57</publishTime>
     </File>
     <File Include="css/antalis.css">
-      <publishTime>05/17/2019 23:03:25</publishTime>
+      <publishTime>07/13/2019 01:38:26</publishTime>
     </File>
     <File Include="css/bootstrap.css">
       <publishTime>12/29/2016 23:53:53</publishTime>

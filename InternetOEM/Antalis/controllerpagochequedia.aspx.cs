@@ -250,6 +250,8 @@ namespace ICommunity.Antalis
           }
         }
 
+        //e.Row.Cells[2].Text = ((e.Row.Cells[13].Text.ToString() != "0") && (e.Row.Cells[14].Text.ToString() != "0") ? "FNC" : ((e.Row.Cells[13].Text.ToString() != "0") ? "F" : "NC"));
+        e.Row.Cells[2].Text = getTipoDoc(hdd_tipo_documento.Value);
 
         switch (hdd_tipo_documento.Value)
         {
@@ -257,19 +259,19 @@ namespace ICommunity.Antalis
           case "2":
           case "4":
 
-            if (e.Row.Cells[6].Text.ToString() != "&nbsp;")
+            if (e.Row.Cells[7].Text.ToString() != "&nbsp;")
             {
               DBConn oConn = new DBConn();
               if (oConn.Open())
               {
                 cAntBancos oBancos = new cAntBancos(ref oConn);
-                oBancos.NKeyBanco = e.Row.Cells[6].Text.ToString();
+                oBancos.NKeyBanco = e.Row.Cells[7].Text.ToString();
                 DataTable dt = oBancos.Get();
                 if (dt != null)
                 {
                   if (dt.Rows.Count > 0)
                   {
-                    e.Row.Cells[6].Text = e.Row.Cells[6].Text.ToString() + " - " + dt.Rows[0]["snombre"].ToString();
+                    e.Row.Cells[7].Text = e.Row.Cells[7].Text.ToString() + " - " + dt.Rows[0]["snombre"].ToString();
                   }
                 }
                 dt = null;
@@ -514,5 +516,34 @@ namespace ICommunity.Antalis
         onLoadGrid();
       }
     }
+
+    protected string getTipoDoc(string iCodTipo)
+    {
+      string sTipo = string.Empty;
+      switch (iCodTipo)
+      {
+        case "1":
+          sTipo = "CHD";
+          break;
+        case "2":
+          sTipo = "CHF";
+          break;
+        case "3":
+          sTipo = "EFE";
+          break;
+        case "4":
+          sTipo = "LTR";
+          break;
+        case "5":
+          sTipo = "TDC";
+          break;
+        case "6":
+          sTipo = "TNF";
+          break;
+
+      }
+      return sTipo;
+    }
+
   }
 }

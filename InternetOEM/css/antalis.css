@@ -95,6 +95,13 @@ span {
   border-top: 1px dotted #BDBDBD;
 }
 
+.vAlignDinamic {
+  display: flex;
+  align-items: center;
+  padding-top: 5px;
+  margin-top: 10px;
+}
+
 #cmb_centrodistribucion, #cmb_documento, #cmb_bancos, #cmb_guiadespacho, #cmb_facturas, #cmd_tipo_documento {
   width: 200px !important;
 }

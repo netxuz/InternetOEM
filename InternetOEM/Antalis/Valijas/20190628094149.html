@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Home</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+  <!-- Bootstrap core CSS -->
+  <link href="../css/bootstrap.min.css" rel="stylesheet">
+  <!-- Material Design Bootstrap -->
+  <link href="../css/mdb.min.css" rel="stylesheet">
+  <!-- Antalis -->
+  <link rel="stylesheet" href="../css/antalis.css" />
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    //google.charts.load("current", { packages: ["corechart"] });
+    //google.charts.setOnLoadCallback(drawChart);
+    //function drawChart() {
+      //var data = google.visualization.arrayToDataTable([
+      //  ['Tipo de pagos', 'Cantidad'],
+      //  ['Cheque a fecha',1],['Otros Pagos',20]
+      //]);
+
+      //var options = {
+      //  title: '',
+      //  is3D: false,
+      //};
+
+      //var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+      //chart.draw(data, options);
+    //}
+  </script>
+</head>
+<body>
+  <div class="container">
+    <div class="row">&nbsp;</div>
+    <div class="row">
+      <div class="col-md-4 text-center">
+        <div class="row">
+          <img src="../logoantalis.jpg" border="0" />
+        </div>
+      </div>
+        <div class="col-md-4 text-center">
+          <div class="row">
+            <span id="lblTitle" class="lblTitle">RESUMEN POR TIPO DE PAGO Cheque a fecha</span>
+          </div>
+        </div>
+        <div class="col-md-4 text-right">
+          <div class="row">
+            <br />
+          </div>
+          <div class="row">
+            <span id="lblValija" class="lblTitle"><strog># Valija 20190628094149</strog></span>
+          </div>
+          <div class="row">
+            <br />
+          </div>
+          <div class="row">
+            <span>
+              Total de Documentos :
+              <span id="lblCantidad">9</span>
+            </span>
+          </div>
+          <div class="row">
+            <span>
+              Monto Total :
+              <span id="lblMonto">5.371.724</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    <div class="row vAlign">
+      <div class="col-md-4">
+        <span>
+          CLIENTE:
+          <span id="lblRazonSocial">ANTALIS CHILE LTDA.</span>
+        </span>
+      </div>
+      <div class="col-md-4">
+        <span>
+          CENTRO DE DISTRIBUCION:
+          <span id="lblRazonSocial">CD CONCEPCION</span>
+        </span>
+      </div>
+      <div class="col-md-4">
+        <span>
+          FECHA RECEPCION:
+          <span id="lbl_fecha_recepcion">28/06/2019</span>
+        </span>
+      </div>
+    </div>
+    <div class="row">
+      <br />
+    </div>
+    <div class="row">
+      <div>
+        <table class="table table-hover" cellspacing="0" rules="rows" id="gdPagos" style="border-width:0px;border-style:Solid;border-collapse:collapse;">
+          <tr>
+            <th scope="col"># DOCUMENTO</th>
+            <th scope="col">RAZON SOCIAL</th>
+            <th scope="col">CUENTA CORRIENTE</th>
+            <th scope="col">CODIGO BANCO</th>
+            <th scope="col">FECHA DOCUMENTO</th>
+            <th scope="col">IMPORTE</th>
+            <th scope="col"># GUIA DESPACHO</th>
+            <th scope="col"># FACTURA</th>
+            <th scope="col">VALOR FACTURA</th>
+          </tr>
+          <tr><td>61536</td><td>SOC. AMAR Y COMPAÑIA LTDA.</td><td>20962623</td><td>17-Santander - Santiago</td><td>27/08/2019</td><td>1.609.655</td><td>287568</td><td>549220</td><td>318.281</td></tr><tr><td>61536</td><td>SOC. AMAR Y COMPAÑIA LTDA.</td><td>20962623</td><td>17-Santander - Santiago</td><td>27/08/2019</td><td></td><td>287575</td><td>549226</td><td>187.675</td></tr><tr><td>61536</td><td>SOC. AMAR Y COMPAÑIA LTDA.</td><td>20962623</td><td>17-Santander - Santiago</td><td>27/08/2019</td><td></td><td>287591</td><td>549245</td><td>63.690</td></tr><tr><td>61536</td><td>SOC. AMAR Y COMPAÑIA LTDA.</td><td>20962623</td><td>17-Santander - Santiago</td><td>27/08/2019</td><td></td><td>287608</td><td>549254</td><td>187.675</td></tr><tr><td>61536</td><td>SOC. AMAR Y COMPAÑIA LTDA.</td><td>20962623</td><td>17-Santander - Santiago</td><td>27/08/2019</td><td></td><td>287625</td><td>549268</td><td>128.913</td></tr><tr><td>61536</td><td>SOC. AMAR Y COMPAÑIA LTDA.</td><td>20962623</td><td>17-Santander - Santiago</td><td>27/08/2019</td><td></td><td>287630</td><td>549279</td><td>187.675</td></tr><tr><td>61536</td><td>SOC. AMAR Y COMPAÑIA LTDA.</td><td>20962623</td><td>17-Santander - Santiago</td><td>27/08/2019</td><td></td><td>287634</td><td>549283</td><td>115.814</td></tr><tr><td>61536</td><td>SOC. AMAR Y COMPAÑIA LTDA.</td><td>20962623</td><td>17-Santander - Santiago</td><td>27/08/2019</td><td></td><td>287644</td><td>549288</td><td>42.459</td></tr><tr><td>61536</td><td>SOC. AMAR Y COMPAÑIA LTDA.</td><td>20962623</td><td>17-Santander - Santiago</td><td>27/08/2019</td><td></td><td>287650</td><td>549291</td><td>161.435</td></tr><tr><td>61536</td><td>SOC. AMAR Y COMPAÑIA LTDA.</td><td>20962623</td><td>17-Santander - Santiago</td><td>27/08/2019</td><td></td><td>287675</td><td>549318</td><td>60.961</td></tr><tr><td>61536</td><td>SOC. AMAR Y COMPAÑIA LTDA.</td><td>20962623</td><td>17-Santander - Santiago</td><td>27/08/2019</td><td></td><td>287677</td><td>549319</td><td>155.077</td></tr><tr><td>20721</td><td>PAPELES ANDALIEN CONCEPCION LTDA</td><td>002391</td><td>5-Banco Scotiabank</td><td>01/07/2019</td><td>195.630</td><td>287120</td><td>528653</td><td>195.629</td></tr><tr><td>20772</td><td>PAPELES ANDALIEN CONCEPCION LTDA</td><td>002391</td><td>5-Banco Scotiabank</td><td>12/07/2019</td><td>381.917</td><td>287245</td><td>528764</td><td>381.919</td></tr><tr><td>20760</td><td>PAPELES ANDALIEN CONCEPCION LTDA002391</td><td>002391</td><td>5-Banco Scotiabank</td><td>13/07/2019</td><td>398.787</td><td>287274</td><td>528797</td><td>398.787</td></tr><tr><td>20758</td><td>PAPELES ANDALIEN CONCEPCION LTDA</td><td>002391</td><td>5-Banco Scotiabank</td><td>13/07/2019</td><td>98.403</td><td>287279</td><td>528801</td><td>98.403</td></tr><tr><td>20745</td><td>PAPELES ANDALIEN CONCEPCION LTDA</td><td>002391</td><td>5-Banco Scotiabank</td><td>16/07/2019</td><td>217.884</td><td>287320</td><td>528836</td><td>217.884</td></tr><tr><td>20784</td><td>PAPELES ANDALIEN CONCEPCION LTDA</td><td>002391</td><td>5-Banco Scotiabank</td><td>17/07/2019</td><td>409.491</td><td>356346</td><td>563078</td><td>409.491</td></tr><tr><td>58008</td><td>SOCIEDAD OLATE QUIJADA LTDA</td><td>002464</td><td>28-Banco BBVA  (BHIF)</td><td>22/08/2019</td><td>966.491</td><td>348969</td><td>546031</td><td>966.491</td></tr><tr><td>5811</td><td>SOCIEDAD OLATE QUIJADA LTDA</td><td>002464</td><td>28-Banco BBVA  (BHIF)</td><td>29/08/2019</td><td>1.093.466</td><td>346021</td><td>543505</td><td>536.728</td></tr><tr><td>5811</td><td>SOCIEDAD OLATE QUIJADA LTDA</td><td>002464</td><td>28-Banco BBVA  (BHIF)</td><td>29/08/2019</td><td></td><td>346368</td><td>543809</td><td>66.389</td></tr><tr><td>5811</td><td>SOCIEDAD OLATE QUIJADA LTDA</td><td>002464</td><td>28-Banco BBVA  (BHIF)</td><td>29/08/2019</td><td></td><td>356659</td><td>563361</td><td>490.349</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="row"><br /><br /><br /><br /></div>
+    <div class="col-md-6">
+    </div>
+    <div class="col-md-6">
+      <div class="row">
+        <div class="col-md-4" style="border-top: 1px solid #3D5374;">
+          <div class="row">
+              <span>NOMBRE:</span>
+          </div>
+          <div class="row">
+              <span>RUT:</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <!-- Bootstrap tooltips -->
+  <script type="text/javascript" src="../js/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <!-- MDB core JavaScript -->
+  <script type="text/javascript" src="../js/mdb.min.js"></script>
+</body>
+</html>

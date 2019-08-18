@@ -175,7 +175,7 @@
             <asp:HiddenField ID="hddGuiasDespacho" runat="server" />
           </div>
         </div>
-        <div id="numguidespacho" class="col-md-2" style="width: 20rem; display:none;">
+        <div id="numguidespacho" class="col-md-2" style="width: 20rem; display: none;">
           <div class="md-form" style="width: 20rem;">
             <asp:TextBox ID="txt_num_guia_despacho" runat="server" CssClass="form-control"></asp:TextBox>
             <label for="txt_num_guia_despacho"># GUIA DESPACHO:</label>
@@ -207,6 +207,7 @@
             <asp:DropDownList ID="cmb_nota_credito" CssClass="form-control" runat="server">
             </asp:DropDownList>
             <asp:HiddenField ID="hddNotaCredito" runat="server" />
+            <asp:HiddenField ID="hddCantNotaCredito" runat="server" />
           </div>
         </div>
         <div class="col-md-2">
@@ -221,12 +222,25 @@
             <label for="txt_aplicacion_nota_credito">APLICACION NOTA CREDITO</label>
           </div>
         </div>
+        <div class="col-md-1">
+          <input type="button" value="+" id="someId" class="addButton" data-target-class="someClass" />
+        </div>
         <div class="col-md-2">
           <div class="md-form" style="width: 20rem;">
             <asp:TextBox ID="txt_nuevo_saldo_factura" runat="server" CssClass="form-control"></asp:TextBox>
             <label for="txt_nuevo_saldo_factura">TOTAL SALDO FACTURA</label>
             <asp:HiddenField ID="hdd_nuevo_saldo_factura" runat="server" />
           </div>
+        </div>
+      </div>
+      <div id="idRow5" class="row vAlignDinamic">
+        <div class="col-md-2">
+        </div>
+        <div id="someClass" runat="server" class="col-md-6 someClass">
+        </div>
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-2">
         </div>
       </div>
       <div id="idRow3" runat="server" class="row vAlign">
@@ -255,6 +269,7 @@
             </asp:TemplateField>
             <asp:CommandField ButtonType="Link" ShowDeleteButton="true" DeleteText="Dele" ItemStyle-CssClass="BtnColEliminar" ItemStyle-Width="1px" />
             <asp:CommandField ButtonType="Link" ShowSelectButton="true" SelectText="Sele" ItemStyle-CssClass="BtnColEditar" ItemStyle-Width="1px" />
+            <asp:BoundField HeaderText="TIPO DOCUMENTO" />
             <asp:BoundField HeaderText="# DOCUMENTO" DataField="num_documento" />
             <asp:BoundField HeaderText="RAZÓN SOCIAL" DataField="nom_deudor" />
             <asp:BoundField HeaderText="CUENTA CORRIENTE" DataField="cuenta_corriente" />
@@ -263,7 +278,15 @@
             <asp:BoundField HeaderText="IMPORTE" DataField="importe" DataFormatString="{0:N0}" />
             <asp:BoundField HeaderText="# GUIA DESPACHO" DataField="num_guia_despacho" />
             <asp:BoundField HeaderText="# FACTURA" DataField="num_factura" />
-            <asp:BoundField HeaderText="VALOR FACTURA" DataField="importe_factura" DataFormatString="{0:N0}" />
+            <asp:BoundField HeaderText="VALOR FACTURA ORIGINAL" DataField="valor_factura_original" DataFormatString="{0:N0}" />
+            <asp:BoundField HeaderText="SALDO FACTURA" DataField="importe_factura" DataFormatString="{0:N0}" />
+            <asp:BoundField HeaderText="APLICACION PAGO FACTURA" DataField="aplicacion_pago_factura" DataFormatString="{0:N0}" />
+            <asp:BoundField HeaderText="APLICACION PAGO NOTA CREDITO" DataField="aplicacion_nota_credito" DataFormatString="{0:N0}" />
+            <asp:TemplateField HeaderText="">
+              <ItemTemplate>
+                <asp:LinkButton runat="server" ID="btnNotaCredito" CssClass="" CommandName="NotaCredito" Visible="false"><span class="	glyphicon glyphicon-search"></span>  VER NOTA CREDITO</asp:LinkButton>
+              </ItemTemplate>
+            </asp:TemplateField>
           </Columns>
         </asp:GridView>
       </div>
@@ -288,6 +311,40 @@
         </div>
       </div>
     </div>
+    <div class="container contentcenter">
+      <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Notas de Crédito Aplicadas</h4>
+            </div>
+            <div class="modal-body">
+              <div class="row rowcenter">
+                <div class="col-md">
+                  <asp:GridView ID="GridNC" runat="server" CssClass="table thead-light" BorderStyle="Solid" BorderWidth="0" GridLines="Horizontal" AutoGenerateColumns="false">
+                    <Columns>
+                      <asp:BoundField HeaderText="N° Nota Crédito" DataField="num_nc">
+                        <HeaderStyle CssClass="tbTitRow" HorizontalAlign="Center" />
+                        <ItemStyle CssClass="tbTitRow" HorizontalAlign="Center" />
+                      </asp:BoundField>
+
+                      <asp:BoundField HeaderText="Aplicacion Nota Credito" DataField="aplicacion_nota_credito">
+                        <HeaderStyle HorizontalAlign="Center" />
+                        <ItemStyle HorizontalAlign="Right" />
+                      </asp:BoundField>
+                    </Columns>
+                  </asp:GridView>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </form>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <!-- Bootstrap tooltips -->
@@ -296,8 +353,110 @@
   <!-- datepicker core JavaScript -->
   <script type="text/javascript" src="../js/bootstrap-datepicker.js" charset="UTF-8"></script>
   <!-- MDB core JavaScript -->
+  <style>
+    .contentcenter {
+      text-align: center!important;
+    }
+    .rowcenter {
+      display: inline-block;
+      width: 60%;
+    }
+  </style>
   <script type="text/javascript" src="../js/mdb.min.js"></script>
   <script>
+    function showCreateThanksYouForm(CodDocumento) {
+      $.ajax({
+        type: "POST",
+        url: "ingreso_pagos.aspx/wsUpdateTable",
+        data: '{"CodDocumento":"' + CodDocumento + '"}',
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: OnSuccess,
+        failure: function (response) {
+          alert('failure: ' + response.d);
+        },
+        error: function (response) {
+          alert('error: ' + response.d);
+        }
+      });
+    }
+
+    function OnSuccess(response) {
+      var xmlDoc = $.parseXML(response.d);
+      var xml = $(xmlDoc);
+      var customers = xml.find("Table");
+      var row = $("[id*=GridNC] tr:last-child").clone(true);
+      $("[id*=GridNC] tr").not($("[id*=GridNC] tr:first-child")).remove();
+
+      $.each(customers, function () {
+        var customer = $(this);
+        $("td", row).eq(0).html($(this).find("num_nc").text());
+        $("td", row).eq(1).html($(this).find("aplicacion_nota_credito").text());
+        $("[id*=GridNC]").append(row);
+        row = $("[id*=GridNC] tr:last-child").clone(true);
+      });
+
+      $('#myModal').modal('show');
+    }
+
+    function dropRow(idRow, sNumNC, iAppNC) {      
+      var iSalFactura = parseInt($("#txt_nuevo_saldo_factura").val().split('.').join(''));
+      var iVal = iSalFactura + parseInt(iAppNC.split('.').join(''));
+      var iValTtNc = parseInt($("#hdd_val_tt_nc").val().split('.').join('')) - parseInt(iAppNC.split('.').join(''));
+
+      $("#hdd_val_tt_nc").val(iValTtNc);
+      $("#txt_nuevo_saldo_factura").val(iVal);
+      $("#hdd_nuevo_saldo_factura").val(iVal);
+
+      $("#idrow_" + idRow).remove();
+
+      $('#cmb_nota_credito').append($('<option>', {
+        value: iAppNC,
+        text: sNumNC
+      }));
+    }
+
+
+    $(document).ready(function () {
+      // Define a click handler for 
+      $('input.addButton').click(function () {
+        if ($("#hddNotaCredito").val() != "") {
+          if ($('#hddCantNotaCredito').val() == "")
+            iCant = 1;
+          else
+            iCant = parseInt($('#hddCantNotaCredito').val()) + 1;
+
+          $('#hddCantNotaCredito').val(iCant);
+
+          var target_class = $(this).attr('data-target-class');
+
+          if (iCant == 1) {
+            $("." + target_class).append("<div class='row'><div class='col-md-3 text-center'><span># NOTA DE CREDITO:</span></div><div class='col-md-3 text-center'><span>SALDO NOTA DE CREDITO:</span></div><div class='col-md-3 text-center'><span>APLICACION NOTA DE CREDITO:</span></div><div class='col-md-1'></div></div>");
+          }
+
+          $("." + target_class).append("<div id='idrow_" + iCant + "' class='row'><div class='col-md-3'><input type='text' id='txt_num_nc_" + iCant + "' name='txt_num_nc_" + iCant + "' value='" + $('#hddNotaCredito').val() + "' class='form-control'></div><div class='col-md-3'><input type='hidden' id='hdd_cod_nc_" + iCant + "' name='hdd_cod_nc_" + iCant + "' value='" + $('#hddNotaCredito').val() + "'><input id='txt_saldo_nc_" + iCant + "' name='txt_saldo_nc_" + iCant + "' type='text' value='" + $("#cmb_nota_credito").val() + "' class='form-control'></div><div class='col-md-3'><input id='txt_apl_nc_" + iCant + "' name='txt_apl_nc_" + iCant + "' type='text' value='" + $('#txt_aplicacion_nota_credito').val() + "'  class='form-control'></div><div class='col-md-1'><input type='button' value='-' id='idLessBtn" + iCant + "' onclick='dropRow(\"" + iCant + "\",\"" + $('#hddNotaCredito').val() + "\",\"" + $('#txt_aplicacion_nota_credito').val() + "\")' /></div></div>");
+
+          var iValTtNc = $('#txt_aplicacion_nota_credito').val();
+          if (iCant == 1) {
+            $("." + target_class).append("<input type='hidden' id='hdd_val_tt_nc' name='hdd_val_tt_nc' value='" + iValTtNc + "'>")
+          } else {
+            var iValTtNcAnt = $("#hdd_val_tt_nc").val();
+            var iValTtNc = parseInt(iValTtNc.split('.').join('')) + parseInt(iValTtNcAnt.split('.').join(''));
+            $("#hdd_val_tt_nc").val(iValTtNc);
+          }
+
+          $('#hddNotaCredito').val('');
+          $('#txt_saldo_nota_credito').val('');
+          $('#txt_aplicacion_nota_credito').val('');
+          $("#cmb_nota_credito option:selected").remove();
+        } else {
+          alert("debe seleccionar una nota de crédito");
+          return false;
+        }
+
+      });
+    });
+
     $(function () {
       $("#dp4").datepicker();
     });
@@ -699,17 +858,18 @@
         alert("Debe seleccionar una guia de despacho antes de seleccionar una nota de crédito");
         $("#cmb_nota_credito").val("0");
       } else {
-        if (($("#txt_valor_factura").val() != "")&&($("#txt_aplicacion_pago_factura").val() != "")) {
+        if (($("#txt_valor_factura").val() != "") && ($("#txt_aplicacion_pago_factura").val() != "")) {
           var data = $(this).val();
           if (data != "")
             $("#hddNotaCredito").val($('#cmb_nota_credito option:selected').text());
           else
             $("#hddNotaCredito").val('');
+
           $("#txt_saldo_nota_credito").val(data);
           $("#txt_saldo_nota_credito").focus();
           $("#txt_saldo_nota_credito").attr('disabled', 'disabled');
           $("#txt_aplicacion_nota_credito").val(data);
-          $("#txt_aplicacion_nota_credito").focus();
+          //$("#txt_aplicacion_nota_credito").focus();
 
           var nValor;
           if (data != "") {
@@ -717,10 +877,14 @@
           } else {
             nValor = parseInt($("#txt_valor_factura").val().split('.').join('')) - parseInt($("#txt_aplicacion_pago_factura").val().split('.').join(''));
           }
-          
+
+          if ($('#hddCantNotaCredito').val() != "") {
+            nValor = parseInt(nValor) - parseInt($("#hdd_val_tt_nc").val().split('.').join(''));
+          }
+
           if (parseInt(nValor) < 0)
             nValor = "0";
-          
+
           $("#txt_nuevo_saldo_factura").val(nValor);
           $("#hdd_nuevo_saldo_factura").val(nValor);
           $("#txt_aplicacion_nota_credito").focus();
@@ -730,7 +894,7 @@
           $("#cmb_nota_credito").val("0");
           return;
         }
-        
+
       }
     });
 
@@ -738,21 +902,27 @@
 
     $("#txt_aplicacion_nota_credito").focusout(function () {
       var nValor;
+
       if ($("#txt_aplicacion_nota_credito").val() != "") {
         nValor = parseInt($("#txt_valor_factura").val().split('.').join('')) - parseInt($("#txt_aplicacion_pago_factura").val().split('.').join('')) - parseInt($("#txt_aplicacion_nota_credito").val().split('.').join(''));
       } else {
         nValor = parseInt($("#txt_valor_factura").val().split('.').join('')) - parseInt($("#txt_aplicacion_pago_factura").val().split('.').join(''));
       }
+
+      if ($('#hddCantNotaCredito').val() != "") {
+        nValor = parseInt(nValor) - parseInt($("#hdd_val_tt_nc").val().split('.').join(''));
+      }
+
       if (parseInt(nValor) < 0)
         nValor = "0";
+
       $("#txt_nuevo_saldo_factura").val(nValor);
       $("#hdd_nuevo_saldo_factura").val(nValor);
       $("#txt_nuevo_saldo_factura").focus();
       $("#txt_nuevo_saldo_factura").attr('disabled', 'disabled');
-        
     });
 
-    
+
   </script>
 </body>
 </html>

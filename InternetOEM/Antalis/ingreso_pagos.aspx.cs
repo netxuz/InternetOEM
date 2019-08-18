@@ -25,6 +25,17 @@ namespace ICommunity.Antalis
     private OnlineServices.Method.Web oWeb = new OnlineServices.Method.Web();
     private OnlineServices.Method.Usuario oIsUsuario;
     bool bEstadoValija = false;
+
+    private void BindDummyRow()
+    {
+      DataTable dummy = new DataTable();
+      dummy.Columns.Add("num_nc");
+      dummy.Columns.Add("aplicacion_nota_credito");
+      dummy.Rows.Add();
+      GridNC.DataSource = dummy;
+      GridNC.DataBind();
+    }
+
     protected void Page_Load(object sender, EventArgs e)
     {
       oIsUsuario = oWeb.ValidaUserAppReport();
@@ -39,6 +50,8 @@ namespace ICommunity.Antalis
 
       if (!IsPostBack)
       {
+        BindDummyRow();
+
         Log oLog = new Log();
         oLog.IdUsuario = oIsUsuario.CodUsuario;
         oLog.ObsLog = "INGRESO DE PAGOS ANTALIS";
@@ -398,8 +411,27 @@ namespace ICommunity.Antalis
 
     }
 
+    [WebMethod()]
+    public static string wsUpdateTable(string CodDocumento) {
+
+      DataTable dt;
+      DataSet ds = new DataSet();
+      DBConn oConn = new DBConn();
+      if (oConn.Open())
+      {
+        cAntNotaCredito oNotaCredito = new cAntNotaCredito(ref oConn);
+        oNotaCredito.CodDocumento = CodDocumento;
+        dt = oNotaCredito.GetDocNotaCredito();
+        
+        oConn.Close();
+        ds.Merge(dt);
+      }
+      return ds.GetXml();
+    }
+
     protected void btnIngresarImportes_Click(object sender, EventArgs e)
     {
+
       string lngCodFacturaAnterior = string.Empty;
       string pCodCentroDist = cmb_centrodistribucion.SelectedValue;
       string pCodTipoPago = cmb_documento.SelectedValue;
@@ -414,24 +446,29 @@ namespace ICommunity.Antalis
       string pNumGuiaDespacho = txt_num_guia_despacho.Text;
       bool bIndNewGuia = (!string.IsNullOrEmpty(pNumGuiaDespacho) ? true : false);
 
-      //string[] sFactura = hdd_facturas.Text.Split('|');
-      //string pNumFactura = sFactura[0].ToString();
-      //string pValor = sFactura[1].ToString();
-
       string pNumFactura = hdd_num_factura.Text;
-      //string pValor = txt_valor_factura.Text.Replace(".", string.Empty);
-
       string pAplicacionPagoFactura = (!string.IsNullOrEmpty(txt_aplicacion_pago_factura.Text) ? txt_aplicacion_pago_factura.Text.Replace(".", string.Empty) : "0");
-
       string pNumNotaCredito = hddNotaCredito.Value;
-      //string pSaldoNotaCredito = txt_saldo_nota_credito.Text.Replace(".", string.Empty);
       string pAplicacionNotaCredito = (!string.IsNullOrEmpty(txt_aplicacion_nota_credito.Text) ? txt_aplicacion_nota_credito.Text.Replace(".", string.Empty) : "0");
-      string pSaldoNotaCredito = pAplicacionNotaCredito;
+      string pApliTtNotaCredito;
 
+      if (!string.IsNullOrEmpty(oWeb.GetData("hdd_val_tt_nc")))
+      {
+        pApliTtNotaCredito = (!string.IsNullOrEmpty(pAplicacionNotaCredito) ? (int.Parse(pAplicacionNotaCredito) + int.Parse(oWeb.GetData("hdd_val_tt_nc"))) : int.Parse(oWeb.GetData("hdd_val_tt_nc"))).ToString();
+      }
+      else
+      {
+        pApliTtNotaCredito = (!string.IsNullOrEmpty(pAplicacionNotaCredito) ? pAplicacionNotaCredito : "0");
+      }
+
+      string pSaldoNotaCredito = pAplicacionNotaCredito;
       string pValor = hdd_nuevo_saldo_factura.Value;
 
       string pImporte = txt_importe.Text.Replace(".", "").Replace(",", "");
       string sValorFactura = string.Empty;
+
+      int iCantNotaCredito = (string.IsNullOrEmpty(hddCantNotaCredito.Value) ? 0 : int.Parse(hddCantNotaCredito.Value));
+
 
       DBConn oConn = new DBConn();
       if (oConn.Open())
@@ -481,8 +518,25 @@ namespace ICommunity.Antalis
               {
                 if (dtFactura.Rows.Count > 0)
                 {
-                  //oFactura.SaldoFactura = (int.Parse(dtFactura.Rows[0]["saldo_factura"].ToString()) + int.Parse(dt.Rows[0]["importe_factura"].ToString())).ToString();
-                  oFactura.SaldoFactura = (int.Parse(dtFactura.Rows[0]["saldo_factura"].ToString()) + int.Parse(dt.Rows[0]["aplicacion_pago_factura"].ToString()) + int.Parse(dt.Rows[0]["aplicacion_nota_credito"].ToString())).ToString();
+
+                  if (int.Parse(dtFactura.Rows[0]["valor_factura"].ToString()) < (int.Parse(dt.Rows[0]["aplicacion_pago_factura"].ToString()) + int.Parse(dt.Rows[0]["aplicacion_nota_credito"].ToString())))
+                  {
+                    oFactura.SaldoFactura = dtFactura.Rows[0]["valor_factura"].ToString();
+                  }
+                  else
+                  {
+                    if (int.Parse(dtFactura.Rows[0]["valor_factura"].ToString()) < (int.Parse(dt.Rows[0]["importe_factura"].ToString()) + int.Parse(dt.Rows[0]["aplicacion_pago_factura"].ToString()) + int.Parse(dt.Rows[0]["aplicacion_nota_credito"].ToString())))
+                    {
+                      oFactura.SaldoFactura = dtFactura.Rows[0]["valor_factura"].ToString();
+                    }
+                    else
+                    {
+                      oFactura.SaldoFactura = (int.Parse(dt.Rows[0]["importe_factura"].ToString()) + int.Parse(dt.Rows[0]["aplicacion_pago_factura"].ToString()) + int.Parse(dt.Rows[0]["aplicacion_nota_credito"].ToString())).ToString();
+                    }
+
+                  }
+
+                  //oFactura.SaldoFactura = (int.Parse(dtFactura.Rows[0]["saldo_factura"].ToString()) + int.Parse(dt.Rows[0]["aplicacion_pago_factura"].ToString()) + int.Parse(dt.Rows[0]["aplicacion_nota_credito"].ToString())).ToString();
                   oFactura.Accion = "EDITAR";
                   oFactura.Put();
 
@@ -495,28 +549,46 @@ namespace ICommunity.Antalis
               }
               dtFactura = null;
 
-              if (!string.IsNullOrEmpty(dt.Rows[0]["cod_nota_credito"].ToString()))
+              //if (!string.IsNullOrEmpty(dt.Rows[0]["cod_nota_credito"].ToString()))
+              //{
+              oNotaCredito = new cAntNotaCredito(ref oConn);
+              oNotaCredito.CodDocumento = dt.Rows[0]["cod_documento"].ToString();
+              dtNotaCredito = oNotaCredito.GetDocNotaCredito();
+              if (dtNotaCredito != null)
               {
-                oNotaCredito = new cAntNotaCredito(ref oConn);
-                oNotaCredito.CodNotaCredito = dt.Rows[0]["cod_nota_credito"].ToString();
-                dtNotaCredito = oNotaCredito.Get();
-                if (dtNotaCredito != null)
+                foreach (DataRow oRow in dtNotaCredito.Rows)
                 {
-                  if (dtNotaCredito.Rows.Count > 0)
+                  oNotaCredito.CodNotaCredito = oRow["cod_nota_credito"].ToString();
+                  DataTable dtNC = oNotaCredito.Get();
+                  if (dtNC != null)
                   {
-                    oNotaCredito.SaldoNotaCredito = (int.Parse(dtNotaCredito.Rows[0]["saldo_nota_credito"].ToString()) + +int.Parse(dt.Rows[0]["aplicacion_nota_credito"].ToString())).ToString();
-                    oNotaCredito.Accion = "EDITAR";
-                    oNotaCredito.Put();
-
-                    if (!string.IsNullOrEmpty(oNotaCredito.Error))
+                    if (dtNC.Rows.Count > 0)
                     {
-                      Response.Write("[Ingresar / Nota de Credito Editar Saldo 1] Se ha encontrado el siguiente error : " + oNotaCredito.Error);
-                      Response.End();
+                      oNotaCredito.SaldoNotaCredito = (int.Parse(dtNC.Rows[0]["saldo_nota_credito"].ToString()) + int.Parse(oRow["aplicacion_nota_credito"].ToString())).ToString();
+                      oNotaCredito.Accion = "EDITAR";
+                      oNotaCredito.Put();
+
+                      if (!string.IsNullOrEmpty(oNotaCredito.Error))
+                      {
+                        Response.Write("[Ingresar / Nota de Credito Editar Saldo 1] Se ha encontrado el siguiente error : " + oNotaCredito.Error);
+                        Response.End();
+                      }
                     }
                   }
+                  dtNC = null;
+
+                  oNotaCredito.Accion = "ELIMINAR";
+                  oNotaCredito.PutDocNotaCredito();
+                  if (!string.IsNullOrEmpty(oNotaCredito.Error))
+                  {
+                    Response.Write("[Ingresar / Nota de Credito Elimina - EDITAR] Se ha encontrado el siguiente error : " + oNotaCredito.Error);
+                    Response.End();
+                  }
+
                 }
-                dtNotaCredito = null;
               }
+              dtNotaCredito = null;
+              //}
             }
           }
           dt = null;
@@ -532,14 +604,7 @@ namespace ICommunity.Antalis
           if (dtFactura.Rows.Count > 0)
           {
             pCodFactura = dtFactura.Rows[0]["cod_factura"].ToString();
-            if (int.Parse(dtFactura.Rows[0]["saldo_factura"].ToString()) < int.Parse(pValor))
-            {
-              oFactura.SaldoFactura = "0";
-            }
-            else
-            {
-              oFactura.SaldoFactura = (int.Parse(dtFactura.Rows[0]["saldo_factura"].ToString()) - int.Parse(pValor)).ToString();
-            }
+            oFactura.SaldoFactura = pValor;
             oFactura.CodFactura = dtFactura.Rows[0]["cod_factura"].ToString();
             oFactura.Accion = "EDITAR";
             oFactura.Put();
@@ -564,7 +629,7 @@ namespace ICommunity.Antalis
                 if (dtDacturaDbt.Rows.Count > 0)
                 {
                   oFactura.ValorFactura = dtDacturaDbt.Rows[0]["saldo"].ToString();
-                  oFactura.SaldoFactura = (int.Parse(dtDacturaDbt.Rows[0]["saldo"].ToString()) - int.Parse(pValor)).ToString();
+                  oFactura.SaldoFactura = pValor;
                   oFactura.Accion = "CREAR";
                   oFactura.Put();
 
@@ -580,7 +645,7 @@ namespace ICommunity.Antalis
             }
             else
             {
-              oFactura.ValorFactura = pValor;
+              oFactura.ValorFactura = txt_valor_factura.Text;
               oFactura.SaldoFactura = pValor;
               oFactura.Accion = "CREAR";
               oFactura.Put();
@@ -597,7 +662,7 @@ namespace ICommunity.Antalis
         dtFactura = null;
 
 
-        string pCodNotaCredito = string.Empty;
+        string pCodNC = string.Empty;
         if (!string.IsNullOrEmpty(pNumNotaCredito))
         {
 
@@ -609,7 +674,7 @@ namespace ICommunity.Antalis
           {
             if (dtNotaCredito.Rows.Count > 0)
             {
-              pCodNotaCredito = dtNotaCredito.Rows[0]["cod_nota_credito"].ToString();
+              pCodNC = dtNotaCredito.Rows[0]["cod_nota_credito"].ToString();
               if (int.Parse(dtNotaCredito.Rows[0]["saldo_nota_credito"].ToString()) < int.Parse(pAplicacionNotaCredito))
               {
                 oNotaCredito.SaldoNotaCredito = "0";
@@ -657,7 +722,7 @@ namespace ICommunity.Antalis
                     Response.Write("[Ingresar / Factura Crear] Se ha encontrado el siguiente error : " + oNotaCredito.Error);
                     Response.End();
                   }
-                  pCodNotaCredito = oNotaCredito.CodNotaCredito;
+                  pCodNC = oNotaCredito.CodNotaCredito;
                 }
               }
               dtNotaCreditoNoAplicada = null;
@@ -675,8 +740,8 @@ namespace ICommunity.Antalis
           oAntDocumentosPago.NodCodDocumento = hdd_nod_documento.Value;
 
         oAntDocumentosPago.CodFactura = pCodFactura;
-        if (!string.IsNullOrEmpty(pCodNotaCredito))
-          oAntDocumentosPago.CodNotaCredito = pCodNotaCredito;
+        //if (!string.IsNullOrEmpty(pCodNotaCredito))
+        //  oAntDocumentosPago.CodNotaCredito = pCodNotaCredito;
 
         oAntDocumentosPago.CodSAP = pCodSAP;
         oAntDocumentosPago.NombreDeudor = sNomDeudor;
@@ -696,8 +761,8 @@ namespace ICommunity.Antalis
 
         oAntDocumentosPago.ImporteFactura = pValor;
         oAntDocumentosPago.AplicacionPagoFactura = pAplicacionPagoFactura;
-        oAntDocumentosPago.SaldoNotaCredito = pSaldoNotaCredito;
-        oAntDocumentosPago.AplicacionNotaCredito = pAplicacionNotaCredito;
+        //oAntDocumentosPago.SaldoNotaCredito = pSaldoNotaCredito;
+        oAntDocumentosPago.AplicacionNotaCredito = pApliTtNotaCredito;
 
         oAntDocumentosPago.ImporteRecibido = "0";
         oAntDocumentosPago.Discrepancia = "0";
@@ -714,19 +779,105 @@ namespace ICommunity.Antalis
 
         string pCodDocumento = oAntDocumentosPago.CodDocumento;
 
-        //if (!string.IsNullOrEmpty(lngCodFacturaAnterior))
-        //{
-        //  oFactura = new cAntFactura(ref oConn);
-        //  oFactura.CodFactura = lngCodFacturaAnterior;
-        //  oFactura.Accion = "ELIMINAR";
-        //  oFactura.Put();
+        if (!string.IsNullOrEmpty(pCodNC))
+        {
+          oNotaCredito = new cAntNotaCredito(ref oConn);
+          oNotaCredito.CodDocumento = pCodDocumento;
+          oNotaCredito.CodNotaCredito = pCodNC;
+          oNotaCredito.AplicacionNotaCredito = pAplicacionNotaCredito;
+          oNotaCredito.Accion = "CREAR";
+          oNotaCredito.PutDocNotaCredito();
 
-        //  if (!string.IsNullOrEmpty(oFactura.Error))
-        //  {
-        //    Response.Write("[Ingresar Valija / ELIMINAR FACTURA] Se ha encontrado el siguiente error : " + oFactura.Error);
-        //    Response.End();
-        //  }
-        //}
+          if (!string.IsNullOrEmpty(oNotaCredito.Error))
+          {
+            Response.Write("[Ingresar Nota Credito] Se ha encontrado el siguiente error : " + oNotaCredito.Error);
+            Response.End();
+          }
+        }
+
+        string pCodNotaCredito;
+        if (iCantNotaCredito > 0)
+        {
+          for (int i = 1; i <= iCantNotaCredito; i++)
+          {
+            if (!string.IsNullOrEmpty(oWeb.GetData("hdd_cod_nc_" + i))) {
+              oNotaCredito = new cAntNotaCredito(ref oConn);
+              oNotaCredito.NumNotaCredito = oWeb.GetData("hdd_cod_nc_" + i);
+              dtNotaCredito = oNotaCredito.Get();
+
+              if (dtNotaCredito != null)
+              {
+                if (dtNotaCredito.Rows.Count > 0)
+                {
+                  pCodNotaCredito = dtNotaCredito.Rows[0]["cod_nota_credito"].ToString();
+                  if (int.Parse(dtNotaCredito.Rows[0]["saldo_nota_credito"].ToString()) < int.Parse(oWeb.GetData("txt_apl_nc_" + i).Replace(".", "")))
+                  {
+                    oNotaCredito.SaldoNotaCredito = "0";
+                  }
+                  else
+                  {
+                    oNotaCredito.SaldoNotaCredito = (int.Parse(dtNotaCredito.Rows[0]["saldo_nota_credito"].ToString()) - int.Parse(oWeb.GetData("txt_apl_nc_" + i).Replace(".", ""))).ToString();
+                  }
+                  oNotaCredito.CodNotaCredito = dtNotaCredito.Rows[0]["cod_nota_credito"].ToString();
+                  oNotaCredito.Accion = "EDITAR";
+                  oNotaCredito.Put();
+
+                  if (!string.IsNullOrEmpty(oNotaCredito.Error))
+                  {
+                    Response.Write("[Ingresar / Nota Credito Editar Saldo 1] Se ha encontrado el siguiente error : " + oNotaCredito.Error);
+                    Response.End();
+                  }
+                }
+                else
+                {
+                  cAntNotaCreditoNoAplicada oNotaCreditoNoAplicada = new cAntNotaCreditoNoAplicada(ref oConn);
+                  oNotaCreditoNoAplicada.NNumeroNotaCredito = oWeb.GetData("hdd_cod_nc_" + i);
+                  oNotaCreditoNoAplicada.NKeyCliente = cmb_cliente.SelectedValue;
+                  DataTable dtNotaCreditoNoAplicada = oNotaCreditoNoAplicada.GetNotaCreditoByData();
+                  if (dtNotaCreditoNoAplicada != null)
+                  {
+                    if (dtNotaCreditoNoAplicada.Rows.Count > 0)
+                    {
+                      oNotaCredito.ValorNotaCredito = dtNotaCreditoNoAplicada.Rows[0]["nMontoNotaCredito"].ToString();
+
+                      if (int.Parse(dtNotaCreditoNoAplicada.Rows[0]["nMontoNotaCredito"].ToString()) < int.Parse(oWeb.GetData("txt_apl_nc_" + i).Replace(".", "")))
+                      {
+                        oNotaCredito.SaldoNotaCredito = "0";
+                      }
+                      else
+                      {
+                        oNotaCredito.SaldoNotaCredito = (int.Parse(dtNotaCreditoNoAplicada.Rows[0]["nMontoNotaCredito"].ToString()) - int.Parse(oWeb.GetData("txt_apl_nc_" + i).Replace(".", ""))).ToString();
+                      }
+
+                      oNotaCredito.Accion = "CREAR";
+                      oNotaCredito.Put();
+
+                      if (!string.IsNullOrEmpty(oNotaCredito.Error))
+                      {
+                        Response.Write("[Ingresar / Factura Crear] Se ha encontrado el siguiente error : " + oNotaCredito.Error);
+                        Response.End();
+                      }
+                      pCodNotaCredito = oNotaCredito.CodNotaCredito;
+                    }
+                  }
+                  dtNotaCreditoNoAplicada = null;
+                }
+              }
+              dtNotaCredito = null;
+
+              oNotaCredito.CodDocumento = pCodDocumento;
+              oNotaCredito.AplicacionNotaCredito = oWeb.GetData("txt_apl_nc_" + i).Replace(".", "");
+              oNotaCredito.Accion = "CREAR";
+              oNotaCredito.PutDocNotaCredito();
+
+              if (!string.IsNullOrEmpty(oNotaCredito.Error))
+              {
+                Response.Write("[Ingresar / Nota Credito - Documento] Se ha encontrado el siguiente error : " + oNotaCredito.Error);
+                Response.End();
+              }
+            }
+          }
+        }
 
         bEstadoValija = true;
 
@@ -787,6 +938,7 @@ namespace ICommunity.Antalis
         txt_aplicacion_nota_credito.Text = string.Empty;
         txt_nuevo_saldo_factura.Text = string.Empty;
         hdd_nuevo_saldo_factura.Value = string.Empty;
+        hddCantNotaCredito.Value = string.Empty;
 
       }
 
@@ -942,7 +1094,8 @@ namespace ICommunity.Antalis
               cmb_guiadespacho.SelectedValue = dtDocPago.Rows[0]["num_guia_despacho"].ToString();
             else
             {
-              if (!bIndNewGuia) {
+              if (!bIndNewGuia)
+              {
                 cmb_guiadespacho.Items.Add(new ListItem(dtDocPago.Rows[0]["num_guia_despacho"].ToString(), dtDocPago.Rows[0]["num_guia_despacho"].ToString()));
                 cmb_guiadespacho.SelectedValue = dtDocPago.Rows[0]["num_guia_despacho"].ToString();
               }
@@ -978,42 +1131,58 @@ namespace ICommunity.Antalis
                     cmb_nota_credito.Items.Add(new ListItem(oRow["nNumeroNotaCredito"].ToString(), oRow["saldo"].ToString()));
                   }
                 }
-                else {
+                else
+                {
                   cmb_nota_credito.Items.Add(new ListItem(oRow["nNumeroNotaCredito"].ToString(), oRow["nMontoNotaCredito"].ToString()));
                 }
               }
             }
             dtNotaCreditoNoAplicada = null;
 
-            if (!string.IsNullOrEmpty(dtDocPago.Rows[0]["cod_nota_credito"].ToString()))
+            //if (!string.IsNullOrEmpty(dtDocPago.Rows[0]["cod_nota_credito"].ToString()))
+            //{
+            StringBuilder sHtml = new StringBuilder();
+            cAntNotaCredito oNotaCredito = new cAntNotaCredito(ref oConn);
+            oNotaCredito.CodDocumento = pCodDocumento;
+            DataTable dtNotaCredito = oNotaCredito.GetDocNotaCredito();
+            if (dtNotaCredito != null)
             {
-              cAntNotaCredito oNotaCredito = new cAntNotaCredito(ref oConn);
-              oNotaCredito.CodNotaCredito = dtDocPago.Rows[0]["cod_nota_credito"].ToString();
-              DataTable dtNotaCredito = oNotaCredito.Get();
-              if (dtNotaCredito != null)
+              if (dtNotaCredito.Rows.Count > 0)
               {
-                if (dtNotaCredito.Rows.Count > 0)
+                int iCant = 1;
+                hddCantNotaCredito.Value = dtNotaCredito.Rows.Count.ToString();
+                sHtml.Append("<div class='row'><div class='col-md-3 text-center'><span># NOTA DE CREDITO:</span></div><div class='col-md-3 text-center'><span>SALDO NOTA DE CREDITO:</span></div><div class='col-md-3 text-center'><span>APLICACION NOTA DE CREDITO:</span></div><div class='col-md-1'></div></div>");
+
+                foreach (DataRow oRow in dtNotaCredito.Rows)
                 {
-                  bool bExisteNC = false;
-                  foreach (ListItem oItem in cmb_nota_credito.Items)
-                  {
-                    if (oItem.Value == dtNotaCredito.Rows[0]["num_nota_credito"].ToString())
-                      bExisteNC = true;
-                  }
-                  if (bExisteNC)
-                    cmb_nota_credito.SelectedValue = dtNotaCredito.Rows[0]["saldo_nota_credito"].ToString();
-                  else {
-                    string iValNotaCredito = (int.Parse(dtNotaCredito.Rows[0]["saldo_nota_credito"].ToString()) + int.Parse(dtDocPago.Rows[0]["aplicacion_nota_credito"].ToString())).ToString();
-                    cmb_nota_credito.Items.Add(new ListItem(dtNotaCredito.Rows[0]["num_nota_credito"].ToString(), iValNotaCredito));
-                    cmb_nota_credito.SelectedValue = iValNotaCredito;
-                  }
-                  hddNotaCredito.Value = dtNotaCredito.Rows[0]["num_nota_credito"].ToString();
-                  txt_saldo_nota_credito.Text = string.Format("{0:N0}", int.Parse(dtNotaCredito.Rows[0]["saldo_nota_credito"].ToString()) + int.Parse(dtDocPago.Rows[0]["aplicacion_nota_credito"].ToString()));
-                  txt_aplicacion_nota_credito.Text = string.Format("{0:N0}", int.Parse(dtDocPago.Rows[0]["aplicacion_nota_credito"].ToString()));
+                  sHtml.Append("<div id='idrow_" + iCant + "' class='row'><div class='col-md-3'><input type='text' id='txt_num_nc_" + iCant + "' name='txt_num_nc_" + iCant + "' value='" + oRow["num_nc"].ToString() + "' class='form-control'></div><div class='col-md-3'><input type='hidden' id='hdd_cod_nc_" + iCant + "' name='hdd_cod_nc_" + iCant + "' value='" + oRow["num_nc"].ToString() + "'><input id='txt_saldo_nc_" + iCant + "' name='txt_saldo_nc_" + iCant + "' type='text' value='" + oRow["aplicacion_nota_credito"].ToString() + "' class='form-control'></div><div class='col-md-3'><input id='txt_apl_nc_" + iCant + "' name='txt_apl_nc_" + iCant + "' type='text' value='" + oRow["aplicacion_nota_credito"].ToString() + "'  class='form-control'></div><div class='col-md-3'><input type='button' value='-' id='idLessBtn" + iCant + "' onclick='dropRow(\"" + iCant + "\",\"" + oRow["num_nc"].ToString() + "\",\"" + oRow["aplicacion_nota_credito"].ToString() + "\")' /></div></div>");
+                  iCant++;
                 }
+                someClass.Controls.Add(new LiteralControl(sHtml.ToString()));
+                someClass.Controls.Add(new LiteralControl("<input type='hidden' id='hdd_val_tt_nc' name='hdd_val_tt_nc' value='" + dtDocPago.Rows[0]["aplicacion_nota_credito"].ToString() + "'>"));
+
+                //bool bExisteNC = false;
+                //foreach (ListItem oItem in cmb_nota_credito.Items)
+                //{
+                //  if (oItem.Value == dtNotaCredito.Rows[0]["num_nota_credito"].ToString())
+                //    bExisteNC = true;
+                //}
+                //if (bExisteNC)
+                //  cmb_nota_credito.SelectedValue = dtNotaCredito.Rows[0]["saldo_nota_credito"].ToString();
+                //else
+                //{
+                //  string iValNotaCredito = (int.Parse(dtNotaCredito.Rows[0]["saldo_nota_credito"].ToString()) + int.Parse(dtDocPago.Rows[0]["aplicacion_nota_credito"].ToString())).ToString();
+                //  cmb_nota_credito.Items.Add(new ListItem(dtNotaCredito.Rows[0]["num_nota_credito"].ToString(), iValNotaCredito));
+                //  cmb_nota_credito.SelectedValue = iValNotaCredito;
+                //}
+                //hddNotaCredito.Value = dtNotaCredito.Rows[0]["num_nota_credito"].ToString();
+                //txt_saldo_nota_credito.Text = string.Format("{0:N0}", int.Parse(dtNotaCredito.Rows[0]["saldo_nota_credito"].ToString()) + int.Parse(dtDocPago.Rows[0]["aplicacion_nota_credito"].ToString()));
+                //txt_aplicacion_nota_credito.Text = string.Format("{0:N0}", int.Parse(dtDocPago.Rows[0]["aplicacion_nota_credito"].ToString()));
               }
-              dtNotaCredito = null;
             }
+            dtNotaCredito = null;
+            //}
+
             txt_valor_factura.Text = string.Format("{0:N0}", int.Parse(dtDocPago.Rows[0]["importe_factura"].ToString()) + int.Parse(dtDocPago.Rows[0]["aplicacion_pago_factura"].ToString()) + int.Parse(dtDocPago.Rows[0]["aplicacion_nota_credito"].ToString()));
             txt_aplicacion_pago_factura.Text = string.Format("{0:N0}", int.Parse(dtDocPago.Rows[0]["aplicacion_pago_factura"].ToString()));
 
@@ -1065,20 +1234,33 @@ namespace ICommunity.Antalis
         }
         dt = null;
 
-        //string nSaldo = string.Empty;
+        int nValorFactura = 0;
         cAntFactura oFactura = new cAntFactura(ref oConn);
         oFactura.CodFactura = nCodFactura;
-        //dt = oFactura.Get();
-        //if (dt != null)
-        //{
-        //  if (dt.Rows.Count > 0)
-        //  {
-        //    nSaldo = dt.Rows[0]["saldo_factura"].ToString();
-        //  }
-        //}
-        //dt = null;
+        dt = oFactura.Get();
+        if (dt != null)
+        {
+          if (dt.Rows.Count > 0)
+          {
+            nValorFactura = int.Parse(dt.Rows[0]["valor_factura"].ToString());
+          }
+        }
+        dt = null;
 
-        oFactura.SaldoFactura = (int.Parse(nImporte) + int.Parse(nAplicacionPagoFactura) + int.Parse(nAplicacionNotaCredito)).ToString();
+        if (nValorFactura < (int.Parse(nAplicacionPagoFactura) + int.Parse(nAplicacionNotaCredito)))
+        {
+          oFactura.SaldoFactura = nValorFactura.ToString();
+        }
+        else {
+          if (nValorFactura < (int.Parse(nImporte) + int.Parse(nAplicacionPagoFactura) + int.Parse(nAplicacionNotaCredito)))
+          {
+            oFactura.SaldoFactura = nValorFactura.ToString();
+          }
+          else {
+            oFactura.SaldoFactura = (int.Parse(nImporte) + int.Parse(nAplicacionPagoFactura) + int.Parse(nAplicacionNotaCredito)).ToString();
+          }
+            
+        }
         oFactura.Accion = "EDITAR";
         oFactura.Put();
 
@@ -1088,27 +1270,47 @@ namespace ICommunity.Antalis
           Response.End();
         }
 
-        if (!string.IsNullOrEmpty(nCodNotaCredito)) {
-          cAntNotaCredito oNotaCredito = new cAntNotaCredito(ref oConn);
-          oNotaCredito.CodNotaCredito = nCodNotaCredito;
-          DataTable dtNotaCredito = oNotaCredito.Get();
-          if (dtNotaCredito != null)
+
+        cAntNotaCredito oNotaCredito = new cAntNotaCredito(ref oConn);
+        oNotaCredito.CodDocumento = pCodDocumento;
+        DataTable dtNCDoc = oNotaCredito.GetDocNotaCredito();
+        if (dtNCDoc != null)
+        {
+          if (dtNCDoc.Rows.Count > 0)
           {
-            if (dtNotaCredito.Rows.Count > 0)
+            foreach (DataRow oRow in dtNCDoc.Rows)
             {
-              oNotaCredito.SaldoNotaCredito = (int.Parse(dtNotaCredito.Rows[0]["saldo_nota_credito"].ToString()) + int.Parse(nAplicacionNotaCredito)).ToString();
-              oNotaCredito.Accion = "EDITAR";
-              oNotaCredito.Put();
+              oNotaCredito.CodNotaCredito = oRow["cod_nota_credito"].ToString();
+              DataTable dtNotaCredito = oNotaCredito.Get();
+              if (dtNotaCredito != null)
+              {
+                if (dtNotaCredito.Rows.Count > 0)
+                {
+                  oNotaCredito.SaldoNotaCredito = (int.Parse(dtNotaCredito.Rows[0]["saldo_nota_credito"].ToString()) + int.Parse(oRow["aplicacion_nota_credito"].ToString())).ToString();
+                  oNotaCredito.Accion = "EDITAR";
+                  oNotaCredito.Put();
+
+                  if (!string.IsNullOrEmpty(oNotaCredito.Error))
+                  {
+                    Response.Write("[Eliminar / Nota Credito Editar] Se ha encontrado el siguiente error : " + oNotaCredito.Error);
+                    Response.End();
+                  }
+                }
+              }
+              dtNotaCredito = null;
+
+              oNotaCredito.Accion = "ELIMINAR";
+              oNotaCredito.PutDocNotaCredito();
 
               if (!string.IsNullOrEmpty(oNotaCredito.Error))
               {
-                Response.Write("[Eliminar / Nota Credito Editar] Se ha encontrado el siguiente error : " + oNotaCredito.Error);
+                Response.Write("[Eliminar / Nota Credito - DOC] Se ha encontrado el siguiente error : " + oNotaCredito.Error);
                 Response.End();
               }
             }
           }
-          dtNotaCredito = null;
         }
+        dtNCDoc = null;
 
         oDocumentosPago.Accion = "ELIMINAR";
         oDocumentosPago.Put();
@@ -1173,6 +1375,7 @@ namespace ICommunity.Antalis
       txt_aplicacion_nota_credito.Text = string.Empty;
       txt_nuevo_saldo_factura.Text = string.Empty;
       hdd_nuevo_saldo_factura.Value = string.Empty;
+      hddCantNotaCredito.Value = string.Empty;
 
       txt_importe.Text = string.Empty;
       txt_importe.Enabled = true;
@@ -1370,7 +1573,13 @@ namespace ICommunity.Antalis
           foreach (DataRow oRow in dt.Rows)
           {
             sTable.Append("<tr>");
+            sTable.Append("<td>");
 
+            sTable.Append(getTipoDoc(cmb_documento.SelectedValue));
+
+            //sTable.Append(((oRow["aplicacion_pago_factura"].ToString() != "0") && (oRow["aplicacion_nota_credito"].ToString() != "0") ? "FNC" : ((oRow["aplicacion_pago_factura"].ToString() != "0") ? "F" : "NC")));
+
+            sTable.Append("</td>");
             sTable.Append("<td>").Append(oRow["num_documento"].ToString()).Append("</td>");
             sTable.Append("<td>").Append(oRow["nom_deudor"].ToString()).Append("</td>");
             sTable.Append("<td>").Append(oRow["cuenta_corriente"].ToString()).Append("</td>");
@@ -1399,8 +1608,10 @@ namespace ICommunity.Antalis
             sTable.Append("<td>").Append(((!string.IsNullOrEmpty(oRow["importe"].ToString())) ? string.Format("{0:N0}", int.Parse(oRow["importe"].ToString())) : string.Empty)).Append("</td>");
             sTable.Append("<td>").Append(oRow["num_guia_despacho"].ToString()).Append("</td>");
             sTable.Append("<td>").Append(oRow["num_factura"].ToString()).Append("</td>");
+            sTable.Append("<td>").Append(string.Format("{0:N0}", int.Parse(oRow["valor_factura_original"].ToString()))).Append("</td>");
             sTable.Append("<td>").Append(string.Format("{0:N0}", int.Parse(oRow["importe_factura"].ToString()))).Append("</td>");
-
+            sTable.Append("<td>").Append(string.Format("{0:N0}", int.Parse(oRow["aplicacion_pago_factura"].ToString()))).Append("</td>");
+            sTable.Append("<td>").Append(string.Format("{0:N0}", int.Parse(oRow["aplicacion_nota_credito"].ToString()))).Append("</td>");
             sTable.Append("</tr>");
           }
         }
@@ -1440,6 +1651,7 @@ namespace ICommunity.Antalis
       if (e.Row.RowType == DataControlRowType.DataRow)
       {
         bool bHaveKids = false;
+        bool bHaveNotaCredito = false;
         string sCodDocumento = gdPagos.DataKeys[e.Row.RowIndex].Values["cod_documento"].ToString();
         string sNodCodDocumento = gdPagos.DataKeys[e.Row.RowIndex].Values["nod_cod_documento"].ToString();
         DBConn oConn = new DBConn();
@@ -1456,6 +1668,18 @@ namespace ICommunity.Antalis
             }
           }
           dt = null;
+
+          oDocumentosPago.CodDocumento = sCodDocumento;
+          oDocumentosPago.NodCodDocumento = string.Empty;
+          dt = oDocumentosPago.Get();
+          if (dt != null)
+          {
+            if (dt.Rows.Count > 0)
+            {
+              bHaveNotaCredito = (int.Parse(dt.Rows[0]["aplicacion_nota_credito"].ToString()) <= 0 ? true : false);
+            }
+          }
+          dt = null;
         }
         oConn.Close();
 
@@ -1464,7 +1688,12 @@ namespace ICommunity.Antalis
           foreach (Control control in cell.Controls)
           {
             LinkButton lnkBtnDelete = control as LinkButton;
-            if ((lnkBtnDelete != null && lnkBtnDelete.CommandName == "Delete") && (!bHaveKids) && (string.IsNullOrEmpty(sNodCodDocumento)))
+
+            if ((lnkBtnDelete != null && lnkBtnDelete.CommandName == "NotaCredito") && (!bHaveNotaCredito)) { 
+              lnkBtnDelete.Visible = true;
+              lnkBtnDelete.Attributes.Add("onclick", "showCreateThanksYouForm('" + sCodDocumento + "'); return false;");
+            }
+            else if ((lnkBtnDelete != null && lnkBtnDelete.CommandName == "Delete") && (!bHaveKids) && (string.IsNullOrEmpty(sNodCodDocumento)))
               lnkBtnDelete.Attributes.Add("onclick", "javascript:return confirm('Esta seguro de eliminar este pago?');");
             else if ((lnkBtnDelete != null && lnkBtnDelete.CommandName == "Delete") && (bHaveKids))
               lnkBtnDelete.Visible = false;
@@ -1484,19 +1713,22 @@ namespace ICommunity.Antalis
           gdPagos.HeaderRow.Cells[2].Visible = false;
           e.Row.Cells[2].Visible = false;
         }
-        if (e.Row.Cells[6].Text.ToString() != "&nbsp;")
+
+        e.Row.Cells[3].Text = getTipoDoc(cmb_documento.SelectedValue);
+
+        if (e.Row.Cells[7].Text.ToString() != "&nbsp;")
         {
           oConn = new DBConn();
           if (oConn.Open())
           {
             cAntBancos oBancos = new cAntBancos(ref oConn);
-            oBancos.NKeyBanco = e.Row.Cells[6].Text.ToString();
+            oBancos.NKeyBanco = e.Row.Cells[7].Text.ToString();
             DataTable dt = oBancos.Get();
             if (dt != null)
             {
               if (dt.Rows.Count > 0)
               {
-                e.Row.Cells[6].Text = e.Row.Cells[6].Text.ToString() + " - " + dt.Rows[0]["snombre"].ToString();
+                e.Row.Cells[7].Text = e.Row.Cells[7].Text.ToString() + " - " + dt.Rows[0]["snombre"].ToString();
               }
             }
             dt = null;
@@ -1655,7 +1887,7 @@ namespace ICommunity.Antalis
 
               cmb_guiadespacho.Items.Clear();
               cGuiasFacturas oGuiasFacturas = new cGuiasFacturas(ref oConn);
-              oGuiasFacturas.NKeyCliente = cmb_cliente.SelectedValue; //oIsUsuario.CodNkey;
+              oGuiasFacturas.NKeyCliente = dtDocPago.Rows[0]["nkey_cliente"].ToString(); //cmb_cliente.SelectedValue; //oIsUsuario.CodNkey;
               oGuiasFacturas.NCodigoDeudor = dtDocPago.Rows[0]["cod_sap"].ToString();
               DataTable dtGuias = oGuiasFacturas.GetGuiaDespacho();
               if (dtGuias != null)
@@ -1675,13 +1907,19 @@ namespace ICommunity.Antalis
               txt_aplicacion_pago_factura.Text = string.Empty;
 
               cmb_nota_credito.Items.Clear();
+              cmb_nota_credito.Items.Add(new ListItem("<< Seleccione Nota Crédito >>", string.Empty));
               cAntNotaCreditoNoAplicada cAntNotaCreditoNoAplicada = new cAntNotaCreditoNoAplicada(ref oConn);
-              cAntNotaCreditoNoAplicada.NKeyCliente = cmb_cliente.SelectedValue;
+              cAntNotaCreditoNoAplicada.NKeyCliente = dtDocPago.Rows[0]["nkey_cliente"].ToString();  //cmb_cliente.SelectedValue;
               cAntNotaCreditoNoAplicada.NCodigoDeudor = dtDocPago.Rows[0]["cod_sap"].ToString();
               DataTable dtNotaCreditoNoAplicada = cAntNotaCreditoNoAplicada.Get();
+
+              if (!string.IsNullOrEmpty(cAntNotaCreditoNoAplicada.Error)) {
+                Response.Write("ERROR : " + cAntNotaCreditoNoAplicada.Error.ToString());
+                Response.End();
+              }
+
               if (dtNotaCreditoNoAplicada != null)
               {
-                cmb_nota_credito.Items.Add(new ListItem("<< Seleccione Nota Crédito >>", string.Empty));
                 foreach (DataRow oRow in dtNotaCreditoNoAplicada.Rows)
                 {
                   if (oRow["existe"].ToString() != "0")
@@ -1724,7 +1962,42 @@ namespace ICommunity.Antalis
         btnCancelarUpdate.Visible = true;
       }
     }
+
+    protected string getTipoDoc(string iCodTipo)
+    {
+      string sTipo = string.Empty;
+      switch (iCodTipo)
+      {
+        case "1":
+          sTipo = "CHD";
+          break;
+        case "2":
+          sTipo = "CHF";
+          break;
+        case "3":
+          sTipo = "EFE";
+          break;
+        case "4":
+          sTipo = "LTR";
+          break;
+        case "5":
+          sTipo = "TDC";
+          break;
+        case "6":
+          sTipo = "TNF";
+          break;
+
+      }
+      return sTipo;
+    }
+
+    protected void LoadGrid(string CodDocumento)
+    {
+      
+    }
   }
+
+
 
   public class cExiste
   {

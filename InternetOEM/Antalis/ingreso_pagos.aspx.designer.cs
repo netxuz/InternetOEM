@@ -373,6 +373,15 @@ namespace ICommunity.Antalis {
         protected global::System.Web.UI.WebControls.HiddenField hddNotaCredito;
         
         /// <summary>
+        /// hddCantNotaCredito control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hddCantNotaCredito;
+        
+        /// <summary>
         /// txt_saldo_nota_credito control.
         /// </summary>
         /// <remarks>
@@ -407,6 +416,15 @@ namespace ICommunity.Antalis {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hdd_nuevo_saldo_factura;
+        
+        /// <summary>
+        /// someClass control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl someClass;
         
         /// <summary>
         /// idRow3 control.
@@ -506,5 +524,14 @@ namespace ICommunity.Antalis {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnCerrarValija;
+        
+        /// <summary>
+        /// GridNC control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView GridNC;
     }
 }

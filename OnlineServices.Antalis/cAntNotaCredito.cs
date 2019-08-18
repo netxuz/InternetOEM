@@ -13,6 +13,9 @@ namespace OnlineServices.Antalis
     DBConn.SQLParameters oParam;
     DBConn.DataTypeSQL TypeSQL = new DBConn.DataTypeSQL();
 
+    private string pCodDocumento;
+    public string CodDocumento { get { return pCodDocumento; } set { pCodDocumento = value; } }
+
     private string pCodNotaCredito;
     public string CodNotaCredito { get { return pCodNotaCredito; } set { pCodNotaCredito = value; } }
 
@@ -24,6 +27,9 @@ namespace OnlineServices.Antalis
 
     private string pSaldoNotaCredito;
     public string SaldoNotaCredito { get { return pSaldoNotaCredito; } set { pSaldoNotaCredito = value; } }
+
+    private string pAplicacionNotaCredito;
+    public string AplicacionNotaCredito { get { return pAplicacionNotaCredito; } set { pAplicacionNotaCredito = value; } }
 
     private string pAccion;
     public string Accion { get { return pAccion; } set { pAccion = value; } }
@@ -39,6 +45,38 @@ namespace OnlineServices.Antalis
 
     public cAntNotaCredito(ref DBConn oConn) {
       this.oConn = oConn;
+    }
+
+    public DataTable GetDocNotaCredito()
+    {
+      oParam = new DBConn.SQLParameters(3);
+      DataTable dtData;
+      StringBuilder cSQL;
+      string Condicion = " where ";
+
+      if (oConn.bIsOpen)
+      {
+        cSQL = new StringBuilder();
+        cSQL.Append("select a.cod_documento, a.cod_nota_credito, a.aplicacion_nota_credito, (select num_nota_credito from ant_nota_credito where cod_nota_credito = a.cod_nota_credito) num_nc");
+        cSQL.Append(" from ant_doc_notacredito a ");
+
+        if (!string.IsNullOrEmpty(pCodDocumento))
+        {
+          cSQL.Append(Condicion);
+          Condicion = " and ";
+          cSQL.Append(" a.cod_documento = @cod_documento  ");
+          oParam.AddParameters("@cod_documento", pCodDocumento, TypeSQL.Numeric);
+        }
+
+        dtData = oConn.Select(cSQL.ToString(), oParam);
+        pError = oConn.Error;
+        return dtData;
+      }
+      else
+      {
+        pError = "Conexion Cerrada";
+        return null;
+      }
     }
 
     public DataTable Get()
@@ -140,6 +178,63 @@ namespace OnlineServices.Antalis
                 Condicion = " and ";
                 cSQL.Append(" num_nota_credito = @num_nota_credito  ");
                 oParam.AddParameters("@num_nota_credito", pNumNotaCredito, TypeSQL.Numeric);
+              }
+
+              oConn.Delete(cSQL.ToString(), oParam);
+
+              break;
+          }
+        }
+        catch (Exception Ex)
+        {
+          pError = Ex.Message;
+        }
+      }
+    }
+
+    public void PutDocNotaCredito()
+    {
+      oParam = new DBConn.SQLParameters(10);
+      StringBuilder cSQL;
+      string sComa = string.Empty;
+
+      if (oConn.bIsOpen)
+      {
+        try
+        {
+          switch (pAccion)
+          {
+            case "CREAR":
+              cSQL = new StringBuilder();
+              cSQL.Append("insert into ant_doc_notacredito(cod_documento, cod_nota_credito, aplicacion_nota_credito) values( ");
+              cSQL.Append("@cod_documento, @cod_nota_credito, @aplicacion_nota_credito) ");
+              oParam.AddParameters("@cod_documento", pCodDocumento, TypeSQL.Numeric);
+              oParam.AddParameters("@cod_nota_credito", pCodNotaCredito, TypeSQL.Numeric);
+              oParam.AddParameters("@aplicacion_nota_credito", pAplicacionNotaCredito, TypeSQL.Numeric);
+              oConn.Insert(cSQL.ToString(), oParam);
+
+              break;
+            
+            case "ELIMINAR":
+              string Condicion = " where ";
+
+              cSQL = new StringBuilder();
+              cSQL.Append("delete from ant_doc_notacredito ");
+
+              if (!string.IsNullOrEmpty(pCodDocumento))
+              {
+                cSQL.Append(Condicion);
+                Condicion = " and ";
+                cSQL.Append(" cod_documento = @cod_documento  ");
+                oParam.AddParameters("@cod_documento", pCodDocumento, TypeSQL.Numeric);
+              }
+
+              if (!string.IsNullOrEmpty(pCodNotaCredito))
+              {
+                cSQL.Append(Condicion);
+                Condicion = " and ";
+                cSQL.Append(" cod_nota_credito = @cod_nota_credito  ");
+                oParam.AddParameters("@cod_nota_credito", pCodNotaCredito, TypeSQL.Numeric);
               }
 
               oConn.Delete(cSQL.ToString(), oParam);

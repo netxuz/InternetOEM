@@ -79,7 +79,7 @@ namespace OnlineServices.Antalis
         cSQL.Append(" from notacredito_noaplicada a where a.nKey_Cliente = @nKey_Cliente and a.nkey_deudor in(select nkey_deudor from codigodeudor where ncodigodeudor = @ncodigodeudor and nKey_Cliente = @nKey_Cliente) ");
         //cSQL.Append(" and not a.nNumeroNotaCredito in(select num_nota_credito from ant_nota_credito where saldo_nota_credito <= 0 ) ");
         oParam.AddParameters("@nKey_Cliente", pNKeyCliente, TypeSQL.Numeric);
-        oParam.AddParameters("@ncodigodeudor", pNCodigoDeudor, TypeSQL.Numeric);
+        oParam.AddParameters("@ncodigodeudor", pNCodigoDeudor, TypeSQL.Varchar);
 
         dtData = oConn.Select(cSQL.ToString(), oParam);
         pError = oConn.Error;

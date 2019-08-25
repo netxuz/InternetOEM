@@ -399,7 +399,7 @@
       $('#myModal').modal('show');
     }
 
-    function dropRow(idRow, sNumNC, iAppNC) {      
+    function dropRow(idRow, sNumNC, iAppNC) {
       var iSalFactura = parseInt($("#txt_nuevo_saldo_factura").val().split('.').join(''));
       var iVal = iSalFactura + parseInt(iAppNC.split('.').join(''));
       var iValTtNc = parseInt($("#hdd_val_tt_nc").val().split('.').join('')) - parseInt(iAppNC.split('.').join(''));
@@ -409,6 +409,13 @@
       $("#hdd_nuevo_saldo_factura").val(iVal);
 
       $("#idrow_" + idRow).remove();
+      
+      $('#cmb_nota_credito option').each(function () {
+        if ($(this).text() == sNumNC) {
+          iAppNC = parseInt($(this).val()) + parseInt(iAppNC);
+          $('#cmb_nota_credito option:contains(' + $(this).text() + ')').remove();
+        }
+      });
 
       $('#cmb_nota_credito').append($('<option>', {
         value: iAppNC,

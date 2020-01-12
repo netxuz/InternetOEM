@@ -23,6 +23,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineServices.AppRuta", "O
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineServices.Antalis", "OnlineServices.Antalis\OnlineServices.Antalis.csproj", "{4934F018-FD60-4052-972C-FD44134FCC71}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineServices.Chat", "OnlineServices.Chat\OnlineServices.Chat.csproj", "{3E342694-3221-4312-9668-EA330B6BA5E4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineServices.Dashboard", "OnlineServices.Dashboard\OnlineServices.Dashboard.csproj", "{8E5C760C-7412-4164-B2A6-AAF51BD4B4F5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +73,14 @@ Global
 		{4934F018-FD60-4052-972C-FD44134FCC71}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4934F018-FD60-4052-972C-FD44134FCC71}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4934F018-FD60-4052-972C-FD44134FCC71}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E342694-3221-4312-9668-EA330B6BA5E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E342694-3221-4312-9668-EA330B6BA5E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E342694-3221-4312-9668-EA330B6BA5E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E342694-3221-4312-9668-EA330B6BA5E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E5C760C-7412-4164-B2A6-AAF51BD4B4F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E5C760C-7412-4164-B2A6-AAF51BD4B4F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E5C760C-7412-4164-B2A6-AAF51BD4B4F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E5C760C-7412-4164-B2A6-AAF51BD4B4F5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

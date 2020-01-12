@@ -11,4 +11,3 @@ C:\Proyectos\DebtControl\InternetOEM\XtremSystemData\bin\Release\OnlineServices.
 C:\Proyectos\DebtControl\InternetOEM\XtremSystemData\bin\Release\OnlineServices.Conn.pdb
 C:\Proyectos\DebtControl\InternetOEM\XtremSystemData\obj\Release\OnlineServices.SystemData.dll
 C:\Proyectos\DebtControl\InternetOEM\XtremSystemData\obj\Release\OnlineServices.SystemData.pdb
-C:\Proyectos\DebtControl\InternetOEM\XtremSystemData\obj\Release\OnlineServices.SystemData.csprojResolveAssemblyReference.cache

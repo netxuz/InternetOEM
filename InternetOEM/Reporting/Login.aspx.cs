@@ -26,7 +26,7 @@ namespace ICommunity.Reporting
       {
         lblLogin.Text = oCulture.GetResource("LoginUsers", "lblLogin");
         lblPassword.Text = oCulture.GetResource("LoginUsers", "txtPassword");
-        btnAceptar.Text = oCulture.GetResource("Global", "btnAceptar");
+        //btnAceptar.Text = oCulture.GetResource("Global", "btnAceptar");
       }
     }
 
@@ -89,7 +89,9 @@ namespace ICommunity.Reporting
       }
       else
       {
-        Response.Redirect("default.aspx");
+        Response.Redirect("../dashboard/mainaccess.aspx");
+        //Response.Redirect("../portal.aspx");
+        //Response.Redirect("default.aspx");
       }
     }
   }

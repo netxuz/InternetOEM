@@ -44,7 +44,16 @@ namespace OnlineServices.SystemData
 
     private string sFechaFinal;
     public string FechaFinal { get { return sFechaFinal; } set { sFechaFinal = value; } }
-    
+
+    private string iNkeyCliente;
+    public string NkeyCliente { get { return iNkeyCliente; } set { iNkeyCliente = value; } }
+
+    private string iNcodHolding;
+    public string NcodHolding { get { return iNcodHolding; } set { iNcodHolding = value; } }
+
+    private string iNkeyDeudor;
+    public string NkeyDeudor { get { return iNkeyDeudor; } set { iNkeyDeudor = value; } }
+
     private string pAccion;
     public string Accion { get { return pAccion; } set { pAccion = value; } }
 
@@ -78,8 +87,8 @@ namespace OnlineServices.SystemData
             case "CREAR":
               pCodLog = string.Empty;
               cSQL = new StringBuilder();
-              cSQL.Append("insert into sys_log(ip_usuario, id_usuario, fch_log, pag_log, cod_evt_log, obs_log, app_log ) values(");
-              cSQL.Append("@ip_usuario, @id_usuario, @fch_log, @pag_log, @cod_evt_log, @obs_log, @app_log)");
+              cSQL.Append("insert into sys_log(ip_usuario, id_usuario, fch_log, pag_log, cod_evt_log, obs_log, app_log, nkey_cliente, ncodholding, nkey_deudor ) values(");
+              cSQL.Append("@ip_usuario, @id_usuario, @fch_log, @pag_log, @cod_evt_log, @obs_log, @app_log, @nkey_cliente, @ncodholding, @nkey_deudor)");
               oParam.AddParameters("@ip_usuario", pIpUsuario, TypeSQL.Varchar);
               oParam.AddParameters("@id_usuario", pIdUsuario, TypeSQL.Numeric);
               oParam.AddParameters("@fch_log", pFchLog, TypeSQL.DateTime);
@@ -87,6 +96,9 @@ namespace OnlineServices.SystemData
               oParam.AddParameters("@cod_evt_log", pCodEvtLog, TypeSQL.Numeric);
               oParam.AddParameters("@obs_log", pObsLog, TypeSQL.Text);
               oParam.AddParameters("@app_log", pAppLog, TypeSQL.Varchar);
+              oParam.AddParameters("@nkey_cliente", iNkeyCliente, TypeSQL.Numeric);
+              oParam.AddParameters("@ncodholding", iNcodHolding, TypeSQL.Numeric);
+              oParam.AddParameters("@nkey_deudor", iNkeyDeudor, TypeSQL.Numeric);
               oConn.Insert(cSQL.ToString(), oParam);
 
               cSQL = new StringBuilder();

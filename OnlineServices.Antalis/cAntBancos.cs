@@ -16,6 +16,9 @@ namespace OnlineServices.Antalis
     private string pNKeyBanco;
     public string NKeyBanco { get { return pNKeyBanco; } set { pNKeyBanco = value; } }
 
+    private string pNcod;
+    public string Ncod { get { return pNcod; } set { pNcod = value; } }
+
     private string pError;
     public string Error { get { return pError; } set { pError = value; } }
 
@@ -47,6 +50,13 @@ namespace OnlineServices.Antalis
           Condicion = " and ";
           cSQL.Append(" nkey_banco = @nkey_banco ");
           oParam.AddParameters("@nkey_banco", pNKeyBanco, TypeSQL.Numeric);
+        }
+        if (!string.IsNullOrEmpty(pNcod))
+        {
+          cSQL.Append(Condicion);
+          Condicion = " and ";
+          cSQL.Append(" ncod = @ncod ");
+          oParam.AddParameters("@ncod", pNcod, TypeSQL.Numeric);
         }
         dtData = oConn.Select(cSQL.ToString(), oParam);
         pError = oConn.Error;

@@ -27,14 +27,14 @@ namespace ICommunity.Antalis
     protected void Page_Load(object sender, EventArgs e)
     {
       oIsUsuario = oWeb.ValidaUserAppReport();
-      getMenu(idReportePago, oIsUsuario.CodUsuario, "1");
-      getMenu(idProcesoSeguimiento, oIsUsuario.CodUsuario, "2");
-      getMenu(idCartolas, oIsUsuario.CodUsuario, "3");
-      getMenu(idProcesoNormalizacion, oIsUsuario.CodUsuario, "4");
-      getMenu(idIndicadoresClaves, oIsUsuario.CodUsuario, "5");
-      getMenu(IndClasificacionRiesgo, oIsUsuario.CodUsuario, "6");
+      //getMenu(idReportePago, oIsUsuario.CodUsuario, "1");
+      //getMenu(idProcesoSeguimiento, oIsUsuario.CodUsuario, "2");
+      //getMenu(idCartolas, oIsUsuario.CodUsuario, "3");
+      //getMenu(idProcesoNormalizacion, oIsUsuario.CodUsuario, "4");
+      //getMenu(idIndicadoresClaves, oIsUsuario.CodUsuario, "5");
+      //getMenu(IndClasificacionRiesgo, oIsUsuario.CodUsuario, "6");
 
-      getMenuAntalis(indAntalis, oIsUsuario.CodUsuario);
+      //getMenuAntalis(indAntalis, oIsUsuario.CodUsuario);
 
       if (!IsPostBack)
       {
@@ -245,6 +245,13 @@ namespace ICommunity.Antalis
       oLog.putLog();
 
       Response.Redirect("controllerpagos.aspx");
+    }
+
+    protected void bnt_logout_Click(object sender, EventArgs e)
+    {
+      Session["USUARIO"] = string.Empty;
+      Session["CodUsuarioPerfil"] = string.Empty;
+      Response.Redirect("/");
     }
   }
 }

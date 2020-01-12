@@ -1,0 +1,6 @@
+C:\Proyectos\DebtControl\InternetOEM\OnlineServices.Dashboard\bin\Release\OnlineServices.Dashboard.dll
+C:\Proyectos\DebtControl\InternetOEM\OnlineServices.Dashboard\bin\Release\OnlineServices.Dashboard.pdb
+C:\Proyectos\DebtControl\InternetOEM\OnlineServices.Dashboard\bin\Release\OnlineServices.Conn.dll
+C:\Proyectos\DebtControl\InternetOEM\OnlineServices.Dashboard\bin\Release\OnlineServices.Conn.pdb
+C:\Proyectos\DebtControl\InternetOEM\OnlineServices.Dashboard\obj\Release\OnlineServices.Dashboard.dll
+C:\Proyectos\DebtControl\InternetOEM\OnlineServices.Dashboard\obj\Release\OnlineServices.Dashboard.pdb

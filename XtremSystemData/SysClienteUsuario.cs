@@ -84,7 +84,7 @@ namespace OnlineServices.SystemData
       if (oConn.bIsOpen)
       {
         cSQL = new StringBuilder();
-        cSQL.Append("select * from cliente where not nkey_cliente in(select nkey_user from sys_cliente_usuario where cod_user = @cod_user ) ");
+        cSQL.Append("select * from cliente where not nkey_cliente in(select nkey_user from sys_cliente_usuario where cod_user = @cod_user ) and bCuentaCorriente <> 0 and sAnalista <> '' ");
         oParam.AddParameters("@cod_user", pCodUsuario, TypeSQL.Numeric);
 
         if (!string.IsNullOrEmpty(psNombre))

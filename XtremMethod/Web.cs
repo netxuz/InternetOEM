@@ -58,6 +58,18 @@ namespace OnlineServices.Method
     private string pArrCodNkey = string.Empty;
     public string ArrCodNkey { get { return pArrCodNkey; } set { pArrCodNkey = value; } }
 
+    private string pNKeyDeudor = string.Empty;
+    public string NKeyDeudor { get { return pNKeyDeudor; } set { pNKeyDeudor = value; } }
+
+    private string pNCodHolding = string.Empty;
+    public string NCodHolding { get { return pNCodHolding; } set { pNCodHolding = value; } }
+
+    private string pNCodigodeudor = string.Empty;
+    public string NCodigodeudor { get { return pNCodigodeudor; } set { pNCodigodeudor = value; } }
+
+    private string sMoneda = string.Empty;
+    public string Moneda { get { return sMoneda; } set { sMoneda = value; } }
+
     public Usuario()
     {
 
@@ -140,6 +152,19 @@ namespace OnlineServices.Method
 
   public class Web
   {
+    public string getMes(int numeroMes)
+    {
+      try
+      {
+        DateTimeFormatInfo formatoFecha = CultureInfo.CurrentCulture.DateTimeFormat;
+        string nombreMes = formatoFecha.GetMonthName(numeroMes);
+        return nombreMes;
+      }
+      catch
+      {
+        return "Desconocido";
+      }
+    }
 
     public void GetIndicadoresEconomicos()
     {
@@ -714,6 +739,15 @@ namespace OnlineServices.Method
     private string pAppLog;
     public string AppLog { get { return pAppLog; } set { pAppLog = value; } }
 
+    private string iNkeyCliente;
+    public string NkeyCliente { get { return iNkeyCliente; } set { iNkeyCliente = value; } }
+
+    private string iNcodHolding;
+    public string NcodHolding { get { return iNcodHolding; } set { iNcodHolding = value; } }
+
+    private string iNkeyDeudor;
+    public string NkeyDeudor { get { return iNkeyDeudor; } set { iNkeyDeudor = value; } }
+
     public void putLog()
     {
       DBConn oConn = new DBConn();
@@ -731,6 +765,9 @@ namespace OnlineServices.Method
           oLog.CodEvtLog = CodEvtLog;
           oLog.ObsLog = ObsLog;
           oLog.AppLog = AppLog;
+          oLog.NkeyCliente = iNkeyCliente;
+          oLog.NcodHolding = iNcodHolding;
+          oLog.NkeyDeudor = iNkeyDeudor;
           oLog.Accion = "CREAR";
           oLog.Put();
 

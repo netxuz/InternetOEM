@@ -16,6 +16,9 @@ namespace OnlineServices.Reporting
     private string pCodUser;
     public string CodUser { get { return pCodUser; } set { pCodUser = value; } }
 
+    private string nCodConsulta;
+    public string CodConsulta { get { return nCodConsulta; } set { nCodConsulta = value; } }
+
     private string pOrdConsulta;
     public string OrdConsulta { get { return pOrdConsulta; } set { pOrdConsulta = value; } }
 
@@ -57,6 +60,13 @@ namespace OnlineServices.Reporting
           Condicion = " and ";
           cSQL.Append(" a.cod_user = @coduser ");
           oParam.AddParameters("@coduser", pCodUser, TypeSQL.Numeric);
+        }
+
+        if (!string.IsNullOrEmpty(nCodConsulta))
+        {
+          cSQL.Append(Condicion);
+          Condicion = " and ";
+          cSQL.Append(" a.cod_consulta in(" + nCodConsulta + ") ");
         }
 
         if (!string.IsNullOrEmpty(pOrdConsulta))

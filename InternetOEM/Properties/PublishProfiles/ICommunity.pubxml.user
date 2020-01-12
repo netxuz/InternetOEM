@@ -19,31 +19,31 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/10/2018 13:16:08</publishTime>
     </File>
     <File Include="Antalis/controllerpagochequedia.aspx">
-      <publishTime>07/07/2019 16:42:49</publishTime>
+      <publishTime>01/05/2020 18:19:36</publishTime>
     </File>
     <File Include="Antalis/controllerpagoefectivo.aspx">
-      <publishTime>07/11/2018 01:56:58</publishTime>
+      <publishTime>01/05/2020 18:19:28</publishTime>
     </File>
     <File Include="Antalis/controllerpagos.aspx">
-      <publishTime>05/28/2019 23:09:52</publishTime>
+      <publishTime>01/05/2020 18:19:00</publishTime>
     </File>
     <File Include="Antalis/default.aspx">
       <publishTime>06/09/2018 22:03:16</publishTime>
     </File>
     <File Include="Antalis/detallevalija.aspx">
-      <publishTime>07/07/2019 16:48:44</publishTime>
+      <publishTime>01/05/2020 18:20:15</publishTime>
     </File>
     <File Include="Antalis/grafico.html">
-      <publishTime>07/08/2018 20:29:27</publishTime>
+      <publishTime>11/17/2019 01:22:37</publishTime>
     </File>
     <File Include="Antalis/ingreso_pagos.aspx">
-      <publishTime>08/18/2019 14:08:52</publishTime>
+      <publishTime>01/05/2020 18:18:33</publishTime>
     </File>
     <File Include="Antalis/logoantalis.jpg">
       <publishTime>07/11/2018 01:33:05</publishTime>
     </File>
     <File Include="Antalis/pagos_antalis.aspx">
-      <publishTime>07/09/2018 01:00:45</publishTime>
+      <publishTime>01/05/2020 18:18:12</publishTime>
     </File>
     <File Include="Antalis/redirection.htm">
       <publishTime>06/15/2018 00:35:10</publishTime>
@@ -52,7 +52,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/07/2019 16:02:21</publishTime>
     </File>
     <File Include="Antalis/reportevalijas.aspx">
-      <publishTime>05/28/2019 23:10:28</publishTime>
+      <publishTime>01/05/2020 18:20:00</publishTime>
     </File>
     <File Include="Antalis/usuarios_centrosdistribucion.aspx">
       <publishTime>06/19/2018 01:18:14</publishTime>
@@ -123,6 +123,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="AsociaCliente.aspx">
       <publishTime>10/27/2018 19:11:54</publishTime>
     </File>
+    <File Include="AsociaHolding.aspx">
+      <publishTime>10/24/2019 20:27:16</publishTime>
+    </File>
     <File Include="Banner.aspx">
       <publishTime>09/13/2013 23:52:00</publishTime>
     </File>
@@ -154,7 +157,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/01/2012 01:24:26</publishTime>
     </File>
     <File Include="bin/ICommunity.dll">
-      <publishTime>08/18/2019 17:22:01</publishTime>
+      <publishTime>01/12/2020 13:44:39</publishTime>
     </File>
     <File Include="bin/Ionic.Zip.dll">
       <publishTime>02/25/2010 23:29:50</publishTime>
@@ -166,31 +169,34 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/03/2014 19:33:56</publishTime>
     </File>
     <File Include="bin/OnlineServices.Antalis.dll">
-      <publishTime>08/07/2019 02:04:38</publishTime>
+      <publishTime>12/20/2019 01:19:32</publishTime>
     </File>
     <File Include="bin/OnlineServices.AppData.dll">
-      <publishTime>06/29/2019 13:04:47</publishTime>
+      <publishTime>11/23/2019 18:48:16</publishTime>
     </File>
     <File Include="bin/OnlineServices.AppRuta.dll">
-      <publishTime>06/29/2019 13:04:50</publishTime>
+      <publishTime>11/23/2019 18:48:13</publishTime>
     </File>
     <File Include="bin/OnlineServices.CmsData.dll">
-      <publishTime>06/29/2019 13:04:54</publishTime>
+      <publishTime>12/05/2019 01:25:42</publishTime>
     </File>
     <File Include="bin/OnlineServices.Conn.dll">
-      <publishTime>06/29/2019 13:04:46</publishTime>
+      <publishTime>12/05/2019 01:26:18</publishTime>
+    </File>
+    <File Include="bin/OnlineServices.Dashboard.dll">
+      <publishTime>01/12/2020 13:23:09</publishTime>
     </File>
     <File Include="bin/OnlineServices.Method.dll">
-      <publishTime>06/29/2019 13:04:37</publishTime>
+      <publishTime>12/05/2019 01:26:00</publishTime>
     </File>
     <File Include="bin/OnlineServices.Reporting.dll">
-      <publishTime>07/02/2019 00:12:32</publishTime>
+      <publishTime>12/15/2019 20:37:44</publishTime>
     </File>
     <File Include="bin/OnlineServices.SystemData.dll">
-      <publishTime>06/29/2019 13:04:23</publishTime>
+      <publishTime>12/05/2019 01:25:48</publishTime>
     </File>
     <File Include="bin/OnlineServices.Web.UI.dll">
-      <publishTime>06/29/2019 13:04:31</publishTime>
+      <publishTime>12/05/2019 01:25:45</publishTime>
     </File>
     <File Include="bin/Select.HtmlToPdf.dll">
       <publishTime>05/29/2015 04:54:17</publishTime>
@@ -274,7 +280,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/10/2011 18:08:34</publishTime>
     </File>
     <File Include="Controls/CreateUsers.ascx">
-      <publishTime>10/27/2018 17:59:32</publishTime>
+      <publishTime>10/19/2019 15:26:45</publishTime>
     </File>
     <File Include="Controls/EmailToUser.ascx">
       <publishTime>11/09/2011 10:10:52</publishTime>
@@ -367,7 +373,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/13/2016 00:06:57</publishTime>
     </File>
     <File Include="css/antalis.css">
-      <publishTime>07/13/2019 01:38:26</publishTime>
+      <publishTime>12/15/2019 16:28:39</publishTime>
     </File>
     <File Include="css/bootstrap.css">
       <publishTime>12/29/2016 23:53:53</publishTime>
@@ -385,7 +391,67 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/13/2018 00:50:26</publishTime>
     </File>
     <File Include="css/default.css">
-      <publishTime>05/11/2017 00:47:07</publishTime>
+      <publishTime>12/24/2019 01:22:10</publishTime>
+    </File>
+    <File Include="css/font/roboto/Roboto-Bold.eot">
+      <publishTime>12/01/2019 17:54:45</publishTime>
+    </File>
+    <File Include="css/font/roboto/Roboto-Bold.ttf">
+      <publishTime>12/01/2019 17:54:45</publishTime>
+    </File>
+    <File Include="css/font/roboto/Roboto-Bold.woff">
+      <publishTime>12/01/2019 17:54:45</publishTime>
+    </File>
+    <File Include="css/font/roboto/Roboto-Bold.woff2">
+      <publishTime>12/01/2019 17:54:45</publishTime>
+    </File>
+    <File Include="css/font/roboto/Roboto-Light.eot">
+      <publishTime>12/01/2019 17:54:45</publishTime>
+    </File>
+    <File Include="css/font/roboto/Roboto-Light.ttf">
+      <publishTime>12/01/2019 17:54:45</publishTime>
+    </File>
+    <File Include="css/font/roboto/Roboto-Light.woff">
+      <publishTime>12/01/2019 17:54:45</publishTime>
+    </File>
+    <File Include="css/font/roboto/Roboto-Light.woff2">
+      <publishTime>12/01/2019 17:54:45</publishTime>
+    </File>
+    <File Include="css/font/roboto/Roboto-Medium.eot">
+      <publishTime>12/01/2019 17:54:45</publishTime>
+    </File>
+    <File Include="css/font/roboto/Roboto-Medium.ttf">
+      <publishTime>12/01/2019 17:54:45</publishTime>
+    </File>
+    <File Include="css/font/roboto/Roboto-Medium.woff">
+      <publishTime>12/01/2019 17:54:45</publishTime>
+    </File>
+    <File Include="css/font/roboto/Roboto-Medium.woff2">
+      <publishTime>12/01/2019 17:54:45</publishTime>
+    </File>
+    <File Include="css/font/roboto/Roboto-Regular.eot">
+      <publishTime>12/01/2019 17:54:45</publishTime>
+    </File>
+    <File Include="css/font/roboto/Roboto-Regular.ttf">
+      <publishTime>12/01/2019 17:54:45</publishTime>
+    </File>
+    <File Include="css/font/roboto/Roboto-Regular.woff">
+      <publishTime>12/01/2019 17:54:45</publishTime>
+    </File>
+    <File Include="css/font/roboto/Roboto-Regular.woff2">
+      <publishTime>12/01/2019 17:54:45</publishTime>
+    </File>
+    <File Include="css/font/roboto/Roboto-Thin.eot">
+      <publishTime>12/01/2019 17:54:45</publishTime>
+    </File>
+    <File Include="css/font/roboto/Roboto-Thin.ttf">
+      <publishTime>12/01/2019 17:54:45</publishTime>
+    </File>
+    <File Include="css/font/roboto/Roboto-Thin.woff">
+      <publishTime>12/01/2019 17:54:45</publishTime>
+    </File>
+    <File Include="css/font/roboto/Roboto-Thin.woff2">
+      <publishTime>12/01/2019 17:54:45</publishTime>
     </File>
     <File Include="css/google-map.css">
       <publishTime>09/13/2016 00:06:57</publishTime>
@@ -439,7 +505,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/28/2017 17:32:13</publishTime>
     </File>
     <File Include="css/stylesdebtcontrol.css">
-      <publishTime>11/24/2018 12:29:43</publishTime>
+      <publishTime>12/01/2019 20:10:49</publishTime>
     </File>
     <File Include="css/thumbnails.css">
       <publishTime>09/13/2016 00:06:57</publishTime>
@@ -449,6 +515,510 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="css/variables.css">
       <publishTime>09/13/2016 00:06:57</publishTime>
+    </File>
+    <File Include="Dashboard/clientes-mas-litigios.aspx">
+      <publishTime>01/10/2020 01:15:58</publishTime>
+    </File>
+    <File Include="Dashboard/clientes-mayor-aporte-provision.aspx">
+      <publishTime>01/10/2020 01:16:41</publishTime>
+    </File>
+    <File Include="Dashboard/clientes-mayor-monto-pastdue-critico.aspx">
+      <publishTime>01/10/2020 01:17:34</publishTime>
+    </File>
+    <File Include="Dashboard/clientes-mayor-monto-pastdue.aspx">
+      <publishTime>01/10/2020 01:14:32</publishTime>
+    </File>
+    <File Include="Dashboard/clientes-mejor-indice-credibilidad.aspx">
+      <publishTime>01/10/2020 01:18:18</publishTime>
+    </File>
+    <File Include="Dashboard/clientes-menor-credibilidad.aspx">
+      <publishTime>01/10/2020 01:18:51</publishTime>
+    </File>
+    <File Include="Dashboard/clientes-venta-potencial.aspx">
+      <publishTime>01/10/2020 01:19:26</publishTime>
+    </File>
+    <File Include="Dashboard/Controls/comportamientofinanciero.ascx">
+      <publishTime>01/04/2020 21:44:53</publishTime>
+    </File>
+    <File Include="Dashboard/Controls/dso.ascx">
+      <publishTime>11/23/2019 22:55:48</publishTime>
+    </File>
+    <File Include="Dashboard/Controls/estadovsreal.ascx">
+      <publishTime>01/04/2020 21:44:05</publishTime>
+    </File>
+    <File Include="Dashboard/Controls/facturascomerciales.ascx">
+      <publishTime>01/04/2020 21:40:05</publishTime>
+    </File>
+    <File Include="Dashboard/Controls/gestiones.ascx">
+      <publishTime>11/23/2019 22:56:24</publishTime>
+    </File>
+    <File Include="Dashboard/Controls/historicodbt.ascx">
+      <publishTime>11/23/2019 22:56:41</publishTime>
+    </File>
+    <File Include="Dashboard/Controls/litigios.ascx">
+      <publishTime>11/23/2019 22:56:53</publishTime>
+    </File>
+    <File Include="Dashboard/Controls/overview.ascx">
+      <publishTime>01/04/2020 21:43:42</publishTime>
+    </File>
+    <File Include="Dashboard/Controls/pastduecritico.ascx">
+      <publishTime>11/23/2019 22:57:22</publishTime>
+    </File>
+    <File Include="Dashboard/Controls/provision.ascx">
+      <publishTime>11/23/2019 22:57:34</publishTime>
+    </File>
+    <File Include="Dashboard/css/addons/datatables-select.css">
+      <publishTime>09/16/2019 13:54:54</publishTime>
+    </File>
+    <File Include="Dashboard/css/addons/datatables-select.min.css">
+      <publishTime>09/16/2019 13:54:54</publishTime>
+    </File>
+    <File Include="Dashboard/css/addons/datatables.css">
+      <publishTime>09/16/2019 13:54:54</publishTime>
+    </File>
+    <File Include="Dashboard/css/addons/datatables.min.css">
+      <publishTime>09/16/2019 13:54:54</publishTime>
+    </File>
+    <File Include="Dashboard/css/addons/directives.css">
+      <publishTime>09/16/2019 13:54:54</publishTime>
+    </File>
+    <File Include="Dashboard/css/addons/directives.min.css">
+      <publishTime>09/16/2019 13:54:54</publishTime>
+    </File>
+    <File Include="Dashboard/css/addons/flag.css">
+      <publishTime>09/16/2019 13:54:54</publishTime>
+    </File>
+    <File Include="Dashboard/css/addons/flag.min.css">
+      <publishTime>09/16/2019 13:54:54</publishTime>
+    </File>
+    <File Include="Dashboard/css/addons/rating.css">
+      <publishTime>09/16/2019 13:54:54</publishTime>
+    </File>
+    <File Include="Dashboard/css/addons/rating.min.css">
+      <publishTime>09/16/2019 13:54:54</publishTime>
+    </File>
+    <File Include="Dashboard/css/addons/zmd.hierarchical-display.css">
+      <publishTime>09/16/2019 13:54:54</publishTime>
+    </File>
+    <File Include="Dashboard/css/addons/zmd.hierarchical-display.min.css">
+      <publishTime>09/16/2019 13:54:54</publishTime>
+    </File>
+    <File Include="Dashboard/css/autocomplete.css">
+      <publishTime>09/22/2019 17:25:05</publishTime>
+    </File>
+    <File Include="Dashboard/css/bootstrap.css">
+      <publishTime>09/16/2019 13:54:15</publishTime>
+    </File>
+    <File Include="Dashboard/css/bootstrap.min.css">
+      <publishTime>09/16/2019 13:54:15</publishTime>
+    </File>
+    <File Include="Dashboard/css/mdb.css">
+      <publishTime>09/16/2019 13:54:15</publishTime>
+    </File>
+    <File Include="Dashboard/css/mdb.lite.css">
+      <publishTime>09/16/2019 13:54:15</publishTime>
+    </File>
+    <File Include="Dashboard/css/mdb.lite.min.css">
+      <publishTime>09/16/2019 13:54:15</publishTime>
+    </File>
+    <File Include="Dashboard/css/mdb.min.css">
+      <publishTime>09/16/2019 13:54:15</publishTime>
+    </File>
+    <File Include="Dashboard/css/modules/animations-extended.css">
+      <publishTime>09/16/2019 13:55:27</publishTime>
+    </File>
+    <File Include="Dashboard/css/modules/animations-extended.min.css">
+      <publishTime>09/16/2019 13:55:27</publishTime>
+    </File>
+    <File Include="Dashboard/css/style.css">
+      <publishTime>11/02/2019 18:32:17</publishTime>
+    </File>
+    <File Include="Dashboard/css/style.min.css">
+      <publishTime>09/16/2019 13:54:15</publishTime>
+    </File>
+    <File Include="Dashboard/default.aspx">
+      <publishTime>01/12/2020 11:58:22</publishTime>
+    </File>
+    <File Include="Dashboard/dwn_litigios.ashx">
+      <publishTime>11/23/2019 20:08:30</publishTime>
+    </File>
+    <File Include="Dashboard/font/roboto/Roboto-Bold.eot">
+      <publishTime>09/16/2019 13:56:23</publishTime>
+    </File>
+    <File Include="Dashboard/font/roboto/Roboto-Bold.ttf">
+      <publishTime>09/16/2019 13:56:23</publishTime>
+    </File>
+    <File Include="Dashboard/font/roboto/Roboto-Bold.woff">
+      <publishTime>09/16/2019 13:56:23</publishTime>
+    </File>
+    <File Include="Dashboard/font/roboto/Roboto-Bold.woff2">
+      <publishTime>09/16/2019 13:56:23</publishTime>
+    </File>
+    <File Include="Dashboard/font/roboto/Roboto-Light.eot">
+      <publishTime>09/16/2019 13:56:23</publishTime>
+    </File>
+    <File Include="Dashboard/font/roboto/Roboto-Light.ttf">
+      <publishTime>09/16/2019 13:56:23</publishTime>
+    </File>
+    <File Include="Dashboard/font/roboto/Roboto-Light.woff">
+      <publishTime>09/16/2019 13:56:23</publishTime>
+    </File>
+    <File Include="Dashboard/font/roboto/Roboto-Light.woff2">
+      <publishTime>09/16/2019 13:56:23</publishTime>
+    </File>
+    <File Include="Dashboard/font/roboto/Roboto-Medium.eot">
+      <publishTime>09/16/2019 13:56:23</publishTime>
+    </File>
+    <File Include="Dashboard/font/roboto/Roboto-Medium.ttf">
+      <publishTime>09/16/2019 13:56:23</publishTime>
+    </File>
+    <File Include="Dashboard/font/roboto/Roboto-Medium.woff">
+      <publishTime>09/16/2019 13:56:23</publishTime>
+    </File>
+    <File Include="Dashboard/font/roboto/Roboto-Medium.woff2">
+      <publishTime>09/16/2019 13:56:23</publishTime>
+    </File>
+    <File Include="Dashboard/font/roboto/Roboto-Regular.eot">
+      <publishTime>09/16/2019 13:56:23</publishTime>
+    </File>
+    <File Include="Dashboard/font/roboto/Roboto-Regular.ttf">
+      <publishTime>09/16/2019 13:56:23</publishTime>
+    </File>
+    <File Include="Dashboard/font/roboto/Roboto-Regular.woff">
+      <publishTime>09/16/2019 13:56:23</publishTime>
+    </File>
+    <File Include="Dashboard/font/roboto/Roboto-Regular.woff2">
+      <publishTime>09/16/2019 13:56:23</publishTime>
+    </File>
+    <File Include="Dashboard/font/roboto/Roboto-Thin.eot">
+      <publishTime>09/16/2019 13:56:23</publishTime>
+    </File>
+    <File Include="Dashboard/font/roboto/Roboto-Thin.ttf">
+      <publishTime>09/16/2019 13:56:23</publishTime>
+    </File>
+    <File Include="Dashboard/font/roboto/Roboto-Thin.woff">
+      <publishTime>09/16/2019 13:56:23</publishTime>
+    </File>
+    <File Include="Dashboard/font/roboto/Roboto-Thin.woff2">
+      <publishTime>09/16/2019 13:56:23</publishTime>
+    </File>
+    <File Include="Dashboard/getdeudores.asmx">
+      <publishTime>10/01/2019 22:33:50</publishTime>
+    </File>
+    <File Include="Dashboard/img/arrow-blue.png">
+      <publishTime>11/02/2019 18:57:20</publishTime>
+    </File>
+    <File Include="Dashboard/img/arrow-morado.png">
+      <publishTime>11/02/2019 18:57:36</publishTime>
+    </File>
+    <File Include="Dashboard/img/arrow-red.png">
+      <publishTime>11/02/2019 18:58:38</publishTime>
+    </File>
+    <File Include="Dashboard/img/arrow-yellow.png">
+      <publishTime>11/02/2019 18:58:22</publishTime>
+    </File>
+    <File Include="Dashboard/img/flags.png">
+      <publishTime>09/16/2019 13:56:51</publishTime>
+    </File>
+    <File Include="Dashboard/img/lightbox/default-skin.png">
+      <publishTime>09/16/2019 13:57:17</publishTime>
+    </File>
+    <File Include="Dashboard/img/lightbox/default-skin.svg">
+      <publishTime>09/16/2019 13:57:17</publishTime>
+    </File>
+    <File Include="Dashboard/img/lightbox/preloader.gif">
+      <publishTime>09/16/2019 13:57:17</publishTime>
+    </File>
+    <File Include="Dashboard/img/overlays/01.png">
+      <publishTime>09/16/2019 13:57:48</publishTime>
+    </File>
+    <File Include="Dashboard/img/overlays/02.png">
+      <publishTime>09/16/2019 13:57:48</publishTime>
+    </File>
+    <File Include="Dashboard/img/overlays/03.png">
+      <publishTime>09/16/2019 13:57:48</publishTime>
+    </File>
+    <File Include="Dashboard/img/overlays/04.png">
+      <publishTime>09/16/2019 13:57:48</publishTime>
+    </File>
+    <File Include="Dashboard/img/overlays/05.png">
+      <publishTime>09/16/2019 13:57:48</publishTime>
+    </File>
+    <File Include="Dashboard/img/overlays/06.png">
+      <publishTime>09/16/2019 13:57:48</publishTime>
+    </File>
+    <File Include="Dashboard/img/overlays/07.png">
+      <publishTime>09/16/2019 13:57:48</publishTime>
+    </File>
+    <File Include="Dashboard/img/overlays/08.png">
+      <publishTime>09/16/2019 13:57:48</publishTime>
+    </File>
+    <File Include="Dashboard/img/overlays/09.png">
+      <publishTime>09/16/2019 13:57:48</publishTime>
+    </File>
+    <File Include="Dashboard/img/pointer-blue.png">
+      <publishTime>11/02/2019 19:00:56</publishTime>
+    </File>
+    <File Include="Dashboard/img/sample.jpg">
+      <publishTime>09/16/2019 13:56:51</publishTime>
+    </File>
+    <File Include="Dashboard/img/svg/arrow_left.svg">
+      <publishTime>09/16/2019 13:58:17</publishTime>
+    </File>
+    <File Include="Dashboard/img/svg/arrow_right.svg">
+      <publishTime>09/16/2019 13:58:17</publishTime>
+    </File>
+    <File Include="Dashboard/img/svg/flags.png">
+      <publishTime>09/16/2019 13:58:17</publishTime>
+    </File>
+    <File Include="Dashboard/js/addons/datatables-select.js">
+      <publishTime>09/16/2019 13:59:28</publishTime>
+    </File>
+    <File Include="Dashboard/js/addons/datatables-select.min.js">
+      <publishTime>09/16/2019 13:59:28</publishTime>
+    </File>
+    <File Include="Dashboard/js/addons/datatables.js">
+      <publishTime>09/16/2019 13:59:28</publishTime>
+    </File>
+    <File Include="Dashboard/js/addons/datatables.min.js">
+      <publishTime>09/16/2019 13:59:28</publishTime>
+    </File>
+    <File Include="Dashboard/js/addons/imagesloaded.pkgd.min.js">
+      <publishTime>09/16/2019 13:59:28</publishTime>
+    </File>
+    <File Include="Dashboard/js/addons/jquery.zmd.hierarchical-display.js">
+      <publishTime>09/16/2019 13:59:28</publishTime>
+    </File>
+    <File Include="Dashboard/js/addons/jquery.zmd.hierarchical-display.min.js">
+      <publishTime>09/16/2019 13:59:28</publishTime>
+    </File>
+    <File Include="Dashboard/js/addons/masonry.pkgd.min.js">
+      <publishTime>09/16/2019 13:59:28</publishTime>
+    </File>
+    <File Include="Dashboard/js/addons/progressBar.js">
+      <publishTime>09/16/2019 13:59:28</publishTime>
+    </File>
+    <File Include="Dashboard/js/addons/progressBar.min.js">
+      <publishTime>09/16/2019 13:59:28</publishTime>
+    </File>
+    <File Include="Dashboard/js/addons/rating.js">
+      <publishTime>09/16/2019 13:59:28</publishTime>
+    </File>
+    <File Include="Dashboard/js/addons/rating.min.js">
+      <publishTime>09/16/2019 13:59:28</publishTime>
+    </File>
+    <File Include="Dashboard/js/autocomplete.js">
+      <publishTime>09/22/2019 17:41:36</publishTime>
+    </File>
+    <File Include="Dashboard/js/autocomplete.min.js">
+      <publishTime>09/22/2019 17:41:36</publishTime>
+    </File>
+    <File Include="Dashboard/js/bootstrap.js">
+      <publishTime>09/16/2019 13:59:13</publishTime>
+    </File>
+    <File Include="Dashboard/js/bootstrap.min.js">
+      <publishTime>09/16/2019 13:59:13</publishTime>
+    </File>
+    <File Include="Dashboard/js/jquery-3.4.1.min.js">
+      <publishTime>09/16/2019 13:59:13</publishTime>
+    </File>
+    <File Include="Dashboard/js/mdb.js">
+      <publishTime>09/16/2019 13:59:13</publishTime>
+    </File>
+    <File Include="Dashboard/js/mdb.min.js">
+      <publishTime>09/16/2019 13:59:13</publishTime>
+    </File>
+    <File Include="Dashboard/js/modules/bs-custom-file-input.js">
+      <publishTime>09/16/2019 13:59:41</publishTime>
+    </File>
+    <File Include="Dashboard/js/modules/chart.js">
+      <publishTime>09/16/2019 13:59:41</publishTime>
+    </File>
+    <File Include="Dashboard/js/modules/enhanced-modals.js">
+      <publishTime>09/16/2019 13:59:41</publishTime>
+    </File>
+    <File Include="Dashboard/js/modules/forms-free.js">
+      <publishTime>09/16/2019 13:59:42</publishTime>
+    </File>
+    <File Include="Dashboard/js/modules/jquery.easing.js">
+      <publishTime>09/16/2019 13:59:42</publishTime>
+    </File>
+    <File Include="Dashboard/js/modules/scrolling-navbar.js">
+      <publishTime>09/16/2019 13:59:42</publishTime>
+    </File>
+    <File Include="Dashboard/js/modules/treeview.js">
+      <publishTime>09/16/2019 13:59:42</publishTime>
+    </File>
+    <File Include="Dashboard/js/modules/velocity.js">
+      <publishTime>09/16/2019 13:59:42</publishTime>
+    </File>
+    <File Include="Dashboard/js/modules/velocity.min.js">
+      <publishTime>09/16/2019 13:59:42</publishTime>
+    </File>
+    <File Include="Dashboard/js/modules/waves.js">
+      <publishTime>09/16/2019 13:59:42</publishTime>
+    </File>
+    <File Include="Dashboard/js/modules/wow.js">
+      <publishTime>09/16/2019 13:59:42</publishTime>
+    </File>
+    <File Include="Dashboard/js/popper.min.js">
+      <publishTime>09/16/2019 13:59:13</publishTime>
+    </File>
+    <File Include="Dashboard/litigios.aspx">
+      <publishTime>01/12/2020 11:57:50</publishTime>
+    </File>
+    <File Include="Dashboard/mainaccess.aspx">
+      <publishTime>01/08/2020 00:33:21</publishTime>
+    </File>
+    <File Include="Dashboard/prueba.aspx">
+      <publishTime>11/19/2019 00:43:02</publishTime>
+    </File>
+    <File Include="Dashboard/prueba.html">
+      <publishTime>10/29/2019 13:39:27</publishTime>
+    </File>
+    <File Include="Dashboard/prueba2.aspx">
+      <publishTime>11/23/2019 19:07:40</publishTime>
+    </File>
+    <File Include="Dashboard/prueba3.aspx">
+      <publishTime>12/15/2019 20:34:27</publishTime>
+    </File>
+    <File Include="Dashboard/redirection.htm">
+      <publishTime>09/21/2019 11:56:39</publishTime>
+    </File>
+    <File Include="Dashboard/scss/addons/_datatables-select.scss">
+      <publishTime>09/16/2019 14:01:05</publishTime>
+    </File>
+    <File Include="Dashboard/scss/addons/_datatables.scss">
+      <publishTime>09/16/2019 14:01:05</publishTime>
+    </File>
+    <File Include="Dashboard/scss/addons/_directives.scss">
+      <publishTime>09/16/2019 14:01:05</publishTime>
+    </File>
+    <File Include="Dashboard/scss/addons/_flags.scss">
+      <publishTime>09/16/2019 14:01:05</publishTime>
+    </File>
+    <File Include="Dashboard/scss/addons/_hierarchical-display.scss">
+      <publishTime>09/16/2019 14:01:05</publishTime>
+    </File>
+    <File Include="Dashboard/scss/addons/_rating.scss">
+      <publishTime>09/16/2019 14:01:06</publishTime>
+    </File>
+    <File Include="Dashboard/scss/core/bootstrap/_functions.scss">
+      <publishTime>09/16/2019 14:01:46</publishTime>
+    </File>
+    <File Include="Dashboard/scss/core/bootstrap/_rfs.scss">
+      <publishTime>09/16/2019 14:01:46</publishTime>
+    </File>
+    <File Include="Dashboard/scss/core/bootstrap/_variables.scss">
+      <publishTime>09/16/2019 14:01:46</publishTime>
+    </File>
+    <File Include="Dashboard/scss/core/_colors.scss">
+      <publishTime>09/16/2019 14:01:19</publishTime>
+    </File>
+    <File Include="Dashboard/scss/core/_global.scss">
+      <publishTime>09/16/2019 14:01:19</publishTime>
+    </File>
+    <File Include="Dashboard/scss/core/_helpers.scss">
+      <publishTime>09/16/2019 14:01:19</publishTime>
+    </File>
+    <File Include="Dashboard/scss/core/_masks.scss">
+      <publishTime>09/16/2019 14:01:19</publishTime>
+    </File>
+    <File Include="Dashboard/scss/core/_mixins.scss">
+      <publishTime>09/16/2019 14:01:19</publishTime>
+    </File>
+    <File Include="Dashboard/scss/core/_typography.scss">
+      <publishTime>09/16/2019 14:01:19</publishTime>
+    </File>
+    <File Include="Dashboard/scss/core/_variables.scss">
+      <publishTime>09/16/2019 14:01:19</publishTime>
+    </File>
+    <File Include="Dashboard/scss/core/_waves.scss">
+      <publishTime>09/16/2019 14:01:19</publishTime>
+    </File>
+    <File Include="Dashboard/scss/free/modules/animations-extended/animations-extended.scss">
+      <publishTime>09/16/2019 14:02:57</publishTime>
+    </File>
+    <File Include="Dashboard/scss/free/modules/animations-extended/_module.scss">
+      <publishTime>09/16/2019 14:02:57</publishTime>
+    </File>
+    <File Include="Dashboard/scss/free/_animations-basic.scss">
+      <publishTime>09/16/2019 14:02:10</publishTime>
+    </File>
+    <File Include="Dashboard/scss/free/_badges.scss">
+      <publishTime>09/16/2019 14:02:10</publishTime>
+    </File>
+    <File Include="Dashboard/scss/free/_buttons.scss">
+      <publishTime>09/16/2019 14:02:10</publishTime>
+    </File>
+    <File Include="Dashboard/scss/free/_cards.scss">
+      <publishTime>09/16/2019 14:02:10</publishTime>
+    </File>
+    <File Include="Dashboard/scss/free/_carousels.scss">
+      <publishTime>09/16/2019 14:02:10</publishTime>
+    </File>
+    <File Include="Dashboard/scss/free/_depreciated.scss">
+      <publishTime>09/16/2019 14:02:10</publishTime>
+    </File>
+    <File Include="Dashboard/scss/free/_dropdowns.scss">
+      <publishTime>09/16/2019 14:02:10</publishTime>
+    </File>
+    <File Include="Dashboard/scss/free/_footers.scss">
+      <publishTime>09/16/2019 14:02:10</publishTime>
+    </File>
+    <File Include="Dashboard/scss/free/_forms.scss">
+      <publishTime>09/16/2019 14:02:10</publishTime>
+    </File>
+    <File Include="Dashboard/scss/free/_input-group.scss">
+      <publishTime>09/16/2019 14:02:10</publishTime>
+    </File>
+    <File Include="Dashboard/scss/free/_list-group.scss">
+      <publishTime>09/16/2019 14:02:10</publishTime>
+    </File>
+    <File Include="Dashboard/scss/free/_loader.scss">
+      <publishTime>09/16/2019 14:02:10</publishTime>
+    </File>
+    <File Include="Dashboard/scss/free/_modals.scss">
+      <publishTime>09/16/2019 14:02:10</publishTime>
+    </File>
+    <File Include="Dashboard/scss/free/_msc.scss">
+      <publishTime>09/16/2019 14:02:10</publishTime>
+    </File>
+    <File Include="Dashboard/scss/free/_navbars.scss">
+      <publishTime>09/16/2019 14:02:10</publishTime>
+    </File>
+    <File Include="Dashboard/scss/free/_pagination.scss">
+      <publishTime>09/16/2019 14:02:10</publishTime>
+    </File>
+    <File Include="Dashboard/scss/free/_steppers.scss">
+      <publishTime>09/16/2019 14:02:11</publishTime>
+    </File>
+    <File Include="Dashboard/scss/free/_switch.scss">
+      <publishTime>09/16/2019 14:02:11</publishTime>
+    </File>
+    <File Include="Dashboard/scss/free/_tables.scss">
+      <publishTime>09/16/2019 14:02:11</publishTime>
+    </File>
+    <File Include="Dashboard/scss/free/_treeview.scss">
+      <publishTime>09/16/2019 14:02:11</publishTime>
+    </File>
+    <File Include="Dashboard/scss/mdb.lite.scss">
+      <publishTime>09/16/2019 14:00:54</publishTime>
+    </File>
+    <File Include="Dashboard/scss/mdb.scss">
+      <publishTime>09/16/2019 14:00:54</publishTime>
+    </File>
+    <File Include="Dashboard/scss/_custom-styles.scss">
+      <publishTime>09/16/2019 14:00:54</publishTime>
+    </File>
+    <File Include="Dashboard/scss/_custom-variables.scss">
+      <publishTime>09/16/2019 14:00:54</publishTime>
+    </File>
+    <File Include="Dashboard/widgets.aspx">
+      <publishTime>09/17/2019 11:02:46</publishTime>
+    </File>
+    <File Include="dbtlatamconn.asmx">
+      <publishTime>10/11/2019 01:28:31</publishTime>
     </File>
     <File Include="Default.aspx">
       <publishTime>09/24/2016 18:39:40</publishTime>
@@ -464,6 +1034,66 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="FileContent.ashx">
       <publishTime>04/04/2011 19:28:08</publishTime>
+    </File>
+    <File Include="font/roboto/Roboto-Bold.eot">
+      <publishTime>10/26/2019 21:30:36</publishTime>
+    </File>
+    <File Include="font/roboto/Roboto-Bold.ttf">
+      <publishTime>10/26/2019 21:30:36</publishTime>
+    </File>
+    <File Include="font/roboto/Roboto-Bold.woff">
+      <publishTime>10/26/2019 21:30:36</publishTime>
+    </File>
+    <File Include="font/roboto/Roboto-Bold.woff2">
+      <publishTime>10/26/2019 21:30:36</publishTime>
+    </File>
+    <File Include="font/roboto/Roboto-Light.eot">
+      <publishTime>10/26/2019 21:30:36</publishTime>
+    </File>
+    <File Include="font/roboto/Roboto-Light.ttf">
+      <publishTime>10/26/2019 21:30:36</publishTime>
+    </File>
+    <File Include="font/roboto/Roboto-Light.woff">
+      <publishTime>10/26/2019 21:30:36</publishTime>
+    </File>
+    <File Include="font/roboto/Roboto-Light.woff2">
+      <publishTime>10/26/2019 21:30:36</publishTime>
+    </File>
+    <File Include="font/roboto/Roboto-Medium.eot">
+      <publishTime>10/26/2019 21:30:36</publishTime>
+    </File>
+    <File Include="font/roboto/Roboto-Medium.ttf">
+      <publishTime>10/26/2019 21:30:36</publishTime>
+    </File>
+    <File Include="font/roboto/Roboto-Medium.woff">
+      <publishTime>10/26/2019 21:30:36</publishTime>
+    </File>
+    <File Include="font/roboto/Roboto-Medium.woff2">
+      <publishTime>10/26/2019 21:30:36</publishTime>
+    </File>
+    <File Include="font/roboto/Roboto-Regular.eot">
+      <publishTime>10/26/2019 21:30:36</publishTime>
+    </File>
+    <File Include="font/roboto/Roboto-Regular.ttf">
+      <publishTime>10/26/2019 21:30:36</publishTime>
+    </File>
+    <File Include="font/roboto/Roboto-Regular.woff">
+      <publishTime>10/26/2019 21:30:36</publishTime>
+    </File>
+    <File Include="font/roboto/Roboto-Regular.woff2">
+      <publishTime>10/26/2019 21:30:36</publishTime>
+    </File>
+    <File Include="font/roboto/Roboto-Thin.eot">
+      <publishTime>10/26/2019 21:30:36</publishTime>
+    </File>
+    <File Include="font/roboto/Roboto-Thin.ttf">
+      <publishTime>10/26/2019 21:30:36</publishTime>
+    </File>
+    <File Include="font/roboto/Roboto-Thin.woff">
+      <publishTime>10/26/2019 21:30:36</publishTime>
+    </File>
+    <File Include="font/roboto/Roboto-Thin.woff2">
+      <publishTime>10/26/2019 21:30:36</publishTime>
     </File>
     <File Include="fonts/fontawesome.eot">
       <publishTime>05/11/2017 00:48:00</publishTime>
@@ -492,6 +1122,66 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="fonts/readme.md">
       <publishTime>05/11/2017 00:48:03</publishTime>
     </File>
+    <File Include="fonts/roboto/Roboto-Bold.eot">
+      <publishTime>10/26/2019 21:28:34</publishTime>
+    </File>
+    <File Include="fonts/roboto/Roboto-Bold.ttf">
+      <publishTime>10/26/2019 21:28:34</publishTime>
+    </File>
+    <File Include="fonts/roboto/Roboto-Bold.woff">
+      <publishTime>10/26/2019 21:28:34</publishTime>
+    </File>
+    <File Include="fonts/roboto/Roboto-Bold.woff2">
+      <publishTime>10/26/2019 21:28:34</publishTime>
+    </File>
+    <File Include="fonts/roboto/Roboto-Light.eot">
+      <publishTime>10/26/2019 21:28:34</publishTime>
+    </File>
+    <File Include="fonts/roboto/Roboto-Light.ttf">
+      <publishTime>10/26/2019 21:28:34</publishTime>
+    </File>
+    <File Include="fonts/roboto/Roboto-Light.woff">
+      <publishTime>10/26/2019 21:28:34</publishTime>
+    </File>
+    <File Include="fonts/roboto/Roboto-Light.woff2">
+      <publishTime>10/26/2019 21:28:34</publishTime>
+    </File>
+    <File Include="fonts/roboto/Roboto-Medium.eot">
+      <publishTime>10/26/2019 21:28:34</publishTime>
+    </File>
+    <File Include="fonts/roboto/Roboto-Medium.ttf">
+      <publishTime>10/26/2019 21:28:34</publishTime>
+    </File>
+    <File Include="fonts/roboto/Roboto-Medium.woff">
+      <publishTime>10/26/2019 21:28:34</publishTime>
+    </File>
+    <File Include="fonts/roboto/Roboto-Medium.woff2">
+      <publishTime>10/26/2019 21:28:34</publishTime>
+    </File>
+    <File Include="fonts/roboto/Roboto-Regular.eot">
+      <publishTime>10/26/2019 21:28:34</publishTime>
+    </File>
+    <File Include="fonts/roboto/Roboto-Regular.ttf">
+      <publishTime>10/26/2019 21:28:34</publishTime>
+    </File>
+    <File Include="fonts/roboto/Roboto-Regular.woff">
+      <publishTime>10/26/2019 21:28:34</publishTime>
+    </File>
+    <File Include="fonts/roboto/Roboto-Regular.woff2">
+      <publishTime>10/26/2019 21:28:34</publishTime>
+    </File>
+    <File Include="fonts/roboto/Roboto-Thin.eot">
+      <publishTime>10/26/2019 21:28:34</publishTime>
+    </File>
+    <File Include="fonts/roboto/Roboto-Thin.ttf">
+      <publishTime>10/26/2019 21:28:34</publishTime>
+    </File>
+    <File Include="fonts/roboto/Roboto-Thin.woff">
+      <publishTime>10/26/2019 21:28:34</publishTime>
+    </File>
+    <File Include="fonts/roboto/Roboto-Thin.woff2">
+      <publishTime>10/26/2019 21:28:34</publishTime>
+    </File>
     <File Include="frame.aspx">
       <publishTime>01/21/2011 10:09:46</publishTime>
     </File>
@@ -519,11 +1209,20 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="images/background_loginadm.jpg">
       <publishTime>01/28/2017 11:03:39</publishTime>
     </File>
+    <File Include="images/barrasuperior_dash.png">
+      <publishTime>12/17/2019 00:17:46</publishTime>
+    </File>
+    <File Include="images/barrasuperior_menu.png">
+      <publishTime>01/08/2020 01:02:54</publishTime>
+    </File>
     <File Include="images/bg1.jpg">
       <publishTime>09/13/2016 00:10:31</publishTime>
     </File>
     <File Include="images/bg2.jpg">
       <publishTime>09/13/2016 00:10:31</publishTime>
+    </File>
+    <File Include="images/bkg_login.jpg">
+      <publishTime>11/20/2019 22:30:50</publishTime>
     </File>
     <File Include="images/blank.gif">
       <publishTime>09/13/2016 00:10:31</publishTime>
@@ -557,6 +1256,45 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="images/favicon.ico">
       <publishTime>09/11/2016 21:35:27</publishTime>
+    </File>
+    <File Include="images/fondo0.jpg">
+      <publishTime>09/20/2019 17:59:11</publishTime>
+    </File>
+    <File Include="images/fondo10.jpg">
+      <publishTime>01/03/2020 02:04:49</publishTime>
+    </File>
+    <File Include="images/fondo11.jpg">
+      <publishTime>01/03/2020 02:04:49</publishTime>
+    </File>
+    <File Include="images/fondo12.jpg">
+      <publishTime>01/03/2020 02:04:49</publishTime>
+    </File>
+    <File Include="images/fondo13.jpg">
+      <publishTime>01/03/2020 02:04:49</publishTime>
+    </File>
+    <File Include="images/fondo14.jpg">
+      <publishTime>01/04/2020 13:53:51</publishTime>
+    </File>
+    <File Include="images/fondo2.jpg">
+      <publishTime>01/03/2020 00:38:16</publishTime>
+    </File>
+    <File Include="images/fondo3.jpg">
+      <publishTime>01/03/2020 00:38:16</publishTime>
+    </File>
+    <File Include="images/fondo4.jpg">
+      <publishTime>09/20/2019 17:59:11</publishTime>
+    </File>
+    <File Include="images/fondo5.jpeg">
+      <publishTime>09/20/2019 17:59:11</publishTime>
+    </File>
+    <File Include="images/fondo6.jpg">
+      <publishTime>09/20/2019 17:59:11</publishTime>
+    </File>
+    <File Include="images/fondo8.jpg">
+      <publishTime>09/20/2019 17:59:11</publishTime>
+    </File>
+    <File Include="images/fondo9.jpg">
+      <publishTime>09/20/2019 17:59:11</publishTime>
     </File>
     <File Include="images/form-loader.gif">
       <publishTime>09/13/2016 00:10:31</publishTime>
@@ -599,6 +1337,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="images/logodebtcontrol.png">
       <publishTime>12/14/2018 01:05:07</publishTime>
+    </File>
+    <File Include="images/logofull.jpg">
+      <publishTime>01/04/2020 13:53:51</publishTime>
     </File>
     <File Include="images/logo_footer.png">
       <publishTime>09/13/2016 00:10:31</publishTime>
@@ -719,6 +1460,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="images/quote_sign.png">
       <publishTime>09/13/2016 00:10:32</publishTime>
+    </File>
+    <File Include="images/security.jpg">
+      <publishTime>12/17/2019 22:21:49</publishTime>
     </File>
     <File Include="images/select.png">
       <publishTime>09/13/2016 00:10:32</publishTime>
@@ -1047,8 +1791,14 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Perfiles.aspx">
       <publishTime>02/01/2017 22:46:29</publishTime>
     </File>
+    <File Include="Portal.aspx">
+      <publishTime>10/01/2019 00:42:59</publishTime>
+    </File>
     <File Include="PreguntaRanking.aspx">
       <publishTime>05/31/2012 14:10:34</publishTime>
+    </File>
+    <File Include="prueba2.aspx">
+      <publishTime>11/23/2019 18:45:07</publishTime>
     </File>
     <File Include="Ranking.aspx">
       <publishTime>02/01/2017 22:47:13</publishTime>
@@ -1060,79 +1810,79 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/18/2011 16:35:40</publishTime>
     </File>
     <File Include="Reporting/app_antiguedad_deuda_fin.aspx">
-      <publishTime>11/24/2018 12:43:31</publishTime>
+      <publishTime>01/05/2020 18:09:30</publishTime>
     </File>
     <File Include="Reporting/app_cartola_find.aspx">
-      <publishTime>07/16/2018 15:59:08</publishTime>
+      <publishTime>01/05/2020 18:09:37</publishTime>
     </File>
     <File Include="Reporting/app_cli_retenidos_bus.aspx">
-      <publishTime>11/24/2018 12:47:02</publishTime>
+      <publishTime>01/05/2020 18:09:42</publishTime>
     </File>
     <File Include="Reporting/app_cntrl_sol_not_crtd_find.aspx">
-      <publishTime>11/24/2018 12:39:43</publishTime>
+      <publishTime>01/05/2020 18:09:48</publishTime>
     </File>
     <File Include="Reporting/app_comportamiento_pago_find.aspx">
-      <publishTime>11/03/2018 15:54:41</publishTime>
+      <publishTime>01/05/2020 18:09:53</publishTime>
     </File>
     <File Include="Reporting/app_contactos_deudor_find.aspx">
-      <publishTime>11/27/2018 23:28:21</publishTime>
+      <publishTime>01/05/2020 18:09:59</publishTime>
     </File>
     <File Include="Reporting/app_control_metas_real_find.aspx">
-      <publishTime>11/24/2018 00:04:26</publishTime>
+      <publishTime>01/05/2020 18:10:05</publishTime>
     </File>
     <File Include="Reporting/app_cop_ced_bod_find.aspx">
-      <publishTime>11/24/2018 12:42:21</publishTime>
+      <publishTime>01/05/2020 18:10:12</publishTime>
     </File>
     <File Include="Reporting/app_cta_cte_find.aspx">
-      <publishTime>07/16/2018 16:00:50</publishTime>
+      <publishTime>01/05/2020 18:10:17</publishTime>
     </File>
     <File Include="Reporting/app_det_ent_doctos _find.aspx">
-      <publishTime>11/24/2018 12:37:02</publishTime>
+      <publishTime>01/05/2020 18:10:22</publishTime>
     </File>
     <File Include="Reporting/app_dist_ret_doc_find.aspx">
-      <publishTime>11/08/2018 00:41:31</publishTime>
+      <publishTime>01/05/2020 18:10:28</publishTime>
     </File>
     <File Include="Reporting/app_documentos_litigio_find.aspx">
-      <publishTime>11/26/2018 23:18:21</publishTime>
+      <publishTime>01/05/2020 18:10:34</publishTime>
     </File>
     <File Include="Reporting/app_facturas_vencidas_find.aspx">
-      <publishTime>01/26/2019 14:04:54</publishTime>
+      <publishTime>01/05/2020 18:10:39</publishTime>
     </File>
     <File Include="Reporting/app_historico_pago_find.aspx">
-      <publishTime>06/29/2019 19:18:03</publishTime>
+      <publishTime>01/05/2020 18:10:45</publishTime>
     </File>
     <File Include="Reporting/app_indicadores_efectividad_find.aspx">
-      <publishTime>11/24/2018 12:44:16</publishTime>
+      <publishTime>01/05/2020 18:10:50</publishTime>
     </File>
     <File Include="Reporting/app_mov_carg_cart_find.aspx">
-      <publishTime>07/16/2018 16:01:43</publishTime>
+      <publishTime>01/05/2020 18:10:59</publishTime>
     </File>
     <File Include="Reporting/app_promesas_pagos_find.aspx">
-      <publishTime>11/24/2018 12:35:45</publishTime>
+      <publishTime>01/05/2020 18:11:05</publishTime>
     </File>
     <File Include="Reporting/app_proyeccion_pago_find.aspx">
-      <publishTime>11/24/2018 12:34:43</publishTime>
+      <publishTime>01/05/2020 18:11:12</publishTime>
     </File>
     <File Include="Reporting/app_rep_chq_fecha_find.aspx">
-      <publishTime>11/24/2018 12:32:41</publishTime>
+      <publishTime>01/05/2020 18:11:19</publishTime>
     </File>
     <File Include="Reporting/app_rep_cli_riesgosos_bus.aspx">
-      <publishTime>11/24/2018 18:13:24</publishTime>
+      <publishTime>01/05/2020 18:11:24</publishTime>
     </File>
     <File Include="Reporting/app_rep_lit_por_motivo_find.aspx">
-      <publishTime>11/24/2018 12:54:10</publishTime>
+      <publishTime>01/05/2020 18:11:30</publishTime>
     </File>
     <File Include="Reporting/app_rep_mot_no_pago_find.aspx">
-      <publishTime>11/24/2018 12:45:48</publishTime>
+      <publishTime>01/05/2020 18:11:36</publishTime>
     </File>
     <File Include="Reporting/app_rep_rut_cobranza_find.aspx">
-      <publishTime>07/16/2018 16:02:24</publishTime>
+      <publishTime>01/05/2020 18:09:24</publishTime>
     </File>
     <File Include="Reporting/app_resumen_cobranza_find.aspx">
-      <publishTime>11/24/2018 12:31:25</publishTime>
+      <publishTime>01/05/2020 18:02:08</publishTime>
     </File>
     <File Include="Reporting/app_seg_deudores_find.aspx">
-      <publishTime>01/26/2019 13:34:56</publishTime>
+      <publishTime>01/05/2020 18:11:46</publishTime>
     </File>
     <File Include="Reporting/app_show_analistas.aspx">
       <publishTime>11/01/2018 15:41:11</publishTime>
@@ -1150,16 +1900,19 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/03/2016 18:49:21</publishTime>
     </File>
     <File Include="Reporting/app_sob_lin_credito_bus.aspx">
-      <publishTime>11/24/2018 12:48:31</publishTime>
+      <publishTime>01/05/2020 18:11:55</publishTime>
     </File>
     <File Include="Reporting/default.aspx">
       <publishTime>07/04/2018 22:36:40</publishTime>
     </File>
     <File Include="Reporting/Login.aspx">
-      <publishTime>10/29/2016 18:42:31</publishTime>
+      <publishTime>01/09/2020 02:06:16</publishTime>
     </File>
     <File Include="Reporting/redirection.htm">
       <publishTime>10/30/2018 12:42:54</publishTime>
+    </File>
+    <File Include="Reporting/test.html">
+      <publishTime>12/18/2019 00:00:20</publishTime>
     </File>
     <File Include="Reporting/WebForm.aspx">
       <publishTime>12/02/2017 01:05:30</publishTime>
@@ -1559,6 +2312,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="TestSlider.aspx">
       <publishTime>09/14/2012 17:36:14</publishTime>
+    </File>
+    <File Include="tipo_cambio.aspx">
+      <publishTime>10/27/2019 18:19:04</publishTime>
     </File>
     <File Include="Upload.aspx">
       <publishTime>03/07/2011 12:19:48</publishTime>

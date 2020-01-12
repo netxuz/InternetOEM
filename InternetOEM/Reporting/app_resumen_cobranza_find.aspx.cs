@@ -32,13 +32,13 @@ namespace ICommunity.Reporting
       oIsUsuario = oWeb.GetObjUsuario();
 
       DateTime dTimeNow = DateTime.Now;
-      getMenu(idReportePago, oIsUsuario.CodUsuario, "1");
-      getMenu(idProcesoSeguimiento, oIsUsuario.CodUsuario, "2");
-      getMenu(idCartolas, oIsUsuario.CodUsuario, "3");
-      getMenu(idProcesoNormalizacion, oIsUsuario.CodUsuario, "4");
-      getMenu(idIndicadoresClaves, oIsUsuario.CodUsuario, "5");
-      getMenu(IndClasificacionRiesgo, oIsUsuario.CodUsuario, "6");
-      getMenuAntalis(indAntalis, oIsUsuario.CodUsuario);
+      //getMenu(idReportePago, oIsUsuario.CodUsuario, "1");
+      //getMenu(idProcesoSeguimiento, oIsUsuario.CodUsuario, "2");
+      //getMenu(idCartolas, oIsUsuario.CodUsuario, "3");
+      //getMenu(idProcesoNormalizacion, oIsUsuario.CodUsuario, "4");
+      //getMenu(idIndicadoresClaves, oIsUsuario.CodUsuario, "5");
+      //getMenu(IndClasificacionRiesgo, oIsUsuario.CodUsuario, "6");
+      //getMenuAntalis(indAntalis, oIsUsuario.CodUsuario);
 
       DBConn oConn = new DBConn();
       if (oConn.Open())
@@ -328,6 +328,13 @@ namespace ICommunity.Reporting
         rdGridResumenCobranza.MasterTableView.GetColumn("ncodholding").Display = false;
       }
 
+    }
+
+    protected void bnt_logout_Click(object sender, EventArgs e)
+    {
+      Session["USUARIO"] = string.Empty;
+      Session["CodUsuarioPerfil"] = string.Empty;
+      Response.Redirect("/");
     }
   }
 }

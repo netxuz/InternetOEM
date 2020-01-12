@@ -77,6 +77,9 @@ namespace OnlineServices.Antalis
     private string pIndNewGuia;
     public string IndNewGuia { get { return pIndNewGuia; } set { pIndNewGuia = value; } }
 
+    public bool bIndNoHijo;
+    public bool IndNoHijo { get { return bIndNoHijo; } set { bIndNoHijo = value; } }
+
     private string pAccion;
     public string Accion { get { return pAccion; } set { pAccion = value; } }
 
@@ -217,6 +220,13 @@ namespace OnlineServices.Antalis
           Condicion = " and ";
           cSQL.Append(" a.cuenta_corriente = @cuenta_corriente  ");
           oParam.AddParameters("@cuenta_corriente", pCuentaCorriente, TypeSQL.Varchar);
+        }
+
+        if (bIndNoHijo) {
+          cSQL.Append(Condicion);
+          Condicion = " and ";
+          cSQL.Append(" nod_cod_documento is null ");
+
         }
 
         dtData = oConn.Select(cSQL.ToString(), oParam);
@@ -422,6 +432,30 @@ namespace OnlineServices.Antalis
           pError = Ex.Message;
         }
       }
+    }
+
+    public DataTable GetValDoc() {
+      oParam = new DBConn.SQLParameters(3);
+      DataTable dtData;
+      StringBuilder cSQL;
+      string Condicion = " where ";
+
+      if (oConn.bIsOpen)
+      {
+        cSQL = new StringBuilder();
+        cSQL.Append(" select imagen_frente, imagen_atras, valida_cheque, valida_banco, valida_monto, valida_cuenta, valida_cantidad ");
+        cSQL.Append(" from escaner_valija where cod_documento in(select cod_documento from ant_documentos_pago where cod_documento = @cod_documento) ");
+        oParam.AddParameters("@cod_documento", pCodDocumento, TypeSQL.Varchar);
+
+        dtData = oConn.Select(cSQL.ToString(), oParam);
+        pError = oConn.Error;
+        return dtData;
+      }
+      else {
+        pError = "Conexion Cerrada";
+        return null;
+      }
+
     }
 
   }

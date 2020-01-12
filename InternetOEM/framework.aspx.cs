@@ -103,7 +103,12 @@ namespace ICommunity
 
           rdMenu = new RadMenuItem();
           rdMenu.Text = "EMAIL";
-          rdMenu.CssClass = "mn-superior";
+          rdMenu.CssClass = "mn-superiordos";
+          rdSubMenu.Items.Add(rdMenu);
+
+          rdMenu = new RadMenuItem();
+          rdMenu.Text = "TIPO CAMBIO";
+          rdMenu.CssClass = "mn-superiordos";
           rdSubMenu.Items.Add(rdMenu);
           break;
         case "APLICACIONES":
@@ -208,6 +213,9 @@ namespace ICommunity
           break;
         case "CONSULTA DE LOG'S":
           rpnNavigate.ContentUrl = "consulta_logs.aspx";
+          break;
+        case "TIPO CAMBIO":
+          rpnNavigate.ContentUrl = "tipo_cambio.aspx";
           break;
       }
     }

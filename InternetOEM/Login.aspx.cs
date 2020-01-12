@@ -26,7 +26,7 @@ namespace ICommunity
     {
       if (!IsPostBack)
       {
-        lLogin .Text = oCulture.GetResource("LoginUsers", "lblLogin");
+        lLogin.Text = oCulture.GetResource("LoginUsers", "lblLogin");
         lPassword.Text = oCulture.GetResource("LoginUsers", "txtPassword");
         btnAceptar.Text = oCulture.GetResource("Global", "btnAceptar");
       }
@@ -67,16 +67,19 @@ namespace ICommunity
                 {
                   dExito = true;
                   Session["Administrador"] = "1";
-                }else
+                }
+                else
                   sMsnLogin = oCulture.GetResource("LoginUsers", "MsnLoggin02");
               dPerfilesUsuarios = null;
             }
-            else {
+            else
+            {
               sMsnLogin = oCulture.GetResource("LoginUsers", "MsnLoggin01");
             }
         dUsuario = null;
         oConn.Close();
-      }else
+      }
+      else
         sMsnLogin = oCulture.GetResource("LoginUsers", "MsnLoggin03");
 
       if (!dExito)

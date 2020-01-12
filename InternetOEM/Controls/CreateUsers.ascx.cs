@@ -157,6 +157,7 @@ namespace ICommunity.Controls
               txtNumeroCliente.Text = dUsuario.Rows[0]["nkey_user"].ToString();
 
               btnNKeyCliente.Visible = true;
+              btnHolding.Visible = true;
             }
           }
         }
@@ -853,6 +854,11 @@ namespace ICommunity.Controls
     protected void btnNKeyCliente_Click(object sender, EventArgs e)
     {
       Response.Redirect("AsociaCliente.aspx?CodUsuario=" + CodUsuario.Value);
+    }
+
+    protected void btnHolding_Click(object sender, EventArgs e)
+    {
+      Response.Redirect("AsociaHolding.aspx?CodUsuario=" + CodUsuario.Value);
     }
   }
 

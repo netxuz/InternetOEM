@@ -59,6 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="cMonedas.cs" />
     <Compile Include="ObjectModel.cs" />
     <Compile Include="SyrCampoOpciones.cs" />
     <Compile Include="SyrInfoUsuarios.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="SysComentarioUsuario.cs" />
     <Compile Include="SysEmailToUser.cs" />
     <Compile Include="SysGrupos.cs" />
+    <Compile Include="SysHoldingCliente.cs" />
     <Compile Include="SysLog.cs" />
     <Compile Include="SysOpcionesCampo.cs" />
     <Compile Include="SysParamEmail.cs" />

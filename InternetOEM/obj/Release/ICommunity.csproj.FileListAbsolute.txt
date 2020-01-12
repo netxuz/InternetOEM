@@ -18,7 +18,6 @@ C:\Personal\Website\InternetOEM\InternetOEM\obj\Release\ICommunity.App_GlobalRes
 C:\Personal\Website\InternetOEM\InternetOEM\obj\Release\ICommunity.csproj.GenerateResource.Cache
 C:\Personal\Website\InternetOEM\InternetOEM\obj\Release\ICommunity.dll
 C:\Personal\Website\InternetOEM\InternetOEM\obj\Release\ICommunity.pdb
-C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\Select.HtmlToPdf.dll
 C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\ICommunity.dll.config
 C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\ICommunity.dll
 C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\ICommunity.pdb
@@ -37,10 +36,12 @@ C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\OnlineServices.AppData.dll
 C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\OnlineServices.AppRuta.dll
 C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\OnlineServices.CmsData.dll
 C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\OnlineServices.Conn.dll
+C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\OnlineServices.Dashboard.dll
 C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\OnlineServices.Method.dll
 C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\OnlineServices.Reporting.dll
 C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\OnlineServices.SystemData.dll
 C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\OnlineServices.Web.UI.dll
+C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\Select.HtmlToPdf.dll
 C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\System.Web.Helpers.dll
 C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\System.Web.Mvc.dll
 C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\System.Web.Optimization.dll
@@ -62,6 +63,7 @@ C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\OnlineServices.AppData.pdb
 C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\OnlineServices.AppRuta.pdb
 C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\OnlineServices.CmsData.pdb
 C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\OnlineServices.Conn.pdb
+C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\OnlineServices.Dashboard.pdb
 C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\OnlineServices.Method.pdb
 C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\OnlineServices.Reporting.pdb
 C:\Proyectos\DebtControl\InternetOEM\InternetOEM\bin\OnlineServices.SystemData.pdb

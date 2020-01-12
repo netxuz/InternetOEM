@@ -27,14 +27,14 @@ namespace ICommunity.Antalis
     protected void Page_Load(object sender, EventArgs e)
     {
       oIsUsuario = oWeb.ValidaUserAppReport();
-      getMenu(idReportePago, oIsUsuario.CodUsuario, "1");
-      getMenu(idProcesoSeguimiento, oIsUsuario.CodUsuario, "2");
-      getMenu(idCartolas, oIsUsuario.CodUsuario, "3");
-      getMenu(idProcesoNormalizacion, oIsUsuario.CodUsuario, "4");
-      getMenu(idIndicadoresClaves, oIsUsuario.CodUsuario, "5");
-      getMenu(IndClasificacionRiesgo, oIsUsuario.CodUsuario, "6");
+      //getMenu(idReportePago, oIsUsuario.CodUsuario, "1");
+      //getMenu(idProcesoSeguimiento, oIsUsuario.CodUsuario, "2");
+      //getMenu(idCartolas, oIsUsuario.CodUsuario, "3");
+      //getMenu(idProcesoNormalizacion, oIsUsuario.CodUsuario, "4");
+      //getMenu(idIndicadoresClaves, oIsUsuario.CodUsuario, "5");
+      //getMenu(IndClasificacionRiesgo, oIsUsuario.CodUsuario, "6");
 
-      getMenuAntalis(indAntalis, oIsUsuario.CodUsuario);
+      //getMenuAntalis(indAntalis, oIsUsuario.CodUsuario);
 
       if (!IsPostBack)
       {
@@ -84,7 +84,7 @@ namespace ICommunity.Antalis
                   lblTitulo = "VALIDACIÓN DE RECAUDACIÓN DE PAGOS / CHEQUES AL DÍA";
                   break;
                 case "2":
-                  lblTitulo = "VALIDACIÓN DE RECAUDACIÓN DE PAGOS / CHEQUES AL FECHA";
+                  lblTitulo = "VALIDACIÓN DE RECAUDACIÓN DE PAGOS / CHEQUES A FECHA";
                   break;
                 case "4":
                   lblTitulo = "VALIDACIÓN DE RECAUDACIÓN DE PAGOS / LETRA";
@@ -185,6 +185,7 @@ namespace ICommunity.Antalis
       {
         cAntDocumentosPago oDocumentosPago = new cAntDocumentosPago(ref oConn);
         oDocumentosPago.CodPagos = hdd_cod_pago.Value;
+        //oDocumentosPago.IndNoHijo = true;
         DataTable dt = oDocumentosPago.GetDocFacturas();
         gdPagos.DataSource = dt;
         gdPagos.DataBind();
@@ -196,7 +197,7 @@ namespace ICommunity.Antalis
             lblCantidad.Text = string.Format("{0:N0}", dt.Compute("COUNT(cod_documento)", " nod_cod_documento is null "));
 
             string iImporteTotal = dt.Compute("SUM(importe)", string.Empty).ToString();
-            lblMonto.Text = string.Format("{0:N0}",int.Parse(iImporteTotal));
+            lblMonto.Text = string.Format("{0:N0}", int.Parse(iImporteTotal));
 
             string iImporteTotalRecibido = (!string.IsNullOrEmpty(dt.Compute("SUM(importe_recibido)", string.Empty).ToString()) ? dt.Compute("SUM(importe_recibido)", string.Empty).ToString() : "0");
             lblImporteTotalRecibido.Text = string.Format("{0:N0}", int.Parse(iImporteTotalRecibido));
@@ -234,6 +235,7 @@ namespace ICommunity.Antalis
     {
       if (e.Row.RowType == DataControlRowType.DataRow)
       {
+        string cCodDocumento = gdPagos.DataKeys[e.Row.RowIndex].Values["cod_documento"].ToString();
         string sNodCodDocumento = gdPagos.DataKeys[e.Row.RowIndex].Values["nod_cod_documento"].ToString();
         foreach (DataControlFieldCell cell in e.Row.Cells)
         {
@@ -243,12 +245,126 @@ namespace ICommunity.Antalis
             if ((BtnlnkSI != null) && (BtnlnkSI.CommandName == "SI") && (!string.IsNullOrEmpty(sNodCodDocumento)))
             {
               BtnlnkSI.Visible = false;
-            }else if ((BtnlnkSI != null) && (BtnlnkSI.CommandName == "NO") && (!string.IsNullOrEmpty(sNodCodDocumento)))
+            }
+            else if ((BtnlnkSI != null) && (BtnlnkSI.CommandName == "NO") && (!string.IsNullOrEmpty(sNodCodDocumento)))
             {
               BtnlnkSI.Visible = false;
             }
           }
         }
+
+        DBConn oConn = new DBConn();
+        if (oConn.Open())
+        {
+          cAntDocumentosPago oAntDocumentosPago = new cAntDocumentosPago(ref oConn);
+          oAntDocumentosPago.CodDocumento = cCodDocumento;
+          DataTable dt = oAntDocumentosPago.GetValDoc();
+
+          if (dt != null)
+          {
+            if (dt.Rows.Count > 0)
+            {
+              if (!string.IsNullOrEmpty(dt.Rows[0]["valida_cheque"].ToString()))
+              {
+                if (dt.Rows[0]["valida_cheque"].ToString() == "1")
+                {
+                  e.Row.Cells[3].CssClass = "green_text";
+                }
+                else
+                {
+                  e.Row.Cells[3].CssClass = "red_text";
+                }
+              }
+              else { e.Row.Cells[3].CssClass = "blue_text"; }
+
+              if ((!string.IsNullOrEmpty(e.Row.Cells[15].Text.ToString())) && (e.Row.Cells[15].Text.ToString() != "&nbsp;"))
+              {
+                if (!string.IsNullOrEmpty(dt.Rows[0]["valida_cuenta"].ToString()))
+                {
+                  if (dt.Rows[0]["valida_cuenta"].ToString() == "1")
+                  {
+                    e.Row.Cells[5].CssClass = "green_text";
+                  }
+                  else
+                  {
+                    e.Row.Cells[5].CssClass = "red_text";
+                  }
+                }
+                else { e.Row.Cells[5].CssClass = "blue_text"; }
+              }
+
+
+              if (!string.IsNullOrEmpty(dt.Rows[0]["valida_banco"].ToString()))
+              {
+                if (dt.Rows[0]["valida_banco"].ToString() == "1")
+                {
+                  e.Row.Cells[7].CssClass = "green_text";
+                }
+                else
+                {
+                  e.Row.Cells[7].CssClass = "red_text";
+                }
+              }
+              else { e.Row.Cells[7].CssClass = "blue_text"; }
+
+
+              if ((!string.IsNullOrEmpty(e.Row.Cells[15].Text.ToString())) && (e.Row.Cells[15].Text.ToString() != "&nbsp;"))
+              {
+                if (!string.IsNullOrEmpty(dt.Rows[0]["valida_monto"].ToString()))
+                {
+                  if (dt.Rows[0]["valida_monto"].ToString() == "1")
+                  {
+                    e.Row.Cells[8].CssClass = "green_text";
+                  }
+                  else
+                  {
+                    e.Row.Cells[8].CssClass = "red_text";
+                  }
+                }
+                else { e.Row.Cells[8].CssClass = "blue_text"; }
+              }
+
+              if (!string.IsNullOrEmpty(dt.Rows[0]["imagen_frente"].ToString()))
+              {
+                e.Row.Cells[13].CssClass = "green_text";
+              }
+              else { e.Row.Cells[13].CssClass = "blue_text"; }
+
+
+              foreach (DataControlFieldCell cell in e.Row.Cells)
+              {
+                foreach (Control control in cell.Controls)
+                {
+                  HyperLink btn_img = control as HyperLink;
+                  if ((btn_img != null) && (btn_img.ID == "btn_img_frente"))
+                  {
+                    btn_img.NavigateUrl = "https://www.dbtlatam.com/cheques/antalis/" + dt.Rows[0]["imagen_frente"].ToString();
+                    btn_img.Attributes.Add("data-fancybox", string.Empty);
+
+                  }
+                  else if ((btn_img != null) && (btn_img.ID == "btn_img_atras"))
+                  {
+                    btn_img.NavigateUrl = "https://www.dbtlatam.com/cheques/antalis/" + dt.Rows[0]["imagen_atras"].ToString();
+                    btn_img.Attributes.Add("data-fancybox", string.Empty);
+
+                  }
+                }
+              }
+
+            }
+            else
+            {
+              e.Row.Cells[3].CssClass = "blue_text";
+              e.Row.Cells[5].CssClass = "blue_text";
+              e.Row.Cells[7].CssClass = "blue_text";
+              e.Row.Cells[8].CssClass = "blue_text";
+              e.Row.Cells[13].CssClass = "blue_text";
+            }
+          }
+          dt = null;
+
+        }
+        oConn.Close();
 
         //e.Row.Cells[2].Text = ((e.Row.Cells[13].Text.ToString() != "0") && (e.Row.Cells[14].Text.ToString() != "0") ? "FNC" : ((e.Row.Cells[13].Text.ToString() != "0") ? "F" : "NC"));
         e.Row.Cells[2].Text = getTipoDoc(hdd_tipo_documento.Value);
@@ -261,7 +377,6 @@ namespace ICommunity.Antalis
 
             if (e.Row.Cells[7].Text.ToString() != "&nbsp;")
             {
-              DBConn oConn = new DBConn();
               if (oConn.Open())
               {
                 cAntBancos oBancos = new cAntBancos(ref oConn);
@@ -271,7 +386,7 @@ namespace ICommunity.Antalis
                 {
                   if (dt.Rows.Count > 0)
                   {
-                    e.Row.Cells[7].Text = e.Row.Cells[7].Text.ToString() + " - " + dt.Rows[0]["snombre"].ToString();
+                    e.Row.Cells[7].Text = dt.Rows[0]["ncod"].ToString() + " - " + dt.Rows[0]["snombre"].ToString();
                   }
                 }
                 dt = null;
@@ -470,12 +585,12 @@ namespace ICommunity.Antalis
               {
                 if (dtBanco.Rows.Count > 0)
                 {
-                  lblBanco.Text = dt.Rows[0]["cod_banco"].ToString() + " - " + dtBanco.Rows[0]["snombre"].ToString();
+                  lblBanco.Text = dtBanco.Rows[0]["ncod"].ToString() + " - " + dtBanco.Rows[0]["snombre"].ToString();
                 }
               }
               dtBanco = null;
 
-              lblimporte.Text = string.Format("{0:N0}",int.Parse(dt.Rows[0]["importe"].ToString()));
+              lblimporte.Text = string.Format("{0:N0}", int.Parse(dt.Rows[0]["importe"].ToString()));
               hdd_importe.Value = dt.Rows[0]["importe"].ToString();
 
             }
@@ -485,7 +600,7 @@ namespace ICommunity.Antalis
         }
         btnAceptar.Visible = false;
         btnRechazar.Visible = false;
-        if ((hdd_tipo_documento.Value == "1")||(hdd_tipo_documento.Value == "2")||(hdd_tipo_documento.Value == "4"))
+        if ((hdd_tipo_documento.Value == "1") || (hdd_tipo_documento.Value == "2") || (hdd_tipo_documento.Value == "4"))
           idColBanco.Visible = true;
 
       }
@@ -545,5 +660,11 @@ namespace ICommunity.Antalis
       return sTipo;
     }
 
+    protected void bnt_logout_Click(object sender, EventArgs e)
+    {
+      Session["USUARIO"] = string.Empty;
+      Session["CodUsuarioPerfil"] = string.Empty;
+      Response.Redirect("/");
+    }
   }
 }

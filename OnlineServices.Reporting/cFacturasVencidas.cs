@@ -106,7 +106,8 @@ namespace OnlineServices.Reporting
         {
           if (!string.IsNullOrEmpty(lngCodDeudor))
           {
-            cSQL.Append(" where nkey_deudor = ").Append(lngCodDeudor);
+            cSQL.Append(" where nkey_cliente in (").Append(lngCodNkey).Append(") ");
+            cSQL.Append(" and nkey_deudor = ").Append(lngCodDeudor);
           }
           else
           {

@@ -39,14 +39,14 @@ namespace ICommunity.Antalis
     protected void Page_Load(object sender, EventArgs e)
     {
       oIsUsuario = oWeb.ValidaUserAppReport();
-      getMenu(idReportePago, oIsUsuario.CodUsuario, "1");
-      getMenu(idProcesoSeguimiento, oIsUsuario.CodUsuario, "2");
-      getMenu(idCartolas, oIsUsuario.CodUsuario, "3");
-      getMenu(idProcesoNormalizacion, oIsUsuario.CodUsuario, "4");
-      getMenu(idIndicadoresClaves, oIsUsuario.CodUsuario, "5");
-      getMenu(IndClasificacionRiesgo, oIsUsuario.CodUsuario, "6");
+      //getMenu(idReportePago, oIsUsuario.CodUsuario, "1");
+      //getMenu(idProcesoSeguimiento, oIsUsuario.CodUsuario, "2");
+      //getMenu(idCartolas, oIsUsuario.CodUsuario, "3");
+      //getMenu(idProcesoNormalizacion, oIsUsuario.CodUsuario, "4");
+      //getMenu(idIndicadoresClaves, oIsUsuario.CodUsuario, "5");
+      //getMenu(IndClasificacionRiesgo, oIsUsuario.CodUsuario, "6");
 
-      getMenuAntalis(indAntalis, oIsUsuario.CodUsuario);
+      //getMenuAntalis(indAntalis, oIsUsuario.CodUsuario);
 
       if (!IsPostBack)
       {
@@ -101,7 +101,7 @@ namespace ICommunity.Antalis
           {
             foreach (DataRow oRow in dtBancos.Rows)
             {
-              cmb_bancos.Items.Add(new ListItem(oRow["nkey_banco"].ToString() + " - " + oRow["snombre"].ToString(), oRow["nkey_banco"].ToString()));
+              cmb_bancos.Items.Add(new ListItem(oRow["ncod"].ToString() + " - " + oRow["snombre"].ToString(), oRow["nkey_banco"].ToString()));
             }
           }
           dtBancos = null;
@@ -1593,7 +1593,7 @@ namespace ICommunity.Antalis
               {
                 if (dBanco.Rows.Count > 0)
                 {
-                  sTable.Append("<td>").Append(dBanco.Rows[0]["nkey_banco"].ToString() + '-' + dBanco.Rows[0]["snombre"].ToString()).Append("</td>");
+                  sTable.Append("<td>").Append(dBanco.Rows[0]["ncod"].ToString() + '-' + dBanco.Rows[0]["snombre"].ToString()).Append("</td>");
                 }
               }
               dBanco = null;
@@ -1728,7 +1728,7 @@ namespace ICommunity.Antalis
             {
               if (dt.Rows.Count > 0)
               {
-                e.Row.Cells[7].Text = e.Row.Cells[7].Text.ToString() + " - " + dt.Rows[0]["snombre"].ToString();
+                e.Row.Cells[7].Text = dt.Rows[0]["ncod"].ToString() + " - " + dt.Rows[0]["snombre"].ToString();
               }
             }
             dt = null;
@@ -1994,6 +1994,13 @@ namespace ICommunity.Antalis
     protected void LoadGrid(string CodDocumento)
     {
       
+    }
+
+    protected void bnt_logout_Click(object sender, EventArgs e)
+    {
+      Session["USUARIO"] = string.Empty;
+      Session["CodUsuarioPerfil"] = string.Empty;
+      Response.Redirect("/");
     }
   }
 

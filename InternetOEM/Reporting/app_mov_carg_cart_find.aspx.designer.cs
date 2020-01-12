@@ -31,67 +31,13 @@ namespace ICommunity.Reporting {
         protected global::System.Web.UI.ScriptManager ScriptManager;
         
         /// <summary>
-        /// idReportePago control.
+        /// bnt_logout control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl idReportePago;
-        
-        /// <summary>
-        /// idProcesoSeguimiento control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl idProcesoSeguimiento;
-        
-        /// <summary>
-        /// idCartolas control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl idCartolas;
-        
-        /// <summary>
-        /// idProcesoNormalizacion control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl idProcesoNormalizacion;
-        
-        /// <summary>
-        /// idIndicadoresClaves control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl idIndicadoresClaves;
-        
-        /// <summary>
-        /// IndClasificacionRiesgo control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl IndClasificacionRiesgo;
-        
-        /// <summary>
-        /// indAntalis control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl indAntalis;
+        protected global::System.Web.UI.WebControls.LinkButton bnt_logout;
         
         /// <summary>
         /// lblTitle control.

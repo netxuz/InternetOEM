@@ -4,4 +4,3 @@ C:\Proyectos\DebtControl\InternetOEM\OnlineServices.Reporting\bin\Release\Online
 C:\Proyectos\DebtControl\InternetOEM\OnlineServices.Reporting\bin\Release\OnlineServices.Conn.pdb
 C:\Proyectos\DebtControl\InternetOEM\OnlineServices.Reporting\obj\Release\OnlineServices.Reporting.dll
 C:\Proyectos\DebtControl\InternetOEM\OnlineServices.Reporting\obj\Release\OnlineServices.Reporting.pdb
-C:\Proyectos\DebtControl\InternetOEM\OnlineServices.Reporting\obj\Release\OnlineServices.Reporting.csprojResolveAssemblyReference.cache
